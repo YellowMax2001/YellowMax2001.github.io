@@ -1,0 +1,212 @@
+---
+date: 2017-08-08 22:55
+toc: true
+status: public
+title: hexo博客深度使用
+tags: hexo 博客配置
+---
+
+> 写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。
+
+## hexo的安装（windows）
+- 材料
+> - git-for-windows：http://download.csdn.net/download/u013904227/9923305
+> - node.js：https://nodejs.org/en/download/
+> - hexo：https://hexo.io/
+
+- 安装hexo<span id = "安装hexo"></span>
+在git-for-windows上面运行下面的语句（git-for-windows版本要高于2.12）
+```c
+npm install hexo-cli -g #使用全局设置下载、安装hexo至默认的文件夹
+hexo init blog          #在当前文件夹下初始化一个blog项目，从远程git仓库拷贝
+cd blog                 #进入blog
+npm install             #安装指定模块，package.json指定
+hexo server             #这一步是在本地启动一个http服务
+```
+
+> 在linux上面需要安装需要根据自己的系统去网上找到教程，有的系统如ubuntu使用apt-get进行包管理，有的如centOS使用yum进行管理（根据相应的系统可以选择使用apt-get或者yum进行下载）。也可以直接下载相应工具的二进制代码包，直接解压即可运行。甚或有会折腾的老鸟可以去下载源码包自行编译安装。
+
+- 在ubuntu-12.04上面安装hexo
+1. `sudo apt-get install git`：安装git版本管理工具
+2. `wget https://nodejs.org/dist/v6.11.2/node-v6.11.2.tar.gz`：下载源码安装nodejs，`./configure;make;make install`三部曲
+3. 接下来的步骤可以参考上面的[**安装hexo**](#安装hexo)步骤
+
+- 其它常用的命令
+```c
+hexo new file   #在source/_post下面新建一个file.md文件
+hexo generate   #由md文件生成html静态文件
+hexo server     #在本地启动http服务以提供本地预览功能
+hexo render <file> -o <ouput> #渲染指定的md，输出为html格式
+hexo clean      #清除db.json与public里面的内容
+hexo list <type> #列出指定信息，比如tag，post等等
+```
+另外还有`hexo --safe`,`hexo --debug`等等，需要自己去探索，使用`hexo help <commond>`来查看具体命令的使用方式。还有更多的功能配置可以去hexo官网的docs标签下去查看。
+
+- 文章头部
+```bash
+---
+date: 2017-08-08 22:55
+toc: true               #用于yilia
+status: public          #公开
+title: hexo博客深度使用 #文章名
+tags: hexo 博客配置     #tag
+categlory: 工具         #文章分类
+---
+```
+每篇文章的头部应该加上上述的标签来指定文章所属的分类，执行`hexo new <article>`生成的文章自动会生成上述部分标签，其中的内容可以自己更改。
+
+- 拓展
+hexo还提供了众多的API以供用户进行开发使用，利用这些API可以实现上面类似`hexo render`等命令，也可以使用这些API进行插件开发，在插件中实现一些高度自定义的功能。
+可以直接去hexo官网的API标签下面了解具体API的使用方法，当然这对于像我一样对前端一窍不通的小白是比较困难的一种方法，更好的方法是去Plugins标签下面找一个比较简单的插件，然后去分析它们的源代码与功能，这样相对与直接去看API文档来说对小白用户更加友好，当然了，前端开发者就可以直接去根据API文档以及说明来开发实现自己需要的功能。
+
+## 问题
+### hexo g命令执行失败
+```bash
+$ hexo g
+INFO  Start processing
+FATAL Something's wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html
+TypeError: Cannot read property 'count' of undefined
+```
+有时候安装了一些hexo插件，插件里面的代码用到了一些高版本的JS或者其它代码，会造成`TypeError`错误，需要根据提示信息找到插件名，然后`npm uninstall <plugin-name>`来移除插件，抑或修改插件错误所在的地方。
+
+### hexo server无法正确执行
+可能会遇到的问题以及解决方法
+
+- hexo server命令执行之后提示
+![hexo server执行错误](http://oukc514ep.bkt.clouddn.com/img/blog/hexo/hexo-server-err.png)
+    1. 这可能是没有执行hexo init命令，需要先执行hexo init dirname命令对hexo的blog仓库进行初始化。
+    2. 另一种可能是没有在hexo init dirname这个dirname根目录下面执行此命令。
+
+- hexo server命令成功执行，但是本地浏览器访问不了。这种情况有极大的可能是因为4000端口被其它程序占用了。需要更改一个没有被占用的端口，有几种方法可以使用
+    1. `hexo s -p <port_number> `
+    2. `vim node_modules/hexo-server/index.js`:更换4000端口
+
+### 无法通过浏览器访问本地网页
+具体表现为访问本地主机的时候网页显示`Cannot GET /`，可以使用以下命令来消除错误：
+```bash
+cd folder
+npm install
+npm install hexo-server --save
+npm server
+```
+
+## HEXO进阶
+### 集成git部署工具
+- 安装插件：`npm install hexo-deployer-git --save`
+- 改动hexo的blog根目录下的`_config.yml`，添加下面的内容：
+```c
+deploy:
+    type: git
+    repository: github远程仓库的名字
+    branch: master
+```
+- 写完文章之后可以使用`hexo d`一键部署到github
+
+blog根文件夹下面的`public/` 与`.deploy_git`里面是发布的内容，当然也可以从github上面clone博客项目到本地，然后复制`public/`文件夹下面的内容到本地仓库里面，然后再进行上传。
+
+## hexo插件
+> hexo官网插件库：https://hexo.io/plugins/
+
+里面有很多有用的插件，比如其中有一个叫做`hexo-baidu-url-submit`的工具是用来做百度seo的，该插件可以主动提交文章链接到baidu以使其抓取到该网站的页面并建立索引，之后就可以通过百度搜索到发布的文章。但是由于github屏蔽了baidu的抓取，所以在github博客上面发布的文章是没有办法在百度建立索引的，只能够用国内的托管网站做博客主站（比如国内的码市），也可以购买属于自己的云主机来构建，反正hexo博客的迁移成本是很低的，几乎可以做到随时随地地迁移。
+相关插件的安装都可以通过hexo命令来安装，比如上面的一个插件就可以在hexo的blog主目录下面执行`npm install hexo-baidu-url-submit --save`来进行安装，其他的插件也可以使用`npm install plugin-name --save`来进行安装，具体的使用方法可以去对应的网页查看（在hexo插件主页搜索`hexo-baidu-url-submit`）。
+
+## hexo主题
+### 主题的选择
+|主题    |链接|
+|--------|----|
+|hexo官方网站主题集合|https://hexo.io/themes/（好看的不多）|
+|beantech|https://github.com/YenYuHsuan/hexo-theme-beantech/|
+|yilia   |https://github.com/litten/hexo-theme-yilia|
+|next    |https://github.com/iissnan/hexo-theme-next|
+
+上面选取了几个我自己认为比较好看的几个主题，大家可以按需获取，也可以自行去发现更多的好看主题。下面只选取yilia这个我比较钟意的主题来介绍下安装、使用过程，其他的主题使用方式都大同小异。
+
+### yilia主题的安装
+- 主题的获取
+    - `git clone https://github.com/litten/hexo-theme-yilia.git`
+    - zip压缩包下载:https://github.com/litten/hexo-theme-yilia/archive/master.zip
+    - 原始网站:https://github.com/litten/hexo-theme-yilia
+- 主题使用
+    - 将下载到的主题目录（如果是压缩包，请解压）移动到hexo的blog根目录中的`themes/`目录中，命名为`yilia`
+    - 更改hexo的blog根目录下面的`_config.yml`里面的`theme: landscape`为`theme: yilia`
+    - 执行`hexo g`根据主题生成相应的网页
+    - 执行`hexo s`，然后通过浏览器查看本地预览效果
+
+### yilia主题的自定义
+> 主题的配置文件在 `themes/yilia/_config.yml`文件里面
+
+- 头像
+`avatar: "link-address"`
+- 其它配置
+![yilia配置](http://oukc514ep.bkt.clouddn.com/img/blog/hexo/yilia_config.png)
+- 评论功能
+可以去yilia的github网站上面的wiki页面查看，国内常用的评论工具有多说、畅言等。畅言是搜狐出品，可以免费使用，但是需要网站备案，如果有域名以及云主机的话会是个不错的选择。
+
+### 问题
+- 点击**所有文章**提示缺失模块
+    1. 确保node版本大于6.2
+    2. 在博客根目录（注意不是yilia根目录）执行以下命令：`npm i hexo-generator-json-content --save`
+    3. 在hexo的blog根目录_config.yml里添加配置（**保持格式，不要改动任何空格缩进**），关掉`hexo s`之后执行`hexo g`重新生成：
+```c
+jsonContent:
+    meta: false
+    pages: false
+    posts:
+        title: true
+        date: true
+        path: true
+        text: false
+        raw: false
+        content: false
+        slug: false
+        updated: false
+        comments: false
+        link: false
+        permalink: false
+        excerpt: false
+        categories: false
+        tags: true
+```
+
+## 博客解决方案
+### 工具
+- 图床：[七牛云](https://www.qiniu.com/)
+- markdown编辑工具：[cmd_markdown](https://www.zybuluo.com/mdeditor)
+- markdown渲染：[markdown here](https://chrome.google.com/webstore/detail/markdown-here/elifhakcjgalahccnjkneoccemfahfoa?utm_source=chrome-ntp-icon) chrome插件
+- 七牛文件管理：[qiniu upload files](https://chrome.google.com/webstore/detail/qiniu-upload-files/emmfkgdgapbjphdolealbojmcmnphdcc?utm_source=chrome-ntp-icon) chrome插件
+
+### 七牛云
+该平台作为图片的存储地址，可以上传图片到七牛云，然后生成外链，这样在任何地方都可以通过该外链访问到该图片，极大地方便了往静态网页里面嵌入图片。
+
+- 注册
+去七牛云官网注册一个帐号，新建一个公开的对象存储（需要创建`华东区`的，否则`qiniu upload files`插件上传不了）
+    ![对象存储](http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-bucket.png)
+- 文件管理
+    - 在七牛云的`个人面板->密钥管理`里面找到相应的key
+    ![七牛-key](http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-key.png)
+    - 将key填写到对应的框中
+    ![upload-key](http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-upload-conf.png)
+    - 域名以及bucket在注册的时候就生成了，同样填入upload files插件设置里面
+    - 点击插件，可以往里面拖拽上传图片
+
+> 需要注意的是：在七牛云里面上传图片时加入类似于`img/dir/subdir`的前缀，在插件的浏览界面可以看到以文件夹的形式呈现。另外插件的链接生成有一个bug，比如真正的外链应该是`http://xxx.com/img/dir/pic.png`，但是插件生成的外链会是`http://xxx.comimg/dir/pic.png`，这个在复制的时候注意一下。另外在填写插件域名的时候，前面要加上`http://`前缀（如果没有的话）。
+
+### markdown编辑与渲染
+- 编辑
+我使用的是作业部落的cmd markdown，这个编辑器的风格比较合我的意，而且编辑的时候可以实时自动保存，不用担心文章意外丢失的问题。
+- 渲染
+有一些编辑器不支持直接从markdown语法转换为html，比如微信公众号的文章编辑之类的，这个时候就需要一个可以直接将编辑框的markdown语法转换为html的工具。该工具去markdown here官网即可下载，或者在google的商店里面搜索得到。
+一般情况下使用markdown here自带的css风格即可达到自己想要的效果，在代码高亮渲染时需要使用下面代码框所示的形式来实现对应风格的代码渲染，具体效果可访问highlightjs官网查看：https://highlightjs.org/static/demo/
+<pre>```codename <c, javascript, bash, etc>
+代码内容
+```</pre>
+
+### 博客文章发布步骤
+如图：
+![markdown文章发布流程](http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/aticle-post.JPG)
+上述流程省去了在各个网站平台发布文章时都得重新按照相关平台的文章格式编辑，而是一篇md文件适用于所有的文章发布平台，极大地节省了时间，让写作更加方便，回归本质。
+
+> 最后：如果觉得文章对你有帮助的话，请记得关注一下我的微信公众号，多多支持我的写作，争取产出更多、更好的文章。
+
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center>
+<center>![微信公众号](http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz.jpg)</center>

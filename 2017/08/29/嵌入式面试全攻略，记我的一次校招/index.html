@@ -7,27 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>hexo博客深度使用 | YellowMax的博客</title>
+  <title>嵌入式面试全攻略，记我的一次校招 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。  hexo的安装（windows） 材料   git-for-windows：http://download.csdn.net/download/u0">
-<meta name="keywords" content="web,hexo 博客配置">
+  <meta name="description" content="写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及">
+<meta name="keywords" content="感悟,经验">
 <meta property="og:type" content="article">
-<meta property="og:title" content="hexo博客深度使用">
-<meta property="og:url" content="http://www.yellowmax2001.com/2017/08/08/hexo深度使用/index.html">
+<meta property="og:title" content="嵌入式面试全攻略，记我的一次校招">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/08/29/嵌入式面试全攻略，记我的一次校招/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。  hexo的安装（windows） 材料   git-for-windows：http://download.csdn.net/download/u0">
-<meta property="og:image" content="http://oukc514ep.bkt.clouddn.com/img/blog/hexo/hexo-server-err.png">
-<meta property="og:image" content="http://oukc514ep.bkt.clouddn.com/img/blog/hexo/yilia_config.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-bucket.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-key.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-upload-conf.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/aticle-post.JPG">
+<meta property="og:description" content="写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/简历模板.png">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
-<meta property="og:updated_time" content="2017-08-29T14:00:50.261Z">
+<meta property="og:updated_time" content="2017-09-03T12:07:34.491Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="hexo博客深度使用">
-<meta name="twitter:description" content="写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。  hexo的安装（windows） 材料   git-for-windows：http://download.csdn.net/download/u0">
-<meta name="twitter:image" content="http://oukc514ep.bkt.clouddn.com/img/blog/hexo/hexo-server-err.png">
+<meta name="twitter:title" content="嵌入式面试全攻略，记我的一次校招">
+<meta name="twitter:description" content="写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/简历模板.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -167,20 +162,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-hexo深度使用" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-嵌入式面试全攻略，记我的一次校招" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      hexo博客深度使用
+      嵌入式面试全攻略，记我的一次校招
     </h1>
   
 
         
-        <a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
+        <a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
+  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
 </a>
         
       </header>
@@ -188,172 +183,135 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。</p>
+<p>写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及它们的相互转换方法，知道函数指针与指针函数的使用以及区别等等。在学习过程中要找准自己的方向，不要去过度追求各种金光闪闪的框架以及语言的奇淫技巧，学习过程中要注重各个知识背后的原理，而不是仅仅会用。</p>
 </blockquote>
-<h2 id="hexo的安装（windows）"><a href="#hexo的安装（windows）" class="headerlink" title="hexo的安装（windows）"></a>hexo的安装（windows）</h2><ul>
-<li><p>材料</p>
-<blockquote>
-<ul>
-<li>git-for-windows：<a href="http://download.csdn.net/download/u013904227/9923305" target="_blank" rel="external">http://download.csdn.net/download/u013904227/9923305</a></li>
-<li>node.js：<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a></li>
-<li>hexo：<a href="https://hexo.io/" target="_blank" rel="external">https://hexo.io/</a></li>
+<h2 id="校招的优点（相对社招）"><a href="#校招的优点（相对社招）" class="headerlink" title="校招的优点（相对社招）"></a>校招的优点（相对社招）</h2><ul>
+<li>对应聘者的专业实践技能要求不是很高，更多看重理论基础</li>
+<li>大公司校招很多，是进入到大公司工作的好途径</li>
+<li>公司经过学校进行一轮初级筛选，会主动为应聘者避开一些坑人的公司</li>
+<li>地点集中，都是公司去学校招聘，不必满世界跑来跑去，节省时间财力</li>
 </ul>
-</blockquote>
-</li>
-<li><p>安装hexo<span id="安装hexo"></span><br>在git-for-windows上面运行下面的语句（git-for-windows版本要高于2.12）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g #使用全局设置下载、安装hexo至默认的文件夹</div><div class="line">hexo init blog          #在当前文件夹下初始化一个blog项目，从远程git仓库拷贝</div><div class="line">cd blog                 #进入blog</div><div class="line">npm install             #安装指定模块，package.json指定</div><div class="line">hexo server             #这一步是在本地启动一个http服务</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>在linux上面需要安装需要根据自己的系统去网上找到教程，有的系统如ubuntu使用apt-get进行包管理，有的如centOS使用yum进行管理（根据相应的系统可以选择使用apt-get或者yum进行下载）。也可以直接下载相应工具的二进制代码包，直接解压即可运行。甚或有会折腾的老鸟可以去下载源码包自行编译安装。</p>
-</blockquote>
 <a id="more"></a>
+<h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><ol>
+<li>职业方向的选择<br>我其实很早之前就在为工作做准备了，具体开始时间是大二的暑假，那个时候有段时间专门请教了多个学长，网上查询了很多资料，结合自己的专业与兴趣，最后选择了嵌入式Linux开发这个职位方向。</li>
+<li>资料的收集与学习<br>当时选定方向之后就一直在网上找相关的学习资料，想着要找到一份比较系统完善的学习资料，这样可以在学习的过程中节省很多的时间精力，最后找到了韦东山的嵌入式学习视频，狠下心来买了一个开发板以及视频的二三期（<del>这里怎么这么像打广告</del>，不过这个视频确实不错，售后也比较给力），这个算是我的嵌入式启蒙了，至今仍然非常感谢录制视频的人，让我学到了很多有用的东西。同期，我实验室里面有两位同学在一个嵌入式的班参加培训，我还记得好像是信盈达，大家一同学习，相互打鸡血，学习过程也就不显得太过无聊。</li>
+</ol>
+<p>&emsp;&emsp;临近2017年的校招，那个时候是2016年的7、8月份，我开始为正式的校招做近期准备了，准备的内容包括以下方面：</p>
 <ul>
-<li>在ubuntu-12.04上面安装hexo</li>
+<li>简历</li>
+<li>学习并熟悉校招流程</li>
+<li>找一些嵌入式类的笔试题去练习</li>
+<li>公司宣讲会信息搜集</li>
+</ul>
+<p>另外推荐两个非常好用的网站，有网页客户端也有手机APP。</p>
+<ol>
+<li><strong>海投网</strong>：该网站是从各个高校的首页里面抓取招聘信息，然后整理集合到网站页面中，并且可以选择城市地区，简直是一个校招信息收集的神奇，极大地节省了自己去各个地方搜集招聘信息的时间精力，并且信息还比较全面，值得使用。</li>
+<li><strong>看准网</strong>：该网站里面有各大公司的面试经历，点评以及薪资平均值统计等等，但是需要自己上传面试经历等来获得查看所有信息的权限，自己找点学长的面试经历或者别的，填上去过了审核就可以随意查看各种信息啦，里面的信息很有参考价值。</li>
+</ol>
+<p>&emsp;&emsp;由于我是毕业于一个普通的二本院校（虽然专业是一本），所以很多嵌入式的公司并不会鸟我们学校，由于离武汉比较近，并且往届的很多学长也是去的武汉，再者还有一位实验室的大牛也要去武汉参加校招，所以就决定跟他一块去武汉碰碰运气，也因此我还额外准备了武汉地区校招攻略，什么杂七杂八的生活用品，准备在武汉血战一个月。</p>
+<h3 id="简历的书写"><a href="#简历的书写" class="headerlink" title="简历的书写"></a>简历的书写</h3><p>&emsp;&emsp;简历的问题我跟实验室那位大牛前前后后搞了一个月左右，期间咨询过老师，网上搜集无数模板，知乎上也找了不少相关话题，参考往届学长学姐的简历，最后终于搞出了一版还算满意的简历。<br>简历的书写要遵循以下几点（必须遵守）：</p>
+<ul>
+<li><strong>简洁，页数必须控制在一页以内（最重要）。</strong></li>
+<li><strong>实习经验优于项目经验优于与职位不相关的项目，每个条目用2-3行概括，抓关键词，突出项目所涉及的知识点。</strong></li>
+<li><strong>不要出现错字、病句、标点符号使用错误、排版不整齐、英文大小写不一致、中文数字与阿拉伯数字混用等（一个都不要有）。</strong></li>
+<li><strong>内容要包括个人信息、教育经历、专业技能、项目作品、所获奖项、 在校任职等。</strong></li>
+<li><strong>不要写不会或者不熟悉的知识点，写上去的必须保证能够脱口而出并且没有错误。</strong></li>
+<li><strong>尽量不要出现精通的字样。</strong></li>
+<li><strong>需要突出的技能点加粗（注意：只有技能栏，别的地方再随意加粗就显得太乱了）。</strong></li>
+</ul>
+<p>这里给出一份简历模板，不一定符合每一个人，但是绝对很有指导意义：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/简历模板.png" alt="简历模板"></p>
+<p><a href="http://download.csdn.net/download/u013904227/9958001" target="_blank" rel="external">链接地址在这里</a>：<a href="http://download.csdn.net/download/u013904227/9958001" target="_blank" rel="external">http://download.csdn.net/download/u013904227/9958001</a></p>
+<p>对于其中的几点说明：</p>
+<ul>
+<li>由于面积受限，所以文字内容框比word默认标准的A4纸文字框大</li>
+<li>个人链接完全是想要面试官知道有这么个东西，同学也曾提醒过我，在纸质简历上放链接就是浪费地方，但是从实际结果来看，还是有用处的，这个因人而异吧</li>
+<li>项目作品或者实习经历最好不要少于三个</li>
+<li>多采用关键字描述，节省字数</li>
+</ul>
+<p>&emsp;&emsp;说起简历的问题，又想到了去武汉面试的时候见到的华科同学的简历，开头大大的学校名以及学校logo，目测占去了整张简历的1/5，这个真的不是夸张。对于这些名牌大学来说，学校真的是整个简历上面最耀眼的地方了，当然要大书特书（感觉我语气有点酸哎），而咱这种二流的学校，既不想让学校太过显眼，又不能说让面试官看半天还找不到学校名，于是就悄么叽儿的稍微往下放一点，也算是不卑不亢了哈。最后，学校不是很好的就千万不要学人家华科的孩子们啦，省点空间写点真正有用的东西是首要的。</p>
+<h2 id="出发去武汉"><a href="#出发去武汉" class="headerlink" title="出发去武汉"></a>出发去武汉</h2><p>&emsp;&emsp;至今仍然清楚地记得，出发去武汉的日子是9.1号，卧铺，两个人（实验室同学同行），历经9个小时。由于打算在武汉长期奋斗，所以两个人都拖着大包小包，异常笨重，当天夜晚走的，第二天下车到华科的时候已经是中午十点左右了。两个人就随便买了点东西，拖着大箱子在华科的校园里面随便晃一晃，边走边吃边聊，顺便感受一下华科的环境氛围。<br>&emsp;&emsp;由于第一次去武汉，首先要做的就是找住的地方，作为学生，当然就要找经济一点的地方啦。住的地方有多种选择，比如：</p>
+<ul>
+<li>酒店：数量较多，价格较贵。没有住过，武汉的一个如家一个月是2000，觉得较贵就没有住（穷学生的痛处）。</li>
+<li>青年旅舍：数量较多，价格便宜。这种一般是一间房子里面住很多人，洗漱什么的超级不方便，在武汉大概是每天30元的样子，我跟我同学只住了一天，因为人太多，我个人比较难以忍受，只在里面住了一天就拖着同学另寻住处。</li>
+<li>小旅馆：数量中等，价格便宜。学校旁边比较常见（<del>你懂得</del>），这种小旅馆按月来订的话是有优惠的，比如我们一个房间是70一晚，然后按月来订的话就是每晚50，合计每人25，由于我不喜欢与人一块挤在一张床上睡，就打地铺，同学睡床上。</li>
+<li>学校招待所：据说有，但是没有找到，于是作罢，但是有些学校是有的，价格极其便宜。</li>
+</ul>
+<p>中间还有一件事情，就是在武汉待得时间较长了，想要去剪一次头发，于是手机搜索好不容易找到一家最近的，一看，洗剪吹20，心想，虽然比在学校贵了点，但是还能够接受，但是同学觉得不太对，于是进门的时候问了一句，原来是洗剪吹各20，卧槽，当时心里就开始怀疑人生，于是剪发作罢，坚持了一个月没理发，回校的时候头发都长老长。（写着写着就心疼当时的自己）</p>
+<h2 id="惨烈的校招"><a href="#惨烈的校招" class="headerlink" title="惨烈的校招"></a>惨烈的校招</h2><p>经过两天的休整，9.4号就开始在网上找相应的招聘信息了，这个时候必须先说一下校招的基本流程：</p>
+<ul>
+<li>收集招聘信息<br>收集信息主要指的是企业宣讲会信息的收集，包括企业开办宣讲会的时间、地点、是否有笔试等等信息。这里安利一个网站—海投网， 有手机 APP 和网站，里面的信息都是从各大学校的招聘门户拉取过来的，不用一个一个去学校网站查找信息，省去了大量的时间。 收集招聘信息有以下几个注意事项：</li>
 </ul>
 <ol>
-<li><code>sudo apt-get install git</code>：安装git版本管理工具</li>
-<li><code>wget https://nodejs.org/dist/v6.11.2/node-v6.11.2.tar.gz</code>：下载源码安装nodejs，<code>./configure;make;make install</code>三部曲</li>
-<li>接下来的步骤可以参考上面的<a href="#安装hexo"><strong>安装hexo</strong></a>步骤</li>
+<li>注意时间问题。同一个公司的宣讲会一般会在多个学校召开，最好去到该公司的官网上面去看看宣讲会行程。协调好各个想去的公司的时间去参加宣讲会。</li>
+<li>特别注意一些有注明现场笔试或者现场接受简历的宣讲会信息，这些是重点关注的。因为现在有很多公司校招都是网投简历了，网投简历有的不能用自己写好的简历，而是网站上面的简历模板，而且是通过计算机进行筛选的，这样重重原因会导致学校不好的同学简历根本不会到达HR的手里，网站直接自动筛选程序就给过掉了。而现场接收简历就不存在这种情况，会大大提高简历的过审概率。注意有网申的一定要网申，网申与现场投递简历并不冲突，可同时进行。</li>
+<li>需要在线笔试的注意一下笔试时间，协调好时间，不要因为要参加别的宣讲会而错过了，也可以趁机提前准备一下。</li>
 </ol>
 <ul>
-<li>其它常用的命令<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">hexo <span class="keyword">new</span> file   #在source/_post下面新建一个file.md文件</div><div class="line">hexo generate   #由md文件生成html静态文件</div><div class="line">hexo server     #在本地启动http服务以提供本地预览功能</div><div class="line">hexo render &lt;file&gt; -o &lt;ouput&gt; #渲染指定的md，输出为html格式</div><div class="line">hexo clean      #清除db.json与<span class="keyword">public</span>里面的内容</div><div class="line">hexo <span class="built_in">list</span> &lt;type&gt; #列出指定信息，比如tag，post等等</div></pre></td></tr></table></figure>
-</li>
+<li>网投简历（ 或者宣讲会现场投递简历）<br>现在越来越多的公司都选择网投简历，节省成本，这样造成的弊端上面也说过了， 但是有注明要网投的公司还是要去网投一下的。网投的时候信息一定要填写完整， 把自己会的、做过的东西全部列出来（没有一页A4纸的限制），这样会加大简历过审的几率。 宣讲会现场投递简历的时候可以先听一听宣讲内容，然后进一步决定要投递哪一个岗位，然后把岗位名称写上去（不必直接打印岗位名称或者公司名到简历上面），可以一份简历模板，多次投递。</li>
+<li>到现场参加宣讲会（ 笔试/投递简历）<br>有的宣讲会结束之后会进行现场笔试以及简历投递，有的宣讲会注明了不接受现场简历那就没有太大的必要过去参加了，把时间留给那些有现场笔试和简历投递的宣讲会。</li>
+<li>面试<br>面试一般情况下有两轮，第一轮是技术面，也就是一对一的面试，第二轮是 hr 面，主要谈薪资待遇啊等等。有的公司有群面，注意：技术类公司也有群面的。 这样的公司一般就是一面技术面，二面群面，之后是签约洽谈。</li>
+<li>签约洽谈<br>在过了重重关卡之后终于来到签约阶段，签约一般都是以 offer的形式进行，也就是双方协议，有纸质的，也有邮件形式的（有的双方协议会约定违约金），这表明公司有录用你的意向了，等到三方协议发放的时候就可以同公司进行三方协议的签订了，到这里你就基本上确定能够被该公司录取了。</li>
 </ul>
-<p>另外还有<code>hexo --safe</code>,<code>hexo --debug</code>等等，需要自己去探索，使用<code>hexo help &lt;commond&gt;</code>来查看具体命令的使用方式。还有更多的功能配置可以去hexo官网的docs标签下去查看。</p>
-<ul>
-<li>文章头部<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">---</div><div class="line">date: 2017-08-08 22:55</div><div class="line">toc: <span class="literal">true</span>               <span class="comment">#用于yilia</span></div><div class="line">status: public          <span class="comment">#公开</span></div><div class="line">title: hexo博客深度使用 <span class="comment">#文章名</span></div><div class="line">tags: hexo 博客配置     <span class="comment">#tag</span></div><div class="line">categlory: 工具         <span class="comment">#文章分类</span></div><div class="line">---</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>每篇文章的头部应该加上上述的标签来指定文章所属的分类，执行<code>hexo new &lt;article&gt;</code>生成的文章自动会生成上述部分标签，其中的内容可以自己更改。</p>
-<ul>
-<li>拓展<br>hexo还提供了众多的API以供用户进行开发使用，利用这些API可以实现上面类似<code>hexo render</code>等命令，也可以使用这些API进行插件开发，在插件中实现一些高度自定义的功能。<br>可以直接去hexo官网的API标签下面了解具体API的使用方法，当然这对于像我一样对前端一窍不通的小白是比较困难的一种方法，更好的方法是去Plugins标签下面找一个比较简单的插件，然后去分析它们的源代码与功能，这样相对与直接去看API文档来说对小白用户更加友好，当然了，前端开发者就可以直接去根据API文档以及说明来开发实现自己需要的功能。</li>
-</ul>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="hexo-g命令执行失败"><a href="#hexo-g命令执行失败" class="headerlink" title="hexo g命令执行失败"></a>hexo g命令执行失败</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ hexo g</div><div class="line">INFO  Start processing</div><div class="line">FATAL Something<span class="string">'s wrong. Maybe you can find the solution here: http://hexo.io/docs/troubleshooting.html</span></div><div class="line"><span class="string">TypeError: Cannot read property '</span>count<span class="string">' of undefined</span></div></pre></td></tr></table></figure>
-<p>有时候安装了一些hexo插件，插件里面的代码用到了一些高版本的JS或者其它代码，会造成<code>TypeError</code>错误，需要根据提示信息找到插件名，然后<code>npm uninstall &lt;plugin-name&gt;</code>来移除插件，抑或修改插件错误所在的地方。</p>
-<h3 id="hexo-server无法正确执行"><a href="#hexo-server无法正确执行" class="headerlink" title="hexo server无法正确执行"></a>hexo server无法正确执行</h3><p>可能会遇到的问题以及解决方法</p>
-<ul>
-<li><p>hexo server命令执行之后提示<br><img src="http://oukc514ep.bkt.clouddn.com/img/blog/hexo/hexo-server-err.png" alt="hexo server执行错误"></p>
-<ol>
-<li>这可能是没有执行hexo init命令，需要先执行hexo init dirname命令对hexo的blog仓库进行初始化。</li>
-<li>另一种可能是没有在hexo init dirname这个dirname根目录下面执行此命令。</li>
-</ol>
-</li>
-<li><p>hexo server命令成功执行，但是本地浏览器访问不了。这种情况有极大的可能是因为4000端口被其它程序占用了。需要更改一个没有被占用的端口，有几种方法可以使用</p>
-<ol>
-<li><code>hexo s -p &lt;port_number&gt;</code></li>
-<li><code>vim node_modules/hexo-server/index.js</code>:更换4000端口</li>
-</ol>
-</li>
-</ul>
-<h3 id="无法通过浏览器访问本地网页"><a href="#无法通过浏览器访问本地网页" class="headerlink" title="无法通过浏览器访问本地网页"></a>无法通过浏览器访问本地网页</h3><p>具体表现为访问本地主机的时候网页显示<code>Cannot GET /</code>，可以使用以下命令来消除错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> folder</div><div class="line">npm install</div><div class="line">npm install hexo-server --save</div><div class="line">npm server</div></pre></td></tr></table></figure></p>
-<h2 id="HEXO进阶"><a href="#HEXO进阶" class="headerlink" title="HEXO进阶"></a>HEXO进阶</h2><h3 id="集成git部署工具"><a href="#集成git部署工具" class="headerlink" title="集成git部署工具"></a>集成git部署工具</h3><ul>
-<li>安装插件：<code>npm install hexo-deployer-git --save</code></li>
-<li><p>改动hexo的blog根目录下的<code>_config.yml</code>，添加下面的内容：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">deploy:</div><div class="line">    type: git</div><div class="line">    repository: github远程仓库的名字</div><div class="line">    branch: master</div></pre></td></tr></table></figure>
-</li>
-<li><p>写完文章之后可以使用<code>hexo d</code>一键部署到github</p>
-</li>
-</ul>
-<p>blog根文件夹下面的<code>public/</code> 与<code>.deploy_git</code>里面是发布的内容，当然也可以从github上面clone博客项目到本地，然后复制<code>public/</code>文件夹下面的内容到本地仓库里面，然后再进行上传。</p>
-<h2 id="hexo插件"><a href="#hexo插件" class="headerlink" title="hexo插件"></a>hexo插件</h2><blockquote>
-<p>hexo官网插件库：<a href="https://hexo.io/plugins/" target="_blank" rel="external">https://hexo.io/plugins/</a></p>
-</blockquote>
-<p>里面有很多有用的插件，比如其中有一个叫做<code>hexo-baidu-url-submit</code>的工具是用来做百度seo的，该插件可以主动提交文章链接到baidu以使其抓取到该网站的页面并建立索引，之后就可以通过百度搜索到发布的文章。但是由于github屏蔽了baidu的抓取，所以在github博客上面发布的文章是没有办法在百度建立索引的，只能够用国内的托管网站做博客主站（比如国内的码市），也可以购买属于自己的云主机来构建，反正hexo博客的迁移成本是很低的，几乎可以做到随时随地地迁移。<br>相关插件的安装都可以通过hexo命令来安装，比如上面的一个插件就可以在hexo的blog主目录下面执行<code>npm install hexo-baidu-url-submit --save</code>来进行安装，其他的插件也可以使用<code>npm install plugin-name --save</code>来进行安装，具体的使用方法可以去对应的网页查看（在hexo插件主页搜索<code>hexo-baidu-url-submit</code>）。</p>
-<h2 id="hexo主题"><a href="#hexo主题" class="headerlink" title="hexo主题"></a>hexo主题</h2><h3 id="主题的选择"><a href="#主题的选择" class="headerlink" title="主题的选择"></a>主题的选择</h3><table>
-<thead>
-<tr>
-<th>主题</th>
-<th>链接</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>hexo官方网站主题集合</td>
-<td><a href="https://hexo.io/themes/（好看的不多）" target="_blank" rel="external">https://hexo.io/themes/（好看的不多）</a></td>
-</tr>
-<tr>
-<td>beantech</td>
-<td><a href="https://github.com/YenYuHsuan/hexo-theme-beantech/" target="_blank" rel="external">https://github.com/YenYuHsuan/hexo-theme-beantech/</a></td>
-</tr>
-<tr>
-<td>yilia</td>
-<td><a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia</a></td>
-</tr>
-<tr>
-<td>next</td>
-<td><a href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external">https://github.com/iissnan/hexo-theme-next</a></td>
-</tr>
-</tbody>
-</table>
-<p>上面选取了几个我自己认为比较好看的几个主题，大家可以按需获取，也可以自行去发现更多的好看主题。下面只选取yilia这个我比较钟意的主题来介绍下安装、使用过程，其他的主题使用方式都大同小异。</p>
-<h3 id="yilia主题的安装"><a href="#yilia主题的安装" class="headerlink" title="yilia主题的安装"></a>yilia主题的安装</h3><ul>
-<li>主题的获取<ul>
-<li><code>git clone https://github.com/litten/hexo-theme-yilia.git</code></li>
-<li>zip压缩包下载:<a href="https://github.com/litten/hexo-theme-yilia/archive/master.zip" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia/archive/master.zip</a></li>
-<li>原始网站:<a href="https://github.com/litten/hexo-theme-yilia" target="_blank" rel="external">https://github.com/litten/hexo-theme-yilia</a></li>
-</ul>
-</li>
-<li>主题使用<ul>
-<li>将下载到的主题目录（如果是压缩包，请解压）移动到hexo的blog根目录中的<code>themes/</code>目录中，命名为<code>yilia</code></li>
-<li>更改hexo的blog根目录下面的<code>_config.yml</code>里面的<code>theme: landscape</code>为<code>theme: yilia</code></li>
-<li>执行<code>hexo g</code>根据主题生成相应的网页</li>
-<li>执行<code>hexo s</code>，然后通过浏览器查看本地预览效果</li>
-</ul>
-</li>
-</ul>
-<h3 id="yilia主题的自定义"><a href="#yilia主题的自定义" class="headerlink" title="yilia主题的自定义"></a>yilia主题的自定义</h3><blockquote>
-<p>主题的配置文件在 <code>themes/yilia/_config.yml</code>文件里面</p>
-</blockquote>
-<ul>
-<li>头像<br><code>avatar: &quot;link-address&quot;</code></li>
-<li>其它配置<br><img src="http://oukc514ep.bkt.clouddn.com/img/blog/hexo/yilia_config.png" alt="yilia配置"></li>
-<li>评论功能<br>可以去yilia的github网站上面的wiki页面查看，国内常用的评论工具有多说、畅言等。畅言是搜狐出品，可以免费使用，但是需要网站备案，如果有域名以及云主机的话会是个不错的选择。</li>
-</ul>
-<h3 id="问题-1"><a href="#问题-1" class="headerlink" title="问题"></a>问题</h3><ul>
-<li>点击<strong>所有文章</strong>提示缺失模块<ol>
-<li>确保node版本大于6.2</li>
-<li>在博客根目录（注意不是yilia根目录）执行以下命令：<code>npm i hexo-generator-json-content --save</code></li>
-<li>在hexo的blog根目录_config.yml里添加配置（<strong>保持格式，不要改动任何空格缩进</strong>），关掉<code>hexo s</code>之后执行<code>hexo g</code>重新生成：<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jsonContent:</div><div class="line">    meta: <span class="literal">false</span></div><div class="line">    pages: <span class="literal">false</span></div><div class="line">    posts:</div><div class="line">        title: <span class="literal">true</span></div><div class="line">        date: <span class="literal">true</span></div><div class="line">        path: <span class="literal">true</span></div><div class="line">        text: <span class="literal">false</span></div><div class="line">        raw: <span class="literal">false</span></div><div class="line">        content: <span class="literal">false</span></div><div class="line">        slug: <span class="literal">false</span></div><div class="line">        updated: <span class="literal">false</span></div><div class="line">        comments: <span class="literal">false</span></div><div class="line">        link: <span class="literal">false</span></div><div class="line">        permalink: <span class="literal">false</span></div><div class="line">        excerpt: <span class="literal">false</span></div><div class="line">        categories: <span class="literal">false</span></div><div class="line">        tags: <span class="literal">true</span></div></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-</ul>
-<h2 id="博客解决方案"><a href="#博客解决方案" class="headerlink" title="博客解决方案"></a>博客解决方案</h2><h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
-<li>图床：<a href="https://www.qiniu.com/" target="_blank" rel="external">七牛云</a></li>
-<li>markdown编辑工具：<a href="https://www.zybuluo.com/mdeditor" target="_blank" rel="external">cmd_markdown</a></li>
-<li>markdown渲染：<a href="https://chrome.google.com/webstore/detail/markdown-here/elifhakcjgalahccnjkneoccemfahfoa?utm_source=chrome-ntp-icon" target="_blank" rel="external">markdown here</a> chrome插件</li>
-<li>七牛文件管理：<a href="https://chrome.google.com/webstore/detail/qiniu-upload-files/emmfkgdgapbjphdolealbojmcmnphdcc?utm_source=chrome-ntp-icon" target="_blank" rel="external">qiniu upload files</a> chrome插件</li>
-</ul>
-<h3 id="七牛云"><a href="#七牛云" class="headerlink" title="七牛云"></a>七牛云</h3><p>该平台作为图片的存储地址，可以上传图片到七牛云，然后生成外链，这样在任何地方都可以通过该外链访问到该图片，极大地方便了往静态网页里面嵌入图片。</p>
-<ul>
-<li>注册<br>去七牛云官网注册一个帐号，新建一个公开的对象存储（需要创建<code>华东区</code>的，否则<code>qiniu upload files</code>插件上传不了）<br>  <img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-bucket.png" alt="对象存储"></li>
-<li>文件管理<ul>
-<li>在七牛云的<code>个人面板-&gt;密钥管理</code>里面找到相应的key<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-key.png" alt="七牛-key"></li>
-<li>将key填写到对应的框中<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/qiniu-upload-conf.png" alt="upload-key"></li>
-<li>域名以及bucket在注册的时候就生成了，同样填入upload files插件设置里面</li>
-<li>点击插件，可以往里面拖拽上传图片</li>
-</ul>
-</li>
-</ul>
+<p>由于去的比较早，且还有没几天就过中秋节了，所以这段时间来校招的公司不是太多，但是当时并没有意识到这个问题，在经过几天的折腾之后，发现竟然一无所获，面试机会都不超过两个，说实话，当时我们两个都有点灰心甚至绝望了，也一度萌生出回校继续考研的心思（现在想想真是十分荒唐的想法）。所以校招的时候有一点，就是一定要坚定信念，不要遇到那么一两个挫折就想着要不要放弃，要抱着一种不成功便成仁的想法，否则，那段时间的情绪真的是非常低落，这样会十分影响面试发挥的。</p>
+<p>&emsp;&emsp;在这次校招当中，我的直接竞争对手是华科、武大这些尖子学校里面的学生，本来是感觉压力挺大的，在一开始的一两场面试中就表现出一种强烈的自卑感，但是后来一想，在这里谁认识你啊，面试完大部分人还不都是各奔东西了，所以自卑给谁看呢，我的自卑源于认识的人比我牛，而又和我在同一个场合的情况下，既然大家都不认识我，我还有什么可自卑的，就是干啊，出错、出丑也不用担心，反正也没人知道你。抱着这样的想法，我在面试当中也就少了很多的自卑，而是抱着平等的心态来面试的，表现自然也就比之前好很多了。值得一提的是，在华硕的一场面试当中遇到一位华科的研究生，曾问他对于华硕本次面试的感觉。结果人家说什么？人家说这次面试就是来玩玩的，主要是为了积攒经验，这次面试过不了就算了，反正他们学校有华为可以保底。当时我听完之后，心中有一万只草泥马在奔腾，要知道我这种学校出身的想去华为连简历都过不了机筛的，华为保底这种想法真的是想都不敢想，华科学生们的底气可见一斑，从一方面也可以看出普通学校与重点学校的差别了。</p>
+<p>&emsp;&emsp;中间有一场魅族的面试，面我的人是个胖哥，但是有一个很奇怪的点，就是我之前去面试的时候一般都是我很紧张，有时候甚至说话或者动作都会抖，但是那天面试魅族的时候因为我已经经历过了很多场面试啦，所以自然比较随意了，不是很紧张，但是面试官我有看到他拿鼠标的手在微微发抖，我就很奇怪，难道他比我还紧张？哈，这都是臆测了，不知道具体什么原因。期间面试挺顺利，各种问题都没有卡壳，也没有不会的，但是最终面试没过，这就是很诡异的地方，我每次面试过后都会总结，但是这次我实在是找不到没过的原因。</p>
+<p>&emsp;&emsp;录用我的一家公司是珠海的全志科技，是做超大规模集成电路的，也就是传说中的芯片原厂，这次面试让我相信，也许，有时候找工作真的是要看缘分的。第一次面试是一个晚上，7点去酒店集合，当时在跟一个同来面试的在闲聊，过了一会儿，我看到有位同学垂头丧气地出去了，我就半开玩笑说，这肯定是被面试官怼了，希望待会我不会垂头丧气地走出去吧。然而，这个flag立的好啊，果不其然，我被怼的快要说不出话来，出去的时候心情同前一位同学，当天晚上真的是整个校招的心情最低点，之前已经跪掉不少面试了，当时还给女朋友打电话说想读研，不想再面下去了，然后女票也是安慰了许久，但是我的心情没有丝毫缓和。就这样闷闷不乐到第二天，起床的时候突然收到一条短信，告诉我面试过了，让参加第二场面试，当时就很恍惚，现在想来也许是我的态度打动了面试官，亦或是各种比赛经历与项目经历啥的？话说二面的时候我那组刷了2/3的人，也许是我华硕群面积攒了一些经验，所以才得以顺利过了面试，真是福祸相依啊。</p>
 <blockquote>
-<p>需要注意的是：在七牛云里面上传图片时加入类似于<code>img/dir/subdir</code>的前缀，在插件的浏览界面可以看到以文件夹的形式呈现。另外插件的链接生成有一个bug，比如真正的外链应该是<code>http://xxx.com/img/dir/pic.png</code>，但是插件生成的外链会是<code>http://xxx.comimg/dir/pic.png</code>，这个在复制的时候注意一下。另外在填写插件域名的时候，前面要加上<code>http://</code>前缀（如果没有的话）。</p>
+<p>注意：有的培训公司也会浑水摸鱼进入到校招的行列，往往他们会出一些比较困难的问题刁难你，然后告诉你，你的能力不够，需要在我们公司进行多长多长时间的培训，期间不需要付培训的费用诸如此类，那么就要注意了，这类就是十足的培训公司，千万不要去。</p>
 </blockquote>
-<h3 id="markdown编辑与渲染"><a href="#markdown编辑与渲染" class="headerlink" title="markdown编辑与渲染"></a>markdown编辑与渲染</h3><ul>
-<li>编辑<br>我使用的是作业部落的cmd markdown，这个编辑器的风格比较合我的意，而且编辑的时候可以实时自动保存，不用担心文章意外丢失的问题。</li>
-<li>渲染<br>有一些编辑器不支持直接从markdown语法转换为html，比如微信公众号的文章编辑之类的，这个时候就需要一个可以直接将编辑框的markdown语法转换为html的工具。该工具去markdown here官网即可下载，或者在google的商店里面搜索得到。<br>一般情况下使用markdown here自带的css风格即可达到自己想要的效果，在代码高亮渲染时需要使用下面代码框所示的形式来实现对应风格的代码渲染，具体效果可访问highlightjs官网查看：<a href="https://highlightjs.org/static/demo/" target="_blank" rel="external">https://highlightjs.org/static/demo/</a></li>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><p>&emsp;&emsp;收到了现任公司的offer之后，就比较放心了，因为这家公司算是符合我的心理预期，并且公司是嵌入式同学都想进的所谓的芯片原厂，后期的面试就是真的十分放松了，期间包括一个上海的格科微电子，当时在全国也就招那么几个人，真的没想到会收到offer，但是最终因为其它各种原因，选择了现在的全志科技。至此为止，整个校招算是接近尾声，还有几天才到租房期限，这几天也陆续面过几家公司，但都没有合心意的，就这样磨磨蹭蹭到了退房那天。还记得那天下着小雨，天气逐渐转凉，回程狠心买了高铁票，几个小时之后到大郑州，心里面的一块石头也算是落了地，这将近一个月早上6点出门，晚上12点左右才回到住的地方，整个人精神紧绷，现在也可以放松一下啦。</p>
+<p>&emsp;&emsp;找工作最重要的是心态问题，当你多次失败的时候就会有很大的挫败感，这个时候不可避免的想要逃避找工作这个现实，想着能不能去考研，能不能先回去，再学习一段时间再来找工作，我告诉你，不能。千万不要想着给自己留后路，你已经没有退路了，不管失败几次，要学会调整自己的心态，没有到最后一刻就要相信自己能够找到一个好的工作。还有一个就是不能够消极怠工，可能因为心情缘故，有的宣讲会因为远或者你自己觉得不太适合你就不去了，简历也不想投递，这样是不行的，不论你心情再差都不能够消极怠工，不然你很可能会错过很重要的机会。</p>
+<p>&emsp;&emsp;找工作很苦，考研也很苦，选择了一个方向后就要沿着这个方向死磕下去（前提是你确定了自己想走的方向），不要想着有回头路。对于考研与工作我也不能够给出一个确切的答案，只能说是看自己的想法了，但是有一点我可以确切的给出答案，那就是考研究生一定要考一个好的学校，怎么也得是985、211（双一流大学），最差也得是你报考的专业在全国是能够排的上号的，否则我认为上研究生纯属是浪费时间，还不如去参加点培训找工作去。在我去面试的过程中碰到的本科生的比例约等于0，几乎清一色的985、211硕士研究生，由此推及其他地区的校招，大抵也是如此，可以得知找工作的压力多大，如果考研也是为了找一个好的工作的话，那最好还是考虑下上面的话。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>这里说一下在面试过程中的个人经验积累。</p>
+<h3 id="面试篇"><a href="#面试篇" class="headerlink" title="面试篇"></a>面试篇</h3><ul>
+<li>技术面<br>也就是一对一的面试，在该轮面试中，面试官主要就你简历上面的内容进行询问考察，主要目的是了解你的个人能力，判断你是否适合公司的这个职位。 在此轮面试当中一般有两种面试官：<ul>
+<li>一种是就着你做的每一个项目去问，问的不是很深入，并且问题的内容也不会超过你简历上面写到的东西。</li>
+<li>一种是只选择你简历上面的一个项目深入了去问，并且他还会就这个项目进行扩展，问出一些你可能没有接触过的东西来。</li>
 </ul>
-<pre>```codename <c, javascript,="" bash,="" etc="">
-代码内容
-```</c,></pre>
-
-<h3 id="博客文章发布步骤"><a href="#博客文章发布步骤" class="headerlink" title="博客文章发布步骤"></a>博客文章发布步骤</h3><p>如图：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/hexo/aticle-post.JPG" alt="markdown文章发布流程"><br>上述流程省去了在各个网站平台发布文章时都得重新按照相关平台的文章格式编辑，而是一篇md文件适用于所有的文章发布平台，极大地节省了时间，让写作更加方便，回归本质。</p>
-<blockquote>
-<p>最后：如果觉得文章对你有帮助的话，请记得关注一下我的微信公众号，多多支持我的写作，争取产出更多、更好的文章。</p>
-</blockquote>
+</li>
+</ul>
+<p>我个人认为遇到第一种面试官对你的面试过程来说是比较幸运的，因为你很容易就可以回答出他想要的回答，你不会有太大的压力。这时就主要看你的项目是否够足够吻合那个职位要求，以及你的项目涉及的知识点是否是面试官想要的，这里拼的就是项目经验。当你遇到第二种面试官（一般会是项目总监或者技术总监一类的人）的时候，我必须要同情你一下，因为你很可能会挂掉这次面试。但是从另一个方面来说，这又是比较幸运的，因为这样的面试官所在的公司我认为创新能力比较强，公司也比较有活力（一家之言，也说不定）。这里拼的就是你的知识面以及抗压能力，还有面试官对你的主观印象了。面试的时候有几个注意事项：</p>
+<ol>
+<li><strong>不会的东西就说不会，但是尽量要找一个相近的可替代的东西去补充。 比如问你会不会写一个 memcpy 函数，如果你不会这个但是又恰巧会 strcpy 函数，那你就把strcpy函数写出来，还要大概说一下你觉得memcpy函数可以怎样去实现，可能会遇到那些问题等，诸如此类。</strong></li>
+<li><strong>涉及让自己评价自己的问题不要说太满。比如让你说自己的缺点，不要把自己说的一无是处，而是挑一个不至于让人一听就对你没有好感的缺点去说。让你说自己的优点，也不要把自己说的十全十美，很可能后面有一个坑等着你去跳，而要挑一个个性的，与众不同的优点。说优缺点的时候最好配以例子进行说明，而是不是干巴巴的总结。</strong></li>
+<li><strong>如果问到你还有什么问题想问的吗？千万不要说没了，你要就这所申请的职位或者你本身就感兴趣的东西去问一下面试官。比如你可以问：这个职位在公司里面有多少人啊，主要负责哪条产品线啊等等。</strong></li>
+</ol>
+<ul>
+<li>群面（研发类少见）<br>主要就是无领导小组讨论。网上有很多详细介绍的，这里简单说明几点。</li>
+</ul>
+<ol>
+<li>无领导小组讨论会有总结陈词、计时、记录员几个角色，一般来说总结陈词与记录员是一个人</li>
+<li>总结陈词是高风险、高回报的角色。 个人最建议抢到计时这个角色， 主要负责时间分配</li>
+<li>遇到有时间要求的个人观点描述一定要注意时间，大家观点都差不多，但是你没超时你就有更多的筹码。</li>
+</ol>
+<p>一般群面的步骤如下：1. 个人观点表述；2. 无领导小组讨论；3. 总结发言</p>
+<ul>
+<li>签约洽谈<br>签约洽谈就是公司有录用你的意向了，主要就是跟你谈一些公司的福利待遇问题， 下面列出几个个人认为比较重要的问题：</li>
+</ul>
+<ol>
+<li>是否有实习</li>
+<li>试用期时长，劳动协议时长（三年期、五年期）</li>
+<li>是否有餐补以及住宿是否有补贴</li>
+<li>每天上下班时间以及一周工作几天</li>
+<li>年薪（注意除了月薪一定要问下年薪的构成，有的会发放 14 个月或者 13 个月的工资以及年终奖）， 每年的调薪考核方式以及调薪幅度</li>
+<li>入职是否有培训，是一对一的吗</li>
+<li>入职时的职位分配</li>
+</ol>
+<ul>
+<li>一些常见的面试问题</li>
+</ul>
+<ol>
+<li>Q：你还有没有什么想问的<br>A：这个职位在公司里面有多少人啊，主要负责哪条产品线，在公司具体负责哪一块的业务</li>
+<li>Q：你还有没有什么想展示的<br>A：这个问题是让你进一步说明你自己会些什么东西，因此你简历上有的他还没问到的或者是你会的但是没有写到简历上面的都可以说出来</li>
+<li>Q：你认为自己的优缺点有哪些<br>A：缺点：做事情比较急<br>优点：做事情之前喜欢做好规划<br>原则：缺点不要说得太过；优点要找个性的，不要太虚太笼统，结合例子说明。</li>
+<li>Q：你觉得你的自学能力怎么样（以及其余类似的问题）<br>A：包括其他让你评价你自己某一方面的能力的时候，注意后面的坑，你确定以及肯定你那方面能力足够的话，你可以说你能力很强，否则不要说太满，而且一般情况下这个问题后面会跟着一个小测试，用来测试你的能力，所以，不确定的千万不要说大话。</li>
+<li>Q：你对这个工作是否有一定的规划<br>A：这个问题要结合公司回答，比如我想在公司的带领下和公司一同成长，未来也希望能够参与到公司的管理团队当中去，共同带领公司向前发展。总之不要显得你毫无野心和目标不明确。</li>
+<li>Q：如果你从公司离职，可能会是什么原因<br>A：个人发展与公司发展方向不符；公司不能够满足个人发展所需的空间等等</li>
+<li>Q：你的期望薪资是多少<br>A：这个问题的原则上是不要给出确切的工资数目<br>一般情况可以回答：相信公司都有自己的评价标准，希望公司能够根据我的个人能力给出相匹配的工资数目。如果你碰到了比较固执的面试官非要你给出一个确定的薪资数目（看准网上面会有各大公司的匿名薪资统计），你最好已经提前查看过该公司的薪资水平是多少，如果这个公司你很想去，那么你按低于公司平均水平的数目来说，如果这个公司你不是太想去，那你就可以往高了说点。但是说出来的薪资数目一定要有根据，比如你说你参考了公司的薪资水平与当地的消费水平等等。</li>
+</ol>
+<h3 id="笔试篇"><a href="#笔试篇" class="headerlink" title="笔试篇"></a>笔试篇</h3><p>笔试会有在线笔试以及现场笔试两种类型，像嵌入式软件工程师最常考的就是 C 语言，也会有链表、二叉树、模电、数电、编程以及操作系统方面的题。这个主要就是靠平时的积累以及刷题经验，嵌入式软件工程师不需要了解过多的算法，但是数据结构与 C 语言编程是一定要掌握的。推荐 495 个 C 语言问题， 50 个 C、C++面试题这几个pdf文件，好好看看。最后，最重要的，笔试还是靠平时的积累，多动手编程，多去练习。</p>
 <hr>
-<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
-
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>扫一下会睁眼哦</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
       
 
       
@@ -392,11 +350,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
         		</li>
       		
 		</ul>
@@ -452,7 +410,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/08/08/hexo深度使用/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/08/29/嵌入式面试全攻略，记我的一次校招/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -466,15 +424,11 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/08/21/新的开始，与大学告别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          新的开始，与大学告别
-        
-      </div>
-    </a>
   
+    <a href="/2017/08/21/新的开始，与大学告别/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">新的开始，与大学告别</div>
+      <i class="icon-circle-right"></i>
+    </a>
   
 </nav>
 
@@ -499,7 +453,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo的安装（windows）"><span class="toc-number">1.</span> <span class="toc-text">hexo的安装（windows）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题"><span class="toc-number">2.</span> <span class="toc-text">问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-g命令执行失败"><span class="toc-number">2.1.</span> <span class="toc-text">hexo g命令执行失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hexo-server无法正确执行"><span class="toc-number">2.2.</span> <span class="toc-text">hexo server无法正确执行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#无法通过浏览器访问本地网页"><span class="toc-number">2.3.</span> <span class="toc-text">无法通过浏览器访问本地网页</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HEXO进阶"><span class="toc-number">3.</span> <span class="toc-text">HEXO进阶</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#集成git部署工具"><span class="toc-number">3.1.</span> <span class="toc-text">集成git部署工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo插件"><span class="toc-number">4.</span> <span class="toc-text">hexo插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hexo主题"><span class="toc-number">5.</span> <span class="toc-text">hexo主题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主题的选择"><span class="toc-number">5.1.</span> <span class="toc-text">主题的选择</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yilia主题的安装"><span class="toc-number">5.2.</span> <span class="toc-text">yilia主题的安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yilia主题的自定义"><span class="toc-number">5.3.</span> <span class="toc-text">yilia主题的自定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题-1"><span class="toc-number">5.4.</span> <span class="toc-text">问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#博客解决方案"><span class="toc-number">6.</span> <span class="toc-text">博客解决方案</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">6.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#七牛云"><span class="toc-number">6.2.</span> <span class="toc-text">七牛云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#markdown编辑与渲染"><span class="toc-number">6.3.</span> <span class="toc-text">markdown编辑与渲染</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#博客文章发布步骤"><span class="toc-number">6.4.</span> <span class="toc-text">博客文章发布步骤</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#校招的优点（相对社招）"><span class="toc-number">1.</span> <span class="toc-text">校招的优点（相对社招）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#准备"><span class="toc-number">2.</span> <span class="toc-text">准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简历的书写"><span class="toc-number">2.1.</span> <span class="toc-text">简历的书写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#出发去武汉"><span class="toc-number">3.</span> <span class="toc-text">出发去武汉</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#惨烈的校招"><span class="toc-number">4.</span> <span class="toc-text">惨烈的校招</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尾声"><span class="toc-number">5.</span> <span class="toc-text">尾声</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#后记"><span class="toc-number">6.</span> <span class="toc-text">后记</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#面试篇"><span class="toc-number">6.1.</span> <span class="toc-text">面试篇</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#笔试篇"><span class="toc-number">6.2.</span> <span class="toc-text">笔试篇</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>

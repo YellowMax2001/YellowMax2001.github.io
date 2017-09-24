@@ -7,14 +7,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives: 2017 | YellowMax的博客</title>
+  <title>OpenMAX编程初识 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/2017/index.html">
+  <meta name="description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
+<meta name="keywords" content="C语言,编程,OpenMAX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMAX编程初识">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/09/19/OpenMAX编程初识/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta property="og:updated_time" content="2017-09-24T13:42:43.693Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="OpenMAX编程初识">
+<meta name="twitter:description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,36 +164,119 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OpenMAX编程初识" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/19/OpenMAX编程初识/">OpenMAX编程初识</a>
+    <h1 class="article-title" itemprop="name">
+      OpenMAX编程初识
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
+  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>导读：</p>
+<blockquote>
+<p>本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。</p>
+</blockquote>
+<h2 id="什么是OpenMAX"><a href="#什么是OpenMAX" class="headerlink" title="什么是OpenMAX"></a>什么是OpenMAX</h2><blockquote>
+<p>OpenMAX：open media acceleration.<br>直译为开放多媒体加速器，可以理解为是一个拥有免费使用权的多媒体加速器。OpenMAX是<a href="https://www.khronos.org/openmax/" target="_blank" rel="external">Khronos Group</a>开发制定的，该标准采用C语言实现，这个小组是由3Dlabs、ATI、Intel、Nvidia等行业大佬联合创建，目的是实现跨平台的免费的多媒体加速、回放。</p>
+</blockquote>
+<a id="more"></a>
+<ul>
+<li>OpenMAX可以用来做什么？<br>&emsp;&emsp;其实从名字上可以看出来，OpenMAX是与多媒体有关的，为多媒体处理提供统一的接口标准，以此来达到跨平台的多媒体软硬件开发的目标。在嵌入式设备比如安卓设备的多媒体软件框架中就使用到了OpenMAX编程标准。<br>&emsp;&emsp;一个完整的多媒体设备包括设备硬件、设备驱动以及设备应用程序。与之对应的是OpenMAX的DL、IL、AL层，不过在实际编程（嵌入式软件）当中最常使用到的是IL层。通过实现这三个层级，可以达到从硬件到软件的完整的音视频、图像等多媒体资源的编解码流程。</li>
+<li>为什么要使用OpenMAX<br>大概有这么几个理由促成了OpenMAX在多媒体编程当中的使用：<ul>
+<li>多媒体软件使用OpenMAX这一统一的编程标准来进行设计，可以使得开发者在开发应用等的时候不需要过度关注其底层的一些实现，也省去了大量的学习不同多媒体框架的时间。</li>
+<li>OpenMAX标准本身足够优秀，即使不完全遵循OpenMAX的标准来进行多媒体软件框架设计，采用OpenMAX的架构原理来作为多媒体软件框架的指导性设计原理，也能够大量减少多媒体软件的开发设计流程，并且由于OpenMAX本身的特点，也使得整个多媒体软件十分易于扩展，具有高度的去耦合性。该标准涵盖了大部分多媒体开发规格，可以轻松满足绝大多数开发需求。</li>
+<li>该标准本身由多媒体等行业的领导者联合确立，具有较大的影响力，有相关的详细设计文档可以参考，如果遇到问题相对更加容易在网络上获取答案，并且整个标准在使用的时候无需授权费，是完全免费的。</li>
+</ul>
+</li>
+<li>OpenMAX适用于哪些地方？<br>OpenMAX是专门用于音视频、图像编解码的，在一些以音视频编解码为主导功能的产品设计领域都可以使用OpenMAX，比如安防、手机（安卓系统里面就有OpenMAX）等。</li>
+</ul>
+<h2 id="关于OpenMAX的一些概念"><a href="#关于OpenMAX的一些概念" class="headerlink" title="关于OpenMAX的一些概念"></a>关于OpenMAX的一些概念</h2><h3 id="DL、IL、AL"><a href="#DL、IL、AL" class="headerlink" title="DL、IL、AL"></a>DL、IL、AL</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png" alt="各个层次的位置"></center><br><center>DL、IL、AL层级图</center>
+
+<ul>
+<li><p>DL<br>Development Layer（开发层），截至目前最新版本是1.0.2。<br>DL层定义了众多的API，全方位包含了OpenMAX音频、视频以及图像处理功能，这些功能可以由硅供应商（芯片原厂）实现并优化，然后编解码厂商在此基础上实现一些广泛的编解码功能。 它包含了：</p>
+<ul>
+<li>音频信号处理：比如FFT（快速傅立叶变换）、滤波器等；</li>
+<li>图像处理：比如色域转换（RGB、YUV等）；</li>
+<li>视频处理：比如实现并且优化的 MPEG-4, H.264, MP3, AAC 和 JPEG；</li>
+</ul>
+</li>
+<li><p>IL<br>Integration Layer（集成层），截至目前最新版本是1.1。<br>IL层是作为一个比较低层级的接口来服务于嵌入式设备的音视频、图像编解码。它使得应用程序与多媒体框架可以以一种统一的方式与多媒体编解码器对接，而编解码器本身可以是硬件与软件的任何组合形式，这样编解码器可以做到对用户透明，用户无需关注编解码器的实现细节问题。如果没有IL，那么不同的编解码厂商都需要按照自己的方式实现一套接口，并且各个厂商之间也是不通用的，这样会使得跨平台移植变得极其复杂。</p>
+</li>
+<li><p>AL<br>Application Layer（应用层），截至目前最新版本是1.1。<br>AL层为多媒体中间件与应用层之间提供一个标准化的API接口，多媒体中间件提供能够完成预期的API功能的服务。AL层为多媒体接口（应用）提供跨平台可移植性。</p>
+</li>
+</ul>
+<p>其实就一句话，OpenMAX为整个多媒体编解码（从应用到硬件）流程提供了一个极度灵活的可移植的标准化解决方案。它解决的主要两个问题是：1. 提供完整的可实现的音视频、图像编解码流程；2. 使多媒体软硬件平台变得更加易于跨平台移植。</p>
+<p>这些层级之间可以相互组合实现，也可以单独实现某个层级，比如对于有些芯片厂商来说，他完全可以自己实现一套编解码硬件，然后在此基础上实现OpenMAX的IL层，这样使得基于该厂商硬件以及相关中间件开发的应用程序可以很快的移植到其它符合OpenMAX IL的软硬件设备上，同时其它平台的多媒体应用也可以无缝移植到该厂商的软硬件平台上面，而我们嵌入式软件岗在实际开发当中往往会去实现一个独立的OpenMAX IL层来承接编解码器与应用开发的桥梁。</p>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png" alt="组件抽象化结构"></center><br><center>组件抽象化结构图</center>
+
+<p>&emsp;&emsp;在OpenMAX IL层中，一个重要的组成部分就是component，称之为组件，比如对于一个媒体播放器来说，它需要具有以下三个基本的功能：</p>
+<ol>
+<li>音视频、字幕分离解析；</li>
+<li>音频解码、视频解码；</li>
+<li>音频输出、视频输出；</li>
+</ol>
+<p>对于这三个功能来说，它们就可以拆分为5个组件，分别是：音视频、字幕分解组件；音频解码组件；音频输出组件；视频解码组件；视频输出组件；或许还需要字幕解析组件。而对于一个视频录制软件来说，它们这5个组件的功能恰巧相反，可以分为：音视频、字幕混合；音频编码；音频输出；视频编码；视频输入。<br>&emsp;&emsp;IL层的组件是采用一种Tunnel（隧道链接）的方式来进行数据交流的，不同组件之间的链接通过一个由IL层定义的方法来进行协商。通过上面的图可以看到，一个组件的大致结构有这么几点：</p>
+<ol>
+<li>配置结构体（Parameter/Configuration Set/Get）：用于用户代码直接与组件进行交互，包括组件属性设置获取、组件状态设置获取等。</li>
+<li>Port口：负责记录与之建立隧道链接的组件的信息，数据交流必不可少。</li>
+<li>Buffer管理：负责管理组件内部接收以及送出的数据流。</li>
+<li>组件事件句柄（Component Event Handler）：负责组件向用户代码进行事件通知，类似于Linux内核的Input子系统事件。</li>
+<li>命令序列：负责存储并处理来自于用户代码产生的命令，比如状态转换等。</li>
+</ol>
+<h3 id="IL-Clinet"><a href="#IL-Clinet" class="headerlink" title="IL Clinet"></a>IL Clinet</h3><p>顾名思义，IL Client就是指IL的客户端，可以在上图里面看到有IL Clinet的字样，对于组件来说，IL Client就是组件的管理者，Client通过组件内部提供的相关回调函数来对组件进行管理，应用程序可以调用Client的代码来操作组件，包括设置组件的状态、添加一个组件、销毁一个组件等等。</p>
+<h3 id="隧道链接"><a href="#隧道链接" class="headerlink" title="隧道链接"></a>隧道链接</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel.png" alt="隧道链接"></center><br><center>隧道链接图</center>
+
+<p>两个组件通过port进行相互链接，然后组件内部自行协调进行数据交流。整个链接过程是由组件的管理者连续调用两个组件的链接函数完成的，组件的链接函数里面会判断两个port是否适合链接，如果适合的话就将对方port以及COMP的句柄信息记录下来，存放到一个port结构体描述当中，这样的话两个组件就可以通过port来进行通信以及数据传输了。</p>
+<blockquote>
+<p>在接下来的文章里面会对OpenMAX的细节内容进行介绍，包括组件的实现，数据结构，方法、一些特殊组件的描述等</p>
+</blockquote>
+<hr>
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -203,229 +296,117 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/09/19/OpenMAX编程初识/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/13/C语言之list_head双向链表/" class="archive-article-date">
-  	<time datetime="2017-09-13T14:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/13/C语言之list_head双向链表/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C语言之list_head双向链表</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/13/C语言之list_head双向链表/">C语言之list_head双向链表</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是OpenMAX"><span class="toc-number">1.</span> <span class="toc-text">什么是OpenMAX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于OpenMAX的一些概念"><span class="toc-number">2.</span> <span class="toc-text">关于OpenMAX的一些概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DL、IL、AL"><span class="toc-number">2.1.</span> <span class="toc-text">DL、IL、AL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件"><span class="toc-number">2.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IL-Clinet"><span class="toc-number">2.3.</span> <span class="toc-text">IL Clinet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隧道链接"><span class="toc-number">2.4.</span> <span class="toc-text">隧道链接</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/C指针深度剖析/" class="archive-article-date">
-  	<time datetime="2017-09-10T12:36:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/C指针深度剖析/">C指针深度剖析</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -453,8 +434,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

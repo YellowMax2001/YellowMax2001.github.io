@@ -7,14 +7,32 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: OpenMAX | YellowMax的博客</title>
+  <title>OpenMAX编程-组件 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/OpenMAX/index.html">
+  <meta name="description" content="OpenMAX的重点组成部分就是组件，OpenMAX通过将meida流过程中的各个模块抽象化为组件来进行耦合，在OpenMAX标准下，数据流通过组件来进行传递、处理、显示。在该篇文章里，不需要了解细致的组件内部实现机理，也不需要知道各种方法的代码实现形式（如遇少量代码形式的解析说明可暂时略过，只需要知道该段代码要完成的工作是什么即可），通过阅读该文章，需要知道的是组件是什么？它有什么用处？内部的">
+<meta name="keywords" content="C语言,编程,OpenMAX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMAX编程-组件">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/10/09/OpenMAX编程-组件/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="OpenMAX的重点组成部分就是组件，OpenMAX通过将meida流过程中的各个模块抽象化为组件来进行耦合，在OpenMAX标准下，数据流通过组件来进行传递、处理、显示。在该篇文章里，不需要了解细致的组件内部实现机理，也不需要知道各种方法的代码实现形式（如遇少量代码形式的解析说明可暂时略过，只需要知道该段代码要完成的工作是什么即可），通过阅读该文章，需要知道的是组件是什么？它有什么用处？内部的">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/典型组件通路.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件初始化流程.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/命令pipe.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/命令队列.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/port绑定.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/data管理.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel数据传递.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/nutunel数据传递.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态转换.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态动作.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta property="og:updated_time" content="2017-10-15T10:17:31.735Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="OpenMAX编程-组件">
+<meta name="twitter:description" content="OpenMAX的重点组成部分就是组件，OpenMAX通过将meida流过程中的各个模块抽象化为组件来进行耦合，在OpenMAX标准下，数据流通过组件来进行传递、处理、显示。在该篇文章里，不需要了解细致的组件内部实现机理，也不需要知道各种方法的代码实现形式（如遇少量代码形式的解析说明可暂时略过，只需要知道该段代码要完成的工作是什么即可），通过阅读该文章，需要知道的是组件是什么？它有什么用处？内部的">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/典型组件通路.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,36 +172,211 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-OpenMAX编程-组件" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      OpenMAX编程-组件
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/09/OpenMAX编程-组件/" class="archive-article-date">
+
+        
+        <a href="/2017/10/09/OpenMAX编程-组件/" class="archive-article-date">
   	<time datetime="2017-10-09T14:01:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/09/OpenMAX编程-组件/">OpenMAX编程-组件</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>OpenMAX的重点组成部分就是组件，OpenMAX通过将meida流过程中的各个模块抽象化为组件来进行耦合，在OpenMAX标准下，数据流通过组件来进行传递、处理、显示。在该篇文章里，不需要了解细致的组件内部实现机理，也不需要知道各种方法的代码实现形式（如遇少量代码形式的解析说明可暂时略过，只需要知道该段代码要完成的工作是什么即可），通过阅读该文章，需要知道的是组件是什么？它有什么用处？内部的主要组成结构是怎样的？更加细节性的介绍放到后面的文章里面介绍。</p>
+</blockquote>
+<ul>
+<li><a href="https://www.khronos.org/files/openmax_il_spec_1_0.pdf" target="_blank" rel="external">OpenMAX IL spec手册下载</a>：<a href="https://www.khronos.org/files/openmax_il_spec_1_0.pdf" target="_blank" rel="external">https://www.khronos.org/files/openmax_il_spec_1_0.pdf</a></li>
+<li><a href="https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c" target="_blank" rel="external">OpenMAX IL sample下载</a>：<a href="https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c" target="_blank" rel="external">https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c</a></li>
+<li><a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">OpenMAX IL 头文件下载</a>：<a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip</a></li>
+</ul>
+<a id="more"></a>
+<h2 id="什么是组件"><a href="#什么是组件" class="headerlink" title="什么是组件"></a>什么是组件</h2><p>组件是OpenMAX对meida视频流中的模块的抽象，比如视频输入模块、视频编码模块、视频解码模块等均可理解为XXX组件，OpenMAX提供了完整的组件式编程解决方案，包括数据流的交换与同步等。在OpenMAX IL层，组件代表着一个独立的功能性模块，组件可以是源（视频输入），目的（视频输出），编解码，滤波器，分离器（音视频分离），混合器（音视频混合）或者其它任意的数据处理模块。一个组件可以代表硬件设备、软件编解码器、处理器或者它们的组合，这取决于组件的实现方式。</p>
+<p>一个典型的组件结构如下图所示：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/典型组件通路.png" alt="直播软件组成"></center><br><center>假想的直播软件组件形式</center>
 
-        <div class="article-info info-on-right">
-          
+<p>其中的视频编码、视频解码等都可以作为一个组件的形式存在。</p>
+<h2 id="组件的内部构造"><a href="#组件的内部构造" class="headerlink" title="组件的内部构造"></a>组件的内部构造</h2><p>下图是OpenMAX IL的spec手册给出的一个抽象化的组件的内部结构图：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png" alt="组件抽象化结构"></center><br><center>组件抽象化构造图</center>
+
+<p>从上图可以看出组件内部大概有这么几个组成部分：</p>
+<ol>
+<li>组件句柄（组件的描述符，类似文件描述符一样）。</li>
+<li>配置相关的结构体方法（set/get parameter/configuration）。</li>
+<li>命令队列。</li>
+<li>端口（port）。</li>
+<li>端口的buffer管理。</li>
+<li>组件事件句柄（用于向IL Client发送事件）。</li>
+<li>buffer发送模块。</li>
+</ol>
+<p>IL Client对组件的操作流程大概如下：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件初始化流程.png" alt="组件初始化流程"></center><br><center>IL Clent对组件的初始化流程</center>
+
+<h3 id="组件句柄"><a href="#组件句柄" class="headerlink" title="组件句柄"></a>组件句柄</h3><p>组件句柄是IL Client操作组件的信物，可以看作是跟Linux或者Windows文件编程当中的文件描述符一样的东西，在文件编程中，文件的一切操作都是根据文件描述符来完成的，组件的一切操作也是有组件句柄来完成的。可以把组件句柄当作整个组件的抽象化实例。</p>
+<h3 id="与配置相关的结构体方法"><a href="#与配置相关的结构体方法" class="headerlink" title="与配置相关的结构体方法"></a>与配置相关的结构体方法</h3><p>主要的方法有<code>set/get parameter</code>,<code>set/get configuration</code>两类，通过这两类方法IL Client可以对组件的各个属性进行设置以及获取组件的各个属性。对于OpenMAX来说，它们两类方法的作用有所区别。<strong>注意：这些回调方法需要自己去实现其具体的动作代码。</strong></p>
+<ul>
+<li>Parameter<ul>
+<li>Set Parameter<br>具体到OpenMAX的相关组件代码中就是<code>OMX_SetParameter</code>这个宏（该宏的详细实现在后面的文章里面会介绍）,使用这个宏将会从IL Client向组件发送一个<code>parameter</code>结构体，该结构体内部就包含有需要设置给组件的各种参数信息。当该宏被使用之后，组件内部的相关回调函数就会被调用，然后会根据传入的结构体参数进行相关的组件设置。比如可以设置组件的buffer提供者的端口号（port）索引。</li>
+<li>Get Parameter<br>这个就不必详细解释了，自然是获取组件的参数，具体到OpenMAX的相关组件代码中就是<code>OMX_GetParameter</code>这个宏。</li>
+</ul>
+</li>
+<li><p>Configuration</p>
+<ul>
+<li>Set Configuration<br>具体到OpenMAX的相关代码中就是<code>OMX_SetConfig</code>这个宏（该宏的详细实现在后面的文章里面会介绍），使用该宏将会设置组件的相关配置的值。该宏可以在组件初始化并且状态转为<code>Loaded</code>之后的任意时刻调用。 调用这需要提供配置结构体的内存地址以及已经初始化过的结构体内部相关成员，在该宏被使用完毕后，IL Client可以丢弃相关的配置结构体（组件内部会复制一份相关的配置）。比如可以设置组件的时间戳或者是时间跳转单位以及时间缩放系数等。</li>
+<li>Get Configuration<br>道理同上，只不过该方法是用来获取组件配置的，具体到OpenMAX的相关代码中就是<code>OMX_GetConfig</code>这个宏。</li>
+</ul>
+</li>
+<li><p>宏定义代码实现（不必过于纠结其进一步的实现细节，留着后面讲解）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* get/set parameter宏定义的实现 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_GetParameter (</span></div><div class="line">    hComponent,</div><div class="line">    nParamIndex,</div><div class="line">    ComponentParameterStructure)</div><div class="line">    ((OMX_COMPONENTTYPE*)hComponent)-&gt;GetParameter( \</div><div class="line">        hComponent, \</div><div class="line">        nParamIndex, \</div><div class="line">        ComponentParameterStructure)</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_SetParameter (</span></div><div class="line">    hComponent,</div><div class="line">    nParamIndex,</div><div class="line">    ComponentParameterStructure)</div><div class="line">    ((OMX_COMPONENTTYPE*)hComponent)-&gt;SetParameter( \</div><div class="line">        hComponent, \</div><div class="line">        nParamIndex, \</div><div class="line">        ComponentParameterStructure)</div><div class="line"></div><div class="line"><span class="comment">/* get/set configuration宏定义的实现 */</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_GetConfig (</span></div><div class="line">    hComponent,</div><div class="line">    nConfigIndex,</div><div class="line">    ComponentConfigStructure)</div><div class="line">    ((OMX_COMPONENTTYPE*)hComponent)-&gt;GetConfig( \</div><div class="line">        hComponent, \</div><div class="line">        nConfigIndex, \</div><div class="line">        ComponentConfigStructure)</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_SetConfig (</span></div><div class="line">    hComponent,</div><div class="line">    nConfigIndex,</div><div class="line">    ComponentConfigStructure)</div><div class="line">    ((OMX_COMPONENTTYPE*)hComponent)-&gt;SetConfig( \</div><div class="line">        hComponent, \</div><div class="line">        nConfigIndex, \</div><div class="line">        ComponentConfigStructure)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="命令队列"><a href="#命令队列" class="headerlink" title="命令队列"></a>命令队列</h3><p>命令队列用与IL Client与组件的各种控制，比如下面这么几种命令控制<strong>命令对应的动作代码需要自行实现</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">command</th>
+<th style="text-align:left">function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">OMX_CommandStateSet</td>
+<td style="text-align:left">设置组件的状态</td>
+</tr>
+<tr>
+<td style="text-align:left">OMX_CommandFlush</td>
+<td style="text-align:left">冲洗相关端口的buffer</td>
+</tr>
+<tr>
+<td style="text-align:left">OMX_CommandPortDisable</td>
+<td style="text-align:left">停止指定的端口</td>
+</tr>
+<tr>
+<td style="text-align:left">OMX_CommandPortEnable</td>
+<td style="text-align:left">使能指定的端口</td>
+</tr>
+<tr>
+<td style="text-align:left">OMX_CommandMarkBuffer</td>
+<td style="text-align:left">标记一个buffer，指定哪个组件将响应这个事件</td>
+</tr>
+</tbody>
+</table>
+<center>组件部分命令</center>
+
+<p>在OpenMAX的sample里面，命令队列是采用pipe的形式实现的，具体分为：<br><strong>1. 在组件的初始化代码里面新建一个pipe（使用<code>pipe</code>函数），此时就可以获取到一个类似于文件句柄一样的pipe实例。</strong><br><strong>2. 在组件内部线程里面等待pipe可读（有命令到达），使用<code>select</code>函数等待，完全可以将上一步生成的pipe实例当作文件描述符（文件句柄）来用。</strong><br><strong>3. 在相关的回调函数里面（对于命令的发送来说，宏定义为<code>OMX_SendCommand</code>）往pipe里面写命令数据，使用<code>write</code>函数，参数就是第一步获取的pipe实例以及命令结构体。</strong><br><strong>4. 组件内部线程的<code>select</code>检测到pipe可读，则立马读出一个命令进行执行，执行完毕之后再次转到步骤2进行循环。</strong></p>
+<blockquote>
+<p><strong>暂时不需要知道组件命令队列的代码实现细节，也不需要知道命令的产生过程，只需要了解命令的大致作用即可</strong></p>
+</blockquote>
+<p>除了上面的用<code>pipe</code>结合<code>read</code>,<code>write</code>的形式进行命令队列的管理之外，还可以自行构建一个生产者-消费者的数据队列模型进行命令队列的管理。其实上面那种方法就可以看作是一个生产者-消费者模型，其工作流程如下图所示：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/命令pipe.png" alt="命令pipe"></center><br><center>命令pipe</center>
+
+<p>上图中的组件内部线程即可当作消费者，而IL Client则可以当作生产者，生产者不断地往命令pipe数据库里面写入命令（命令的生产），消费者不断地从命令pipe里面读取命令（消费命令），两者异步进行，互不干扰，并且命令也不会由于系统繁忙而丢失。</p>
+<p>还有一种自行实现的生产者-消费者模型，是通过链表来实现的，其基本流程如下图所示：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/命令队列.png" alt="命令队列"></center><br><center>命令队列</center>
+
+<p>组件维护两个双向链表，通过<code>list_head</code>结构体来实现，一个链表存储空的命令结构体，另一个链表存储新生成的命令结构体，IL Client从空的命令结构体链表里面不断地取出一个命令结构体，然后将要执行的命令填充进去（如果链表为空的话需要重新申请新的命令结构体），最后放到填充好的命令结构体链表里面，而组件内部线程则不断地从准备好的命令结构体链表里面取出一个命令，然后进行分发执行，最后再将执行完毕的命令结构体重新送回空的命令结构体链表等待下一次填充。</p>
+<h3 id="端口"><a href="#端口" class="headerlink" title="端口"></a>端口</h3><ol>
+<li>PORT（端口）是用来干什么的？<br>PORT充当了组件之间数据交流的代理人（驻外大使馆），通过PORT端口，两个组件之间可以互相传递数据，同时也可以进行其它的一些控制。</li>
+<li>如何通过PORT（端口）来交换数据？<br>组件之间是可以进行绑定的，在组件绑定完成之后，绑定组件的双方PORT口里面就存放了绑定双方组件的实例化组件句柄以及绑定端口信息等数据，然后通过PORT来调用绑定组件的buffer相关的回调函数，这样就可以实现组件之间互相调用对方的内部方法来实现数据交换（包括数据发送与数据回收）。</li>
+<li>如何定义一个PORT？<br>一个PORT的定义需要三个结构体来完成，在OpenMAX标准下，这三个结构体分别是：<code>OMX_PARAM_PORTDEFINITIONTYPE</code>,<code>OMX_VIDEO_PARAM_PORTFORMATTYPE</code>,<code>OMX_PARAM_BUFFERSUPPLIERTYPE</code>，其中第二个结构体是跟组件的PORT端口类型有关的，分别有video、image、audio等类型，这里给出的就是video类型。这三个结构体描述囊括了了PORT类型，端口号，COMP句柄等信息。</li>
+<li>如何通过PORT建立连接？<br>调用组件的内部方法进行协商连接（协商建立外交），具体到OpenMAX里面就是<code>OMX_SetupTunnel</code>这个宏定义，在绑定组件的时候需要调用双方组件的这个宏定义，最终可以回调到双方组件内部的一个<code>ComponentTunnelRequest</code>方法来完成组件的绑定（该方法的具体代码内容需要自行实现）。</li>
+</ol>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/port绑定.png" alt="端口绑定示意图"></center><br><center>端口绑定示意图</center>
+
+<h3 id="端口的buffer管理"><a href="#端口的buffer管理" class="headerlink" title="端口的buffer管理"></a>端口的buffer管理<span id="端口的buffer管理"></span></h3><p>端口的buffer管理是类似于命令队列的，在OpenMAX的sample里面，buffer的管理有一部分也是类似于命令队列的管理方式，data的生成与读取过程如下：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/data管理.png" alt="data生成与读取"></center><br><center>data的生成与读取</center>
+
+<p>OpenMAX的sample中data在组件内部线程里面的管理就是通过两个链表（实际使用中不一定是两个，可以自定义链表的维护方式）来完成的，一个是InputList，另一个是OutputList，分别存放输入的与将要输出的buffer数据。</p>
+<p><strong>注意：这里所说的buffer并不是指的实际的video数据或者image,audio数据，而是一个buffer头部描述结构体，在这个结构体里面包含了实际的buffer数据的起始地址、大小、buffer类型、格式等等信息，组件内部buffer的管理指的就是这个buffer描述结构体的管理。试想一下，如果是video数据，一帧就有几M的大小，如果每次都把这几M的数据拷贝来拷贝去，那CPU的资源将会被耗费殆尽，所以采用只传递buffer的信息描述的形式进行buffer的管理，只有真正需要去处理buffer时才去根据buffer的信息描述去实际的buffer存放地址读取buffer数据</strong></p>
+<h3 id="组件的事件句柄"><a href="#组件的事件句柄" class="headerlink" title="组件的事件句柄"></a>组件的事件句柄</h3><p>组件在初始化的时候会向IL Client注册一个<code>OMX_CALLBACKTYPE</code>类型的回调函数集，其结构体原型如下所示：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_CALLBACKTYPE</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    OMX_ERRORTYPE (*EventHandler)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_EVENTTYPE eEvent,</div><div class="line">        OMX_IN OMX_U32 nData1,</div><div class="line">        OMX_IN OMX_U32 nData2,</div><div class="line">        OMX_IN OMX_PTR pEventData);</div><div class="line">    OMX_ERRORTYPE (*EmptyBufferDone)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line">    OMX_ERRORTYPE (*FillBufferDone)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line">&#125; OMX_CALLBACKTYPE;</div></pre></td></tr></table></figure></p>
+<p>里面的三个回调成员由IL Client实现，在组件内部可以通过某种事件触发这三种回调成员的回调，比如<code>EventHandler</code>回调成员就会在组件状态转换完成的时候被回调，其余两个则会在<code>EmptyBuffer</code>,<code>FillThisBuffer</code>操作完成的时候被调用，利用这几个回调函数，IL Client可以接收来自于组件内部的若干消息事件，从而达到某种同步以及接收组件的反馈。</p>
+<h3 id="buffer发送模块"><a href="#buffer发送模块" class="headerlink" title="buffer发送模块"></a>buffer发送模块</h3><h4 id="tunnel模式（绑定模式）"><a href="#tunnel模式（绑定模式）" class="headerlink" title="tunnel模式（绑定模式）"></a>tunnel模式（绑定模式）</h4><p>该模块的实现是组件内部比较重要的一部分，通常位于组件内部线程的命令分发之后（tunnel模式-也即绑定模式），可以参考下OpenMAX sample的线程实现部分。实际的buffer发送是通过PORT端口来完成的，通过PORT端口来调用与之绑定的组件的<code>EmptyThisBuffer</code>方法来完成数据的传递。我们来看一张图：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel数据传递.png" alt="tunnel模式数据传递"></center><br><center>tunnel模式下的数据传递</center>
+
+<p>由图中可以看出，如果组件A是数据的提供者，那么完整的一帧数据传递就是：</p>
+<ol>
+<li>组件A调用组件B（通过PORT端口实现）的<code>OMX_EmptyThisBuffer(B, pBuffer)</code>宏来实现数据从A传递到B。</li>
+<li>组件B调用组件A（通过PORT端口实现）的<code>OMX_FillThisBuffer(A, pBuffer)</code>宏来完成数据从B到A的还回过程。</li>
+</ol>
+<p>如果组件B是数据的提供者：</p>
+<ol>
+<li>组件B调用组件A（通过PORT端口实现）的<code>OMX_FillThisBuffer(A, pBuffer)</code>宏来完成buffer数据从B到A的传递过程。</li>
+<li>组件A填充收到的buffer数据结构体，然后调用组件B（通过PORT端口实现）的<code>OMX_EmptyThisBuffer(B, pBuffer)</code>宏来实现数据从A到B的还回过程。</li>
+</ol>
+<p><strong>上述过程在双方组件的内部线程里面完成，至于在线程内部的具体哪个位置则取决于组件的功能以及其具体的实现方式，套路不是固定死的，可以根据自己的需求来做出一些改变。</strong></p>
+<h3 id="Non-tunnel模式（非绑定模式）"><a href="#Non-tunnel模式（非绑定模式）" class="headerlink" title="Non-tunnel模式（非绑定模式）"></a>Non-tunnel模式（非绑定模式）</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/nutunel数据传递.png" alt="Non-tunnel模式数据传递"></center><br><center>Non-tunnel模式下的数据传递</center>
+
+<p>在该模式下，数据传递的双方变为IL Client与组件了，整个过程变成了：</p>
+<ol>
+<li>IL Client通过<code>OMX_FillThisBuffer(pHandle,1,pBufferOut)</code>回调方法向组件A的Output端口提供一个空的buffer结构体以待填充个，该宏是通过IL Core来最终完成对A组件的<code>FillThisBuffer</code>回调方法的调用的。</li>
+<li>然后IL Client向组件A传递一个buffer数据，这时组件A可以对buffer进行处理，然后处理完毕之后生成的新的buffer数据填充到上一步接收到的空buffer结构体里。</li>
+<li>等待组件A将Output里的buffer填充完毕，组件A就会调用<code>OMX_FillBufferDone(pBufferOut)</code>方法来通知IL Client接收处理后的数据。</li>
+<li>IL Client数据处理完毕之后就会再次调用<code>OMX_FillThisBuffer(pHandle,1,pBufferOut)</code>来还回buffer到Output列表等待再次填充。</li>
+<li>组件A处理完接收到的buffer数据之后就会调用<code>OMX_EmptyBufferDone(pBufferIn)</code>方法来通知IL Client，说明组件A已完成接收buffer的数据处理。</li>
+</ol>
+<p><strong>上面的过程描述可能看起来有点懵，带入实例来说明下，比如组件A是一个解码组件，那么整个过程就变成了：</strong><br><strong>1. IL Client向组件A（解码组件）的Output buffer列表提供一个空的buffer结构体来存放解码后的数据。注意，此时传递给A的只是buffer的头部描述（参见上面的buffer头部描述内容介绍-<a href="#端口的buffer管理">端口的buffer管理</a>），真正的buffer数据存放地址是在IL Client那里的。</strong><br><strong>2. IL Client向组件A的Input端口发送一帧待解码的buffer数据。</strong><br><strong>3. 组件A解码完毕，解码后的数据被拷贝到了Output端口buffer队列里面（根据buffer描述直接将解码后数据拷贝到IL Client的实际buffer存放地址），同时通过回调通知IL Client，buffer可用了（解码数据可用）。</strong><br><strong>4. IL Client对解码后的数据进行处理，比如保存为文件等等，然后把buffer重新还给组件A以待填充下一帧解码数据。</strong><br><strong>5. 组件A通过回调通知IL Client该帧数据已经解码完毕。可以进行下一帧数据的传递。</strong></p>
+<h2 id="组件的状态转换"><a href="#组件的状态转换" class="headerlink" title="组件的状态转换"></a>组件的状态转换</h2><ol>
+<li>为什么要有状态转换？<br>通过组件的状态转换可以控制组件之间数据传递的暂定、开始、恢复等，可用于组件间的数据同步以及数据交换开关。</li>
+<li>如何控制组件的状态？<br>通过组件内部提供的回调函数进行控制，主要是通过<code>SendCommand</code>回调来发送<code>OMX_CommandStateSet</code>命令来完成。</li>
+<li>都有哪些状态？<br>一共6种状态，类型以及状态特征和它们之间的转换关系见下图：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态转换.png" alt="组件的状态转换"></center><br><center>组件的状态转换</center>
+
+</li>
+</ol>
+<p>可以看到，组件一开始初始化的时候，状态就被初始化为<code>OMX_StateLoaded</code>，然后等到资源准备完毕，IL Client会将组件的状态设置为<code>OMX_StateIdle</code>，在需要传递数据的时候需要将状态设置为<code>OMX_StateExecuting</code>，组件停止到销毁的过程正好与上面的相反。</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态动作.png" alt="组件状态与对应的动作"></center><br><center>组件状态与对应的动作</center>
+
+<ol>
+<li>组件初始化，最终状态转为Executing，数据正常流转。</li>
+<li>组件之间停止数据传输，状态转为Idle。</li>
+<li>组件的状态转为Loaded，同时后面的组件需要调用前面组件的<code>FillThisBuffer</code>回调方法来还回数据。</li>
+<li>组件正式销毁，所有资源释放。</li>
+</ol>
+<p>本篇文章大致勾勒了一个组件的整体框架，后面介绍组件内部的相关结构体以及回调函数成员等。</p>
+<hr>
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -203,65 +396,117 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/10/09/OpenMAX编程-组件/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/09/19/OpenMAX编程初识/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OpenMAX编程初识</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/19/OpenMAX编程初识/">OpenMAX编程初识</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是组件"><span class="toc-number">1.</span> <span class="toc-text">什么是组件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件的内部构造"><span class="toc-number">2.</span> <span class="toc-text">组件的内部构造</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#组件句柄"><span class="toc-number">2.1.</span> <span class="toc-text">组件句柄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#与配置相关的结构体方法"><span class="toc-number">2.2.</span> <span class="toc-text">与配置相关的结构体方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令队列"><span class="toc-number">2.3.</span> <span class="toc-text">命令队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#端口"><span class="toc-number">2.4.</span> <span class="toc-text">端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#端口的buffer管理"><span class="toc-number">2.5.</span> <span class="toc-text">端口的buffer管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件的事件句柄"><span class="toc-number">2.6.</span> <span class="toc-text">组件的事件句柄</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#buffer发送模块"><span class="toc-number">2.7.</span> <span class="toc-text">buffer发送模块</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#tunnel模式（绑定模式）"><span class="toc-number">2.7.1.</span> <span class="toc-text">tunnel模式（绑定模式）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Non-tunnel模式（非绑定模式）"><span class="toc-number">2.8.</span> <span class="toc-text">Non-tunnel模式（非绑定模式）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件的状态转换"><span class="toc-number">3.</span> <span class="toc-text">组件的状态转换</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -289,9 +534,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

@@ -7,24 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>OpenMAX编程初识 | YellowMax的博客</title>
+  <title>生活集思录-入职三个月的迷茫 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
-<meta name="keywords" content="C语言,编程,OpenMAX">
+  <meta name="description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
+<meta name="keywords" content="经验,感悟">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpenMAX编程初识">
-<meta property="og:url" content="http://www.yellowmax2001.com/2017/09/19/OpenMAX编程初识/index.html">
+<meta property="og:title" content="生活集思录-入职三个月的迷茫">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/10/22/生活集思录-入职三个月的迷茫/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel.png">
+<meta property="og:description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
-<meta property="og:updated_time" content="2017-09-24T13:42:43.693Z">
+<meta property="og:updated_time" content="2017-10-22T11:44:16.097Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OpenMAX编程初识">
-<meta name="twitter:description" content="导读：  本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。  什么是OpenMAX OpenMAX：open media acceleration.直译为开放多媒体加速器，可以理解为是一个拥">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png">
+<meta name="twitter:title" content="生活集思录-入职三个月的迷茫">
+<meta name="twitter:description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -164,86 +161,51 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-OpenMAX编程初识" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-生活集思录-入职三个月的迷茫" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      OpenMAX编程初识
+      生活集思录-入职三个月的迷茫
     </h1>
   
 
         
-        <a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
+        <a href="/2017/10/22/生活集思录-入职三个月的迷茫/" class="archive-article-date">
+  	<time datetime="2017-10-22T01:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>导读：</p>
-<blockquote>
-<p>本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。</p>
+        <blockquote>
+<p>生而为人，问题很多。</p>
 </blockquote>
-<h2 id="什么是OpenMAX"><a href="#什么是OpenMAX" class="headerlink" title="什么是OpenMAX"></a>什么是OpenMAX</h2><blockquote>
-<p>OpenMAX：open media acceleration.<br>直译为开放多媒体加速器，可以理解为是一个拥有免费使用权的多媒体加速器。OpenMAX是<a href="https://www.khronos.org/openmax/" target="_blank" rel="external">Khronos Group</a>开发制定的，该标准采用C语言实现，这个小组是由3Dlabs、ATI、Intel、Nvidia等行业大佬联合创建，目的是实现跨平台的免费的多媒体加速、回放。</p>
-</blockquote>
+<p>我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就不太一样了。</p>
 <a id="more"></a>
+<h2 id="迷茫的来由"><a href="#迷茫的来由" class="headerlink" title="迷茫的来由"></a>迷茫的来由</h2><p>就我的大学生活来说，迷茫的阶段集中在大一的上学期，从下学期开始一切“渐入佳境”，仔细想了一下，大概是因为大学里面比中学多了这么一些东西：</p>
 <ul>
-<li>OpenMAX可以用来做什么？<br>&emsp;&emsp;其实从名字上可以看出来，OpenMAX是与多媒体有关的，为多媒体处理提供统一的接口标准，以此来达到跨平台的多媒体软硬件开发的目标。在嵌入式设备比如安卓设备的多媒体软件框架中就使用到了OpenMAX编程标准。<br>&emsp;&emsp;一个完整的多媒体设备包括设备硬件、设备驱动以及设备应用程序。与之对应的是OpenMAX的DL、IL、AL层，不过在实际编程（嵌入式软件）当中最常使用到的是IL层。通过实现这三个层级，可以达到从硬件到软件的完整的音视频、图像等多媒体资源的编解码流程。</li>
-<li>为什么要使用OpenMAX<br>大概有这么几个理由促成了OpenMAX在多媒体编程当中的使用：<ul>
-<li>多媒体软件使用OpenMAX这一统一的编程标准来进行设计，可以使得开发者在开发应用等的时候不需要过度关注其底层的一些实现，也省去了大量的学习不同多媒体框架的时间。</li>
-<li>OpenMAX标准本身足够优秀，即使不完全遵循OpenMAX的标准来进行多媒体软件框架设计，采用OpenMAX的架构原理来作为多媒体软件框架的指导性设计原理，也能够大量减少多媒体软件的开发设计流程，并且由于OpenMAX本身的特点，也使得整个多媒体软件十分易于扩展，具有高度的去耦合性。该标准涵盖了大部分多媒体开发规格，可以轻松满足绝大多数开发需求。</li>
-<li>该标准本身由多媒体等行业的领导者联合确立，具有较大的影响力，有相关的详细设计文档可以参考，如果遇到问题相对更加容易在网络上获取答案，并且整个标准在使用的时候无需授权费，是完全免费的。</li>
+<li>专业：大学里面的专业很多，虽说入学时专业差不多已经确定，但是也存在喜不喜欢，想不想转专业这个问题，就我来说，我所在的专业是大类招生，直到大二才进行细分专业，所以具体选哪个专业又是造成我迷茫的一部分原因。</li>
+<li>学习方式：大学里面不想中学，学习方式灵活多变，可供选择的学习内容也非常的多，在面对这么多选择的情境下，我陷入了“选择困难”的迷茫期。</li>
+<li>未来的人生目标：是读研呢？还是工作呢？这个问题每个人都会遇到，而且会有很大一部分人面临不知如何选择的困境。</li>
+<li>工作的方向：虽然确定了要工作，但是就业范围那么广，到底应该选择哪些职位呢？选择哪些职位未来才会有更好的发展，才会更有前途。</li>
 </ul>
-</li>
-<li>OpenMAX适用于哪些地方？<br>OpenMAX是专门用于音视频、图像编解码的，在一些以音视频编解码为主导功能的产品设计领域都可以使用OpenMAX，比如安防、手机（安卓系统里面就有OpenMAX）等。</li>
-</ul>
-<h2 id="关于OpenMAX的一些概念"><a href="#关于OpenMAX的一些概念" class="headerlink" title="关于OpenMAX的一些概念"></a>关于OpenMAX的一些概念</h2><h3 id="DL、IL、AL"><a href="#DL、IL、AL" class="headerlink" title="DL、IL、AL"></a>DL、IL、AL</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/AL_IL_DL.png" alt="各个层次的位置"></center><br><center>DL、IL、AL层级图</center>
-
-<ul>
-<li><p>DL<br>Development Layer（开发层），截至目前最新版本是1.0.2。<br>DL层定义了众多的API，全方位包含了OpenMAX音频、视频以及图像处理功能，这些功能可以由硅供应商（芯片原厂）实现并优化，然后编解码厂商在此基础上实现一些广泛的编解码功能。 它包含了：</p>
-<ul>
-<li>音频信号处理：比如FFT（快速傅立叶变换）、滤波器等；</li>
-<li>图像处理：比如色域转换（RGB、YUV等）；</li>
-<li>视频处理：比如实现并且优化的 MPEG-4, H.264, MP3, AAC 和 JPEG；</li>
-</ul>
-</li>
-<li><p>IL<br>Integration Layer（集成层），截至目前最新版本是1.1。<br>IL层是作为一个比较低层级的接口来服务于嵌入式设备的音视频、图像编解码。它使得应用程序与多媒体框架可以以一种统一的方式与多媒体编解码器对接，而编解码器本身可以是硬件与软件的任何组合形式，这样编解码器可以做到对用户透明，用户无需关注编解码器的实现细节问题。如果没有IL，那么不同的编解码厂商都需要按照自己的方式实现一套接口，并且各个厂商之间也是不通用的，这样会使得跨平台移植变得极其复杂。</p>
-</li>
-<li><p>AL<br>Application Layer（应用层），截至目前最新版本是1.1。<br>AL层为多媒体中间件与应用层之间提供一个标准化的API接口，多媒体中间件提供能够完成预期的API功能的服务。AL层为多媒体接口（应用）提供跨平台可移植性。</p>
-</li>
-</ul>
-<p>其实就一句话，OpenMAX为整个多媒体编解码（从应用到硬件）流程提供了一个极度灵活的可移植的标准化解决方案。它解决的主要两个问题是：1. 提供完整的可实现的音视频、图像编解码流程；2. 使多媒体软硬件平台变得更加易于跨平台移植。</p>
-<p>这些层级之间可以相互组合实现，也可以单独实现某个层级，比如对于有些芯片厂商来说，他完全可以自己实现一套编解码硬件，然后在此基础上实现OpenMAX的IL层，这样使得基于该厂商硬件以及相关中间件开发的应用程序可以很快的移植到其它符合OpenMAX IL的软硬件设备上，同时其它平台的多媒体应用也可以无缝移植到该厂商的软硬件平台上面，而我们嵌入式软件岗在实际开发当中往往会去实现一个独立的OpenMAX IL层来承接编解码器与应用开发的桥梁。</p>
-<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/comp.png" alt="组件抽象化结构"></center><br><center>组件抽象化结构图</center>
-
-<p>&emsp;&emsp;在OpenMAX IL层中，一个重要的组成部分就是component，称之为组件，比如对于一个媒体播放器来说，它需要具有以下三个基本的功能：</p>
-<ol>
-<li>音视频、字幕分离解析；</li>
-<li>音频解码、视频解码；</li>
-<li>音频输出、视频输出；</li>
-</ol>
-<p>对于这三个功能来说，它们就可以拆分为5个组件，分别是：音视频、字幕分解组件；音频解码组件；音频输出组件；视频解码组件；视频输出组件；或许还需要字幕解析组件。而对于一个视频录制软件来说，它们这5个组件的功能恰巧相反，可以分为：音视频、字幕混合；音频编码；音频输出；视频编码；视频输入。<br>&emsp;&emsp;IL层的组件是采用一种Tunnel（隧道链接）的方式来进行数据交流的，不同组件之间的链接通过一个由IL层定义的方法来进行协商。通过上面的图可以看到，一个组件的大致结构有这么几点：</p>
-<ol>
-<li>配置结构体（Parameter/Configuration Set/Get）：用于用户代码直接与组件进行交互，包括组件属性设置获取、组件状态设置获取等。</li>
-<li>Port口：负责记录与之建立隧道链接的组件的信息，数据交流必不可少。</li>
-<li>Buffer管理：负责管理组件内部接收以及送出的数据流。</li>
-<li>组件事件句柄（Component Event Handler）：负责组件向用户代码进行事件通知，类似于Linux内核的Input子系统事件。</li>
-<li>命令序列：负责存储并处理来自于用户代码产生的命令，比如状态转换等。</li>
-</ol>
-<h3 id="IL-Clinet"><a href="#IL-Clinet" class="headerlink" title="IL Clinet"></a>IL Clinet</h3><p>顾名思义，IL Client就是指IL的客户端，可以在上图里面看到有IL Clinet的字样，对于组件来说，IL Client就是组件的管理者，Client通过组件内部提供的相关回调函数来对组件进行管理，应用程序可以调用Client的代码来操作组件，包括设置组件的状态、添加一个组件、销毁一个组件等等。</p>
-<h3 id="隧道链接"><a href="#隧道链接" class="headerlink" title="隧道链接"></a>隧道链接</h3><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/tunnel.png" alt="隧道链接"></center><br><center>隧道链接图</center>
-
-<p>两个组件通过port进行相互链接，然后组件内部自行协调进行数据交流。整个链接过程是由组件的管理者连续调用两个组件的链接函数完成的，组件的链接函数里面会判断两个port是否适合链接，如果适合的话就将对方port以及COMP的句柄信息记录下来，存放到一个port结构体描述当中，这样的话两个组件就可以通过port来进行通信以及数据传输了。</p>
-<blockquote>
-<p>在接下来的文章里面会对OpenMAX的细节内容进行介绍，包括组件的实现，数据结构，方法、一些特殊组件的描述等</p>
-</blockquote>
+<p>综合以上的种种，就造成了出入大学期间的迷茫，归根结底，造成迷茫的原因可以概括为：1.选择；2.不了解。因为有选择，所以才会有迷茫不知所措，因为不了解，才不知该如何去选择，才会对自己的目标产生怀疑。</p>
+<h2 id="进入工作期"><a href="#进入工作期" class="headerlink" title="进入工作期"></a>进入工作期</h2><p>还记得刚刚毕业时，一切都很新鲜，处于对未来充满期待的状态，浑身上下都充满了干劲。在进入公司工作之后，随着对这个行业的了解以及对所在城市等等的了解，一种不安的感觉渐渐浮现，到现在入职了三个月之后，这种不安与迷茫渐渐变得越来越明显，中间由于国庆节的一次远游之后这种感觉达到了顶峰。</p>
+<h3 id="房价"><a href="#房价" class="headerlink" title="房价"></a>房价</h3><p>在导致不安与迷茫的问题中最明显的一个就是房价的问题（老生常谈了），确切来说，是钱的问题，其实关于房价的问题我刚开始的时候并没有去过度关注过。国庆期间去厦门找女友玩（程序员也是可以有女朋友的），在回程的时候第一次认真在考虑结婚这件事，虽然就我个人来说，结婚计划可以排在5年之后，但是对于另一半来说，由于她是女生（废话，不能是男的），就不得不考虑结婚的年龄，拖个三年还可以理解，毕竟现在很多女生大学毕业又经过三年的研究生之后才结婚的，而且对于绝大部分的女生来说，选择尽量在25,6岁之前结婚是很正常的一件事吧，更何况有时候来自父母的压力，结婚的年龄只许提前，不许延后。对于什么女权以及新时代下的男女身份地位什么的，我不想去关心，我只知道我女朋友是想要早点结婚的，而结婚是需要买房的，就珠海（我的工作地）来说，三四线的小城市（虽说近年升二线，但就基础设施来看，真的丝毫算不上二线），超越二线的物价、房价，工资却严重落后，这样的环境下真的是让人难以产生定居于此的想法。并且国内房价上涨的大环境下，在三年内买房的困难程度也让我望而生畏。民工毕竟也只是民工。</p>
+<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>相信跟我一样，有那么很大一部分（可能超过80%）的人，刚毕业时的第一份工作内容都不是自己真正想做的，并且与自己想象中的工作内容相差很大，这个时候不禁会怀疑自己这份工作的意义。曾经问过一个同组的比我早一年进来的前辈，原来他也有这种感觉，自己干的工作与自己当初想像的工作有很大的出入，可能这个是很大一部分人的郁闷之处，而他的回答是，先做好自己的手头工作，利用一切可以利用的业余时间来丰富自己的技能树，在机会到来的时候可以紧紧抓住它，争取到一份符合自己期望的工作。话虽这么说，我也知道这样是目前为止最好的选择了，但是这还是止不住我那郁闷的心情。</p>
+<h2 id="我的问题"><a href="#我的问题" class="headerlink" title="我的问题"></a>我的问题</h2><p>这一系列的迷茫可能用一种方法可以解决：那就是有一个人告诉我，你这么这么做，达到这样一种境界，然后你就能达到你的目标啦。然而世界是不确定的，生活更是不确定的，也许根本就不会，也没有人可以告诉我，你这样这样就一定能够实现你XXX的目标，虽然我很想，很希望可以找到一个这样的人。</p>
+<h3 id="叶公好龙"><a href="#叶公好龙" class="headerlink" title="叶公好龙"></a>叶公好龙</h3><p>这个故事曾经出现在小学的课本中，而有时候（其实是很多时候），我都处于“叶公好龙”的状态，我知道想要拜托现状的可能的最好的方法就是提高执行力、提高自制力、坚持不断学习，跳出生活工作当中的舒适圈。可是真到了做决定的时候，我又会害怕，害怕自己的决定会是徒劳无功，浪费了大量无谓的时间精力在错误的选择上，导致现有的该紧紧抓住，深入学习的东西一点点溜走。于是在面临计划实施的前夕，我又不断地变怂，不敢踏过这个门槛。</p>
+<h3 id="三分钟热度"><a href="#三分钟热度" class="headerlink" title="三分钟热度"></a>三分钟热度</h3><p>平时的想法挺多，有的甚至也列出了较为详细的计划，然而均是三分钟热度，所有的计划都是“干劲十足-&gt;自信心爆棚-&gt;感觉没什么效果-&gt;等等再弄吧-&gt;算了先不弄了”，计划都是这么无疾而终的。</p>
+<h3 id="拖延症"><a href="#拖延症" class="headerlink" title="拖延症"></a>拖延症</h3><p>我现在越来越感觉这个拖延症是无法战胜的，拖延症永远存在，只不过有绝症、感冒之分，拖延症晚期就真的没救了。比如我的博客计划，规划的是一周一篇文章，从周一到周日不断地完善，最终那个任务进度条应该是应该是从周一到周日均匀增加，而事实是任务进度条几乎只有在周六与周日才会走，其余时间保持似0非0的状态，还有时候干脆就拖到下周。</p>
+<h3 id="处境"><a href="#处境" class="headerlink" title="处境"></a>处境</h3><p>我现在的工作待遇大概就属于那种不好不坏的中间水平，这是一个比较尴尬的处境，属于有那么一点紧张感，但是有没有足够的动力去力争上游的情况。最怕的就是这种“中庸”的困境，属于温水煮青蛙，等到意识到危险来临的时候，已经来不及逃脱了，这也一定程度上导致了上面几种问题的出现。想我大学的时候周六周末不休息，早上6点多起床，晚上十一点多才睡，全是在学习（为了毕业不失业），现在让我这样，我却提不起三分的劲来。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>然而目前为止，我还是没有找到一种方法可以脱离现在的困境，知道问题的存在，但是却无法解决，这是最无奈的。但是解决问题的第一步是发现问题，问题的解决就需要从长计议（感觉又要拖延），只要努力，相信问题一定会慢慢解决的。</p>
 <hr>
 <center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+
       
 
       
@@ -282,15 +244,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
         		</li>
       		
 		</ul>
@@ -346,7 +304,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/09/19/OpenMAX编程初识/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/10/22/生活集思录-入职三个月的迷茫/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -360,18 +318,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/10/09/OpenMAX编程-组件/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          OpenMAX编程-组件
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/13/C语言之list_head双向链表/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C语言之list_head双向链表</div>
+    <a href="/2017/10/09/OpenMAX编程-组件/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OpenMAX编程-组件</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -398,7 +347,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是OpenMAX"><span class="toc-number">1.</span> <span class="toc-text">什么是OpenMAX</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关于OpenMAX的一些概念"><span class="toc-number">2.</span> <span class="toc-text">关于OpenMAX的一些概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DL、IL、AL"><span class="toc-number">2.1.</span> <span class="toc-text">DL、IL、AL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件"><span class="toc-number">2.2.</span> <span class="toc-text">组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IL-Clinet"><span class="toc-number">2.3.</span> <span class="toc-text">IL Clinet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隧道链接"><span class="toc-number">2.4.</span> <span class="toc-text">隧道链接</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#迷茫的来由"><span class="toc-number">1.</span> <span class="toc-text">迷茫的来由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进入工作期"><span class="toc-number">2.</span> <span class="toc-text">进入工作期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#房价"><span class="toc-number">2.1.</span> <span class="toc-text">房价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作"><span class="toc-number">2.2.</span> <span class="toc-text">工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的问题"><span class="toc-number">3.</span> <span class="toc-text">我的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#叶公好龙"><span class="toc-number">3.1.</span> <span class="toc-text">叶公好龙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三分钟热度"><span class="toc-number">3.2.</span> <span class="toc-text">三分钟热度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拖延症"><span class="toc-number">3.3.</span> <span class="toc-text">拖延症</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处境"><span class="toc-number">3.4.</span> <span class="toc-text">处境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
                     </div>
                 </span>
             </div>

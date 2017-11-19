@@ -7,19 +7,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>OpwnMAX编程-数据结构 | YellowMax的博客</title>
+  <title>OpenMAX编程-数据结构 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组件的使用者。 头文件[头文件下载地址]:https://www.khronos.o">
+  <meta name="description" content="往期文章索引：01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组">
 <meta name="keywords" content="C语言,编程,OpenMAX">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OpwnMAX编程-数据结构">
+<meta property="og:title" content="OpenMAX编程-数据结构">
 <meta property="og:url" content="http://www.yellowmax2001.com/2017/10/22/OpwnMAX编程-数据结构/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组件的使用者。 头文件[头文件下载地址]:https://www.khronos.o">
-<meta property="og:updated_time" content="2017-10-28T00:41:49.064Z">
+<meta property="og:description" content="往期文章索引：01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/types枚举.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/%E7%BB%84%E4%BB%B6%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/buffer_header.JPG">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta property="og:updated_time" content="2017-11-19T12:22:36.522Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OpwnMAX编程-数据结构">
-<meta name="twitter:description" content="导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组件的使用者。 头文件[头文件下载地址]:https://www.khronos.o">
+<meta name="twitter:title" content="OpenMAX编程-数据结构">
+<meta name="twitter:description" content="往期文章索引：01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。 该文章中提到的IL Client可以看作是组">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/types枚举.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -166,7 +171,7 @@ var _hmt = _hmt || [];
         
   
     <h1 class="article-title" itemprop="name">
-      OpwnMAX编程-数据结构
+      OpenMAX编程-数据结构
     </h1>
   
 
@@ -179,11 +184,222 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。</p>
-<p>该文章中提到的IL Client可以看作是组件的使用者。</p>
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。</p>
+<p><font color="red">该文章中提到的IL Client可以看作是组件的使用者，负责组件的创建、销毁、命令控制等等。<strong>注意本文章需要结合例程代码去看，否则会觉得本文不知所云。代码参考<a href="http://blog.csdn.net/u013904227/article/details/78242464" target="_blank" rel="external">OpenMAX编程-组件</a>一文中的<em>OpenMAX IL sample</em>下载链接</strong></font><br><!--less--><br><a id="more"></a></p>
 <h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><p><a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">[头文件下载地址]</a>:<a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip</a></p>
 <p>OpenMAX官方提供了一系列的头文件，里面定义了包括组件结构体、音视频相关结构体、命令控制API等等。这些定义可以使得Client控制音频(audio)、视频(video)、图像(image)等类型的多媒体组件。其它(other)域则提供了一些额外的组件功能，比如音视频同步（可以用clock实现）。</p>
-<p>头文件列表如下所示：<br>|文件|描述|<br>|:–:|:–:|<br>|OMX_Types.h|数据类型|<br>|OMX_Core.h|OpenMAX IL core API|<br>|OMX_Component.h|OpenMAX component API|<br>|OMX_Audio.h|OpenMAX audio domain data structures|<br>|OMX_IVCommon.h|OpenMAX structures common to image and video domains|<br>|OMX_Video.h|OpenMAX video domain data structures|<br>|OMX_Image.h|OpenMAX image domain data structures|<br>|OMX_Other.h|OpenMAX other domain data structures (includes A/V synchronization)|<br>|OMX_Index.h|Index of all OpenMAX-defined data structures|</p>
+<p>头文件列表如下所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">OMX_Types.h</td>
+<td style="text-align:center">数据类型，里面定义了组件类型、输入输出等</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Core.h</td>
+<td style="text-align:center">IL层的核心API，有命令枚举、状态枚举、组件注册/初始化等等</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Component.h</td>
+<td style="text-align:center">组件相关的API，有端口类型与定义、组件回调函数成员定义等</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Audio.h</td>
+<td style="text-align:center">与音频相关的结构体定义</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_IVCommon.h</td>
+<td style="text-align:center">图像与音频通用的一些结构体定义</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Video.h</td>
+<td style="text-align:center">视频相关的结构体定义</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Image.h</td>
+<td style="text-align:center">图像相关的结构体定义</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Other.h</td>
+<td style="text-align:center">其它部分的结构体定义 (包含A/V同步)</td>
+</tr>
+<tr>
+<td style="text-align:center">OMX_Index.h</td>
+<td style="text-align:center">OpenMAX定义的数据结构索引</td>
+</tr>
+</tbody>
+</table>
+<p>值得注意的是，在OMX_Types.h文件里面有这么几个定义：<code>OMX_IN</code>,<code>OMX_OUT</code>,<code>OMX_INOUT</code>，分别代表了仅输入、仅输出、输入输出。这些宏定义并没有对应的值，只是个空的定义，常用于标识函数的参数传递方向，便于函数调用者（一般是IL Client）搞清楚哪些参数是输入的，哪些参数是输出的，避免一些低级的编程错误。这种形式的用法在其它的编程当中也可以借鉴，有了标识的函数参数会使得函数调用者更加地省心，避免在函数使用的时候出现一些不必要的错误。</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="数据类型（OMX-Core-h）"><a href="#数据类型（OMX-Core-h）" class="headerlink" title="数据类型（OMX_Core.h）"></a>数据类型（OMX_Core.h）</h3><p>主要是一些枚举变量结构体原型，其类型主要如下所示：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/types枚举.png" alt="OMX_Types枚举变量"></center><br><center>OMX_Types枚举变量</center>
+
+<p>可以看出来，其主要分为以下类型：</p>
+<ul>
+<li>OMX_BUFFERSUPPLIERTYPE：用于组件内部端口数据流标识。</li>
+<li>OMX_COMMANDTYPE：命令相关的枚举，用于Client对组件的命令控制。</li>
+<li>OMX_STATETYPE：组件状态相关的枚举，用于组件状态标识。</li>
+<li>OMX_ERRORTYPE：错误相关的枚举，类似于C库的错误状态集，用于标识组件内部或者Client的出错状态。</li>
+<li>OMX_EVENTTYPE：事件相关的枚举，用于组件内部向Client发送事件通知。</li>
+</ul>
+<h3 id="OMX-COMMANDTYPE"><a href="#OMX-COMMANDTYPE" class="headerlink" title="OMX_COMMANDTYPE"></a>OMX_COMMANDTYPE</h3><table>
+<thead>
+<tr>
+<th>枚举成员</th>
+<th>意义</th>
+<th>参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OMX_CommandStateSet</td>
+<td>改变组件的状态</td>
+<td>OMX_STATETYPE-要转换的状态</td>
+</tr>
+<tr>
+<td>OMX_CommandFlush</td>
+<td>冲洗组件内部某个端口的buffer队列</td>
+<td>OMX_U32-端口号</td>
+</tr>
+<tr>
+<td>OMX_CommandPortDisable</td>
+<td>禁止使能组件内部的某个端口</td>
+<td>OMX_U32-端口号</td>
+</tr>
+<tr>
+<td>OMX_CommandPortEnable</td>
+<td>使能组件内部某个端口</td>
+<td>OMX_U32-端口号</td>
+</tr>
+<tr>
+<td>OMX_CommandMarkBuffer</td>
+<td>标记一个buffer并指定哪个组件会触发收到的事件标记</td>
+<td>OMX_U32-端口号(还有命令数据OMX_MARKTYPE*-buffer与组件)</td>
+</tr>
+</tbody>
+</table>
+<p>对于Client来说，命令的发送是非阻塞的，当Client把命令发送给组件时，组件会把收到的命令放到一个命令队列（或管道）里面，然后函数就会立刻返回了。当组件内部取出某个命令并执行完毕之后会进行一个事件回调来通知Client某个命令已经执行完毕，并返回命令执行的状态（失败/成功）。</p>
+<p>根据OMX标准，定义了如下所示的组件状态集，并且它们之间还有如下的状态转换条件：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/%E7%BB%84%E4%BB%B6%E7%8A%B6%E6%80%81%E8%BD%AC%E6%8D%A2.png" alt="组件状态转换"></center><br><center>组件状态转换</center>
+
+<p>对于这几种状态的说明如下：</p>
+<ul>
+<li>OMX_StateLoaded：组件已经被加载，但是还<strong>没有分配相关的资源</strong>。</li>
+<li>OMX_StateIdle：组件已经<strong>分配了相关的全部资源</strong>，但是<strong>没有传输buffer</strong>，也<strong>不处理buffer</strong>。</li>
+<li>OMX_StateExecuting：组件开始<strong>传输buffer</strong>，并且<strong>处理buffer</strong>（如果buffer可用的话）。</li>
+<li>OMX_StatePause：组件<strong>暂停buffer处理</strong>（有可能从暂停的地方恢复数据的处理），该状态没有定义数据是否暂停传输，所以可以依照具体的组件实现来定，可以传输也可以不传输。</li>
+<li>OMX_StateWaitForResources：组件正<strong>等待资源可用</strong>（此时资源还未被分配）。</li>
+<li>OMX_StateInvalid：组件发生了不可修复的错误，此时需要转入该状态。</li>
+</ul>
+<p>举例说明下<strong>传输buffer、处理buffer、拥有资源</strong>三者的区别：</p>
+<ul>
+<li>拥有资源：buffer的缓存（内存空间），比如视频数据，在进行数据传输处理之前需要分配相应数量的buffer内存空间用来存放传输的数据，当相应的内存被分配之后，就说该组件拥有资源（has resources）。</li>
+<li>传输buffer：组件之间开始传递buffer，比如将buffer从解码组件传输到显示组件，完成数据的组件间转移，称之为传输buffer。</li>
+<li>处理buffer：这是对单一组件内部来说的，比如编码组件，它需要接收buffer，然后对接收到的buffer进行编码，这个编码的过程称之为处理buffer，解码组件可同理推之。</li>
+</ul>
+<blockquote>
+<p>当然，在实际的编程实现当中在组件内部也不必拘泥于这几种状态，比如可以新增一些状态或者去掉一些状态，比如很大可能<em>OMX_StateWaitForResources</em>状态就用不到，因为资源分配总是可以在Loaded或者Idle状态中分配完成，而这两个状态中间没必要增加<em>OMX_StateWaitForResources</em>这样一个状态。另外对于各个状态下的数据处理也可以灵活运用，比如<em>OMX_StatePause</em>状态下就可以选择传输或者不传输buffer，如果传输的话就需要把buffer缓存起来，等待组件恢复运行时继续处理（可能会发生缓冲区满的情况，需要做相应的措施）。</p>
+</blockquote>
+<h3 id="OMX-ERRORTYPE"><a href="#OMX-ERRORTYPE" class="headerlink" title="OMX_ERRORTYPE"></a>OMX_ERRORTYPE</h3><p>OMX所有的API返回错误值都在该枚举类型里面定义，该枚举类型里面包含了绝大多数的错误状态类型（实际应用当中基本够用）。当然，如果觉得还是需要自己定义错误值的话也可以，从0x90000000到0x9000FFFF这个范围内就是自定义错误的枚举值范围。</p>
+<p>举例部分错误值的意义（错误值定义比较多），其余的在头文件里面可以看到相关错误值的详细意义注释：</p>
+<ul>
+<li>OMX_ErrorNone：没有错误，正确返回。</li>
+<li>OMX_ErrorInvalidComponent：组件没有初始化函数或者初始化函数调用返回出错。</li>
+<li>OMX_ErrorUnderflow：buffer为空。</li>
+</ul>
+<h3 id="OMX-EVENTTYPE"><a href="#OMX-EVENTTYPE" class="headerlink" title="OMX_EVENTTYPE"></a>OMX_EVENTTYPE</h3><p>组件通过回调机制向IL Client发送事件消息，事件消息的类型如下：</p>
+<ul>
+<li>OMX_EventCmdComplete：组件命令执行完毕，每一个来自Client的命令被执行完毕之后，组件都会向Client返回一个事件，以此表明命令的执行结果。注意：OMX_StateInvalid状态不会产生此事件消息。</li>
+<li>OMX_EventError：组件发生了一个错误。错误值会作为一个参数返回给Client，错误值就是错误枚举类型里面的成员。</li>
+<li>OMX_EventMark：一个buffer标记以及到达指定的组件，此时组件会返回给Client一个此事件消息，并且Client还会通过私有的结构体指针成员获取到相关的数据信息。</li>
+<li>OMX_EventPortSettingsChanged：组件改变端口的设置。比如编码组件在运行的过程中发现要编码的数据流宽高发生了变化，此时就会改变端口的宽高设置。</li>
+<li>OMX_EventBufferFlag：检测到bit流结束时由组件内部产生。当输出端口检测到buffer的nFlags为被设置为<code>OMX_BUFFERFLAG_EOS</code>，在返回的参数中，nData1指定输出端口的portindex，nData2则是传递nFlags给Client。如果组件是sink类型的（数据流终点），则nData1传递的是输入端口的portindex。</li>
+<li>OMX_EventResourcesAcquired：组件已经接收到了相关资源（资源分配），此时状态正从OMX_StateWaitForResources转换为OMX_StateIdle state。</li>
+</ul>
+<h3 id="OMX-BUFFERSUPPLIERTYPE"><a href="#OMX-BUFFERSUPPLIERTYPE" class="headerlink" title="OMX_BUFFERSUPPLIERTYPE"></a>OMX_BUFFERSUPPLIERTYPE</h3><p>用来指明tunnel（建立隧道链接）的port中哪个是数据提供者（buffer supplier port），buffer提供者port可能有属于自己的独立分配的buffer内存空间，也可能与同一组件内部其它的port共享同一个buffer内存空间，<strong>由此可见该枚举类型用于隧道链接的建立设置（tunnel setup）</strong>。该枚举类型成员有如下几个：</p>
+<ul>
+<li>OMX_BufferSupplyUnspecified：未指定buffer提供者端口，或者根本就没有（不需要）buffer提供者。</li>
+<li>OMX_BufferSupplyInput：输入端口充当buffer提供者。</li>
+<li>OMX_BufferSupplyOutput：输出端口充当buffer提供者。</li>
+</ul>
+<h2 id="组件实例相关结构体"><a href="#组件实例相关结构体" class="headerlink" title="组件实例相关结构体"></a>组件实例相关结构体</h2><h3 id="OMX-COMPONENTREGISTERTYPE"><a href="#OMX-COMPONENTREGISTERTYPE" class="headerlink" title="OMX_COMPONENTREGISTERTYPE"></a>OMX_COMPONENTREGISTERTYPE</h3><p>原型：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_COMPONENTREGISTERTYPE</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">const</span> <span class="keyword">char</span> * pName;</div><div class="line">    OMX_COMPONENTINITTYPE pInitialize;</div><div class="line">&#125; OMX_COMPONENTREGISTERTYPE;</div></pre></td></tr></table></figure></p>
+<p>该结构体负责组件的注册工作，<code>pName</code>是组件的名字，通常是唯一的，<code>pInitialize</code>是组件的初始化函数，该成员类型的定义是：<code>typedef OMX_ERRORTYPE (* OMX_COMPONENTINITTYPE)(OMX_IN  OMX_HANDLETYPE hComponent);</code>由此可见<code>hComponent</code>被提前分配，然后被传递给初始化回调函数，在初始化回调函数里面进行整个组件资源分配、环境的初始化工作。</p>
+<p>通常情况下，该结构体总是以数组成员的方式被定义在一个<code>OMX_ComponentRegistered[]</code>类型的数组当中，属于<strong>全局、静态的</strong>。要创建一个组件时需要根据组件的名字赖在数组里面进行匹配，如果匹配到相关的数组成员，就调用初始化回调函数正式初始化创建组件。</p>
+<h3 id="OMX-BUFFERHEADERTYPE"><a href="#OMX-BUFFERHEADERTYPE" class="headerlink" title="OMX_BUFFERHEADERTYPE"></a>OMX_BUFFERHEADERTYPE</h3><p>该结构体是<strong>buffer的抽象化实例对象</strong>。前面的几篇文章当中也提到过，在OpenMAX组件当中，buffer的传递经常是以buffer的描述符（往往包含buffer的地址、长宽、格式等信息）来传递的，而不是实际的buffer本身，当需要处理的时候才真正地去访问实际的buffer内存，这是为了减少大buffer的拷贝，降低CPU的负载。事实上Linux内核里面的V4L2架构也是采用buffer描述符的形式来传递buffer数据，这种设计理念与原则可以延伸到所有涉及到大量的buffer操作的系统当中，参考意义非常大。</p>
+<p><strong>OpenMAX中提到的buffer在大部分情况下就是说的这个结构体实例，buffer的传递就指的是该结构体实例的传递，buffer的处理才是真正访问内存的部分。</strong></p>
+<p>原型：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_BUFFERHEADERTYPE</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U8* pBuffer;</div><div class="line">    OMX_U32 nAllocLen;</div><div class="line">    OMX_U32 nFilledLen;</div><div class="line">    OMX_U32 nOffset;</div><div class="line">    OMX_PTR pAppPrivate;</div><div class="line">    OMX_PTR pPlatformPrivate;</div><div class="line">    OMX_U32 nOutputPortPrivate;</div><div class="line">    OMX_U32 nInputPortPrivate;</div><div class="line">    OMX_HANDLETYPE hMarkTargetComponent;</div><div class="line">    OMX_PTR pMarkData;</div><div class="line">    OMX_U32 nTickCount;</div><div class="line">    OMX_TICKS nTimeStamp;</div><div class="line">    OMX_U32 nFlags;</div><div class="line">    OMX_U32 nOutputPortIndex;</div><div class="line">    OMX_U32 nInputPortIndex;</div><div class="line">&#125; OMX_BUFFERHEADERTYPE;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>nSize：buffer的总大小。</li>
+<li>pBuffer：buffer的数据存储地址。</li>
+<li>nAllocLen：分配的buffer的总大小，包括有效数据空间与未使用的内存空间。</li>
+<li>nFilledLen：有效的数据长度，其起始地址由pBuffer与nOffset共同决定。</li>
+<li>nOffset：有效数据的起始偏移值，相对于pBuffer来说的。</li>
+<li>pAppPrivate：指向IL Client的私有数据。</li>
+<li>hMarkTargetComponent：在接收到带有标记的buffer之后，处理完毕时需要发送OMX_EventMark 事件的组件句柄。</li>
+<li>pMarkData：指向IL Client特定的数据，等于说是一个特定的标记，不同的buffer可以由该成员来打上不同的标记数据，进而产生不同的处理结果。IL Client在发送<code>OMX_CommandMarkBuffer</code>命令的时候把标记数据的指针传递给组件，组件会把相关的标记数据拷贝到该成员中，最后传递给<code>hMarkTargetComponent</code>。</li>
+<li>nFlags：该标志位包含了buffer的特定标志，比如EOS（流结束）标志等，以下是不同标志位的定义：<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_BUFFERFLAG_EOS 0x00000001</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_BUFFERFLAG_STARTTIME 0x00000002 <span class="comment">//由数据源组件产生，此时buffer的nTimeStamp就是起始基准值</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_BUFFERFLAG_DECODEONLY 0x00000004</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_BUFFERFLAG_DATACORRUPT 0x00000008 <span class="comment">//由IL Client产生，表明此buffer是坏的</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> OMX_BUFFERFLAG_ENDOFFRAME 0x00000010</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>举例来说明下各个成员的作用，比如说编码组件需要对一个1280<em>720大小的帧进行编码，那么它可能预先需要申请一个1280</em>720*4/3大小的buffer（原始数据的四分之三），由于编码出来的数据大小不一定，所以<code>nFilledLen</code>与<code>nAllocLen</code>大小就不一致，如果编码出来的数据需要加上一个前缀（比如表示其是H264还是其它的编码之类的），那么<code>nOffset</code>就不会为0了：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/buffer_header.JPG" alt="编码的Buffer结构"></center><br><center>编码的Buffer结构</center>
+
+<h3 id="OMX-CALLBACKTYPE"><a href="#OMX-CALLBACKTYPE" class="headerlink" title="OMX_CALLBACKTYPE"></a>OMX_CALLBACKTYPE</h3><p>在OpenMAX中，有一个很重要的点就是回调机制，回调机制提供了组件到IL Client的单向数据传递，组件里面的回调常用于通知IL Client某些命令已经执行完毕（比如状态设置），下面几种情况下会触发组件的回调机制：</p>
+<ul>
+<li>当一个异步的命令被执行完毕（成功、失败或错误）时就需要产生一个回调事件以通知IL Client命令的执行情况。</li>
+<li>组件发生一些错误的时候（这些错误不是IL Client产生的命令执行过程产生的）。比如组件内部产生不可恢复的错误并且需要转换到<code>OMX_StateInvalid</code>状态时就会触发回调机制。</li>
+</ul>
+<p>该结构体的原型如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_CALLBACKTYPE</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    OMX_ERRORTYPE (*EventHandler)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_EVENTTYPE eEvent,</div><div class="line">        OMX_IN OMX_U32 nData1,</div><div class="line">        OMX_IN OMX_U32 nData2,</div><div class="line">        OMX_IN OMX_PTR pEventData);</div><div class="line">    OMX_ERRORTYPE (*EmptyBufferDone)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line">    OMX_ERRORTYPE (*FillBufferDone)(</div><div class="line">        OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">        OMX_IN OMX_PTR pAppData,</div><div class="line">        OMX_IN OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line">&#125; OMX_CALLBACKTYPE;</div></pre></td></tr></table></figure></p>
+<p>上面三个回调函数成员需要IL Client实现，并在<code>OMX_GetHandle</code>函数里面设置填充到组件的自定义结构体成员里面然后就可以在组件内部去调用这些回调函数了。</p>
+<ul>
+<li>EventHandler:<br>组件通过该回调方法向IL Client发送各种事件，在IL Client端的该方法实现中可以对感兴趣的消息进行分发处理（可以用switch语句实现），<code>OMX_EVENTTYPE</code>枚举定义了组件可以产生的事件种类。<code>nData1</code>参数一般会放置<code>OMX_COMMANDTYPE</code>枚举类型（该命令被组件处理完毕）或者<code>OMX_ERRORTYPE</code>枚举类型（组件处理命令时发生错误或其它错误）；<code>nData2</code>可以放置一些额外的参数（比如状态转换命令时的目的状态<code>OMX_STATETYPE</code>枚举）。<code>pEventData</code>是与事件相关的特定类型的数据，类型由IL Client与组件进行协商规定，该回调是加锁调用的，所以IL Client实现该回调的时候需要在5ms之内返回。下表给出了几种事件和与之对应的各个参数组合：</li>
+</ul>
+<table border="1"><tr><th>eEvent</th><th>nData1</th><th>nData2</th><th>pEventData</th></tr><tr><th rowspan="5" align="center">OMX_EventCmdComplete</th><td>OMX_CommandStateSet</td><td>要到达的状态</td><td>空</td></tr><tr><td>OMX_CommandFlush</td><td>端口号</td><td>空</td></tr><tr><td>OMX_CommandPortDisable</td><td>端口号</td><td>空</td></tr><tr><td>OMX_CommandPortEnable</td><td>端口号</td><td>空</td></tr><tr><td>OMX_CommandMarkBuffer</td><td>端口号</td><td>空</td></tr><tr><td>OMX_EventError</td><td>错误码</td><td>0</td><td>空</td></tr><tr><td>OMX_EventMark</td><td>0</td><td>0</td><td>与mark相关的数据</td></tr><tr><td>OMX_EventPortSettingsChanged</td><td>端口号</td><td>0</td><td>空</td></tr><tr><td>OMX_EventBufferFlag</td><td>端口号</td><td>nFlags</td><td>空</td></tr><tr><td>OMX_EventResourcesAcquired</td><td>0</td><td>0</td><td>空</td></tr></table>
+
+<ul>
+<li><p>EmptyBufferDone<br>该回调函数用于组件从输入端口（Input Port）拿出一帧数据还回给IL Client（可以看出这种状态下默认IL Client送给组件的数据已经被拷贝到组件私有内存空间了，所以可以直接还回），但是很多时候组件并不会自己再次开辟一个内存空间，而是与IL Client公用同一个内存空间，这时IL Client需要对buffer进行引用计数，并且在组件处理完毕数据之前是不应该还回数据的，所以这个回调函数很多时候并不用实现。</p>
+</li>
+<li><p>FillBufferDone<br>组件调用该回调从组件的输出端口（Output Port）拿出一帧数据还回给IL Client，道理同上。<strong>需要注意的是，这三个回调函数都是在加锁的情况下被调用，所以IL Client在实现这些函数的时候要保证能够在5ms之内返回。</strong></p>
+</li>
+</ul>
+<h3 id="端口定义相关的数据类型"><a href="#端口定义相关的数据类型" class="headerlink" title="端口定义相关的数据类型"></a>端口定义相关的数据类型</h3><ul>
+<li><code>OMX_PORT_PARAM_TYPE</code><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_PORT_PARAM_TYPE</span> &#123;</span></div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U32 nPorts;</div><div class="line">    OMX_U32 nStartPortNumber;</div><div class="line">&#125; OMX_PORT_PARAM_TYPE;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>用于指定组件端口的数量(<code>nPorts</code>)与起始标号(<code>nStartPortNumber</code>)。</p>
+<ul>
+<li><code>OMX_PARAM_PORTDEFINITIONTYPE</code><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">OMX_PARAM_PORTDEFINITIONTYPE</span> &#123;</span></div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U32 nPortIndex;</div><div class="line">    OMX_DIRTYPE eDir;</div><div class="line">    OMX_U32 nBufferCountActual;</div><div class="line">    OMX_U32 nBufferCountMin;</div><div class="line">    OMX_U32 nBufferSize;</div><div class="line">    OMX_BOOL bEnabled;</div><div class="line">    OMX_BOOL bPopulated;</div><div class="line">    OMX_PORTDOMAINTYPE eDomain;</div><div class="line">    <span class="keyword">union</span> &#123;</div><div class="line">        OMX_AUDIO_PORTDEFINITIONTYPE audio;</div><div class="line">        OMX_VIDEO_PORTDEFINITIONTYPE video;</div><div class="line">        OMX_IMAGE_PORTDEFINITIONTYPE image;</div><div class="line">        OMX_OTHER_PORTDEFINITIONTYPE other;</div><div class="line">    &#125; format;</div><div class="line">&#125; OMX_PARAM_PORTDEFINITIONTYPE;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>端口的实例化对象，一个该结构体类型的变量就用于代表组件的一个端口。</p>
+<ol>
+<li><code>nPortIndex</code>：只读，表明该端口的索引号，对于同一个组件来说，其端口号是各不相同的，而不同的组件的端口号可以相同。</li>
+<li><code>eDir</code>：指定端口的数据流向，（<code>OMX_DirInput</code>-输入，<code>OMX_DirOutput</code>-输出）。</li>
+<li><code>bEnabled</code>：表明端口是否被使能。<code>OMX_CommandPortEnable</code>或者<code>OMX_CommandPortDisable</code>。</li>
+<li><code>eDomain</code>：表示该端口所在的域，有<code>OMX_PortDomainAudio</code>,<code>OMX_PortDomainVideo</code>,<code>OMX_PortDomainImage</code>,<code>OMX_PortDomainOther</code>四种枚举。</li>
+<li><code>format</code>：共用体类型，根据<code>eDomain</code>指定的域来选择相应的结构体来填充。</li>
+</ol>
+<h2 id="组件相关的宏定义"><a href="#组件相关的宏定义" class="headerlink" title="组件相关的宏定义"></a>组件相关的宏定义</h2><p>下面列举部分OpenMAX官方提供的宏定义，专门用来帮助IL Client来完成对组件的各种操作，具体宏定义的原型就不再详述了，可以根据名字参照OpenMAX提供的头文件代码查看并使用。</p>
+<ul>
+<li><code>OMX_SendCommand</code>：向指定的组件发送命令。</li>
+<li><code>OMX_CommandStateSet</code>：设置指定组件的状态。</li>
+<li><code>OMX_Get/SetParameter</code>：获取/设置指定组件的参数。</li>
+<li><code>OMX_Get/SetConfig</code>：获取/设置指定组件的配置。</li>
+<li><code>OMX_EmptyThisBuffer</code>：像指定组件传递buffer数据，传递buffer数据到组件的输入端口。</li>
+<li><code>OMX_FillThisBuffer</code>：像指定组件还回buffer数据，传递buffer数据到组件的输出端口。</li>
+<li><code>OMX_Init/OMX_Deinit</code>：组件的初始化/销毁。</li>
+<li><code>OMX_GetHandle</code>：获取组件的实例化对象（句柄）。</li>
+<li><code>OMX_SetupTunnel</code>：在两个组件之间建立连接（tunnel）。</li>
+</ul>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本文主要介绍了OpenMAX官方头文件里面定义的一些数据类型，其中大部分的数据类型是需要我们自己去实现的，就是说OpenMAX只是提供了一个框架与一套API接口，而接口的具体实现则要靠我们自行编写代码去实现，并且也不是完全不可变的，而是根据实际开发的需要来适当改变一些实现方法来更好地满足开发设计需求。</p>
+<p><strong>可以看出来组件的设计方法与linux内核里面的media framework非常相似，都是将一个具体的功能模块抽象为一个（元件），模块之间的连接抽象为（走线），而端口就是（管脚），这个跟电路板上面的电路组成十分相似，可以看出来有时候软件设计有时候可以从硬件设计上面获取灵感，以实现更好的效果，或许除了硬件，还可以从更多的地方来获取到软件设计的方法与思想。</strong></p>
+<hr>
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>关注微信查看更多干货</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
 
       
 
@@ -339,7 +555,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#导读"><span class="toc-number">1.</span> <span class="toc-text">导读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#头文件"><span class="toc-number">2.</span> <span class="toc-text">头文件</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#导读"><span class="toc-number">1.</span> <span class="toc-text">导读</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#头文件"><span class="toc-number">2.</span> <span class="toc-text">头文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据结构"><span class="toc-number">3.</span> <span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型（OMX-Core-h）"><span class="toc-number">3.1.</span> <span class="toc-text">数据类型（OMX_Core.h）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-COMMANDTYPE"><span class="toc-number">3.2.</span> <span class="toc-text">OMX_COMMANDTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-ERRORTYPE"><span class="toc-number">3.3.</span> <span class="toc-text">OMX_ERRORTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-EVENTTYPE"><span class="toc-number">3.4.</span> <span class="toc-text">OMX_EVENTTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-BUFFERSUPPLIERTYPE"><span class="toc-number">3.5.</span> <span class="toc-text">OMX_BUFFERSUPPLIERTYPE</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件实例相关结构体"><span class="toc-number">4.</span> <span class="toc-text">组件实例相关结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-COMPONENTREGISTERTYPE"><span class="toc-number">4.1.</span> <span class="toc-text">OMX_COMPONENTREGISTERTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-BUFFERHEADERTYPE"><span class="toc-number">4.2.</span> <span class="toc-text">OMX_BUFFERHEADERTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OMX-CALLBACKTYPE"><span class="toc-number">4.3.</span> <span class="toc-text">OMX_CALLBACKTYPE</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#端口定义相关的数据类型"><span class="toc-number">4.4.</span> <span class="toc-text">端口定义相关的数据类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件相关的宏定义"><span class="toc-number">5.</span> <span class="toc-text">组件相关的宏定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结语"><span class="toc-number">6.</span> <span class="toc-text">结语</span></a></li></ol>
                     </div>
                 </span>
             </div>

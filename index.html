@@ -243,7 +243,7 @@ var _hmt = _hmt || [];
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/22/OpwnMAX编程-数据结构/">OpwnMAX编程-数据结构</a>
+      <a class="article-title" href="/2017/10/22/OpwnMAX编程-数据结构/">OpenMAX编程-数据结构</a>
     </h1>
   
 
@@ -256,12 +256,12 @@ var _hmt = _hmt || [];
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。</p>
-<p>该文章中提到的IL Client可以看作是组件的使用者。</p>
-<h2 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h2><p><a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">[头文件下载地址]</a>:<a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip</a></p>
-<p>OpenMAX官方提供了一系列的头文件，里面定义了包括组件结构体、音视频相关结构体、命令控制API等等。这些定义可以使得Client控制音频(audio)、视频(video)、图像(image)等类型的多媒体组件。其它(other)域则提供了一些额外的组件功能，比如音视频同步（可以用clock实现）。</p>
-<p>头文件列表如下所示：<br>|文件|描述|<br>|:–:|:–:|<br>|OMX_Types.h|数据类型|<br>|OMX_Core.h|OpenMAX IL core API|<br>|OMX_Component.h|OpenMAX component API|<br>|OMX_Audio.h|OpenMAX audio domain data structures|<br>|OMX_IVCommon.h|OpenMAX structures common to image and video domains|<br>|OMX_Video.h|OpenMAX video domain data structures|<br>|OMX_Image.h|OpenMAX image domain data structures|<br>|OMX_Other.h|OpenMAX other domain data structures (includes A/V synchronization)|<br>|OMX_Index.h|Index of all OpenMAX-defined data structures|</p>
-
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。</p>
+<p><font color="red">该文章中提到的IL Client可以看作是组件的使用者，负责组件的创建、销毁、命令控制等等。<strong>注意本文章需要结合例程代码去看，否则会觉得本文不知所云。代码参考<a href="http://blog.csdn.net/u013904227/article/details/78242464" target="_blank" rel="external">OpenMAX编程-组件</a>一文中的<em>OpenMAX IL sample</em>下载链接</strong></font><br><!--less--><br>
+        
+          <a class="article-more-a" href="/2017/10/22/OpwnMAX编程-数据结构/#more">more >></a>
+        
       
 
       

@@ -7,14 +7,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives: 2017 | YellowMax的博客</title>
+  <title>OpenMAX编程-实现一个组件 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/2017/page/2/index.html">
+  <meta name="description" content="往期文章索引：02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。 注意：该文章主要介绍组件内部代码的实现，其余">
+<meta name="keywords" content="C语言,编程,OpenMAX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMAX编程-实现一个组件">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/12/03/OpenMAX编程-实现一个组件/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="往期文章索引：02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。 注意：该文章主要介绍组件内部代码的实现，其余">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/各状态下回调函数是否可执行.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/buffer_trans.JPG">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态转换.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件内部线程.JPG">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件绑定过程.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta property="og:updated_time" content="2018-01-07T13:22:27.192Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="OpenMAX编程-实现一个组件">
+<meta name="twitter:description" content="往期文章索引：02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。 注意：该文章主要介绍组件内部代码的实现，其余">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/各状态下回调函数是否可执行.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,109 +166,323 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OpenMAX编程-实现一个组件" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
+    <h1 class="article-title" itemprop="name">
+      OpenMAX编程-实现一个组件
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/12/03/OpenMAX编程-实现一个组件/" class="archive-article-date">
+  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>往期文章索引：<br><a href="http://blog.csdn.net/u013904227/article/details/78576739" target="_blank" rel="external">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<p>导读：<br>本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。</p>
+<p>注意：该文章主要介绍<font color="blue"><strong>组件内部代码</strong></font>的实现，其余部分简略介绍，实际上完整的组件还包括有<strong>组件类型的管理，组件绑定模块，组件句柄的分配</strong>，然后才是下面的各个组件的实现，但是OpenMAX的标准化使得我们编写组件内部代码的时候不必过于关心更上层的组件管理代码的实现，只需要知道应该按照什么样的规则去编写组件内部代码即可。</p>
+<a id="more"></a>
+<h2 id="编程涉及模块"><a href="#编程涉及模块" class="headerlink" title="编程涉及模块"></a>编程涉及模块</h2><ul>
+<li>组件实例结构体：包含组件的各个功能模块</li>
+<li>命令控制模块：用于IL Client控制组件的各种行为，包括状态转换，组件退出，部分buffer数据的处理等等。</li>
+<li>事件回调模块：组件向IL Client回返通知，用以表明组件已经完成某些工作。比如状态转换完毕时、数据处理完毕时都会产生一个特定的事件回调以通知IL Client已经完成工作。</li>
+<li>参数设置/获取：用于IL Client配置组件参数，该部分也可以实现自定义的控制函数。</li>
+<li>状态转换：用于实现组件的数据控制以及组件之间的数据同步。</li>
+<li><font color="blue">buffer数据管理与同步：用于组件内部输入输出buffer的管理，组件之间的数据同步操作。</font></li>
+<li><font color="blue">组件绑定与解绑：用于连接组件以及去除连接。</font>
+
+</li>
+</ul>
+<h2 id="组件主体框架的搭建"><a href="#组件主体框架的搭建" class="headerlink" title="组件主体框架的搭建"></a>组件主体框架的搭建</h2><h3 id="组件的初始化函数"><a href="#组件的初始化函数" class="headerlink" title="组件的初始化函数"></a>组件的初始化函数</h3><p>原型：<code>typedef OMX_ERRORTYPE (* OMX_COMPONENTINITTYPE)(OMX_IN  OMX_HANDLETYPE hComponent);</code>。所有的组件都是通过该函数来进行初始化创建的，该函数等于说是整个组件内部世界的入口，该函数的参数则是整个组件的句柄，由IL Client分配空间并传入给该函数进行填充与初始化。该函数的参数是一个<code>void *</code>类型的指针，意味着组件的编写者可以自行定义组件句柄的结构体类型，但通常情况下，组件句柄类型都是一个<code>OMX_COMPONENTTYPE</code>类型的结构体，其原型如下：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** The OMX_HANDLETYPE structure defines the component handle.  The component </span></div><div class="line"><span class="comment"> *  handle is used to access all of the component's public methods and also</span></div><div class="line"><span class="comment"> *  contains pointers to the component's private data area.  The component</span></div><div class="line"><span class="comment"> *  handle is initialized by the OMX core (with help from the component)</span></div><div class="line"><span class="comment"> *  during the process of loading the component.  After the component is</span></div><div class="line"><span class="comment"> *  successfully loaded, the application can safely access any of the</span></div><div class="line"><span class="comment"> *  component's public functions (although some may return an error because</span></div><div class="line"><span class="comment"> *  the state is inappropriate for the access).</span></div><div class="line"><span class="comment"> */</span></div><div class="line"><span class="selector-tag">typedef</span> <span class="selector-tag">struct</span> <span class="selector-tag">OMX_COMPONENTTYPE</span></div><div class="line">&#123;</div><div class="line">    <span class="comment">/** The size of this structure, in bytes.  It is the responsibility</span></div><div class="line"><span class="comment">        of the allocator of this structure to fill in this value.  Since</span></div><div class="line"><span class="comment">        this structure is allocated by the GetHandle function, this</span></div><div class="line"><span class="comment">        function will fill in this value. */</span></div><div class="line">    <span class="selector-tag">OMX_U32</span> <span class="selector-tag">nSize</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** nVersion is the version of the OMX specification that the structure </span></div><div class="line"><span class="comment">        is built against.  It is the responsibility of the creator of this </span></div><div class="line"><span class="comment">        structure to initialize this value and every user of this structure </span></div><div class="line"><span class="comment">        should verify that it knows how to use the exact version of </span></div><div class="line"><span class="comment">        this structure found herein. */</span></div><div class="line">    <span class="selector-tag">OMX_VERSIONTYPE</span> <span class="selector-tag">nVersion</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** pComponentPrivate is a pointer to the component private data area.  </span></div><div class="line"><span class="comment">        This member is allocated and initialized by the component when the </span></div><div class="line"><span class="comment">        component is first loaded.  The application should not access this </span></div><div class="line"><span class="comment">        data area. */</span></div><div class="line">    <span class="selector-tag">OMX_PTR</span> <span class="selector-tag">pComponentPrivate</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** pApplicationPrivate is a pointer that is a parameter to the </span></div><div class="line"><span class="comment">        OMX_GetHandle method, and contains an application private value </span></div><div class="line"><span class="comment">        provided by the IL client.  This application private data is </span></div><div class="line"><span class="comment">        returned to the IL Client by OMX in all callbacks */</span></div><div class="line">    <span class="selector-tag">OMX_PTR</span> <span class="selector-tag">pApplicationPrivate</span>;</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_GetComponentVersion in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the GetComponentVersion method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*GetComponentVersion)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_OUT OMX_STRING pComponentName,</div><div class="line">            OMX_OUT OMX_VERSIONTYPE* pComponentVersion,</div><div class="line">            OMX_OUT OMX_VERSIONTYPE* pSpecVersion,</div><div class="line">            OMX_OUT OMX_UUIDTYPE* pComponentUUID);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_SendCommand in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the SendCommand method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*SendCommand)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_COMMANDTYPE Cmd,</div><div class="line">            OMX_IN  OMX_U32 nParam1,</div><div class="line">            OMX_IN  OMX_PTR pCmdData);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_GetParameter in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the GetParameter method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*GetParameter)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent, </div><div class="line">            OMX_IN  OMX_INDEXTYPE nParamIndex,  </div><div class="line">            OMX_INOUT OMX_PTR ComponentParameterStructure);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_SetParameter in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the SetParameter method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*SetParameter)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent, </div><div class="line">            OMX_IN  OMX_INDEXTYPE nIndex,</div><div class="line">            OMX_IN  OMX_PTR ComponentParameterStructure);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_GetConfig in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the GetConfig method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*GetConfig)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_INDEXTYPE nIndex, </div><div class="line">            OMX_INOUT OMX_PTR pComponentConfigStructure);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_SetConfig in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the SetConfig method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*SetConfig)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_INDEXTYPE nIndex, </div><div class="line">            OMX_IN  OMX_PTR pComponentConfigStructure);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_GetExtensionIndex in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the GetExtensionIndex method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*GetExtensionIndex)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_STRING cParameterName,</div><div class="line">            OMX_OUT OMX_INDEXTYPE* pIndexType);</div><div class="line"></div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_GetState in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the GetState method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*GetState)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_OUT OMX_STATETYPE* pState);</div><div class="line"></div><div class="line">    </div><div class="line">    <span class="comment">/** The ComponentTunnelRequest method will interact with another OMX</span></div><div class="line"><span class="comment">        component to determine if tunneling is possible and to setup the</span></div><div class="line"><span class="comment">        tunneling.  The return codes for this method can be used to </span></div><div class="line"><span class="comment">        determine if tunneling is not possible, or if tunneling is not</span></div><div class="line"><span class="comment">        supported.  </span></div><div class="line"><span class="comment">        </span></div><div class="line"><span class="comment">        Base profile components (i.e. non-interop) do not support this</span></div><div class="line"><span class="comment">        method and should return OMX_ErrorNotImplemented </span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">        The interop profile component MUST support tunneling to another </span></div><div class="line"><span class="comment">        interop profile component with a compatible port parameters.  </span></div><div class="line"><span class="comment">        A component may also support proprietary communication.</span></div><div class="line"><span class="comment">        </span></div><div class="line"><span class="comment">        If proprietary communication is supported the negotiation of </span></div><div class="line"><span class="comment">        proprietary communication is done outside of OMX in a vendor </span></div><div class="line"><span class="comment">        specific way. It is only required that the proper result be </span></div><div class="line"><span class="comment">        returned and the details of how the setup is done is left </span></div><div class="line"><span class="comment">        to the component implementation.  </span></div><div class="line"><span class="comment">    </span></div><div class="line"><span class="comment">        When this method is invoked when nPort in an output port, the</span></div><div class="line"><span class="comment">        component will:</span></div><div class="line"><span class="comment">        1.  Populate the pTunnelSetup structure with the output port's </span></div><div class="line"><span class="comment">            requirements and constraints for the tunnel.</span></div><div class="line"><span class="comment"></span></div><div class="line"><span class="comment">        When this method is invoked when nPort in an input port, the</span></div><div class="line"><span class="comment">        component will:</span></div><div class="line"><span class="comment">        1.  Query the necessary parameters from the output port to </span></div><div class="line"><span class="comment">            determine if the ports are compatible for tunneling</span></div><div class="line"><span class="comment">        2.  If the ports are compatible, the component should store</span></div><div class="line"><span class="comment">            the tunnel step provided by the output port</span></div><div class="line"><span class="comment">        3.  Determine which port (either input or output) is the buffer</span></div><div class="line"><span class="comment">            supplier, and call OMX_SetParameter on the output port to</span></div><div class="line"><span class="comment">            indicate this selection.</span></div><div class="line"><span class="comment">        </span></div><div class="line"><span class="comment">        The component will return from this call within 5 msec.</span></div><div class="line"><span class="comment">    </span></div><div class="line"><span class="comment">        @param [in] hComp</span></div><div class="line"><span class="comment">            Handle of the component to be accessed.  This is the component</span></div><div class="line"><span class="comment">            handle returned by the call to the OMX_GetHandle method.</span></div><div class="line"><span class="comment">        @param [in] nPort</span></div><div class="line"><span class="comment">            nPort is used to select the port on the component to be used</span></div><div class="line"><span class="comment">            for tunneling.</span></div><div class="line"><span class="comment">        @param [in] hTunneledComp</span></div><div class="line"><span class="comment">            Handle of the component to tunnel with.  This is the component </span></div><div class="line"><span class="comment">            handle returned by the call to the OMX_GetHandle method.  When</span></div><div class="line"><span class="comment">            this parameter is 0x0 the component should setup the port for</span></div><div class="line"><span class="comment">            communication with the application / IL Client.</span></div><div class="line"><span class="comment">        @param [in] nPortOutput</span></div><div class="line"><span class="comment">            nPortOutput is used indicate the port the component should</span></div><div class="line"><span class="comment">            tunnel with.</span></div><div class="line"><span class="comment">        @param [in] pTunnelSetup</span></div><div class="line"><span class="comment">            Pointer to the tunnel setup structure.  When nPort is an output port</span></div><div class="line"><span class="comment">            the component should populate the fields of this structure.  When</span></div><div class="line"><span class="comment">            When nPort is an input port the component should review the setup</span></div><div class="line"><span class="comment">            provided by the component with the output port.</span></div><div class="line"><span class="comment">        @return OMX_ERRORTYPE</span></div><div class="line"><span class="comment">            If the command successfully executes, the return code will be</span></div><div class="line"><span class="comment">            OMX_NoError.  Otherwise the appropriate OMX error will be returned.</span></div><div class="line"><span class="comment">    */</span></div><div class="line"></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*ComponentTunnelRequest)(</div><div class="line">        OMX_IN  OMX_HANDLETYPE hComp,</div><div class="line">        OMX_IN  OMX_U32 nPort,</div><div class="line">        OMX_IN  OMX_HANDLETYPE hTunneledComp,</div><div class="line">        OMX_IN  OMX_U32 nTunneledPort,</div><div class="line">        OMX_INOUT  OMX_TUNNELSETUPTYPE* pTunnelSetup); </div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_UseBuffer in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the UseBuffer method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*UseBuffer)(</div><div class="line">            OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_INOUT OMX_BUFFERHEADERTYPE** ppBufferHdr,</div><div class="line">            OMX_IN OMX_U32 nPortIndex,</div><div class="line">            OMX_IN OMX_PTR pAppPrivate,</div><div class="line">            OMX_IN OMX_U32 nSizeBytes,</div><div class="line">            OMX_IN OMX_U8* pBuffer);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_AllocateBuffer in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the AllocateBuffer method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*AllocateBuffer)(</div><div class="line">            OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_INOUT OMX_BUFFERHEADERTYPE** ppBuffer,</div><div class="line">            OMX_IN OMX_U32 nPortIndex,</div><div class="line">            OMX_IN OMX_PTR pAppPrivate,</div><div class="line">            OMX_IN OMX_U32 nSizeBytes);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_FreeBuffer in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the FreeBuffer method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*FreeBuffer)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_U32 nPortIndex,</div><div class="line">            OMX_IN  OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_EmptyThisBuffer in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the EmptyThisBuffer method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*EmptyThisBuffer)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line"></div><div class="line">    <span class="comment">/** refer to OMX_FillThisBuffer in OMX_core.h or the OMX IL </span></div><div class="line"><span class="comment">        specification for details on the FillThisBuffer method.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*FillThisBuffer)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_BUFFERHEADERTYPE* pBuffer);</div><div class="line"></div><div class="line">    <span class="comment">/** The SetCallbacks method is used by the core to specify the callback</span></div><div class="line"><span class="comment">        structure from the application to the component.  This is a blocking</span></div><div class="line"><span class="comment">        call.  The component will return from this call within 5 msec.</span></div><div class="line"><span class="comment">        @param [in] hComponent</span></div><div class="line"><span class="comment">            Handle of the component to be accessed.  This is the component</span></div><div class="line"><span class="comment">            handle returned by the call to the GetHandle function.</span></div><div class="line"><span class="comment">        @param [in] pCallbacks</span></div><div class="line"><span class="comment">            pointer to an OMX_CALLBACKTYPE structure used to provide the </span></div><div class="line"><span class="comment">            callback information to the component</span></div><div class="line"><span class="comment">        @param [in] pAppData</span></div><div class="line"><span class="comment">            pointer to an application defined value.  It is anticipated that </span></div><div class="line"><span class="comment">            the application will pass a pointer to a data structure or a "this</span></div><div class="line"><span class="comment">            pointer" in this area to allow the callback (in the application)</span></div><div class="line"><span class="comment">            to determine the context of the call</span></div><div class="line"><span class="comment">        @return OMX_ERRORTYPE</span></div><div class="line"><span class="comment">            If the command successfully executes, the return code will be</span></div><div class="line"><span class="comment">            OMX_NoError.  Otherwise the appropriate OMX error will be returned.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*SetCallbacks)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_CALLBACKTYPE* pCallbacks, </div><div class="line">            OMX_IN  OMX_PTR pAppData);</div><div class="line"></div><div class="line">    <span class="comment">/** ComponentDeInit method is used to deinitialize the component</span></div><div class="line"><span class="comment">        providing a means to free any resources allocated at component</span></div><div class="line"><span class="comment">        initialization.  <span class="doctag">NOTE:</span>  After this call the component handle is</span></div><div class="line"><span class="comment">        not valid for further use.</span></div><div class="line"><span class="comment">        @param [in] hComponent</span></div><div class="line"><span class="comment">            Handle of the component to be accessed.  This is the component</span></div><div class="line"><span class="comment">            handle returned by the call to the GetHandle function.</span></div><div class="line"><span class="comment">        @return OMX_ERRORTYPE</span></div><div class="line"><span class="comment">            If the command successfully executes, the return code will be</span></div><div class="line"><span class="comment">            OMX_NoError.  Otherwise the appropriate OMX error will be returned.</span></div><div class="line"><span class="comment">     */</span></div><div class="line">    <span class="selector-tag">OMX_ERRORTYPE</span> (*ComponentDeInit)(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent);</div><div class="line"></div><div class="line">&#125; <span class="selector-tag">OMX_COMPONENTTYPE</span>;</div></pre></td></tr></table></figure></p>
+<p>上面代码保留了所有的注释，以便自行了解各个成员的含义以及整个结构体的作用。组件的初始化就是将组件句柄结构体类型内部的成员全部填充好。接下来就是实现<code>OMX_COMPONENTINITTYPE</code>类型的组件初始化函数。在该函数里面需要做的事情如下：</p>
+<ul>
+<li>初始化该组件的端口，包括端口号、端口类型、端口属性等等</li>
+<li>初始化填充<code>OMX_COMPONENTTYPE</code>内部各种类型的回调函数指针</li>
+<li>做一些组件私有属性的设置（比如组件buffer分配，命令队列分配初始化，组件私有变量的初始化等等）</li>
+</ul>
+<h3 id="回调函数的实现"><a href="#回调函数的实现" class="headerlink" title="回调函数的实现"></a>回调函数的实现<span id="回调函数的实现"></span></h3><p>该部分详细介绍每一个组件内部回调函数的内部实现（<strong>具体的内部代码实现需要开发者自行实现，这里只讲函数里面大概需要做什么事以及各个函数的功能，照着这个指引就可以快速地去实现代码编写了</strong>），下面说的<strong>该结构体</strong>均是指<code>OMX_COMPONENTTYPE</code>结构体类型。先来看一张图，这张图说明了在各个状态下每一个回调函数是否可执行：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/各状态下回调函数是否可执行.png" alt="回调函数对应状态可执行表"></center><br><center>回调函数对应状态可执行表</center>
+
+<ul>
+<li>nSize：表明该结构体类型的大小，可想而知，该字段是由该结构体的分配者来进行填充，对应相关的回调函数是<code>GetHandle</code>（后面会介绍），不过暂时不必关心它的实现，只需要知道该字段由<code>GetHandle</code>填充，代表该结构体的大小即可，该字段也可以由组件本身去实现。当然，该字段不是必须的，可以选择不使用。</li>
+<li>nVersion：组件的版本，当组件有版本更新时用来表明版本号，通常用于保持组件升级迭代过程中保持各个组件之间的兼容性。该结构体内部包含有组件的主版本号、子版本号等等。</li>
+<li>pComponentPrivate：按照OpenMAX标准的说法，该指针是在组件第一次进入<code>Loaded</code>状态时才被分配并且初始化的，但是通常情况下，在组件初始化函数中就直接将组件的状态初始化为<code>Loaded</code>，因此该指针指向的类型通常由组件初始化函数来分配并进行填充的。该指针指向组件内部的私有结构体类型，<strong>这个私有结构体类型由组件内部自定义，只需要将该指针指向自己定义的结构体实例地址即可</strong>，通常包含有组件的各个flag变量、端口定义、buffer管理、组件状态描述等等，这些都用于组件自身的管理与功能实现，IL Client不会去访问。</li>
+<li>pApplicationPrivate：该指针作为<code>GetHandle</code>的参数传递给组件，它是IL Client层级的私有数据指针，并且组件所有的回调函数都会将该指针再次返回给IL Client（包含在<code>OMX_COMPONENTTYPE</code>类型中，作为成员返回）。IL Client可以与组件约定一些公认的变量，以此来在IL Client与组件之间传递某些信息。</li>
+<li>GetComponentVersion：获取组件的版本信息，该函数的调用是同步的，要求在5ms内返回。该函数需要填充三个成员，如<code>pComponentName</code>：不必多说，就是该组件的名称（char *）；<code>pComponentVersion</code>：组件的版本，由组件的厂商提供，完全取决于组件厂商；<code>pSpecVersion</code>：与上一个不同的是，该版本指的是组件编写时所参考的OpenMAX spec文档的标准版本号，也就是说厂商发布的第一版组件版本（version 0.1）可能对应的spec版本是openmax_il_spec_1_0（version 1.0），这里的区别需要注意下；<code>pComponentUUID</code>：由组件运行时指定，要求每一个组件的UUID都唯一，用于在全局范围内标定组件（因为同一个类型的组件可能会同时创建多个实例化对象，UUID不同就可以区分开它们）。</li>
+<li>SendCommand：该函数是非阻塞的，调用生成命令之后立即返回。该函数的主要作用是产生命令，并将命令放入命令队列里面，该函数的实现伪代码如下：<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">OMX_ERRORTYPE OMX_ComponentSendCommand(</div><div class="line">            OMX_IN  OMX_HANDLETYPE hComponent,</div><div class="line">            OMX_IN  OMX_COMMANDTYPE Cmd,</div><div class="line">            OMX_IN  OMX_U32 nParam1,</div><div class="line">            OMX_IN  OMX_PTR pCmdData)</div><div class="line">&#123;</div><div class="line">    <span class="comment">// Invalid状态下不可发送命令</span></div><div class="line">    <span class="keyword">if</span> (get_comp_state() == OMX_StateInvalid) &#123;</div><div class="line">        <span class="keyword">return</span> wrong_state;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        fill_command_instance(&amp;cmd_inst);</div><div class="line">        put_command_into_cmdlist(&amp;list, &amp;cmd_inst);</div><div class="line"></div><div class="line">        <span class="keyword">do</span> something;</div><div class="line">        <span class="keyword">if</span> everyting <span class="keyword">is</span> done, <span class="keyword">return</span> SUCCESS;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>最后，一定记得在组件获取命令执行完毕之后返回给IL Client一个事件，如果命令被成功执行，则返回一个<code>OMX_EventCmdComplete</code>类型的事件，否则就返回<code>OMX_EventError</code>类型的事件。</p>
+<ul>
+<li>GetParameter：获取组件的参数描述结构体，该函数是同步的，应该在20ms内返回。该函数的<code>nParamIndex</code>参数指定了需要获取的参数索引，通常是一个枚举类型（<code>OMX_INDEXTYPE</code>枚举类型，比如<code>OMX_IndexParamVideoInit</code>），用户可以根据自身的需要在头文件的枚举类型中扩展自己需要的枚举成员。除了<code>OMX_StateInvalid</code>状态不能执行之外，该函数只需要执行拷贝工作即可。也可以在<code>ComponentParameterStructure</code>参数里面传入一些信息，比如指定端口号等等，该参数是一个void *类型参数，由<code>nParamIndex</code>索引号来决定其实际的参数类型，由IL Client与组件共同商定。</li>
+<li>SetParameter：不必多说，与上一个相反，该回调是用来设置组件的参数的，拷贝方向是从IL Client传入的参数到组件内部，不过只有在<code>OMX_StateLoaded</code>与<code>OMX_StateWaitForResources</code>状态下可以执行，其余状态均需要返回状态错误的错误码。</li>
+<li>GetConfig：获取组件的配置，该函数与<code>GetParameter</code>很像。用于从组件里面获取一个配置，该回调函数在组件被初始化之后的任意时刻都可以被调用，调用者需要提前分配好<code>pComponentConfigStructure</code>对应的空间并填充大小与版本信息，该回调函数应该是加锁保护的（因为APP与组件会去访问同一个变量，需要互斥）。</li>
+<li>SetConfig：与上一个相反，用于向组件发送配置。比如音频相关组件的声音大小、均衡度之类的。<strong>另外，可以看到，Config与Parameter相关的设置获取回调函数参数一模一样，它们的参数索引号枚举类型也是一样的，都是<code>OMX_INDEXTYPE</code>类型的枚举，它们的区分并不是很严格，在一些场景下，既可以用Config，也可以用Parameter。</strong></li>
+<li><p>GetExtensionIndex：获取扩展的index（<code>OMX_INDEXTYPE</code>枚举类型），改回调函数是上面四个函数的扩展，用于加入一些厂商自定义的index类型，该函数不是必须的，通常情况下该函数的使用方式如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* step1： 根据特定的字符串描述获取与之对应的index */</span></div><div class="line"><span class="selector-tag">OMX_GetExtensionIndex</span>(</div><div class="line"><span class="selector-tag">hFileReaderComp</span>,</div><div class="line">"<span class="selector-tag">OMX</span><span class="selector-class">.CompanyXYZ</span><span class="selector-class">.index</span><span class="selector-class">.param</span><span class="selector-class">.filename</span>",</div><div class="line">&amp;<span class="selector-tag">eIndexParamFilename</span>);</div><div class="line"><span class="comment">/* step2： 根据上一步获取到的index调用OMX_SetParameter/Config宏定义设置参数或者配置到组件里面 */</span></div><div class="line"><span class="selector-tag">OMX_SetParameter</span>(<span class="selector-tag">hComp</span>, <span class="selector-tag">eIndexParamFilename</span>, &amp;<span class="selector-tag">oFileName</span>);</div></pre></td></tr></table></figure>
+</li>
+<li><p>GetState：获取组件的状态，比如在非绑定的状态下APP调用该函数来，获取组件的状态来决定是否向组件发送数据。还有一种应用场景是在设置组件状态时等待状态设置完毕（因为组件状态设置是通过发送命令来完成的，而这个过程是异步的，有时候我们需要确保状态确实被被设置进去了才能进行下一步的动作），示例代码如下：</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">OMX_SendCommand</span>(hComp, OMX_CommandStateSet, OMX_StateIdle, <span class="number">0</span>);</div><div class="line"><span class="selector-tag">do</span> &#123;</div><div class="line">    <span class="selector-tag">usleep</span>(<span class="number">5</span>*<span class="number">1000</span>);</div><div class="line">    <span class="selector-tag">OMX_GetState</span>(hComp, &amp;eState);</div><div class="line">&#125; <span class="selector-tag">while</span> (OMX_StateIdle != eState);</div></pre></td></tr></table></figure>
+</li>
+<li><p>ComponentTunnelRequest：重点来了，该回调函数用于组件绑定，在上层组件管理代码中，组件绑定函数被调用时需要绑定的两个组件的该回调函数会依次被调用用以实现最终的绑定工作。该函数可以支持buffer协商（由哪个组件的哪个端口提供buffer），当然也可以使用专用的通信方式（proprietary communication），在该模式下buffer的传输方向，buffer提供者均已在组件外部商定好了（厂商自行在组件外部进行自定义，组件内部只需要去获取这个定义即可，无需自行协商）。对于<code>nPort</code>参数是output类型的组件回调来说，它需要做的工作是填充<code>pTunnelSetup</code>结构体（该结构体描述了该端口的绑定要求与限制）；对于<code>nPort</code>参数是input类型的组件回调来说，它需要执行下列步骤：</p>
+<ul>
+<li>1.查询传入的参数并确认是否能够兼容（能否对得上眼？），比如端口号、端口的flag等。</li>
+<li>2.如果条件满足，可以绑定，<font color="blue">则把output端口设置的<code>pTunnelSetup</code>以及output端口的组件实力句柄等存储起来以备使用</font>。</li>
+<li>3.确定哪个端口是数据提供者（根据<code>pTunnelSetup</code>参数来进行选择），并根据上一步保存的组件实例句柄调用<code>OMX_SetParameter</code>来和与该组件端口绑定的组件进行确认。<font color="blue">一个组件可以有多个端口，输入输出类型不一而足，所以该回调函数内部需要根据传入的端口号来确认该组件是充当output端口的提供者还是input端口的提供者，然后选择相应的步骤策略来进行设置。从上述步骤也可推之，组件管理层的组件绑定代码需要先调用output端口提供者的<code>ComponentTunnelRequest</code>回调，然后再调用input端口提供者的对应回调。</font></li>
+</ul>
+</li>
+<li><p>UseBuffer：该回调函数用于标记使用一个buffer，该buffer是由IL Client或者tunnel组件的buffer提供者分配，并由数据的分配者调用指定组件的该回调函数将数据传递给指定的组件，指定的组件组要自行分配一个buffer header来存放这些buffer信息<strong>（可以看出该函数用于非buffer提供者组件存储buffer提供者分配的buffer）</strong>，一般情况下，组件会建立一个list链表来存放这些数据以待使用。该回调函数在以下场景下可以被调用：</p>
+<ul>
+<li>组件处于<code>OMX_StateLoaded</code>状态，并且已经发送了<code>OMX_StateIdle</code>状态转换请求。</li>
+<li>组件处于<code>OMX_StateWaitForResources</code>状态，此时资源可用，并且正准备切换到<code>OMX_StateIdle</code>状态。</li>
+<li>处于disabled状态的port，此时组件处于<code>OMX_StateExecuting</code>,<code>OMX_StatePause</code>或者<code>OMX_StateIdle</code>状态。<figure class="highlight xl"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* supplier端口分配buffer并将其传递给与之绑定的组件 */</span></div><div class="line"><span class="function"><span class="title">for</span> (i=0;i&lt;pPort-&gt;</span>nBufferCount;i++)</div><div class="line">&#123;</div><div class="line">    <span class="function"><span class="title">pPort</span>-&gt;</span><span class="function"><span class="title">pBuffer</span>[i] = malloc(pPort-&gt;</span>nBufferSize);</div><div class="line">    OMX_U<span class="function"><span class="title">seBuffer</span>(pPort-&gt;</span>hTunnelComponent,</div><div class="line">        &amp;<span class="function"><span class="title">pPort</span>-&gt;</span>pBufferHdr[i],</div><div class="line">        <span class="function"><span class="title">pPort</span>-&gt;</span>nTunnelPort,</div><div class="line">        pPort,</div><div class="line">        <span class="function"><span class="title">pPort</span>-&gt;</span>nBufferSize,</div><div class="line">        <span class="function"><span class="title">pPort</span>-&gt;</span>pBuffer[j]);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>AllocateBuffer：该回调函数与上一个类似，只不过该函数的被调用者组件（由函数的第一个参数指定）既分配实际的buffer空间，又分配buffer header（上一个函数的内部实现只用分配后者），然后由<code>ppBufferHdr</code>参数返回buffer header信息给调用者，通常情况下，调用者（非绑定情况下就是IL Client，绑定情况下就是buffer提供者组件）需要保存这个buffer header到一个链表里面，以备使用。该函数的调用场景与上一个函数一致。</p>
+</li>
+<li>FreeBuffer：释放一个buffer数据，如果组件只分配了buffer header的话，只需要释放buffer header，如果既分配了buffer header，又分配了buffer的话就需要把两个都释放掉，<font color="blue">总之，遵循谁分配、谁释放的原则。显而易见，如果一个组件的角色是非buffer提供者，那么它就需要实现上述三个回调函数，如果一个组件的角色是buffer提供者，那么它只需要实现后面两个回调函数即可。</font>。</li>
+<li>EmptyThisBuffer：该函数用于组件之间的正向（数据源头到数据结尾方向）数据传递，<strong>在绑定状态下</strong>，<font color="red">由output port所在的组件调用，第一个参数就是与之绑定的组件句柄，该回调函数是由input port所在的组件实现的</font>，参数是input port所在的组件句柄与buffer header，该函数被调用之后，后者组件需要把传入的buffer header记录在自己的buffer队列中去，该函数在<code>Executing</code>与<code>Idle</code>状态下均可接收数据。<strong>注意，该函数的主语是output port所在的组件，是该组件让input port所在的组件来Empty自己的buffer，这样理解的话这个回调函数的名字就不奇怪了，如果搞错主语，就会奇怪为什么是<code>EmptyThisBuffer</code>，而不是<code>GetThisBuffer</code>。</strong>在非绑定状态下就是由app来调用该回调函数，此时主语是app。</li>
+<li>FillThisBuffer：该函数用于output port所在的组件向前一个组件（<strong>绑定状态，非绑定状态不可用</strong>）还回一帧数据。该回调函数是由input port所在的组件实现的，参数就是input port所在的组件以及buffer header，同样的，该函数的主语是output port所在的组件，是说让input port所在的组件来重新填充这一帧buffer（还回去，重新填充）。</li>
+<li>SetCallbacks：设置回调函数，其<code>OMX_CALLBACKTYPE</code>类型的参数就是回调函数的结构体抽象，回调函数成员包括<code>EventHandler</code>,<code>EmptyBufferDone</code>,<code>FillBufferDone</code>。三个的应用场景分别如下：<ul>
+<li>EventHandler：用于组件向IL CLient发送事件，事件包括但不限于状态转换结束、状态转换错误、具体查看<a href="http://blog.csdn.net/u013904227/article/details/78576739#t6" target="_blank" rel="external">OpenMAX编程-数据结构 OMX_EVENTTYPE一段</a>。</li>
+<li>EmptyBufferDone：该回调函数用于向app返回已经接收的buffer，注意此处的<code>EmptyBuffer</code>的主语，该函数通常用于<code>EmptyThisBuffer</code>之后，并且在<strong>非绑定的条件下由<code>EmptyThisBuffer</code>回调函数的提供者组件调用</strong>，该回调函数的作用类似于<code>FillThisBuffer</code>，可以理解为前者用于非绑定状态下向app<strong>还回</strong>数据，后者用于绑定状态下向buffer传递者组件<strong>还回</strong>数据。<strong>此时组件的内心活动是：我已经把你给我的buffer存起来了，我通知你一声，至于你要不要释放这一帧数据或者再次填充这帧数据就听开发者怎么说啦。（此为前文还回的意思）</strong></li>
+<li>FillBufferDone：该函数用于组件通知app，我已经填充好数据了，你过来拿吧。这里可能会有个疑问，不是app负责产生数据，组件负责处理吗？怎么组件又是接收数据（EmptyBuffer），这里又FillBufferDone呢，FillBuffer不是app干的事吗？其实这两个是不冲突的，举个例子：编码组件，它接受来自app的原始buffer数据（存放在input port的buffer队列），然后进行编码，编码完成之后会产生一个编码后的buffer（存放在output port的buffer队列），然后把该编码后的buffer当作参数调用FillBufferDone来通知app我填充好了编码后的buffer，可以给你用了，是所谓<code>EmptyBufferDone</code>。</li>
+</ul>
+</li>
+<li>ComponentDeInit：该函数就是进行组件去初始化操作了，一般会需要释放由组件初始化函数申请的资源，去初始化一些系统资源等等，做一些清理工作，总之，在组件初始化函数里面是怎么做的，在该函数里面反过来做就行了。</li>
+</ul>
+<p><font color="red">注意：</font></p>
+<ol>
+<li>这些回调函数有很大一部分是加锁互斥访问的（组件实例结构体代码有说明），这个锁是需要自己去实现的。</li>
+<li>所有的函数会注明是阻塞的还是非阻塞的（组件实例结构体代码有说明），非阻塞的会有最大时间消耗要求，注意不要超过这个时间。</li>
+<li>各个回调函数会有不同的组件状态约束，注意函数实现的时候加上判断，参照”回调函数的实现”开头图片<a href="#回调函数的实现">（图在这里）</a>。</li>
+<li>buffer的管理是灵活的，可以使用生产者消费者的链表结构实现以及pipe管道模式实现，参照<a href="http://blog.csdn.net/u013904227/article/details/78242464#t6" target="_blank" rel="external">OpenMAX编程-组件</a>，不同的组件还可以灵活选择buffer队列的个数。<br>基本实现以上各个函数，一个组件的框架代码就成型了，下图说明了buffer传递的几个函数的作用：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/buffer_trans.JPG" alt="buffer传递图"></center><br><center>buffer传递图</center>
+
+</li>
+</ol>
+<h2 id="命令控制模块"><a href="#命令控制模块" class="headerlink" title="命令控制模块"></a>命令控制模块</h2><p>命令控制模块的用途如下：</p>
+<ul>
+<li>app（或者IL Client）控制组件的状态转换。</li>
+<li>冲洗一个buffer队列。</li>
+<li>禁止/使能某个组件内部端口。</li>
+<li>标记一个buffer。</li>
+</ul>
+<p>具体的描述在<a href="http://blog.csdn.net/u013904227/article/details/78576739#t4" target="_blank" rel="external">OpenMAX编程-数据结构</a>的OMX_COMMANDTYPE一节可以看到。</p>
+<p>命令的生成可以是由app调用组件的<code>SendCommand</code>回调函数进行生成，也可以由组件内部自行生成，大部分情况下，需要组件实现一个自己的命令描述结构体用来实例化命令，<strong>该结构体可能需要包含命令的枚举、命令的数值、命令的字符内容（如果需要传递字符串的话）</strong>，组件仅在命令产生时申请一个命令描述结构体（通常包含的成员有：命令索引、命令data），然后将这个命令结构体放入一个队列，可以用链表实现，也可以通过创建一个pipe来实现，组件的内部线程在接收到命令之后立即取出执行。创建pipe的方式在OpenMAX的官方文档里面就有相关的代码实现，这里不再赘述。</p>
+<h2 id="事件回调"><a href="#事件回调" class="headerlink" title="事件回调"></a>事件回调</h2><ul>
+<li>事件回调由那个函数完成？由谁来完成？<br>事件回调是针对app来说的，事件回调函数结构体（OMX_CALLBACKTYPE类型）由IL Client实现，然后调用组件的<code>SetCallbacks</code>回调函数将回调函数存放到组件的自定义结构体里面以供调用。回调函数通常在需要组件通知IL Client的时候由组件进行调用（回调函数实体在IL Client里面实现）。</li>
+<li>回调函数的应用场景<br>事件回调的类型与场景在<a href="http://blog.csdn.net/u013904227/article/details/78576739#t6" target="_blank" rel="external">OpenMAX编程-数据结构的OMX_EVENTTYPE</a>一节中有描述，组件内部实现的时候每当满足某个事件产生的条件时就需要调用事件回调函数来产生相关的事件来通知IL Client，并且注意在调用之前要检查IL Client是否有注册了回调函数，如果未注册就需要立刻返回（是允许IL Client不注册回调函数的，但是不建议）。</li>
+</ul>
+<h2 id="参数的设置-获取"><a href="#参数的设置-获取" class="headerlink" title="参数的设置/获取"></a>参数的设置/获取</h2><ul>
+<li>IL Client如何与组件进行参数交互<br>主要是通过<code>GetParameter</code>,<code>SetParameter</code>,<code>GetConfig</code>,<code>SetConfig</code>四个回调函数来完成，组件内部需要实现相关的参数获取与设置项，这部分是跟组件的具体功能有关的，比如一个编码组件，就需要通过这些回调函数来实现编码器参数的设置与获取（编码帧率、质量、buffer大小等等）。</li>
+<li>如何添加自己的index<br>除了OpenMAX给出的标准的index之外还可以定义厂商自己的index type（组件差异化、产品差异化，有的厂商会有独特的功能参数设置），自定义的这部分index type可以加在<code>OMX_INDEXTYPE</code>枚举类型的相应集合处，比如属于音频的就加载audio处，该枚举结构体内部有为每一个集合预留空间，专门用于厂商自定义相关的参数控制index。</li>
+<li>什么时候用得到参数的设置与获取<br>在一个组件转入Executing状态正式运行之前会用得到，用于预设组件的各项参数，如果参数可以在组件运行途中被改变的话也可以在组件正式运行之后进行获取与设置。</li>
+</ul>
+<h2 id="组件的状态转换"><a href="#组件的状态转换" class="headerlink" title="组件的状态转换"></a>组件的状态转换</h2><ul>
+<li>组件状态转换有什么作用？<br>状态转换用于控制组件运行、暂停、恢复、销毁等等。多个组件同时运行的时候状态转换就可以用来进行多组件之间的数据同步，协调组件之间的工作节奏。</li>
+<li>由谁来进行状态转换控制，如何去实现控制<br>状态转换一般是由IL Client调用需要控制的组件的<code>SendCommand</code>来进行状态转换命令的发送，<code>Cmd</code>参数填充<code>OMX_CommandStateSet</code>枚举成员，<code>nParam1</code>参数填充需要转换的命令。当然除了IL Client的控制，组件内部也可能会主动给产生一些状态转换的命令，比如在组件发生严重错误的时候，此时组件内部就需要主动转入Invalid状态。组件内部需要实现<code>OMX_CommandStateSet</code>命令的获取与解析，通常在组件的内部线程里面完成，在接收到该命令之后，组件内部线程需要根据命令指定的状态进行相关的动作。</li>
+<li>有哪些状态，分别对应什么场景<br>组件内部有6种状态，分别对应如下：<ul>
+<li><code>OMX_StateLoaded</code>：该状态在组件被<code>OMX_GetHandle</code>调用初始化之后就转入，此时相关的buffer资源还没有被分配，IL Client可以使用<code>OMX_SetParameter</code>函数回调来进行参数的设定，使用<code>OMX_SetupTunnel</code>函数进行组件之间的绑定操作，最后控制组件从该状态转入<code>OMX_StateIdle</code>或者<code>OMX_StateWaitForResources</code>状态，后者是在组件尝试分配相关的buffer资源并转入<code>OMX_StateIdle</code>状态失败的时候才转入。</li>
+<li><code>OMX_StateIdle</code>：表明组件所有的资源都已经准备好了，正等待正式运行，该状态下，<font color="blue">组件持有buffer，但是不传输也不处理buffer。</font>当组件从<code>OMX_StateExecuting</code>或者<code>OMX_StatePause</code>状态转入该状态时需要归还所有处理完毕的buffer到buffer提供者。</li>
+<li><code>OMX_StateExecuting</code>：该状态下，<font color="blue">组件持有buffer，传输同时处理buffer。</font>此时组件应该接受其它组件对该组件的<code>OMX_EmptyThisBuffer</code>与<code>OMX_FillThisBuffer</code>函数回调，同时在非绑定的情况下使用<code>EmptyBufferDone</code>与<code>FillBufferDone</code>来归还Empty以及full buffer。绑定情况下就使用<code>OMX_FillThisBuffer</code>与<code>OMX_EmptyThisBuffer</code>来进行buffer的传递。</li>
+<li><code>OMX_StatePause</code>：该状态下，<font color="blue">组件持有buffer，不传输也不理buffer，但是组件不必归还buffer到buffer的提供者。</font>为了避免丢失数据，此时组件可以选择将接收到的数据存放到自己的buffer队列里面，但是不进一步传输也不去处理，当然也可以选择不去存放，这跟组件的具体类型与功能有关系。</li>
+<li><code>OMX_StateWaitForResources</code>：顾名思义，在该状态下，组件正在等待资源被分配并变得可用。通常情况下该状态由组件自己主动转入，原因前面说过，是因为资源分配失败导致。</li>
+<li><code>OMX_StateInvalid</code>：该状态是在组件发生不可修复的错误时转入，此时组件需要产生一个事件，类型为<code>OMX_ErrorEvent</code>，值为<code>OMX_ErrorInvalidState</code>，最后转入<code>OMX_StateInvalid</code>状态，当IL Client接收到该消息的时候就需要调用<code>OMX_FreeHandle</code>来释放所有组件持有的资源。<br>组件之间的状态转换图如下：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件状态转换.png" alt="组件的状态转换"></center><br><center>组件的状态转换</center>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="组件内部线程"><a href="#组件内部线程" class="headerlink" title="组件内部线程"></a>组件内部线程</h2><p>组件内部线程主要用于数据处理、命令处理、数据传输。它的基本逻辑是这样的：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件内部线程.JPG" alt="组件内部线程逻辑"></center><br><center>组件内部线程逻辑</center>
+
+<p>至于每个组件、每种类型的组件的内部线程都是不一样的，因为不同组件的功能不同，有的可能会有多个内部线程，有的可能会有多个buffer管理等等不一而足。基本原则是，以自己组件的功能出发，由上而下去设计自己的组件的内部线程逻辑。</p>
+<h2 id="组件管理"><a href="#组件管理" class="headerlink" title="组件管理"></a>组件管理</h2><h3 id="组件的初始化与注册"><a href="#组件的初始化与注册" class="headerlink" title="组件的初始化与注册"></a>组件的初始化与注册</h3><p>组件的初始化由IL Client调用<code>OMX_GetHandle</code>函数回调来完成，该函数根据传入的组件名来找寻对应的组件，然后调用组件的初始化回调函数实例化一个组件句柄并返回给IL Client。该函数的原型如下：<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">OMX_API OMX_ERRORTYPE OMX_APIENTRY OMX_GetHandle(</div><div class="line">    OMX_OUT OMX_HANDLETYPE* pHandle, </div><div class="line">    OMX_IN  OMX_STRING cComponentName,</div><div class="line">    OMX_IN  OMX_PTR pAppData,</div><div class="line">    OMX_IN  OMX_CALLBACKTYPE* pCallBacks)<span class="comment">;</span></div></pre></td></tr></table></figure></p>
+<p>可以看到该函数有一个输出类型的参数，三个输入类型的参数：</p>
+<ul>
+<li>pHandle：该参数由<code>OMX_GetHandle</code>回调函数分配空间，然后传递给<code>typedef OMX_ERRORTYPE (* OMX_COMPONENTINITTYPE)(OMX_IN  OMX_HANDLETYPE hComponent);</code>的函数实例进行初始化（不同的组件都有自己的<code>OMX_COMPONENTINITTYPE</code>类型的初始化函数实体）。组件初始化完毕之后，该参数就指向一个初始化好之后的组件实例了，此时可供IL Client进行使用。</li>
+<li>cComponentName：组件的名字（无符号字符类型），一个系统中的所有类型的组件会由一个数组保存，该数组的成员有两个：组件的字符串类型的组件名；组件的<code>OMX_COMPONENTINITTYPE</code>类型的初始化函数实体。而该参数就是指定了组件的名字，根据名字可以在整个数据里面找到组件的初始化函数实体，调用之，初始化。</li>
+<li>pAppData：需要给组件进行保存的IL Client端的自定以数据结构体，如果组件不需要就置为空（NULL）。</li>
+<li>pCallBacks：该参数是必须的，组件会通过IL Clint实现的回调函数实例来通知IL Client各种类型的事件，该回调函数内部成员包括Event、EmptyBufferDone、FillBufferDone等，每个回调成员的作用在前面都有描述。</li>
+</ul>
+<p><strong>注意：<code>OMX_GetHandle</code>回调函数实体需要IL Client实现。<code>OMX_FreeHandle</code>函数则是做与前者相反的事情。</strong></p>
+<h3 id="组件的绑定与解绑"><a href="#组件的绑定与解绑" class="headerlink" title="组件的绑定与解绑"></a>组件的绑定与解绑</h3><p>组件的绑定操作由<code>OMX_SetupTunnel</code>回调函数来完成（该函数实体需要IL Client完成），区别于组件内部的<code>ComponentTunnelRequest</code>回调方法，该函数内部需要实现分别两次调用需要绑定的两个组件实例的<code>ComponentTunnelRequest</code>回调方法，只有在<code>OMX_StateLoaded</code>状态下才可以实现组件之间的绑定操作。<font color="blue">通常情况下，组件只在需要被销毁的时候才需要进行相互之间的解绑，但是此时不需要进行显式的解绑操作，因为绑定的过程中没有分配任何额外的资源，所以直接销毁组件即可，无需关注解绑。如果既不想销毁组件，又想解绑组件，则可以添加一个解绑的函数，函数中通过SetConfig调用直接清除掉组件内部的绑定标志位即可，也可以在<code>OMX_SetupTunnel</code>函数当中添加一个选择解绑与绑定的参数，具体可灵活实现。</font></p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/组件绑定过程.png" alt="组件的绑定过程"></center><br><center>组件的绑定过程</center>
+
+<p>如图，需要将组件A的端口A1与组件B的端口B0进行绑定，整个过程的步骤如下所示：<br>1.<code>ComponentTunnelRequest(A,1,B,0,*pTunnelSetup)</code>调用传入A1与B0端口号以及A、B组件实例句柄，组件A返回<code>pTunnelSetup</code>，该参数表明了绑定标志位与buffer提供者。<br>2.<code>ComponentTunnelRequest(B,0,A,1,*pTunnelSetup)</code>调用传入B0与A1端口号以及B、A组件实例句柄，在组件B的该函数回调内又会去调用组件A的<code>getParameter</code>获取相关参数，并调用组件A的<code>SetParameter(A, OMX_IndexParamCompBufferSupplier, supplierStructure)</code>设置组件A的buffer supplier。组件B也返回一个<code>pTunnelSetup</code>。<br>3.判断返回值是否正确，如不正确就对组件A解绑<code>ComponentTunnelRequest(A, 1, NULL, 0, NULL)</code>并返回错误。</p>
+<hr>
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>关注微信查看更多干货</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/12/03/OpenMAX编程-实现一个组件/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2017/11/21/malloc-memset-memcpy之探索/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">memset对memcpy耗费时间的影响</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#编程涉及模块"><span class="toc-number">1.</span> <span class="toc-text">编程涉及模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件主体框架的搭建"><span class="toc-number">2.</span> <span class="toc-text">组件主体框架的搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#组件的初始化函数"><span class="toc-number">2.1.</span> <span class="toc-text">组件的初始化函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回调函数的实现"><span class="toc-number">2.2.</span> <span class="toc-text">回调函数的实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#命令控制模块"><span class="toc-number">3.</span> <span class="toc-text">命令控制模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#事件回调"><span class="toc-number">4.</span> <span class="toc-text">事件回调</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参数的设置-获取"><span class="toc-number">5.</span> <span class="toc-text">参数的设置/获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件的状态转换"><span class="toc-number">6.</span> <span class="toc-text">组件的状态转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件内部线程"><span class="toc-number">7.</span> <span class="toc-text">组件内部线程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件管理"><span class="toc-number">8.</span> <span class="toc-text">组件管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#组件的初始化与注册"><span class="toc-number">8.1.</span> <span class="toc-text">组件的初始化与注册</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#组件的绑定与解绑"><span class="toc-number">8.2.</span> <span class="toc-text">组件的绑定与解绑</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/2017/">&laquo; Prev</a><a class="page-number" href="/archives/2017/">1</a><span class="page-number current">2</span>
-    </nav>
+  
+
   
 
 
@@ -285,8 +511,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

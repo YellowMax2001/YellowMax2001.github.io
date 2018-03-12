@@ -7,14 +7,27 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives | YellowMax的博客</title>
+  <title>OpenMAX编程-音视频等组件介绍 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/page/2/index.html">
+  <meta name="description" content="往期文章索引：03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。">
+<meta name="keywords" content="C语言,编程,OpenMAX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMAX编程-音视频等组件介绍">
+<meta property="og:url" content="http://www.yellowmax2001.com/2017/12/03/OpenMAX编程-音视频等组件介绍/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="往期文章索引：03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/audio_example.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_stride.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/video_param.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/video_sample.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_param.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_sample.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta property="og:updated_time" content="2018-03-12T14:14:16.707Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="OpenMAX编程-音视频等组件介绍">
+<meta name="twitter:description" content="往期文章索引：03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 - OpenMAX编程-组件00 - OpenMAX编程初识 导读：本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/audio_example.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,151 +167,363 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-OpenMAX编程-音视频等组件介绍" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenMAX编程-音视频等组件介绍
+    </h1>
+  
+
+        
+        <a href="/2017/12/03/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
+  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<p>导读：<br>本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。</p>
+<a id="more"></a>
+<h2 id="音频组件-audio-domain"><a href="#音频组件-audio-domain" class="headerlink" title="音频组件-audio domain"></a>音频组件-audio domain</h2><p>从spec里面截取一张图，如下所示：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/audio_example.jpg" alt="audio example"></center><br><center>audio应用举例</center>
+
+<ol>
+<li>第一个流程图展示了来自不同输入源的音频经过混合送入耳机播放的流程，其中一路是MP3，与另一路经过均衡器调节的MIDI格式的音频同时送入音频混合组件进行混合处理，最后经过立体声效果增强，输送给耳机播放。流程图中的每一个节点都可以作为一个组件存在，当然也可以组合其中几个作为一个组件（比如MP3与MIDI作为同一个组件，内部区分输入文件格式）、mix加立体声效果增强作为一个组件，音频播放作为一个组件。更甚者，将它们全部合并在同一个组件里面进行实现都是可以的。<blockquote>
+<p>应用场景：用作不同格式的音频混合，比如在不同的物理环境下录制一段不同格式的音频文件，然后使用软件将其混合起来。</p>
+</blockquote>
+</li>
+<li>第二个流程图中分有两路输入与两路输出，其中一路是下行音频数据流（经过编码压缩的），输入给音频解码组件进行解码，然后一路给喇叭外放，另一路与麦克风输入音频组合进行回音消除，然后经过编码生成上行音频数据流进行传输。<blockquote>
+<p>应用场景：<strong>对讲设备</strong>，比如微信或者QQ语音聊天，双方可以同时讲话，从第一视角来看，下行数据流指的就是对方讲的话经过通讯设备（手机等）采集编码之后网络传输过来的音频信息，需要经过解码在自己的通讯设备上面播放（这样才能听到对方讲话）。同时自己说的话需要与下行音频数据流组合进行回音消除（<strong>试想没有回音消除，自己说的话传过去，对面外放的同时又被对面的通讯设备采集再次发送过来，不断循环就会导致回声问题，需要与下行音频数据流组合的原因就是需要其做分析进行回声消除</strong>），然后经过编码形成上行音频数据流传递给对方。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="特殊情况"><a href="#特殊情况" class="headerlink" title="特殊情况"></a>特殊情况</h3><ol>
+<li>未压缩数据的最小加载大小<br>对于所有的未经过压缩的音频数据流类型，OpenMAX规定了其最小的数据加载包大小。对于PCM audio来说最小数据加载大小是5ms，此时音频组件的输出端口一次产生的数据包最小得是5ms的，另外此限制仅针对PCM格式（例如<strong>OMX_AUDIO_CodingADPCM</strong>格式）。</li>
+<li>MIDI格式的全文件缓冲<br>所有的MIDI格式媒体文件都会包含多个并行音轨，但是在文件里面是以串行的方式进行存放的，存放顺序并不是实时播放时候的交错顺序。（也就是说文件存放是按照音轨1、音轨2来顺序存放的，而不是音轨1与2内容交叉存放）。并且MIDI格式下，音频播放的状态只有在从文件头部处理的时候才是确定的，如果需要进行跳播的话仍然需要处理一部分文件头部的内容，猜测需要这样做的原因是在文件头部会存放音频的各个信息，比如全音符，四分之一音符的持续长度等等，由于音轨串行排列并且字节是变长存储的，所以需要在<strong>OMX_AUDIO_PARAM_MIDITYPE</strong>结构体的<strong>nFileSize</strong>成员中存放整个文件的大小。</li>
+</ol>
+<h3 id="音频通用设置"><a href="#音频通用设置" class="headerlink" title="音频通用设置"></a>音频通用设置</h3><ol>
+<li><strong>OMX_AUDIO_CODINGTYPE</strong><br>用来标识不同的编码格式，具体有PCM、AMR等等，该枚举变量用在组件的port结构体定义与参数定义当中，可以通过set parameter回调接口进行设置，也可以在组件内部指定（不同的端口可以处理不同格式的音频数据，使用该枚举类型进行标识）。</li>
+<li>audio端口<br>如[<a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a>]一文中有关端口部分描述所讲，一个组件的端口会由几个结构体来共同描述，大致有<code>OMX_PORT_PARAM_TYPE</code>(描述端口数量、起始端口号等),<code>OMX_PARAM_PORTDEFINITIONTYPE</code>(端口定义),还有特定类型端口的参数结构体描述，例如<code>OMX_VIDEO_PARAM_PORTFORMATTYPE</code>,<code>OMX_AUDIO_PARAM_PORTFORMATTYPE</code>等。后面两种类型的结构体通常是数组形式的，两者一一对应，用来描述一个端口。</li>
+</ol>
+<ul>
+<li><strong>OMX_AUDIO_PORTDEFINITIONTYPE</strong>：音频类型的端口定义，作为一个共用体成员存在于<code>OMX_PARAM_PORTDEFINITIONTYPE</code>结构体内部，使用的时候通常直接初始化一个<code>OMX_PARAM_PORTDEFINITIONTYPE</code>类型的结构体变量。</li>
+<li><code>OMX_AUDIO_PARAM_PORTFORMATTYPE</code>：顾名思义，该结构体描述了端口支持的音频流数据格式，它是一个枚举类型。支持使用<code>OMX_Get/SetParameter</code>来获取、设置端口的格式。<code>nIndex</code>的值范围是0~N-1，N就是该端口所支持的格式数量，IL Client可以通过枚举所有支持的格式来获知N的大小（枚举过程以返回<code>OMX_ErrorNoMore</code>为结束）。</li>
+</ul>
+<ol>
+<li>Param与config</li>
+</ol>
+<ul>
+<li><code>OMX_AUDIO_PARAM_PCMMODETYPE</code>：该结构体是格式特定的参数描述，有PCM、MP3等等，每一种格式的参数描述都不同，都有与之对应的结构体类型。其内容就不再一一描述，都是与特定格式有关的。该种类型的参数都可以用<code>OMX_Get/SetParameter</code>来进行获取、设置。</li>
+<li><code>OMX_AUDIO_CONFIG_VOLUMETYPE</code>：这些是与配置相关的结构体类型，有音量、通道音量、均衡等等，该种类型的参数都可以用<code>OMX_Get/SetConfig</code>来进行获取、设置。</li>
+</ul>
+<h2 id="视频图像组件-audio-amp-image-domain"><a href="#视频图像组件-audio-amp-image-domain" class="headerlink" title="视频图像组件-audio&amp;image domain"></a>视频图像组件-audio&amp;image domain</h2><h3 id="视频图像通用设置"><a href="#视频图像通用设置" class="headerlink" title="视频图像通用设置"></a>视频图像通用设置</h3><p>该部分介绍视频、图像通用的一些Config与Param设置，这部分类型定义在<code>OMX_ivcommon.h</code>头文件中可以找到。</p>
+<ol>
+<li>未压缩的数据格式<br>这部分使用一个<code>OMX_COLOR_FORMATTYPE</code>枚举类型来描述，包括RGB的8、16、32位未压缩格式与YUV格式极其子格式等的枚举。未压缩数据格式有最小加载大小的要求，由视频或者图像端口定义结构体<code>OMX_IMAGE/VIDEO_PORTDEFINITIONTYPE</code>中的<code>nSliceHeight</code>与<code>nStride</code>成员共同决定，两个成员前者表示“跨度”、后者表示“切片”，这个在不同的场合有不同的解释。例如：对于一个YUV图像来说，“跨度”就可以理解为图像实际的大小加上扩展内容，如下图所示：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_stride.png" alt="stride"></center><br><center>image stride</center>
+
+</li>
+</ol>
+<p>stride可能会有正值有负值，正值表示从左至右、从上至下扫描，负值表示从左至右、从下至上扫描。“切片”就是切片编码（如H264，该编码有条带的概念）时使用到的高度，可以简单的使用(nSliceHeight * nStride)（条带大小）的绝对值来作为最小传输大小。</p>
+<ol>
+<li>未压缩数据格式的要求<br>每一个image或者video组件对于未压缩的数据缓冲区都有一些要求，这些要求是为了使得不同供应商之间的数据能够正常地被处理。比如这些数据有以下几种要求：</li>
+</ol>
+<ul>
+<li>每一个非空的数据缓冲区都应该包含至少一个完整的slice，除非是遇到数据的结尾（比如未对齐的情况下：图像高度100，要求slice 16，那么最后一个slice就只有4，称之为遇到数据的结尾）</li>
+<li>每一个非空的数据缓冲区都应该包含有整数倍数个slice高度</li>
+<li>当未压缩的数据格式是平面（planar）模式的话，来自两个平面的数据不能保存在同一个缓冲区内。比如YUV420有平面模式的格式（如NV21），它有两个平面，那么在两个平面的交界处就不能够使用同一个缓冲区来存放跨越交界处的平面数据</li>
+<li>对于YUV420、YUV422、YUV411（YUV420）格式pack类型的数据来说，每一个缓冲区内部的slice都包含有Y、U、V的plane，其中YUV分量都是按照顺序来排列的。前面说过的<code>nSliceHeight</code>指明了Y分量的slice高度值，剩下的UV分量所占据的空间大小就根据YUV的格式以及Y分量的高度值来决定。比如YUV420格式下<code>nSliceHeight</code>为16，就表明有16个跨度的Y分量，加上合起来8个跨度的UV分量，合计16+8个跨度（<strong>注：有关YUV格式可以去看相关的spec</strong>）。这可以使得端口同时处理slice内的三个分量数据，而不用缓冲一整张image图片之后才去进行处理。</li>
+</ul>
+<ol>
+<li>parameter与config<br>该部分的内容众多，这里就不再把所有的条目都列出来了。</li>
+</ol>
+<ul>
+<li>OMX_IndexParamCommonDeblocking：操作对象是<code>OMX_CONFIG_DEBLOCKINGTYPE</code>结构体，用于决定是否使能编解码模块的去除块状伪影功能（编码时编码块之间的边缘伪影，编码时块之间没有平滑过渡导致的编码出现边缘不一致问题）。</li>
+<li>OMX_IndexParamCommonSensorMode：操作对象是<code>OMX_CONFIG_SENSORMODETYPE</code>结构体，用于设置sensor的帧率、分辨率。</li>
+<li>OMX_IndexConfigCommonColorFormatConversion：操作对象是<code>OMX_CONFIG_COLORCONVERSIONTYPE</code>结构体。用于做格式转换，在需要从RGB转为YUV格式时用到。<br>剩下的还有很多，需要结合spec文档来进行梳理解析。</li>
+</ul>
+<h3 id="video组件"><a href="#video组件" class="headerlink" title="video组件"></a>video组件</h3><ol>
+<li>通用枚举类型</li>
+</ol>
+<ul>
+<li><code>OMX_VIDEO_CODINGTYPE</code>：<ul>
+<li>OMX_VIDEO_CodingUnused：未实现编码功能 </li>
+<li>OMX_VIDEO_CodingAutoDetect：自动检测编码类型（组件内部完成）</li>
+<li>OMX_VIDEO_CodingMPEG2：MPEG2格式编码</li>
+<li>OMX_VIDEO_CodingH263：H263格式编码  </li>
+<li>OMX_VIDEO_CodingMPEG4：MPEG4格式编码</li>
+<li>OMX_VIDEO_CodingWMV：WMV格式编码</li>
+<li>OMX_VIDEO_CodingRV：RV格式</li>
+<li>OMX_VIDEO_CodingAVC：H264格式</li>
+<li>OMX_VIDEO_CodingMJPEG：MJPEG格式</li>
+</ul>
+</li>
+<li><code>OMX_VIDEO_PICTURETYPE</code>：标识视频的一帧<ul>
+<li>OMX_VIDEO_PictureTypeI：通用I帧</li>
+<li>OMX_VIDEO_PictureTypeP：通用P帧</li>
+<li>OMX_VIDEO_PictureTypeB：通用B帧</li>
+<li>OMX_VIDEO_PictureTypeSI：H.263的SI帧</li>
+<li>OMX_VIDEO_PictureTypeSP：H.263的SP帧</li>
+<li>OMX_VIDEO_PictureTypeEI：H.264的EI帧</li>
+<li>OMX_VIDEO_PictureTypeEP：H.264的EP帧</li>
+<li>OMX_VIDEO_PictureTypeS：MPEG-4的S帧<br>视频帧的标识可以加在编码后的帧信息里面以供后续解码或者mux进行使用。编码格式需要在port端口的属性里面进行设置。</li>
+</ul>
+</li>
+</ul>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/video_param.png" alt="index以及对应的参数结构体"></center><br><center>index以及对应的参数结构体</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/video_sample.png" alt="video组件实例"></center><br><center>video组件实例</center>
+
+<p>上图中第一个框图是一个图像采集编码、预览一体化的video组件实例，从camera硬件采集图像数据，经过图像过滤器，然后经由一个分发器输出一路视频给video显示组件进行预览，一路送由H263编码组件编码最终写入到文件里面。<br>下面的一幅图可以看作一个简单的视频通话通路。首先是上行数据通路：从camera硬件采集数据经过分发器分出一路给H263编码，然后送给网络上行链路传输给对方，另一路与下行数据解码之后的未压缩视频数据混合（就是聊天时的大图与小图，一个是对方的相机图像，一个是本机的图像，大小图可以切换，混合就是将两路视频流叠放在一块的过程）之后送由显示组件显示到本机上面。</p>
+<ol>
+<li>端口相关结构体</li>
+</ol>
+<ul>
+<li><code>OMX_VIDEO_PORTDEFINITIONTYPE</code>：端口的定义结构体，该结构体用来描述一个端口，如果需要额外参数的话可以添加额外的结构体用于描述端口属性，比如<code>OMX_VIDEO_PARAM_BITRATETYPE</code>结构体用以描述端口的bit率。使用<code>OMX_Index_ParamVideoPort</code>这个index可以获取/设置端口的属性。成员中需要注意的是<code>nStride</code>与<code>nSliceHeight</code>两个，这两个成员在前面也提到过。</li>
+<li><code>OMX_VIDEO_PARAM_PORTFORMATTYPE</code>：用以描述端口所支持的格式，这部分与音频对应的结构体意义几乎一样，结构体成员的意义可以参考音频部分的描述。<br>与音频相同，视频组件也有很多TYPE类型结构体用以描述一些video属性，例如<code>OMX_VIDEO_PARAM_QUANTIZATIONTYPE</code>等，这些结构体都可以通过Set/GetParameter来进行设置获取，这里就不一一详述，spec上面描述的很清楚。<strong>值得注意的是，不是所有的video组件都能用得上所有的TYPE的，比如video sink就用不着与编码相关的TYPE，所以细分的video组件可能仅仅会使用到其中部分TYPE，这个要视组件细分类型而定。</strong></li>
+</ul>
+<h3 id="image"><a href="#image" class="headerlink" title="image"></a>image</h3><p>image相关的定义在<code>OMX_Image.h</code>头文件中描述。下图描述了image相关的param参数类型：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_param.png" alt="index以及对应的参数结构体"></center><br><center>index以及对应的参数结构体</center>
+
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/image_sample.png" alt="image组件举例"></center><br><center>image组件举例</center>
+
+<p>如上图中框图所描述的，这里给出了类似video组件第一种用法的场景。camera获取图像经由image过滤器，然后由分发器分出一路显示图像，一路编成H263然后写入到文件。<strong>纠正：spec这里画错了，H.263 encode应该是jpeg encode，所以是编成jpeg格式图像写入文件。况且单幅图像也发挥不出H.263编码的特性。</strong></p>
+<p>端口相关的结构体如下：</p>
+<ul>
+<li><code>OMX_IMAGE_PORTDEFINITIONTYPE</code>：端口定义（与video的极为相似，不再赘述），其中不同细分类型组件的输入输出端口数量也是不一样的。<ul>
+<li>输入组件（source组件）没有input，有一个output</li>
+<li>分发组件有一个input与多个output</li>
+<li>处理单元只有一个input一个output</li>
+<li>mix组件有多个input，一个output</li>
+<li>输出组件（sink组件/显示）有一个input，没有output<br><strong>注意这里说的没有input指的是没有更上游的组件来提供输入，该组件（输入组件）的input就来自于camera的硬件驱动，没有output也同理，是指的是没有下游组件再来接收数据，该组件（输出组件）的output就是屏硬件驱动。再者，input与output的数量并不是严格界定的，而是根据具体的使用场景有具体的数量设置。</strong></li>
+</ul>
+</li>
+<li><code>OMX_IMAGE_PARAM_PORTFORMATTYPE</code>：与video的一样。</li>
+</ul>
+<ol>
+<li>参数控制<br>image有些比较特殊的参数类型（TYPE），比如：</li>
+</ol>
+<ul>
+<li><code>OMX_IMAGE_PARAM_FLASHCONTROLTYPE</code>：该结构体参数就是用来控制闪光灯的（拍照的闪光灯功能），其中<code>eFlashControl</code>成员可以设置闪光灯常亮、关闭、自动、红眼消除（拍照时的干扰，平时黑暗的地方手机拍照就可能出现人眼球部分是红色的，参考google相关解释）。</li>
+<li><code>OMX_IMAGE_PARAM_FOCUSCONTROLTYPE</code>：聚焦，用于焦距调节。<code>eFocusControl</code>成员可以指定手动调焦、关闭调焦、自动调焦、自动锁定目标焦距等等。<br>其余的与video的很类似，在spec中可以看到比较详细的描述。</li>
+</ul>
+<h2 id="组件扩展API与通用组件"><a href="#组件扩展API与通用组件" class="headerlink" title="组件扩展API与通用组件"></a>组件扩展API与通用组件</h2><h3 id="API扩展"><a href="#API扩展" class="headerlink" title="API扩展"></a>API扩展</h3><p>很多时候，组件内部标准的API并不能满足需求，此时就需要添加自定义的API，OpenMax也允许这种扩展，新加的API就称之为extensions。如果需要添加自定义的index，就在OMX_INDEXTYPE中预留的空间范围内增加（<code>OMX_IndexIndexVendorStartUnused</code>~<code>OMX_IndexMax</code>之间）。<br>新增的index也会有与之对应的结构体成员来作为index的参数，它可以是属于image、video、audio、other四个domain或者自定义的domain，（自定义的domain需要自己去实现）。这些自定义的index需要有与之对应的字符串类型的描述，IL Client可以使用<code>OMX_GetExtensionIndex</code>来根据index的属性获取到index的索引值，通过该索引值可以使用<strong>OMX_Get/SetParameter</strong>或者<strong>OMX_Get/SetConfig</strong>来进行相关的数据参数存取。</p>
+<ul>
+<li><code>GetExtensionIndex</code>回调函数<br>该宏专门用于获取扩展的index索引值，该回调函数最终会传入一个字符串给特定的组件，组件会根据字符串去找到对应的索引值返回给调用者，对于组件来说，OpenMax已有的标准的index可以不必实现该回调函数。该回调函数指向的的定义如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">OMX_ERRORTYPE (*GetExtensionIndex)(</div><div class="line">    OMX_IN OMX_HANDLETYPE hComponent,</div><div class="line">    OMX_IN OMX_STRING cParameterName,</div><div class="line">    OMX_OUT OMX_INDEXTYPE* pIndexType);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如前所述，每一个自定义的index都会与一个结构体或者指向结构体参数描述的地址相关联，使用者需要定义一个头文件把这些结构体描述包含进去，然后组件可以使用这些头文件来实现特定的结构体参数读写。如果有些index对应的参数描述仅仅用一个指针来指定，那么使用者与组件需要约定好如何去管理这部分数据，最好在一份扩展API文档里面能够有这些描述信息。下面是spec文档里面给出的两个使用的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">/* Set the vendor-specific filename parameter</div><div class="line">on a reader */</div><div class="line">OMX_U32 eIndexParamFilename;</div><div class="line">OMX_PTR oFileName;</div><div class="line">OMX_GetExtensionIndex(</div><div class="line">    hFileReaderComp,</div><div class="line">    &quot;OMX.CompanyXYZ.index.param.filename&quot;,</div><div class="line">    &amp;eIndexParamFilename);</div><div class="line">OMX_SetParameter(hComp, eIndexParamFilename, &amp;oFileName);</div><div class="line"></div><div class="line">/* Get the vendor-specific mp3 faster</div><div class="line">decoding feature settings */</div><div class="line">OMX_U32 eIndexParamFasterDecomp;</div><div class="line">OMX_CUSTOM_AUDIO_STRUCTURE oFasterDecompParams;</div><div class="line">OMX_GetExtensionIndex(</div><div class="line">    hMp3DecoderComp,</div><div class="line">    &quot;OMX.CompanyXYZ.index.param.fasterdecomp&quot;,</div><div class="line">    &amp;eIndexParamFasterDecomp);</div><div class="line">OMX_GetParameter(hMp3DecoderComp, eIndexParamFasterDecomp,</div><div class="line">&amp;oFasterDecompParams);</div></pre></td></tr></table></figure></p>
+<h3 id="通用组件类型"><a href="#通用组件类型" class="headerlink" title="通用组件类型"></a>通用组件类型</h3><h4 id="seeking组件"><a href="#seeking组件" class="headerlink" title="seeking组件"></a>seeking组件</h4><p>可以理解为是跳播组件，也就是手机播放器上面快进、点击拖动到指定的位置播放，该种组件的播放源可以是本地的文件，也可以是远程的文件（在线视频文件），除了提供跳播功能之外，IL Client也会有获取文件当前播放位置的需求，所以组件也要提供该种功能。</p>
+<ol>
+<li>seeking配置</li>
+</ol>
+<ul>
+<li><code>OMX_IndexConfigTimePosition</code><br>该参数对应的结构体描述是<code>OMX_TIME_CONFIG_TIMESTAMPTYPE</code>，IL Client可以通过该索引来获取/设置组件的时间戳控制文件的播放。</li>
+<li><code>OMX_IndexConfigTimeSeekMode</code><br>seek模式设置，如果是<code>OMX_TIME_SeekModeFast</code>模式的话表明是快速跳播，意思就是尽可能的快速切换到所要跳播的位置，即使最终跳播到的位置并不是精确的跳播位置（速度优先）。<code>OMX_TIME_SeekModeAccurate</code>模式的话表明是以精确度为优先，及时因此导致跳播耗时较长也在所不惜。<blockquote>
+<p>数据流中的任意跳播请求会指向任意的目标位置，该位置的数据可能会依赖于前面的数据。比如跳播时指定的时间点对应整个数据流的某一帧，而该帧要解码必须依赖于前面若干数量帧（需要重建解码数据结构），那么Fast模式就指的是从能够解码的第一帧开始显示（该帧极大概率会比实际请求跳播的那一帧要靠前），此为牺牲跳播的精度。如果是Accurate模式则是等待整个解码结构体重建完毕，直到解码到真正请求的那一帧开始显示，此为精度优先，可能会牺牲跳播时间。</p>
+</blockquote>
+</li>
+</ul>
+<ol>
+<li>seeking缓冲区标志<br>缓冲区标志用于sekking组件告诉下游组件传递给它的buffer的具体作用，通常情况下，需要加flag的buffer都是一个缓冲区单元里面的第一个逻辑数据帧，就比如上面说的重建解码结构体需要的数据帧，该部分的帧就需要加上一个flag。</li>
+</ol>
+<ul>
+<li><code>OMX_BUFFERFLAG_DECODEONLY</code><br>只解码标志，还记得上面说的Accurate模式吗？在该模式下，用于重建解码结构体的帧（非跳播指定的帧）就需要加上该flag，当负责显示的组件接收到带有该flag的帧的时候就不能再去显示这些帧。</li>
+<li><code>OMX_BUFFERFLAG_STARTTIME</code><br>该flags表明该帧数据携带整个播放数据流的开始时间戳，对于Fast模式来说就是重建解码结构体需要的第一帧数据，对于Accurate模式来说就是跳播位置所在的第一帧。当一个时钟组件的客户端（使用时钟组件的组件，例如video render组件）收到带有该flag的buffer，就会调用SetConfig使用<code>OMX_IndexConfigTimeClientStartTime</code>索引来设置时钟组件，该索引表明客户端的数据已经准备好要播放。</li>
+</ul>
+<ol>
+<li>seek事件的产生步骤<br>该步骤是由IL Client来完成的：<ul>
+<li>使用<code>OMX_IndexConfigTimeClockState</code>索引来设置<code>OMX_TIME_CONFIG_CLOCKSTATETYPE</code>的<code>eState</code>成员为<code>OMX_TIME_ClockStateStopped</code>，停止组件的media clock。</li>
+<li>使用<code>OMX_IndexConfigTimePosition</code>索引来设置需要跳转的时间戳。</li>
+<li>刷新所有的组件。</li>
+<li>使用<code>OMX_IndexConfigTimeClockState</code>索引来设置<code>OMX_TIME_CONFIG_CLOCKSTATETYPE</code>的<code>eState</code>成员为<code>OMX_TIME_ClockStateRunning</code>或者<code>OMX_TIME_ClockStateWaitingForStartTime</code>状态。</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>对于Running状态，在seeking操作结束之后，clock组件就立即开始media clock的流动，这个方法虽然比转换到Waiting状态要简单，但是它忽略了stream的开始时间（seek之后的开始时间），并且它也没有等待所有的组件都准备完毕（或者说没法保证所有被刷新的组件都处于准备完毕的状态），这就可能会造成同步的问题。<br>对于Waiting状态，在seekin操作结束之后，clock组件会等待其麾下所有的组件都回复完<code>OMX_IndexConfigTimeClientStartTime</code>配置之后，选择最早回复的组件设置的时间戳来运行media clock。这样的话就能够确保以下两点：</p>
+</blockquote>
+<ul>
+<li>所有的组件都准备好处理数据了，消除组件之间的初始化漂移。</li>
+<li>media clock开始时间会根据所有的Client组件的反馈值来进行确认，达到准确性、适应性的要求。</li>
+</ul>
+<p><strong>最后，seeking组件并不一定或者大部分时间并不是一个独立的组件，而是指的是具有seeking功能的组件，比如音频解码、视频解码组件，seeking作为一个功能模块嵌入到具体的组件内部实现。</strong></p>
+<p>这一章就讲这些组件类型相关的内容，下一章会对clock组件做一个详细的介绍，会对音视频的同步问题做一个详细的剖析，同步问题（不限于音视频的同步）一直是一个非常大的问题。</p>
+<hr>
+<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>关注微信查看更多干货</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/12/03/OpenMAX编程-音视频等组件介绍/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2017/12/03/OpenMAX编程-实现一个组件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          OpenMAX编程-实现一个组件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/11/21/malloc-memset-memcpy之探索/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">memset对memcpy耗费时间的影响</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#音频组件-audio-domain"><span class="toc-number">1.</span> <span class="toc-text">音频组件-audio domain</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#特殊情况"><span class="toc-number">1.1.</span> <span class="toc-text">特殊情况</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#音频通用设置"><span class="toc-number">1.2.</span> <span class="toc-text">音频通用设置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#视频图像组件-audio-amp-image-domain"><span class="toc-number">2.</span> <span class="toc-text">视频图像组件-audio&image domain</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#视频图像通用设置"><span class="toc-number">2.1.</span> <span class="toc-text">视频图像通用设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#video组件"><span class="toc-number">2.2.</span> <span class="toc-text">video组件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#image"><span class="toc-number">2.3.</span> <span class="toc-text">image</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#组件扩展API与通用组件"><span class="toc-number">3.</span> <span class="toc-text">组件扩展API与通用组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#API扩展"><span class="toc-number">3.1.</span> <span class="toc-text">API扩展</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通用组件类型"><span class="toc-number">3.2.</span> <span class="toc-text">通用组件类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#seeking组件"><span class="toc-number">3.2.1.</span> <span class="toc-text">seeking组件</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span>
-    </nav>
   
 
 
@@ -327,8 +552,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

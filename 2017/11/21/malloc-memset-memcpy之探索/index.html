@@ -183,7 +183,7 @@ var _hmt = _hmt || [];
       
         <p>前言：<br>源于之前几天的一个测试程序，作用是用来测试某个系统的内存访问能力，主体测试策略是分配一个缓冲区，然后使用memcpy在分配的缓冲区之间拷贝若干次，计算拷贝时间，然后在多线程的环境下运行多个拷贝程序，再次分别计算每个线程花费的时间，以此来估算系统的内存访问能力、线程调度性能以及带宽分配性能。然而，测试过程中却发生了很多问题，从而也引发了不少的思考，下面细细道来。</p>
 <a id="more"></a>
-<h2 id="一次测试"><a href="#一次测试" class="headerlink" title="一次测试"></a>一次测试</h2><h3 id="测试目的"><a href="#测试目的" class="headerlink" title="测试目的"></a>测试目的</h3><p>计算CPU的Dram访问带宽（设置的理论值与统计的实际值做比较）；估测多核多线程情况下的带宽分配调度能力与线程调度能力。测试例程源码见文章结尾，其拷贝函数的主要结构如下：<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">fun</span> <span class="title">DoMemoryCopy</span></span></div><div class="line"><span class="function">&#123;</span></div><div class="line"><span class="function">    <span class="title">malloc</span>(dst_addr, <span class="number">8</span>M);</span></div><div class="line"><span class="function">    <span class="title">malloc</span>(src_addr, <span class="number">8</span>M);</span></div><div class="line"><span class="function">    <span class="title">memset</span>(dst_addr, <span class="number">0</span>, <span class="number">8</span>M); <span class="title">memset</span>(src_addr, <span class="number">0</span>, <span class="number">8</span>M); <span class="comment">// 测试时可选</span></span></div><div class="line"><span class="function">    <span class="title">gettimeofday</span>(); <span class="comment">// copy start time</span></span></div><div class="line"><span class="function">    <span class="title">while</span> <span class="title">loop</span> 1000 <span class="title">times</span></span></div><div class="line"><span class="function">        <span class="title">memcpy</span>(dst_addr, src_addr, <span class="number">8</span>M);</span></div><div class="line"><span class="function">    <span class="title">gettimeofday</span>(); <span class="comment">// copy end time</span></span></div><div class="line"><span class="function">    <span class="title">printf</span>(timeval);</span></div><div class="line"><span class="function">&#125;</span></div></pre></td></tr></table></figure></p>
+<h2 id="一次测试"><a href="#一次测试" class="headerlink" title="一次测试"></a>一次测试</h2><h3 id="测试目的"><a href="#测试目的" class="headerlink" title="测试目的"></a>测试目的</h3><p>计算CPU的Dram访问带宽（设置的理论值与统计的实际值做比较）；估测多核多线程情况下的带宽分配调度能力与线程调度能力。测试例程源码见文章结尾，其拷贝函数的主要结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">fun DoMemoryCopy</div><div class="line">&#123;</div><div class="line">    malloc(dst_addr, 8M);</div><div class="line">    malloc(src_addr, 8M);</div><div class="line">    memset(dst_addr, 0, 8M); memset(src_addr, 0, 8M); // 测试时可选</div><div class="line">    gettimeofday(); // copy start time</div><div class="line">    while loop 1000 times</div><div class="line">        memcpy(dst_addr, src_addr, 8M);</div><div class="line">    gettimeofday(); // copy end time</div><div class="line">    printf(timeval);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <h3 id="测试方法"><a href="#测试方法" class="headerlink" title="测试方法"></a>测试方法</h3><p>主机环境：双核i5 2.5GHz（CPU）、双通道Dram 798MHz（Dram）、GCC 32位 4.6.3版本（采用默认的编译选项）。</p>
 <ul>
 <li>主进程拷贝<br>在mian函数里面调用<code>DoMemoryCopy</code>函数查看打印。</li>
@@ -409,11 +409,11 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/12/03/OpenMAX编程-实现一个组件/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/12/03/OpenMAX编程-音视频等组件介绍/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          OpenMAX编程-实现一个组件
+          OpenMAX编程-音视频等组件介绍
         
       </div>
     </a>

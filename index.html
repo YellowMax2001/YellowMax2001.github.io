@@ -156,91 +156,6 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-OpenMAX编程-音视频等组件介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/01/OpenMAX编程-音视频等组件介绍/">OpenMAX编程-时钟与同步</a>
-    </h1>
-  
-
-        
-        <a href="/2018/04/01/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
-  	<time datetime="2018-04-01T10:15:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>导读：<br>音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。</p>
-<p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E9%9F%B3%E8%A7%86%E9%A2%91%E7%AD%89%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">04 - OpenMAX编程-音视频等组件介绍</a><br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
-        
-          <a class="article-more-a" href="/2018/04/01/OpenMAX编程-音视频等组件介绍/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/04/01/OpenMAX编程-音视频等组件介绍/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-OpenMAX编程-时钟与同步" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -262,6 +177,7 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <p>导读：<br>音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。</p>
+<p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E9%9F%B3%E8%A7%86%E9%A2%91%E7%AD%89%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">04 - OpenMAX编程-音视频等组件介绍</a><br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
         
           <a class="article-more-a" href="/2018/04/01/OpenMAX编程-时钟与同步/#more">more >></a>
         
@@ -462,6 +378,91 @@ var _hmt = _hmt || [];
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2018/03/25/生活集思录-大学门外的事情/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-OpenMAX编程-音视频等组件介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/">OpenMAX编程-音视频等组件介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/03/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
+  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<p>导读：<br>本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。</p>
+        
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/">展开全文 >></a>
         </p>
       
 

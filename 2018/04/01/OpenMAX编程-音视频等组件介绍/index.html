@@ -7,14 +7,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: C语言 | YellowMax的博客</title>
+  <title>OpenMAX编程-时钟与同步 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/C语言/index.html">
+  <meta name="description" content="导读：音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。 往期文章索引：04 - OpenMAX编程-音视频等组件介绍03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 -">
+<meta name="keywords" content="C语言,编程,OpenMAX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenMAX编程-时钟与同步">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/04/01/OpenMAX编程-音视频等组件介绍/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="导读：音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。 往期文章索引：04 - OpenMAX编程-音视频等组件介绍03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 -">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/media_scale.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/clock_stat_trans.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/time_calc.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/media_time_fufill.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/sync_example.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_258.jpg">
+<meta property="og:updated_time" content="2018-04-22T08:44:57.531Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="OpenMAX编程-时钟与同步">
+<meta name="twitter:description" content="导读：音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。 往期文章索引：04 - OpenMAX编程-音视频等组件介绍03 - OpenMAX编程-实现一个组件02 - OpenMAX编程-数据结构01 -">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/media_scale.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,138 +166,233 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-OpenMAX编程-音视频等组件介绍" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      OpenMAX编程-时钟与同步
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/01/OpenMAX编程-时钟与同步/" class="archive-article-date">
+
+        
+        <a href="/2018/04/01/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
   	<time datetime="2018-04-01T10:15:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/01/OpenMAX编程-时钟与同步/">OpenMAX编程-时钟与同步</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+        
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/01/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
-  	<time datetime="2018-04-01T10:15:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/01/OpenMAX编程-音视频等组件介绍/">OpenMAX编程-时钟与同步</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
+    <div class="article-entry" itemprop="articleBody">
       
-        </div></section>
+        <p>导读：<br>音视频的同步问题一直是音视频播放过程中很重要的一部分，OpenMax的spec文档里面给出了一种推荐的音视频同步的做法，而且很多地方也正是采用的这种推荐的音视频同步方法。本文就对spec里面介绍的音视频同步方法进行拆解分析，探究其编码实现过程。</p>
+<p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E9%9F%B3%E8%A7%86%E9%A2%91%E7%AD%89%E7%BB%84%E4%BB%B6%E4%BB%8B%E7%BB%8D/">04 - OpenMAX编程-音视频等组件介绍</a><br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<a id="more"></a>
+<h2 id="时钟组件"><a href="#时钟组件" class="headerlink" title="时钟组件"></a>时钟组件</h2><p>时钟组件是一个比较特殊的组件，特殊在其没有属于自己的具体的数据流，它被用来对音视频进行平滑、同步控制（控制音视频的Render速率）。时钟组件的输入是一路音频参考时钟加上一路视频参考时钟，最终会由两者派生出一个media时钟。时钟组件与客户端（Client）通过时钟port连接来共享时间，时钟组件内部提供一个media时钟的控制机制，而客户端（Client）也可以通过端口来进行速率控制。</p>
+<h3 id="时间戳（Timestamps）"><a href="#时间戳（Timestamps）" class="headerlink" title="时间戳（Timestamps）"></a>时间戳（Timestamps）</h3><p>所有的时间戳数据在时钟组件中都用下面一个结构体进行描述：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TICKS</div><div class="line">&#123;</div><div class="line">    OMX_U32 nLowPart;</div><div class="line">    OMX_U32 nHighPart;</div><div class="line">&#125; OMX_TICKS;</div></pre></td></tr></table></figure></p>
+<p>可以看到该结构体表示了一个64位的有符号类型的变量，它表示的单位是us，它可以表示如下的内容：</p>
+<ul>
+<li>正的和负的时间。负的时间会出现在pre-roll这种情况下，此时会有负的时间戳与增量。pre-roll可以理解为缓冲，比如视频暂停时为了下次能够尽快地恢复播放状态，只有在缓存了足够数量的流数据之后才能够进入暂停状态，这个过程就可以称之为pre-roll。</li>
+<li>高分辨率时间戳（这个高分辨率值的是时间戳的采样点-密集采样称之为高分辨率），比如基于90kHZ的MPEG2时间戳。高分辨率的时间戳也能够保证更高精度以及更加同步的数据传输控制（比如有的音频采样就是按照192kHZ来的）。</li>
+<li>更大的动态时间范围，64位大概可以表示正负大约2600万天，而32位的分辨率则仅可以表示正负35分钟（想想平时普通的电影大概就是2个小时，这种情况下就只能用更加麻烦的手段去实现2个小时的时间戳统计）。</li>
+</ul>
+<p>可以选择把64bit转换为32bit来实现有限精度的时间戳表示，但是，显然可知，该情况下会有精度损失的风险。</p>
+<h3 id="media时钟"><a href="#media时钟" class="headerlink" title="media时钟"></a>media时钟</h3><p>clock组件内部会维持一个media时钟，它对media数据流进行同步跟踪，使用时间戳来表示即时的media时钟时间节点，这个时间戳是基于起始时间推算出来的（一般情况下起始时间为0，后续不断累加）。media时间可以进行增加-increase（对应与正常播放或者快进播放）、减少-decrease（对应于倒播）、保持为固定值-hold（对应暂停播放），这些都是通过对media时钟进行速率控制实现的。</p>
+<ul>
+<li>media时钟缩放<br>时钟组件内部会维护一个缩放因子，直接用于速率控制，该缩放因子是一个播放速率的倍数值，比如为1就表示正常播放，为0就表示暂停播放，负值就是倒播。<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/media_scale.png" alt="media scale图示"></center><br><center>media scale图示</center>
+
+</li>
+</ul>
+<p>可以使用下面的结构体来进行缩放系数的设置与获取：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_CONFIG_SCALETYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U32 xScale;</div><div class="line">&#125; OMX_TIME_CONFIG_SCALETYPE;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>客户端起始时间<br>客户端通过<code>OMX_SetConfig</code>回调的<code>OMX_IndexConfigTimeClientStartTime</code>索引进行起始时间的设置（起始时间包含在有着<code>OMX_BUFFERFLAG_STARTTIME</code>标记的buffer中），该设置包含了两个信息：</li>
+</ul>
+<ol>
+<li>数据流已经准备完毕。</li>
+<li>数据流开始的时间戳（startup或者seek结束时的时间戳）。<br>时钟组件会为每个与之绑定的客户端组件维护一个起始时间（注意只有一个起始时间，由与之绑定的所有组件共同决定，通常是发送起始信号信息的组件传递的时间戳数值中最早的那个），该起始时间通过<code>OMX_TIME_CONFIG_TIMESTAMPTYPE</code>结构体进行传递。当时钟组件被初始化之后进入<code>OMX_TIME_WaitingOnStartTime</code>状态时，会在该状态下等待所有的组件发送完毕起始时钟信号，然后才进如Running状态，这个动作保证了播放的同步性。</li>
+</ol>
+<ul>
+<li>media时钟的状态<br>时钟的状态使用下面的结构体进行描述：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_CONFIG_CLOCKSTATETYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_TIME_CLOCKSTATE eState;</div><div class="line">    OMX_TICKS nStartTime;</div><div class="line">    OMX_TICKS nOffset;</div><div class="line">    OMX_U32 nWaitMask;</div><div class="line">&#125; OMX_TIME_CONFIG_CLOCKSTATETYPE;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li><code>nStartTime</code>：指明media时间，此时时钟组件已经开始运行或者即将开始运行。即将开始运行就是已经接收到了某个绑定组件发来的起始信号信息，但是还没有全部接收，所以此时间可能会随着后续组件起始信号的发送而被更新，此为即将开始运行。</li>
+<li><code>nWaitMask</code>：位掩码，每个与之绑定的组件都占有一个位，当所有的位都被清除掉的时候，表明所有的组件都发送过起始信号信息了，此时就可以从<code>OMX_TIME_ClockStateWaitingForStartTime</code>状态转入<code>OMX_TIME_ClockStateRunning</code>状态了。</li>
+<li><code>nOffset</code>：时间偏移值，针对media time，比如值为-x就表明pre-roll过程中的前向时间间隔x。</li>
+<li><code>eState</code>：状态枚举类型，状态取值如下所示</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>状态枚举成员</th>
+<th>状态说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OMX_TIME_ClockStateRunning</td>
+<td>media时钟开始运行</td>
+</tr>
+<tr>
+<td>OMX_TIME_ClockStateWaitingForStartTime</td>
+<td>等待所有的组件发送完毕起始信号</td>
+</tr>
+<tr>
+<td>OMX_TIME_ClockStateStopped</td>
+<td>停止运行，比如暂停播放</td>
+</tr>
+</tbody>
+</table>
+<p>状态转换通过IL Client来完成（Client发送相关的命令进行控制），<strong>需要注意的是，从<code>OMX_TIME_ClockStateWaitingForStartTime</code>到<code>OMX_TIME_ClockStateRunning</code>状态的转换是组件内部自发完成的，在时钟组件的<code>nWaitMask</code>位被全部清除的时候就会自动转入运行状态，无需Client显式的去调用相关的命令去完成。</strong>状态转换过程如下所示（虚线即是表明无需Client主动参与）：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/clock_stat_trans.png" alt="时钟组件的状态转换"></center><br><center>时钟组件的状态转换</center>
+
+<ul>
+<li>状态转换关系</li>
+</ul>
+<ol>
+<li><code>OMX_TIME_ClockStateStopped</code>：立即停止media时钟，清除所有正在挂起的media时间请求，清除所有的起始时间，，然后转换到该状态，该状态下可以任意地与其它两个状态进行互转。</li>
+<li><code>OMX_TIME_ClockRunning</code>：立即启动media时钟（需要把起始时间与offset计算在内）。</li>
+<li><code>OMX_TIME_WaitingOnStartTime</code>：立即进入等待状态，等待所有<code>nWaitMask</code>指定的组件上报完毕它们各自的起始时间之后，选择这个起始时间当中最小的一个来作为真正的起始时间，并自动转入<code>OMX_TIME_ClockRunning</code>状态。只能从Stop状态转为该状态。</li>
+</ol>
+<h2 id="时钟时间线"><a href="#时钟时间线" class="headerlink" title="时钟时间线"></a>时钟时间线</h2><h3 id="Wall-Clock"><a href="#Wall-Clock" class="headerlink" title="Wall Clock"></a>Wall Clock</h3><p>该时间可以简单理解为在clock组件转入<code>OMX_TIME_ClockRunning</code>状态时候的参考时间坐标系，在这个参考坐标系上面派生出media time，包括video的参考时间值等（后面会有图片说明），clock组件根据周期性更新的参考始终与该值推算出media的时间。Client可以通过<code>OMX_IndexConfigTimeCurrentWallTime</code>索引来获取clock组件的Wall time，该时间不可由IL Client主动进行设置（如果主动设置的话就无法保证media时间的正确性了）。</p>
+<h3 id="参考时钟"><a href="#参考时钟" class="headerlink" title="参考时钟"></a>参考时钟</h3><p>clock组件可以接收video与audio的参考时钟，它们可以分别由video组件与audio组件提供，不过需要说明的一点是<strong>目前一般情况下的同步方案是视频跟随音频，也就是把音频的时间作为参考时钟，由音频时间为准去调节视频的时间，并且根据实际的体验测试，音频与视频的时间差在50ms以内的时候人的主观感觉是察觉不到这个差距的。</strong>参考时钟所在的组件（此处默认参考时钟提供者是音频组件）会按照一定的频率（<font color="blue">可以是5S左右，这个时间需要根据实际的使用体验进行调整，如果达不到预期的同步效果就减少这个值，如果能够轻松达到预期效果，就可以适当放大以减少一部分系统负担</font>）从clock组件获取到media time，然后把这个时间跟自己的参考时钟对比一下，再把调整之后的media time返回给clock组件，此处的回调方法为：<code>OMX_SetConfig</code>的<code>OMX_IndexConfigTimeCurrentAudioReference</code>index项，如果是视频作为参考时钟的话就是<code>OMX_IndexConfigTimeCurrentVideoReference</code>索引。该索引会传递以下结构体类型：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_CONFIG_TIMESTAMPTYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_TICKS nReferenceTimestamp;</div><div class="line">&#125; OMX_TIME_CONFIG_TIMESTAMPTYPE;</div></pre></td></tr></table></figure></p>
+<p>clock组件在收到这个时间之后会更新自己的media time，<font color="red"><strong>注意这里的更新不是直接把这个时间设置为media time，而是根据该参考时间与当前实际的media time做一个对比，然后通过一定的计算得出一个新的缩放因子，把缩放因子设置到media time的计算当中，这个计算可以是pid控制，也可以是简单的比例控制、抑或有限制的分段比例控制（此处以实际效果体验为准进行选择）。这样就不会打断视频的连续性，可以达到如果音频超前于视频，那么视频就快放，如果音频滞后于视频，那么视频就慢放等待音频。</strong></font><code>OMX_IndexConfigTimeActiveRefClock</code>索引会设置clock组件的参考时钟（<strong>此处指的是音频、视频组件内部反馈的时钟</strong>），结构体类型如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_CONFIG_ACTIVEREFCLOCKTYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_TIME_REFCLOCKTYPE eClock;</div><div class="line">&#125; OMX_TIME_CONFIG_ACTIVEREFCLOCKTYPE;</div></pre></td></tr></table></figure></p>
+<p>eClock枚举成员的取值范围如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>枚举</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OMX_TIME_RefClockNone</td>
+<td>不使用参考时钟</td>
+</tr>
+<tr>
+<td>OMX_TIME_RefClockAudio</td>
+<td>使用audio组件时钟作为参考时钟</td>
+</tr>
+<tr>
+<td>OMX_TIME_RefClockVideo</td>
+<td>使用video组件作为参考时钟</td>
+</tr>
+</tbody>
+</table>
+<p>下面一张图演示了各个时间之间的关系：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/time_calc.png" alt="各时间变量之间的关系"></center><br><center>各时间变量之间的关系</center>
+
+<blockquote>
+<p>start_time：clock组件转换为Executing状态时的时间，通过（clock_gettime获得）。<br>wall_time：clock组件在收到音视频开启Render命令之后的实时clock时间。<br>clock_time：clock运行的实时时间，也就是（clock_gettime得到的系统时间，monotonic模式）。<br>pause_time：视频暂停时的clock时间。<br>pause_duration：暂停的时间段累加。<br>sample_time：调整ratio时的的clock_time-pause_duration值（没有进行缩放的）。<br>clock_system_time：clock组件计算出来的视频已经显示的时间长度（已经进行缩放的）。<br>media_time_base：视频帧开始显示时的时间戳（由视频帧本身提供）。<br>media_display_time：视频帧应该显示到哪个时间戳的位置，也就是播放器时间轴的时间值。<br>audio_time：音频的时间戳，时间轴会根据音频的时间来进行滚动。</p>
+<p><strong>理想情况</strong>：audio_time == media_display_time。此为终极目标<br>media_display_time = media_time_base + clock_system_time;<br>clock_system_time  = clock_time - pause_duration - wall_time; //没有任何缩放作用<br>clock_system_time  = ((clock_time - pause_duration) - sample_time) * ratio + clock_system_time_old;<br>// clock_system_time_old：上一次的clock_system_time，两者都是经过缩放的。</p>
+</blockquote>
+<h2 id="media-time的控制"><a href="#media-time的控制" class="headerlink" title="media time的控制"></a>media time的控制</h2><h3 id="media-time更新"><a href="#media-time更新" class="headerlink" title="media time更新"></a>media time更新</h3><p>clock组件可以通过下面的结构体来进行时间的更新（回返给client，这里的client指的是client组件，比如与时钟组件相绑定的音频、视频组件），包括响应client组件的media time请求（获取当前的media time）或者缩放因子改变。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_MEDIATIMETYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U32 nClientPrivate;</div><div class="line">    OMX_TIME_UPDATETYPE eUpdateType;</div><div class="line">    OMX_TICKS nMediaTimestamp;</div><div class="line">    OMX_TICKS nOffset;</div><div class="line">    OMX_TICKS nWallTimeAtMediaTime;</div><div class="line">    OMX_S32 xScale;</div><div class="line">    OMX_TIME_CLOCKSTATE eState;</div><div class="line">&#125; OMX_TIME_MEDIATIMETYPE;</div></pre></td></tr></table></figure></p>
+<p>其中<code>eUpdateType</code>有如下的枚举成员值：</p>
+<table>
+<thead>
+<tr>
+<th>枚举</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OMX_TIME_UpdateRequestFulfillment</td>
+<td>media time请求</td>
+</tr>
+<tr>
+<td>OMX_TIME_UpdateScaleChanged</td>
+<td>缩放系数被改变</td>
+</tr>
+<tr>
+<td>OMX_TIME_UpdateClockStateChanged</td>
+<td>clock组件状态发生改变</td>
+</tr>
+</tbody>
+</table>
+<p><code>nClientPrivate</code>：如果请求是Fulfillment类型，该指针指向client特定的私有数据结构，否则就为NULL。<br><code>xScale</code>：缩放系数改变（<code>OMX_TIME_UpdateScaleChanged</code>枚举）时使用<br><code>eState</code>：状态改变（<code>OMX_TIME_UpdateClockStateChanged</code>枚举）时使用</p>
+<h3 id="Media-Time-Request（主视角是client组件）"><a href="#Media-Time-Request（主视角是client组件）" class="headerlink" title="Media Time Request（主视角是client组件）"></a>Media Time Request（主视角是client组件）</h3><p>client有时候会需要请求传输（client传给clock的）特定的时间戳，比如比如需要在特定的时间戳处传送视频帧，此时可以通过<code>OMX_IndexConfigTimeMediaTimeRequest</code>索引来完成media time的请求，其传递的结构体如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">typedef struct OMX_TIME_CONFIG_MEDIATIMEREQUESTTYPE &#123;</div><div class="line">    OMX_U32 nSize;</div><div class="line">    OMX_VERSIONTYPE nVersion;</div><div class="line">    OMX_U32 nPortIndex;</div><div class="line">    OMX_PTR pClientPrivate;</div><div class="line">    OMX_TICKS nMediaTimestamp;</div><div class="line">    OMX_TICKS nOffset;</div><div class="line">&#125; OMX_TIME_CONFIG_MEDIATIMEREQUESTTYPE;</div></pre></td></tr></table></figure></p>
+<p>当client组件传送完这个时间之后会原地等待，直到clock组件的time line达到这个请求的时间戳处，clock组件就会回返一个<code>OMX_TIME_MEDIATIMETYPE</code>类型的事件，这时client组件接收到回复之后就进行相关的操作。也就是说media time request是在client组件需要在特定时间执行特定的操作时使用-<strong>一个操作名为O，在未来的某个时间T需要被执行，并且需要用到一些私有的数据（比如一个视频帧的地址放在pClientPrivate里面），clock组件接收之后在T时间产生一个<code>OMX_TIME_UpdateRequestFulfillment</code>类型的事件，之后client接收到该时间，立马执行操作O。</strong></p>
+<p>在实际操作当中，client组件可能需要在稍微早于<code>nMediaTimestamp</code>时间点的时候接收到clock组件的响应，这时就需要设置<code>nOffset</code>，它是一个偏差值，比如你设置T为指定的时间，但是你需要在T1时间就接收到来自clock组件的响应，那么<code>nOffset</code>就需要被设置为<strong>T-T1</strong>，可能是正的，也可能是负的，不过一般都是正直（也就是稍微提前）。<font color="blue">这个<code>nOffset</code>不宜过大，要求是在ms级别。另一个需要注意的是，由于缩放系数可能会实时发生变化，所以client组件不能简单的拿目标时间减去这个偏移量得到偏移时间，需要拿这个offset乘以缩放系数之后再去做加减操作。</font></p>
+<h3 id="Media-Time-Request-Fulfillment（主视角是clock组件）"><a href="#Media-Time-Request-Fulfillment（主视角是clock组件）" class="headerlink" title="Media Time Request Fulfillment（主视角是clock组件）"></a>Media Time Request Fulfillment（主视角是clock组件）</h3><p>响应请求的时候，<code>OMX_TIME_MEDIATIMETYPE</code>结构体，内部包含了请求的media time以及对应请求发生时的wall time（也就是请求发生的时刻time line上面的时间戳），还有wall time line上面请求的media time与请求真正地被响应时候的offset，下面一副说明各个时间点的关系：</p>
+<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/media_time_fufill.png" alt="media time请求响应"></center><br><center>media time请求响应</center>
+
+<p>可通过上图看到，有些是因为时钟组件的实现，导致不能够非常精确地在锁请求的media time处产生响应，它实际上会比目标的offset更大，图中的<code>Client’s actual offset</code>就是说实际上的响应发生时的offset，它比client预定的offset大了一点点（<strong>这里有个要求，就是只能大，不能小，并且要尽量接近</strong>）。</p>
+<p>实际上，其实当client收到回应之后，可以选择自行等待一个时间段（长度为<code>Client’s actual offset</code>），相较于通过clock组件来完成来说，自行等待会更加准确点，client组件可以通过<code>OMX_IndexConfigTimeCurrentWallTime</code>来获取当前的wall time，然后与<code>nWallTimeAtMediaTime</code>作差，得出offset，在client组件内部施加一个延时。<strong>另者，则个offset要尽量的小。</strong></p>
+<h3 id="Scale-Change-Notifications"><a href="#Scale-Change-Notifications" class="headerlink" title="Scale Change Notifications"></a>Scale Change Notifications</h3><p>时钟组件可能会通知client组件缩放系数发生了变化，比如在快进播放的时候，视频组件可能会跳过一些视频帧，音频组件可能会加速采样等等（这取决于具体的内部实现）。</p>
+<p><strong>提供参考时钟的组件</strong>需要关注缩放系数的变化并做出相应的调整，通常情况下，调整包含以下方面：</p>
+<ol>
+<li>当缩放系数为0的时候，应停止所有的数据传输与参考时钟的运行（暂停）。</li>
+<li>恢复数据传输并恢复参考时钟的运行（从暂停恢复）。</li>
+</ol>
+<p><code>nMediaTimestamp</code>：当前时钟组件的media time<br><code>nWallTimeAtMediaTime</code>：当前时钟组件的wall time<br><code>xScale</code>：新的缩放系数<br><code>nOffset</code>：缩放系数发生改变的那刻与该响应发送的时刻的偏差值</p>
+<h3 id="Clock-State-Change-Notifications"><a href="#Clock-State-Change-Notifications" class="headerlink" title="Clock State Change Notifications"></a>Clock State Change Notifications</h3><p>必要时，时钟组件也需要向client组件发送状态改变的消息，client组件要做出相应的动作以适应clock组件的状态转换：</p>
+<ol>
+<li>当时钟组件转入stop状态时，所有的render相关的组件都要停止数据传输。</li>
+<li>提供参考时钟的组件需要使用<code>media time request</code>来获取时钟组件恢复运行的时间点，以及获取恢复运行时它自身的参考时钟时间值。</li>
+</ol>
+<p><code>nMediaTimestamp</code>：当前时钟组件的media time<br><code>nWallTimeAtMediaTime</code>：当前时钟组件的wall time<br><code>nOffset</code>：状态发生改变的那刻与该响应发送的时刻的偏差值</p>
+<h2 id="时钟组件的实现"><a href="#时钟组件的实现" class="headerlink" title="时钟组件的实现"></a>时钟组件的实现</h2><p>时钟组件应该提供以下几种功能：</p>
+<ul>
+<li>查询自身的wall以及media</li>
+<li>查询、改变media时钟的状态与缩放系数</li>
+<li>查询、改变其参考时钟</li>
+<li>通知client组件缩放系数发生了改变</li>
+<li>回应、履行media time请求</li>
+<li>根据参考时钟更新自身的时钟</li>
+</ul>
+<h3 id="派生-Media-Time"><a href="#派生-Media-Time" class="headerlink" title="派生 Media Time"></a>派生 Media Time</h3><p>clock组件根据参考时钟与wall时钟派生出media时间。当参考时钟发送参考时间，记为Rnow，clock组件查询自己的wall time，记为Wnow，如果IL client设置了offset（在pre-roll功能时用到），Wnow需要加上offset作为真正的Wbase：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Rbase = Rnow</div><div class="line">Wbase = Wnow + Offset</div><div class="line">Mnow = Rbase + Scale * (Wnow – Wbase)</div></pre></td></tr></table></figure></p>
+<p>Mnow是当前的media time（派生出来的media time），其实这个时间理解起来非常生硬，建议直接转到前面看<strong>时钟时间线</strong>一节以及<strong>各时间变量之间的关系</strong>一图，会理解的比较清楚。</p>
+<ul>
+<li>一个音视频同步的例子<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/sync_example.png" alt="同步的例子"></center><br><center>同步的例子</center>
+
+</li>
+</ul>
+<p>在此图中，假定音频与视频都是有自己的时间戳的，并且是准确对应的（如果片源的时间戳就不准确，那就不要指望播放时候能准确了）。此图中audio decoder与所有的render与clock组件做了连接，实际使用当中也可以用video decoder做连接。在开始播放的瞬间，audio render与video render向时钟组件发送一次自己的参考时钟（也就是第一帧数据的时间戳），该例子使用audio作为参考时钟组件，此时时钟组件不必去改变audio render的呈现时间，audio render值需要拿到数据就送去硬件播放，缩放由audio decoder来完成。而对与video render来说，它就需要在恰当的时间去输送一帧数据到硬件（这个是video render主动完成的），过程如下：</p>
+<ol>
+<li>video render提交一个media time的请求，需要呈现的视频帧数据放到private指针指向的地址，目标时间戳就是该帧视频的时间戳，设置指定的响应时间稍微早于目标时间戳值。</li>
+<li>clock在目标时间戳将要到达的时候回返一个响应给video render，包括原始时间戳与private指针（用于render视频帧数据）。</li>
+<li>video render收到响应之后，在内部等待一个指定的offset之后，立马把视频帧数据传送出去。</li>
+</ol>
+<p>IL client控制时钟组件的开启与停止，必要时候修改缩放系数，当修改系数发生时，clock设置新的缩放系数，然后发送给所有的client组件。当缩放系数变为0时，clock组件停止运行，client组件也停止运行，此时，audio decoder可能会在非1的缩放系数情况下忽略输入的音频压缩码流。最后，IL lient也可能会获取clock组件的media time，用以刷新进度条之类的。</p>
+<p>该篇文章是openMAX编程系列最后一篇了（至少到此为止已经是比较完整的一个系列了），后续可能会选择更新一些落下的细枝末节，但是时间就不定了，有疑问可以加微信或者留言等等<strong>。接下来可能会对linux内核的V4L2大框架做一个详细的专题介绍</strong>，敬请期待。</p>
+<hr>
+<center>一只奋斗的汪</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_258.jpg" alt="微信公众号"></center>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/OpenMAX编程-实现一个组件/" class="archive-article-date">
-  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/OpenMAX编程-实现一个组件/">OpenMAX编程-实现一个组件</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -305,283 +412,117 @@ var _hmt = _hmt || [];
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/04/01/OpenMAX编程-音视频等组件介绍/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/21/malloc-memset-memcpy之探索/" class="archive-article-date">
-  	<time datetime="2017-11-21T14:05:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/01/OpenMAX编程-时钟与同步/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OpenMAX编程-时钟与同步</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/21/malloc-memset-memcpy之探索/">memset对memcpy耗费时间的影响</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#时钟组件"><span class="toc-number">1.</span> <span class="toc-text">时钟组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#时间戳（Timestamps）"><span class="toc-number">1.1.</span> <span class="toc-text">时间戳（Timestamps）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#media时钟"><span class="toc-number">1.2.</span> <span class="toc-text">media时钟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时钟时间线"><span class="toc-number">2.</span> <span class="toc-text">时钟时间线</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Wall-Clock"><span class="toc-number">2.1.</span> <span class="toc-text">Wall Clock</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参考时钟"><span class="toc-number">2.2.</span> <span class="toc-text">参考时钟</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#media-time的控制"><span class="toc-number">3.</span> <span class="toc-text">media time的控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#media-time更新"><span class="toc-number">3.1.</span> <span class="toc-text">media time更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Media-Time-Request（主视角是client组件）"><span class="toc-number">3.2.</span> <span class="toc-text">Media Time Request（主视角是client组件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Media-Time-Request-Fulfillment（主视角是clock组件）"><span class="toc-number">3.3.</span> <span class="toc-text">Media Time Request Fulfillment（主视角是clock组件）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Scale-Change-Notifications"><span class="toc-number">3.4.</span> <span class="toc-text">Scale Change Notifications</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Clock-State-Change-Notifications"><span class="toc-number">3.5.</span> <span class="toc-text">Clock State Change Notifications</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#时钟组件的实现"><span class="toc-number">4.</span> <span class="toc-text">时钟组件的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#派生-Media-Time"><span class="toc-number">4.1.</span> <span class="toc-text">派生 Media Time</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/22/OpwnMAX编程-数据结构/" class="archive-article-date">
-  	<time datetime="2017-10-22T13:52:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/22/OpwnMAX编程-数据结构/">OpenMAX编程-数据结构</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/09/OpenMAX编程-组件/" class="archive-article-date">
-  	<time datetime="2017-10-09T14:01:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/09/OpenMAX编程-组件/">OpenMAX编程-组件</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/19/OpenMAX编程初识/">OpenMAX编程初识</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/13/C语言之list_head双向链表/" class="archive-article-date">
-  	<time datetime="2017-09-13T14:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/13/C语言之list_head双向链表/">C语言之list_head双向链表</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/10/C指针深度剖析/" class="archive-article-date">
-  	<time datetime="2017-09-10T12:36:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/10/C指针深度剖析/">C指针深度剖析</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -609,9 +550,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

@@ -7,14 +7,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: hexo 博客配置 | YellowMax的博客</title>
+  <title>V4L2框架概述 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/hexo-博客配置/index.html">
+  <meta name="description" content="本文开启 linux 内核 V4L2 框架部分的学习之旅，本文仅先对 V4L2 的框架做一个综述性的概括介绍，然后接下来的文章中会对 V4L2 框架的各个子模块进行一个全面的介绍，包括每一部分的实现原理，如何使用，用在什么地方等等。预计接下来的文章大概有5篇（不带本篇）。坑已经挖好了，开始吧。">
+<meta name="keywords" content="编程,V4L2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V4L2框架概述">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/06/16/V4L2框架概述/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="本文开启 linux 内核 V4L2 框架部分的学习之旅，本文仅先对 V4L2 的框架做一个综述性的概括介绍，然后接下来的文章中会对 V4L2 框架的各个子模块进行一个全面的介绍，包括每一部分的实现原理，如何使用，用在什么地方等等。预计接下来的文章大概有5篇（不带本篇）。坑已经挖好了，开始吧。">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/V4L2-devices.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-level.JPG">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-06-17T03:20:30.823Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="V4L2框架概述">
+<meta name="twitter:description" content="本文开启 linux 内核 V4L2 框架部分的学习之旅，本文仅先对 V4L2 的框架做一个综述性的概括介绍，然后接下来的文章中会对 V4L2 框架的各个子模块进行一个全面的介绍，包括每一部分的实现原理，如何使用，用在什么地方等等。预计接下来的文章大概有5篇（不带本篇）。坑已经挖好了，开始吧。">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/V4L2-devices.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,64 +163,344 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-V4L2框架概述" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
+    <h1 class="article-title" itemprop="name">
+      V4L2框架概述
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/06/16/V4L2框架概述/" class="archive-article-date">
+  	<time datetime="2018-06-16T14:44:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文开启 linux 内核 V4L2 框架部分的学习之旅，本文仅先对 V4L2 的框架做一个综述性的概括介绍，然后接下来的文章中会对 V4L2 框架的各个子模块进行一个全面的介绍，包括每一部分的实现原理，如何使用，用在什么地方等等。预计接下来的文章大概有5篇（不带本篇）。坑已经挖好了，开始吧。</p>
+</blockquote>
+<a id="more"></a>
+<p>导读：V4L2 是专门为 linux 设备设计的一套视频框架，其主体框架在 linux 内核，可以理解为是整个 linux 系统上面的视频源捕获驱动框架。其广泛应用在嵌入式设备以及移动端、个人电脑设备上面，市面上的编码产品类如：SDV、手机、IPC、行车记录仪都会用到这个框架来进行视频采集，当然，有比较厉害的厂家直接就使用自己实现的一套视频采集框架，这种属于是厂家中战斗机了。<strong>下文主要参考linux-4.4内核文档对V4L2框架进行一次全局的介绍。</strong></p>
+<h2 id="V4L2框架简介"><a href="#V4L2框架简介" class="headerlink" title="V4L2框架简介"></a>V4L2框架简介</h2><p>几乎所有的设备都有多个 IC 模块，它们可能是实体的（例如 USB 摄像头里面包含 ISP、sensor 等）、也可能是抽象的（如 USB 设备里面的抽象拓扑结构），它们在 <code>/dev</code> 目录下面生成了多个设备节点，并且这些 IC 模块还创建了一些非 v4l2 设备：DVB、ALSA、FB、I2C 和输入设备。正是由于硬件的复杂性，v4l2 的驱动也变得非常复杂。</p>
+<p>特别是 v4l2 驱动要支持 IC 模块来进行音/视频的混合/编解码操作，这就更加使得 v4l2 驱动变得异常复杂。通常情况下，有些IC模块通过一个或者多个 I2C 总线连接到主桥驱动上面，同时其它的总线仍然可用，这些 IC 就称为 ‘sub-devices’，比如摄像头设备里面的 sensor 传感器就是使用 I2C 来进行命令沟通，同时使用 MIPI 或者 LVDS 等接口进行图像数据传输。</p>
+<p>在很长一段时间内，该框架（指老旧的 V4L2 框架）仅限于通过 video_device 结构体创建 v4l 设备节点和 video_buf 来处理视频数据。这意味着所有的驱动都必须对设备实例进行设置并将其映射到子设备上。有些时候这些操作步骤十分复杂，很难正确完成，并且有些驱动程序从来没有正确的按照这些操作步骤编写。由于缺少一个框架，有很多通用代码就没有办法被重构，从而导致这部分代码被重复编写，效率比较低下。</p>
+<p>因此，本框架抽象构建了所有驱动都需要的代码并封装为一个个的模块，简化了设备驱动通用代码的重构。v4l2-pci-skeleton.c 是个非常好的参考例程，它是一个PCI采集卡的驱动框架。该例程演示了如何使用 v4l2 驱动框架，并且该例程可以作为一个 PCI 视频采集卡的驱动模板使用。在最开始的时候也可以参照这个代码编写方式进行联系，当然最适合的代码还是 <font color="red">drivers/media/video/omap3isp</font> 文件夹里面的代码，这个代码基本上可以作为一个完整的输入设备实例代码（<strong>因为它包含了 ISP、CSI、video 等设备，并且有着一个完整的数据流 pipeline，几乎用到了 V4L2 框架的方方面面，参考价值极大</strong>）来进行参考编写自己的设备驱动代码。</p>
+<h2 id="V4L2框架蓝图"><a href="#V4L2框架蓝图" class="headerlink" title="V4L2框架蓝图"></a>V4L2框架蓝图</h2><h3 id="蓝图解构"><a href="#蓝图解构" class="headerlink" title="蓝图解构"></a>蓝图解构</h3><p>这是一张非常大的图，但是我只选取了其中的一个，这张图对 V4L2 里面的子模块进行简化（简化到只有子模块的名字，没有内部实现的介绍），大图如下：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/V4L2-devices.jpg" alt="V4L2 设备拓扑"></p>
+<center>V4L2 设备拓扑</center>
+
+<p>这张图怎么看呢？它有以下几个关键因素：</p>
+<ul>
+<li><code>v4l2_device</code>：这个是整个输入设备的总结构体，可以认为它是整个 V4L2 框架的入口，充当驱动的管理者以及入口监护人。由该结构体引申出来 <code>v4l2_subdev</code>。用于视频输入设备整体的管理，有多少输入设备就有多少个<code>v4l2_device</code>抽象（比如一个USB摄像头整体就可以看作是一个 V4L2 device）。再往下分是输入子设备，对应的是例如 ISP、CSI、MIPI 等设备，它们是从属于一个 V4L2 device 之下的。</li>
+<li><code>media_device</code>：用于运行时数据流的管理，嵌入在 V4L2 device 内部，运行时的意思就是：<strong>一个 V4L2 device 下属可能有非常多同类型的子设备（两个或者多个 sensor、ISP 等），那么在设备运行的时候我怎么知道我的数据流需要用到哪一个类型的哪一个子设备呢</strong>。这个时候就轮到 <code>media_device</code> 出手了，它为这一坨的子设备建立一条虚拟的连线，建立起来一个运行时的 pipeline（管道），并且可以在运行时动态改变、管理接入的设备。</li>
+<li><code>v4l2_ctrl_handler</code>：控制模块，提供子设备（主要是 video 和 ISP 设备）在用户空间的特效操作接口，比如你想改变下输出图像的亮度、对比度、饱和度等等，都可以通过这个来完成。</li>
+<li><code>vb2_queue</code>：提供内核与用户空间的 buffer 流转接口，输入设备产生了一坨图像数据，在内核里面应该放在哪里呢？能放几个呢？是整段连续的还是还是分段连续的又或者是物理不连续的？用户怎么去取用呢？都是它在管理。</li>
+</ul>
+<h3 id="层级解构"><a href="#层级解构" class="headerlink" title="层级解构"></a>层级解构</h3><ol>
+<li>可以看到图中的入口 <code>custom_v4l2_dev</code>，它是由用户定义的一个结构体，重要的不是它怎么定义的，重要的是它里面有一个 <code>v4l2_device</code> 结构体，上文说到，这个结构体总览全局，运筹帷幄，相当于中央管理处的位置，那么中央决定了，它就是整个输入设备整体的抽象（比如整个 USB 摄像头输入设备，比如整个 IPC 摄像头输入设备）。它还有一个 <code>media_device</code> 结构体，上文也说道，，它是管数据流线路的，属于搞结构路线规划管理的。</li>
+<li>往后 <code>v4l2_device</code> 里面有一个链表，它维护了一个巨大的子设备链，所有的子设备都通过内核的双向循环链表结构以 <code>v4l2_device</code> 为中心紧紧团结在一起。另外 <code>media_device</code> 在往里面去就是一个个的 <code>media_entity</code>（现在不需要了解它的具体含义，只需要知道它就是类似电路板上面的元器件一样的抽象体），<code>media_entity</code> 之间建立了自己的小圈子，在它们这个小圈子里面数据流按照一定的顺序畅通无阻，恣意遨游。</li>
+<li>到结尾处，抽象出来了 <code>/dev/videoX</code> 设备节点，这个就是外交部的角色，它负责提供了一个内核与用户空间的交流枢纽。需要注意的是，该设备节点的本质还是一个字符设备，其内部的一套操作与字符设备是一样的，只不过是进行了一层封装而已。</li>
+<li>到此为止，一个 V4L2 大概的四层结构就抽象出来了，如下图所示：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-level.JPG" alt="V4L2 层次结构"><center>V4L2 层次结构</center>
+
+</li>
+</ol>
+<h2 id="驱动结构体"><a href="#驱动结构体" class="headerlink" title="驱动结构体"></a>驱动结构体</h2><p>所有的 V4L2 驱动都有以下结构体类型：</p>
+<ul>
+<li>每个设备都有一个设备实例结构体（<strong>上面的 <code>custom_v4l2_dev</code></strong>），里面包含了设备的状态；</li>
+<li>一种初始化以及控制子设备（<code>v4l2_subdev</code>）的方法；</li>
+<li>创建v4l2设备节点并且对设备节点的特定数据（<code>media_device</code>）保持跟踪；</li>
+<li>含有文件句柄的文件句柄结构体（<code>v4l2_fh</code> 文件句柄与句柄结构体一一对应）；</li>
+<li>视频数据处理（<code>vb2_queue</code>）；</li>
+</ul>
+<h3 id="结构体实例"><a href="#结构体实例" class="headerlink" title="结构体实例"></a>结构体实例</h3><ul>
+<li><p>框架结构体（<code>media_device</code>）<br>与驱动结构体非常类似，参考上面的解释，这里不再赘述。v4l2 框架也可以整合到 media framework 里面。如果驱动程序设置了 <code>v4l2_device</code> 的 <code>mdev</code> 成员，那么子设备与 video 节点都会被自动当作 media framework 里的 entitiy 抽象。</p>
+</li>
+<li><p><code>v4l2_device</code> 结构体<br>每一个设备实例都被抽象为一个 <code>v4l2_device</code> 结构体。一些简单的设备可以仅分配一个 <code>v4l2_device</code> 结构体即可，但是<br>大多数情况下需要将该结构体嵌入到一个更大的结构体（<code>custom_v4l2_dev</code>）里面。必须用 <code>v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev);</code> 来注册设备实例。该函数会初始化传入的 <code>v4l2_device</code> 结构体，如果 <code>dev-&gt;driver_data</code> 成员为空的话，该函数就会设置其指向传入的 <code>v4l2_dev</code> 参数。</p>
+</li>
+<li><p>集成 media framework<br>如果驱动想要集成 media framework  的话，就需要人为地设置 <code>dev-&gt;driver_data</code> 指向驱动适配的结构体（该结构体由<br>驱动自定义- <code>custom_v4l2_dev</code>，里面嵌入 <code>v4l2_device</code> 结构体）。在注册 <code>v4l2_device</code> 之前就需要调用 <code>dev_set_drvdata</code> 来完成设置。并且必须设置 <code>v4l2_decice</code> 的 <code>mdev</code> 成员指向注册的 <code>media_device</code> 结构体实例。</p>
+</li>
+<li><p>设备节点的命名<br>如果 <code>v4l2_device</code> 的 <code>name</code> 成员为空的话，就按照 <code>dev</code> 成员的名称来命名，如果 <code>dev</code> 成员也为空的话，就必须在注册 <code>v4l2_device</code> 之前设置它的 <code>name</code> 成员。可以使用 <code>v4l2_device_set_name</code> 函数来设置 <code>name</code> 成员，该函数会基于驱动名以及驱动实例的索引号来生成 <code>name</code> 成员的名称，类似于 <strong>ivtv0、ivtv1</strong> 等等，如果驱动名的最后一个字母是整数的话，生成的名称就类似于<strong>cx18-0、cx18-1</strong>等等，该函数的返回值是驱动实例的索引号。</p>
+</li>
+<li><p>回调函数与设备卸载<br>还可以提供一个 <code>notify()</code> 回调函数给 <code>v4l2_device</code> 接收来自子设备的事件通知。当然，是否需要设置该回调函数取决于子设备是否有向主设备发送通知事件的需求。<code>v4l2_device</code> 的卸载需调用到 <code>v4l2_device_unregister</code> 函数。在该函数被调用之后，如果 <code>dev-&gt;driver_data</code> 指向 <code>v4l2_device</code> 的话，该指针将会被设置为NULL。该函数会将所有的子设备全部卸载掉。如果设备是热拔插属性的话，当 <strong>disconnect</strong> 发生的时候，父设备就会失效，同时 <code>v4l2_device</code> 指向父设备的指针也必须被清除，可以调用 <code>v4l2_device_disconnect</code> 函数来清除指针，该函数并不卸载子设备，子设备的卸载还是需要调用到  <code>v4l2_device_unregister</code> 来完成。如果不是热拔插设备的话，就不必关注这些。</p>
+</li>
+</ul>
+<h3 id="驱动设备使用"><a href="#驱动设备使用" class="headerlink" title="驱动设备使用"></a>驱动设备使用</h3><p>有些时候需要对驱动的所有设备进行迭代，这种情况通常发生在多个设备驱动使用同一个硬件设备的情况下，比如 <strong>ivtvfb</strong> 驱动就是个 <strong>framebuffer</strong> 驱动，它用到了 <strong>ivtv</strong> 这个硬件设备。可以使用以下方法来迭代所有的已注册设备：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">callback</span><span class="params">(struct device *dev, <span class="keyword">void</span> *p)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_device</span> *<span class="title">v4l2_dev</span> = <span class="title">dev_get_drvdata</span>(<span class="title">dev</span>);</span></div><div class="line"></div><div class="line">	<span class="comment">/* test if this device was inited */</span></div><div class="line">	<span class="keyword">if</span> (v4l2_dev == <span class="literal">NULL</span>)</div><div class="line">		<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">	...</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">iterate</span><span class="params">(<span class="keyword">void</span> *p)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">device_driver</span> *<span class="title">drv</span>;</span></div><div class="line">	<span class="keyword">int</span> err;</div><div class="line"></div><div class="line">    <span class="comment">/* Find driver 'ivtv' on the PCI bus.</span></div><div class="line"><span class="comment">    * pci_bus_type is a global. For USB busses use usb_bus_type.</span></div><div class="line"><span class="comment">    */</span></div><div class="line">	drv = driver_find(<span class="string">"ivtv"</span>, &amp;pci_bus_type);</div><div class="line">	<span class="comment">/* iterate over all ivtv device instances */</span></div><div class="line">	err = driver_for_each_device(drv, <span class="literal">NULL</span>, p, callback);</div><div class="line">	put_driver(drv);</div><div class="line">	<span class="keyword">return</span> err;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>有时候需要对设备实例进行计数以将设备实例映射到模块的全局数组里面，可以使用以下步骤来完成计数操作：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">atomic_t</span> drv_instance = ATOMIC_INIT(<span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">drv_probe</span><span class="params">(struct pci_dev *pdev, <span class="keyword">const</span> struct pci_device_id *pci_id)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	...</div><div class="line">	state-&gt;instance = atomic_inc_return(&amp;drv_instance) - <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果一个热拔插设备有很多个设备节点（比如一个USB摄像头可以产生多路视频输出，虽然它的视频源是一个），那么很难知道在什么时候才能够安全地卸载 <code>v4l2_device</code> 设备。基于以上问题， <code>v4l2_device</code> 引入了引用计数机制，当 <code>video_register_device</code> 函数被调用的时候，引用计数会加一，当 <code>video_device</code> 被释放的时候，引用计数会减一，直到 <code>v4l2_device</code> 的引用计数到0的时候，<code>v4l2_device</code> 的 <code>release</code> 回调函数就会被调用，可以在该回调函数里面做一些清理工作。当其它的设备（alsa，因为这个不属于 video 设备，所以也就不能使用上面的 video 函数进行计数的加减操作）节点被创建的时候，可以人为调用以下函数对引用计数进行增减操作：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void v4l2_device_get(struct v4l2_device *v4l2_dev);</div><div class="line">int v4l2_device_put(struct v4l2_device *v4l2_dev);</div></pre></td></tr></table></figure></p>
+<blockquote>
+<hr>
+<p>*需要注意的是，<code>v4l2_device_register</code> 函数将引用计数初始化为1，所以需要在 <code>remove</code> 或者 <code>disconnect</code> 回调方法里面调用 <code>v4l2_device_put</code> 来减少引用计数，否则引用计数将永远不会达到0。</p>
+<hr>
+</blockquote>
+<h2 id="v4l2-subdev-结构体"><a href="#v4l2-subdev-结构体" class="headerlink" title="v4l2_subdev 结构体"></a><code>v4l2_subdev</code> 结构体</h2><p>很多设备都需要与子设备进行交互，通常情况下子设备用于音视频的编解码以及混合处理，对于网络摄像机来说子设备就是 <strong>sensors 和 camera</strong> 控制器。通常情况下它们都是 I2C 设备，但也有例外。<code>v4l2_subdev</code> 结构体被用于子设备管理。</p>
+<p>每一个子设备驱动都必须有一个 <code>v4l2_subdev</code> 结构体，这个结构体可以作为独立的简单子设备存在，也可以嵌入到更大的结构体（自定义的子设备结构体）里面。通常会有一个由内核设置的低层次结构体（<code>i2c_client</code>，也就是上面说的 i2c 设备），它包含了一些设备数据，要调用 <code>v4l2_set_subdevdata</code> 来设置子设备私有数据指针指向它，这样的话就可以很方便的从 <code>subdev</code> 找到相关的 I2C 设备数据（这个要编程实现的时候才能够了解它的用意）。另外也需要设置低级别结构的私有数据指针指向 <code>v4l2_subdev</code> 结构体，方便从低级别的结构体访问 <code>v4l2_subdev</code> 结构体，达到双向访问的目的，对于 <code>i2c_client</code> 来说，可以用 <code>i2c_set_clientdata</code> 函数来设置，其它的需使用与之相应的函数来完成设置。</p>
+<p>桥驱动器需要存储每一个子设备的私有数据，<code>v4l2_subdev</code> 结构体提供了主机私有数据指针成员来实现此目的，使用以下函数可以对主机私有数据进行访问控制：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">v4l2_get_subdev_hostdata();</div><div class="line">v4l2_set_subdev_hostdata();</div></pre></td></tr></table></figure></p>
+<p>从桥驱动器的角度来看，我们加载子设备模块之后可以用某种方式获取子设备指针。对于 i2c 设备来说，调用 <code>i2c_get_clientdata</code> 函数即可完成，其它类型的设备也有与之相似的操作，在内核里面提供了不少的帮助函数来协助完成这部分工作，编程时可以多多使用。</p>
+<p>每个 <code>v4l2_subdev</code> 结构体都包含有一些函数指针，指向驱动实现的回调函数，内核对这些回调函数<strong>进行了分类以避免出现定义了一个巨大的回调函数集，但是里面只有那么几个用得上的尴尬情况</strong>。最顶层的操作函数结构体内部包含指向各个不同类别操作函数结构体的指针成员，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">struct v4l2_subdev_core_ops &#123;</div><div class="line">	int (*log_status)(struct v4l2_subdev *sd);</div><div class="line">	int (*init)(struct v4l2_subdev *sd, u32 val);</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct v4l2_subdev_tuner_ops &#123;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct v4l2_subdev_audio_ops &#123;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct v4l2_subdev_video_ops &#123;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct v4l2_subdev_pad_ops &#123;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct v4l2_subdev_ops &#123;</div><div class="line">	const struct v4l2_subdev_core_ops	*core;</div><div class="line">	const struct v4l2_subdev_tuner_ops	*tuner;</div><div class="line">	const struct v4l2_subdev_audio_ops	*audio;</div><div class="line">	const struct v4l2_subdev_video_ops	*video;</div><div class="line">	const struct v4l2_subdev_vbi_ops	*vbi;</div><div class="line">	const struct v4l2_subdev_ir_ops		*ir;</div><div class="line">	const struct v4l2_subdev_sensor_ops	*sensor;</div><div class="line">	const struct v4l2_subdev_pad_ops	*pad;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><font color="red">这部分的设计我个人觉得是非常实用的，linux 要想支持大量的设备的同时又要保持代码的精简就必须得这样去实现。</font><code>core ops</code>成员对于所有的子设备来说都是通用的，其余的成员不同的驱动会有选择的去使用，例如：video 设备就不需要支持 audio 这个 ops 成员。子设备驱动的初始化使用 <code>v4l2_subdev_init</code> 函数来完成（该函数只是初始化一些 <code>v4l2_subdev</code> 的成员变量，内容比较简单），在初始化之后需要设置子设备结构体的 <code>name</code> 和 <code>owner</code> 成员（如果是 i2c 设备的话，这个在 i2c helper 函数里面就会被设置）。该部分 ioctl 可以直接通过用户空间的 ioctl 命令访问到（前提是该子设备在用户空间生成了子设备节点，这样的话就可以操作子设备节点来进行 ioctl）。内核里面可以使用 <code>v4l2_subdev_call</code> 函数来对这些回调函数进行调用，这个在 pipeline 管理的时候十分受用。</p>
+<p>如果需要与 <strong>media framework</strong> 进行集成，必须初始化 <code>media_entity</code> 结构体并将其嵌入到 <code>v4l2_subdev</code> 结构体里面，操作如下所示：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">media_pad</span> *<span class="title">pads</span> = &amp;<span class="title">my_sd</span>-&gt;<span class="title">pads</span>;</span></div><div class="line"><span class="keyword">int</span> err;</div><div class="line"></div><div class="line">err = media_entity_init(&amp;sd-&gt;entity, npads, pads, <span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<p>其中 pads 结构体变量必须提前初始化，<code>media_entity</code> 的 <code>flags</code>、<code>name</code>、<code>type</code>、<code>ops</code> 成员需要设置。entity 的引用计数在子设备节点被打开/关闭的时候会自动地增减。在销毁子设备的时候需使用 <code>media_entity_cleanup</code> 函数对 entity 进行清理。如果子设备需要处理 video 数据，就需要实现 <code>v4l2_subdev_video_ops</code> 成员，如果要集成到 media_framework 里面，就必须要实现 <code>v4l2_subdev_pad_ops</code> 成员，此时使用 pad_ops 中与 <code>format</code> 有关的成员代替 <code>v4l2_subdev_video_ops</code> 中的相关成员。</p>
+<p>子设备驱动需要设置 <code>link_validation</code> 成员来提供自己的 link validation 函数，该回调函数用来检查 pipeline 上面的所有的 link 是否有效（是否有效由自己来做决定），该回调函数在 <code>media_entity_pipeline_start</code> 函数里面被循环调用。如果该成员没有被设置，那么 <code>v4l2_subdev_link_validate_default</code> 将会作为默认的回调函数被使用，该函数确保 link 的 source pad 和 sink pad 的宽、高、media 总线像素码是一致的，否则就会返回错误。</p>
+<p>有两种方法可以注册子设备（<strong>注意是设备，不是设备驱动，常用的方式是通过设备树来注册</strong>），第一种（旧的方法，比如使用 <code>platform_device_register</code> 来进行注册）是使用桥驱动去注册设备。这种情况下，桥驱动拥有连接到它的子设备的完整信息，并且知道何时去注册子设备，内部子设备通常属于这种情况。比如 SOC 内部的 video 数据处理单元，连接到 USB 或 SOC 的相机传感器。另一种情况是子设备必须异步地被注册到桥驱动上，比如基于设备树的系统，此时所有的子设备信息都独立于桥驱动器。使用这两种方法注册子设备的区别是 probing 的处理方式不同。也就是一种是设备信息结构体由驱动本身持有并注册，一种是设备信息结构体由设备树持有并注册。</p>
+<p>设备驱动需要用 <code>v4l2_device</code> 信息来注册 <code>v4l2_subdev</code> ，如下所示：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> err = v4l2_device_register_subdev(v4l2_dev, sd);</div></pre></td></tr></table></figure></p>
+<p>如果子设备模块在注册之前消失的话，该操作就会失败，如果成功的话就会使得 <code>subdev-&gt;dev</code> 指向 <code>v4l2_device</code>。如果 <code>v4l2_device</code> 父设备的 <code>mdev</code> 成员不为空的话，子设备的 entity 就会自动地被注册到 mdev 指向的 <code>media_device</code> 里面。在子设备需要被卸载并且 <code>sd-&gt;dev</code> 变为NULL之后，使用如下函数来卸载子设备：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">v4l2_device_unregister_subdev(sd);</div></pre></td></tr></table></figure></p>
+<p>如果子设备被注册到上层的 <code>v4l2_device</code> 父设备中，那么 <code>v4l2_device_unregister</code> 函数就会自动地把所有子设备卸载掉。但为了以防万一以及保持代码的风格统一，需要注册与卸载结对使用。可以用以下方式直接调用ops成员：<code>err = sd-&gt;ops-&gt;core-&gt;g_std(sd, &amp;norm);</code> 使用下面的宏定义可以简化书写：<code>err = v4l2_subdev_call(sd, core, g_std, &amp;norm);</code>该操作会检查 <code>sd-&gt;dev</code> 指针是否为空，如果是，返回 <code>-ENODEV</code>，同时如果 <code>ops-&gt;core</code> 或者 <code>ops-&gt;core-&gt;g_std</code> 为空，则返回 <code>-ENOIOCTLCMD</code> 。也可以通过以下函数调用来对 V4l2 下面挂载的所有子设备进行回调：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">v4l2_device_call_all(v4l2_dev, <span class="number">0</span>, core, g_std, &amp;norm);</div></pre></td></tr></table></figure></p>
+<p>该函数会跳过所有不支持该 ops 的子设备，并且所有的错误信息也被忽略，如果想捕获错误信息，可以使用下面的函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">err = v4l2_device_call_until_err(v4l2_dev, 0, core, g_std, &amp;norm);</div></pre></td></tr></table></figure></p>
+<p>该函数的第二个参数如果为 0，则所有的子设备都会被访问，如果非 0，则指定组的子设备会被访问。</p>
+<p>组ID使得桥驱动能够更加精确的去调用子设备操作函数，例如：在一个单板上面有很多个声卡，每个都能够改变音量，但是通常情况下只访问一个，这时就可以设置子设备的组 ID 为 AUDIO_CONTROLLER 并指定它的值，这时 <code>v4l2_device_call_all</code> 函数就会只去访问指定组的子设备，提高效率。</p>
+<p>如果子设备需要向 <code>v4l2_device</code> 父设备发送事件通知的话，就可以调用 <code>v4l2_subdev_notify</code> 宏定义来回调 <code>v4l2-&gt;notify</code> 成员（前文有提到过）。</p>
+<p>使用 <code>v4l2_subdev</code> 的优点是不包含任何底层硬件的信息，它是对底层硬件的一个抽象，因此一个驱动可能包含多个使用同一条 I2C 总线的子设备，也可能只包含一个使用 GPIO 管脚控制的子设备，只有在驱动设置的时候才有这些差别，而一旦子设备被注册之后，底层硬件对驱动来说就是完全透明的。</p>
+<blockquote>
+<p>/<strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong><br>不清楚异步模式的用途<br>/<strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong><br>在异步模式下，子设备 probing 可以被独立地被调用以检查桥驱动是否可用，子设备驱动必须确认所有的 probing 请求是否成功，如果有任意一个请求条件没有满足，驱动就会返回 <code>-EPROBE_DEFER</code> 来继续下一次尝试，一旦所有的请求条件都被满足，子设备就需要调用 <code>v4l2_async_register_subdev</code> 函数来进行注册（用 <code>v4l2_async_unregister_subdev</code> 卸载）。桥驱动反过来得注册一个 notifier 对象（<code>v4l2_async_notifier_register</code>），该函数的第二个参数类型是 <code>v4l2_async_notifier</code> 类型的结构体，里面包含有一个指向指针数组的指针成员，指针数组每一个成员都指向 <code>v4l2_async_subdev</code> 类型结构体。v4l2 核心层会利用上述的异步子设备结构体描述符来进行子设备的匹配，如果成功匹配，<code>.bound()notifier</code>回调函数将会被调用，当所有的子设备全部被加载完毕之后，<code>.complete()</code> 回调函数就会被调用，子设备被移除的时候 <code>.unbind()</code> 函数就会被调用。<br>/<strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></p>
+</blockquote>
+<p>另外子设备还提供了一组内部操作函数，该内部函数的调用时机在下面有描述，原型如下所示：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev_internal_ops</span> &#123;</span></div><div class="line">	<span class="keyword">int</span> (*registered)(struct v4l2_subdev *sd);</div><div class="line">	<span class="keyword">void</span> (*unregistered)(struct v4l2_subdev *sd);</div><div class="line">	<span class="keyword">int</span> (*open)(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh);</div><div class="line">	<span class="keyword">int</span> (*close)(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>这些函数仅供 v4l2 framework 使用，驱动程序不应该显式的去调用这些回调</p>
+<ul>
+<li><strong>registered/unregister：在子设备被注册(<code>v4l2_device_register_subdev</code>)/反注册的时候被调用。</strong></li>
+<li><strong>open/close：如果子设备在用户空间创建了设备节点，那么这两个函数就会在用户空间的设备节点被打开/关闭的时候调用到，主要是用来创建/关闭v4l2_fh以供v4l2_ctrl_handler等的使用。</strong></li>
+</ul>
+<h2 id="v4l2子设备用户空间API"><a href="#v4l2子设备用户空间API" class="headerlink" title="v4l2子设备用户空间API"></a>v4l2子设备用户空间API</h2><p>可以在 <code>/dev</code> 文件夹下创建 <code>v4l-subdevX</code> 设备节点以供用户直接操作子设备硬件。如果需要在用户空间创建设备节点的话，就需要在子设备节点注册之前设置 <code>V4L2_SUBDEV_FL_HAS_DEVNODE</code> 标志，然后调用 <code>v4l2_device_register_subdev_nodes()</code> 函数，就可以在用户空间创建设备节点，设备节点会在子设备卸载的时候自动地被销毁。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">VIDIOC_QUERYCTRL</div><div class="line">VIDIOC_QUERYMENU</div><div class="line">VIDIOC_G_CTRL</div><div class="line">VIDIOC_S_CTRL</div><div class="line">VIDIOC_G_EXT_CTRLS</div><div class="line">VIDIOC_S_EXT_CTRLS</div><div class="line">VIDIOC_TRY_EXT_CTRLS</div></pre></td></tr></table></figure></p>
+<p>上述 ioctls 可以通过设备节点访问，也可以直接在子设备驱动里面调用。<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">VIDIOC_DQEVENT</div><div class="line">VIDIOC_SUBSCRIBE_EVENT</div><div class="line">VIDIOC_UNSUBSCRIBE_EVENT</div></pre></td></tr></table></figure></p>
+<p>要使用上述事件，就必须设置 <code>v4l2_subdev</code> 的 <code>V4L2_SUBDEV_USES_EVENTS</code> 标志位，实现 <code>core_ops</code> 的 <code>subscribe</code> 相关的回调函数，回调函数里面需要初始化 events，然后注册 <code>v4l2_subdev</code>。一些私有的 ioctls 可以在 <code>v4l2_subdev</code> 的 <code>ops-&gt;core-&gt;ioctl</code> 里面实现。</p>
+<h2 id="I2C子设备驱动"><a href="#I2C子设备驱动" class="headerlink" title="I2C子设备驱动"></a>I2C子设备驱动</h2><p>要想在 I2C 驱动里面添加 <code>v4l2_subdev</code> 支持，就需要把 <code>v4l2_subdev</code> 结构体嵌入到每个 I2C 实例结构体里面，有一些比较简单的 I2C 设备不需要自定义的状态结构体，此时只需要创建一个单独的 <code>v4l2_subdev</code> 结构体即可。一个典型的驱动自定义状态结构体如下所示：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">chipname_state</span> &#123;</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev</span> <span class="title">sd</span>;</span></div><div class="line">	...  <span class="comment">/* additional state fields */</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>使用 <code>v4l2_i2c_subdev_init</code> 去初始化一个 I2C 子设备，该函数会填充 <code>v4l2_subdev</code> 的所有成员并确保 <code>v4l2_subdev</code> 与 <code>i2c_client</code> 互相指向对方。也可以添加内联函数来从 <code>v4l2_subdev</code> 的指针获取到 <code>i2c_client</code> 结构体：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">i2c_client</span> *<span class="title">client</span> = <span class="title">v4l2_get_subdevdata</span>(<span class="title">sd</span>);</span></div><div class="line">也可以从i2c_client结构体指针获取到v4l2_subdev结构体：</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev</span> *<span class="title">sd</span> = <span class="title">i2c_get_clientdata</span>(<span class="title">client</span>);</span></div><div class="line">桥驱动可以使用以下帮助函数来创建一个I2C子设备：</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">v4l2_subdev</span> *<span class="title">sd</span> = <span class="title">v4l2_i2c_new_subdev</span></span></div><div class="line"><span class="class">	(<span class="title">v4l2_dev</span>, <span class="title">adapter</span>,"<span class="title">module_foo</span>", "<span class="title">chipid</span>", 0<span class="title">x36</span>, <span class="title">NULL</span>);</span></div></pre></td></tr></table></figure></p>
+<p>该函数会加载给定的模块（可以为空）并且调用 <code>i2c_new_device</code> 根据传入的参数创建子设备结构体，最后注册 <code>v4l2_subdev</code>。</p>
+<h2 id="video-device-结构体"><a href="#video-device-结构体" class="headerlink" title="video_device 结构体"></a><code>video_device</code> 结构体</h2><p><code>video_device</code> 可以动态的分配：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">video_device</span> *<span class="title">vdev</span> = <span class="title">video_device_alloc</span>();</span></div><div class="line"><span class="keyword">if</span> (vdev == <span class="literal">NULL</span>)</div><div class="line">	<span class="keyword">return</span> -ENOMEM;</div><div class="line">vdev-&gt;release = video_device_release;</div></pre></td></tr></table></figure></p>
+<p>如果需要将 <code>video_device</code> 结构体嵌入到更大的结构体里面的话，就需要设置 <code>vdev</code> 的 <code>release</code> 成员。内核提供了两个默认的 <code>release</code> 回调函数，如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">video_device_release()       <span class="comment">// 仅仅调用kfree释放分配的内存，用于动态分配情况下</span></div><div class="line">video_device_release_empty() <span class="comment">// 不做任何事情，静态变量</span></div></pre></td></tr></table></figure></p>
+<p>以下的函数成员必须被设置：</p>
+<ul>
+<li>v4l2_dev：必须指向v4l2_device父设备</li>
+<li>vfl_dir：VFL_DIR_RX（capture设备）、VFL_DIR_TX（输出设备）、VFL_DIR_M2M（codec设备）</li>
+<li>fops：设置v4l2_file_operations结构体</li>
+<li>ioctl_ops：ioctls，可以通过设备节点被用户空间程序访问，需设置fops的.unlocked_ioctl指向video_ioctl2</li>
+<li>lock：如果想要在驱动空间里做锁操作，可以设置为NULL。否则需要指向一个已经初始化的mutex_lock结构体</li>
+<li>queue：指向一个vb2_queue结构体，如果queue-&gt;lock不为空，那么与队列相关的ioctls就会使用queue内部的锁，这样的话就不用等待其它类型的ioctls操作</li>
+<li>prio：对优先级进行跟踪，用在VIDIOC_G/S_PRIORITY上，如果为空的话就会使用v4l2_device里面的v4l2_prio_state</li>
+<li>dev_parent：指向v4l2_device即可</li>
+</ul>
+<p>如果想忽略 <code>ioctl_ops</code> 中某个 ioctls 的话可以调用下面的函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">v4l2_disable_ioctl</span><span class="params">(struct video_device *vdev, <span class="keyword">unsigned</span> <span class="keyword">int</span> cmd)</span></span>;</div></pre></td></tr></table></figure></p>
+<p>如果要集成到 media_framework 里面，就需要设置 <code>video_device</code> 里面的 <code>media_entity</code> 成员，同时需要提供 <code>media_pad</code>：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">media_pad</span> *<span class="title">pad</span> = &amp;<span class="title">my_vdev</span>-&gt;<span class="title">pad</span>;</span></div><div class="line"><span class="keyword">int</span> err;</div><div class="line">err = media_entity_init(&amp;vdev-&gt;entity, <span class="number">1</span>, pad, <span class="number">0</span>);</div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>video_device</code> 的注册<br><code>video_device</code> 的注册函数如下：<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">err = video_register_device(vdev, VFL_TYPE_GRABBER, <span class="number">-1</span>);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>该段代码会注册一个字符设备驱动程序并在用户空间生成一个设备节点。如果 <code>v4l2_device</code> 父设备的 <code>mdev</code> 成员不为空的话，<code>video_device</code> 的 <code>entity</code> 会被自动的注册到 media framework 里面。函数最后一个参数是设备节点索引号，如果是 -1 的话就取用第一个内核中可用的索引号值。注册的设备类型以及用户空间中的节点名称取决于以下标识：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">VFL_TYPE_GRABBER: videoX 输入输出设备</div><div class="line">VFL_TYPE_VBI: vbiX </div><div class="line">VFL_TYPE_RADIO: radioX 硬件定义的音频调谐设备</div><div class="line">VFL_TYPE_SDR: swradioX 软件定义的音频调谐设备</div></pre></td></tr></table></figure></p>
+<p>当一个设备节点被创建时，相关属性也会被创建，可以在 <code>/sys/class/video4linux</code> 里面看到这些设备文件夹，在文件夹里面可以看到 <code>&#39;name&#39;,&#39;dev_debug&#39;,&#39;index&#39;,&#39;uevent&#39;</code>等属性，可以使用 <code>cat</code> 命令查看。’dev_debug’ 可以用于 video 设备调试，每个 video 设备都会创建一个 ‘dev_debug’ 属性，该属性以文件夹的形式存在与 <code>/sys/class/video4linux/&lt;devX&gt;/</code> 下面以供使能 log file operation。’dev_debug’是一个位掩码，以下位可以被设置：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="number">0x01</span>：记录ioctl名字与错误码。设置<span class="number">0x08</span>位可以只记录VIDIOC_(D)QBUF</div><div class="line"><span class="number">0x02</span>：记录ioctl的参数与错误码。设置<span class="number">0x08</span>位可以只记录VIDIOC_(D)QBUF</div><div class="line"><span class="number">0x04</span>：记录file ops操作。设置<span class="number">0x08</span>位可以只记录read&amp;write成员的操作</div><div class="line"><span class="number">0x08</span>：如上所示</div><div class="line"><span class="number">0x10</span>：记录poll操作</div></pre></td></tr></table></figure></p>
+<p>当以上的位被设置的时候，发生相关的调用或者操作的时候内核就会打印出来相关的调用信息到终端上面。类似于<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[<span class="number">173881.402120</span>] video4: VIDIOC_DQEVENT: error <span class="number">-2</span></div><div class="line">[<span class="number">173884.906633</span>] video4: VIDIOC_UNSUBSCRIBE_EVENT</div></pre></td></tr></table></figure></p>
+<ul>
+<li>video设备的清理<br>当 video 设备节点需要被移除或者USB设备断开时，需要执行以下函数：<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">video_unregister_device(vdev);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>来进行设备的卸载，该函数会移除 <code>/dev</code> 下的设备节点文件，同时不要忘记调用 <code>media_entity_cleanup</code> 来清理 entity。</p>
+<h2 id="ioctls-与-locking"><a href="#ioctls-与-locking" class="headerlink" title="ioctls 与 locking"></a>ioctls 与 locking</h2><p>V4L 核心层提供了可选的锁服务，最主要的就是 <code>video_device</code> 里面的锁，用来进行 ioctls 的同步。如果使用了 <code>videobuf2</code> 框架，那么 <code>video_device-&gt;queue-&gt;lock</code> 锁也会被用来做 queue 相关的 ioctls 同步。使用不同的锁有很多优点，比如一些设置相关的 ioctls 花费的时间比较长，如果使用独立的锁，<code>VIDIOC_DQBUF</code>就不用等待设置操作的完成就可以执行，这个在网络摄像机驱动中很常见。当然，也可以完全由驱动本身去完成锁操作，这时可以设置所有的锁成员为NULL并实现一个驱动自己的锁。</p>
+<p>如果使用旧的 videobuf，需要将 <code>video_device</code> 的锁传递给 videobuf queue 初始化函数，如果 videobuf 正在等待一帧数据的到达，此时会将锁暂时释放，等数据到达之后再次加锁，否则别的处理程序就无法访问。所以不推荐使用旧的 videobuf。如果是在 videobuf2 框架下，需要实现 <code>wait_prepare</code> 与 <code>wait_finish</code> 回调函数去释放或者获取锁，如果使用了 <code>queue-&gt;lock</code>，可以使用 V4L2 提供的回调 <code>vb2_ops_wait_prepare/finish</code> 帮助函数来完成加锁与解锁的操作，它们会使用 <code>queue-&gt;lock</code>这个锁（此时一定要将该锁初始化）。</p>
+<h2 id="v4l2-fh-结构体"><a href="#v4l2-fh-结构体" class="headerlink" title="v4l2_fh 结构体"></a><code>v4l2_fh</code> 结构体</h2><p>该结构体提供了一种简单的保存文件句柄特定数据的方法。<code>v4l2_fh</code> 的使用者-v4l2 framework 可以通过检查 <code>video_device-&gt;flags</code> 的 <code>V4L2_FL_USES_V4L2_FH</code> 位来知道驱动是否使用 <code>v4l2_fh</code> 作为 <code>file-&gt;private_data</code> 指针，该标志位通过调用函数 <code>v4l2_fh_init</code> 来设置。</p>
+<p><code>v4l2_fh</code> 结构体作为驱动自己的文件句柄存在，并且在驱动的 <code>open</code> 函数里面设置 <code>file-&gt;private_data</code> 指向它，<code>v4l2_fh</code> 有多个的时候会作为一个链表存在于 <code>file-&gt;private_data</code> 中，可以遍历访问。在大多数情况下 <code>v4l2_fh</code> 结构体都被嵌入到更大的结构体里面，此时需要在 <code>open</code> 函数里面调用<br><code>v4l2_fh_init+v4l2_fh_add</code> 进行添加，在 <code>release</code> 函数里面调用 <code>v4l2_fh_del+v4l2_fh_exit</code> 进行退出。驱动可以使用 <code>container_of</code> 来访问自己的文件句柄结构体，如下所示：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">my_fh</span> &#123;</span></div><div class="line">	<span class="keyword">int</span> blah;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_fh</span> <span class="title">fh</span>;</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_open</span><span class="params">(struct file *file)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">my_fh</span> *<span class="title">my_fh</span>;</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">video_device</span> *<span class="title">vfd</span>;</span></div><div class="line">	<span class="keyword">int</span> ret;</div><div class="line"></div><div class="line">	my_fh = kzalloc(<span class="keyword">sizeof</span>(*my_fh), GFP_KERNEL);</div><div class="line"></div><div class="line">	v4l2_fh_init(&amp;my_fh-&gt;fh, vfd);</div><div class="line"></div><div class="line">	file-&gt;private_data = &amp;my_fh-&gt;fh;</div><div class="line">	v4l2_fh_add(&amp;my_fh-&gt;fh);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">my_release</span><span class="params">(struct file *file)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">v4l2_fh</span> *<span class="title">fh</span> = <span class="title">file</span>-&gt;<span class="title">private_data</span>;</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">my_fh</span> *<span class="title">my_fh</span> = <span class="title">container_of</span>(<span class="title">fh</span>, <span class="title">struct</span> <span class="title">my_fh</span>, <span class="title">fh</span>);</span></div><div class="line"></div><div class="line">	v4l2_fh_del(&amp;my_fh-&gt;fh);</div><div class="line">	v4l2_fh_exit(&amp;my_fh-&gt;fh);</div><div class="line">	kfree(my_fh);</div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如以上代码所示，由于 <code>open</code> 函数可能会被多个应用 app 所调用，所以 fh 也会有多个，但是 <code>file-&gt;private</code> 永远指向最新的一个 <code>v4l2_fh</code> ，通过这个 <code>v4l2_fh</code> 可以找到整个 <code>v4l2_fh</code> 链表中的所有元素。一些驱动需要在第一个文件句柄打开后以及最后一个文件句柄关闭前的时候做一些其它的工作，下面两个帮助函数可以检查 <code>v4l2_fh</code> 结构体是否只剩下一个 entry：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_fh_is_singular</span><span class="params">(struct v4l2_fh *fh)</span></span></div><div class="line">如果是只有一个entry，返回1，否则返回0，如果fh为空也返回0。</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_fh_is_singular_file</span><span class="params">(struct file *filp)</span></span></div><div class="line">和上面差不多，但是使用 filp-&gt;private_data 这一数据源，实际上它是指向最新的一个v4l2_fh的。</div></pre></td></tr></table></figure></p>
+<h2 id="V4L2-events"><a href="#V4L2-events" class="headerlink" title="V4L2 events"></a>V4L2 events</h2><p>V4L2 events 提供一种通用的方法来传递 events 到用户空间，驱动程序必须使用 <code>v4l2_fh</code>（设置 <code>video_device</code> 的 <code>flags</code> 位）才能够实现对 V4L2 events 的支持。events 用类型和 ID 作为区分标识，没有使用到的 events 的ID就是0。</p>
+<p>当用户订阅 event 时，用户空间会相应地为每个 event 分配一个 kevent 结构体（如果 elems 参数为0的话只有一个，不为0就按照指定的数量分配），所以每个 event 都有一个或多个属于自己的 kevent 结构体，这就保证了如果驱动短时间内生成了非常多的 events 也不会覆盖到其它的同类型 events，可以看作是分了好几个篮子来放不同类型的水果。event 结构体是 <code>v4l2_subscribed_event</code> 结构体的最后一个成员，以数组的形式存在，并且是一个柔性数组（<code>struct v4l2_kevent events[]</code>），也就是说在分配 <code>v4l2_subscribed_event</code> 结构体空间的时候，events 并不占用空间，需要额外为指定数量的 events 分配空间，<code>kzalloc(siezof(struct v4l2_subscribed_event) + sizeof(struct v4l2_kevent) * num, GFP_KERNEL);</code>在使用的时候，完全可以按照数组的方式去对 kevent 进行寻址，很方便。</p>
+<p>如果获得的 event 数量比 kevent 的还要多，那么旧的 events 就会被丢弃。可以设置结构体 <code>v4l2_subscribed_event</code> 的 <code>merge、replace</code> 回调函数（其实默认的函数就足够用了），它们会在 event 被捕获并且没有更多的空间来存放 event 时被调用。在 <code>v4l2_event.c</code> 里面有一个很好的关于 <code>replace/merge</code> 的例子，<code>ctrls_replace()与ctrls_merge()</code> 被作为回调函数使用。由于这两个函数可以在中断上下文被调用，因此必须得快速执行完毕并返回。</p>
+<blockquote>
+<p>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>*</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/<br>关于events的循环是一个比较有意思的操作，入队时：三个变量（first-下一个准备被dequeue的eventm，<br>elems-总kevent数量，in_use-已经使用的kevent数量）</p>
+<ol>
+<li>若elems == in_use，说明队列成员已经用完。</li>
+<li>取出第一个kevent，从available队列中删掉，first指向数组的下一个成员，in_use –。</li>
+<li>找到上一步中（first指向数组的下一个成员），将上一步（取出第一个kevent）的changes位进行合并赋值给前者。<br>因为后者比前者更新，所以数值完全可以覆盖前者，同时又保留了前者的变化。</li>
+<li>取出第in_use + first &gt;= elems ? in_use + first - elems : in_use + first;个数组kevent项作为新的填充项。</li>
+<li>in_use ++<br>/<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong>/</li>
+</ol>
+</blockquote>
+<p>一些有用的函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_event_subscribe</span><span class="params">(struct v4l2_fh *fh, struct v4l2_event_subscription *sub, </span></span></div><div class="line"><span class="function"><span class="params">		<span class="keyword">unsigned</span> elems, <span class="keyword">const</span> struct v4l2_subscribed_event_ops *ops)</span></span></div></pre></td></tr></table></figure></p>
+<p>当用户空间通过 ioctl 发起订阅请求之后，<code>video_device-&gt;ioctl_ops-&gt;vidioc_subscribe_event</code><br>需要检查是否支持请求的 event，如果支持的话就调用上面的函数进行订阅。一般可以将 video 的相关 ioctl 指向内核默认的 <code>v4l2_ctrl_subscribe_event()</code> 函数。<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_event_unsubscribe</span><span class="params">(struct v4l2_fh *fh, struct v4l2_event_subscription *sub)</span></span></div><div class="line">取消一个事件的订阅，V4L2_EVENT_ALL类型可以用于取消所有事件的订阅。一般可以将video的相关ioctl指向该函数。</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">v4l2_event_queue</span><span class="params">(struct video_device *vdev, <span class="keyword">const</span> struct v4l2_event *ev)</span></span></div><div class="line">该函数用作events入队操作（由驱动完成），驱动只需要设置type以及data成员，其余的交由V4L2来完成。</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">v4l2_event_dequeue</span><span class="params">(struct v4l2_fh *fh, struct v4l2_event *event,</span></span></div><div class="line"><span class="function"><span class="params">		       <span class="keyword">int</span> nonblocking)</span></span></div><div class="line">events出队操作，发生于用户空间的VIDIOC_DQEVENT调用，作用是从available队列中取出一个events。</div></pre></td></tr></table></figure></p>
+<p><code>v4l2_subscribed_event_ops</code> 参数允许驱动程序设置以下四个回调函数成员：</p>
+<ul>
+<li>add：添加一个事件订阅时被调用</li>
+<li>del：取消一个事件订阅时被调用</li>
+<li>replace：event以新换旧，队列满时被调用，下同，常用于只有一个elems的情况下，拷贝kevent.u.ctrl项。</li>
+<li>merge：将旧的event合并到新的event中，用于多个elems的情况下，只合并changes项，原因见上面event循环过程描述。</li>
+</ul>
+<p>events 通过 poll 系统调用传递到用户空间，驱动可以将 <code>v4l2_fh-&gt;wait</code> 作为 <code>poll_wait()</code> 的参数。子设备可以直接通过 notify 函数向 <code>v4l2_device</code> 发送 events（使用<code>V4L2_DEVICE_NOTIFY_EVENT</code>）。<code>drivers/media/platform/omap3isp</code>给出了如何使用event的实例。</p>
+<blockquote>
+<p>注意事项：</p>
+<ul>
+<li>注意v4l2_event_subscribe的elems参数，如果为0，则内核就默认分配为1，否则按照指定的参数值分配。</li>
+<li>最好不要使用内核默认的v4l2_subscribed_event_ops，因为它的add函数会尝试在v4l2_ctrl里面查找相应id的ctrl，如果<br>是自定义的event id的话，有可能找不到相关的ctrl项，这样的话用户空间的VIDIOC_SUBSCRIBE_EVENT就会返回失败。</li>
+<li>用户空间dqevent之后不必关心还回的操作，因为内核会自动获取用过的kevent，用柔性数组去管理而不是分散的链表。</li>
+<li>子设备可以通过v4l2_subdev_notify_event函数调用来入队一个event并通知v4l2设备的notify回调。</li>
+<li>v4l2_event_queue函数会遍历video_device上面所有的v4l2_fh，将event入队到每一个fh的列表当中。fh由用户打开video<br>设备节点的时候产生，每一个用户打开video节点时都会为其分配一个单独的v4l2_fh。</li>
+<li>file-&gt;private永远指向最新的一个v4l2_fh，通过这个v4l2_fh可以找到整个v4l2_fh链表中的所有元素。</li>
+<li>v4l2_fh_release函数会将所有挂载该fh上面的事件全部取消订阅。</li>
+</ul>
+</blockquote>
+<p>写到这里，本文就算结束了，这部分会发现很多东西都是点到即撤，没有深入去解释，深入的这部分放在后面来完成，还有一个就是可能会感觉里面有很多东西看着可能知道是什么，但是反应到实际代码里面，实际应用里面就不知道是什么了，这个时候就必须结合代码来进行实际操作实验才能够确切了解。还有一种情况就是可能需求比较简单，一些特性永远用不到，这个时候也没关系，那就用到的时候再去翻看就好。</p>
+<hr>
+<center>想做的事就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/06/16/V4L2框架概述/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/06/09/微信公众号二维码美化极简实用教程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">微信公众号二维码美化极简实用教程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#V4L2框架简介"><span class="toc-number">1.</span> <span class="toc-text">V4L2框架简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V4L2框架蓝图"><span class="toc-number">2.</span> <span class="toc-text">V4L2框架蓝图</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#蓝图解构"><span class="toc-number">2.1.</span> <span class="toc-text">蓝图解构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#层级解构"><span class="toc-number">2.2.</span> <span class="toc-text">层级解构</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#驱动结构体"><span class="toc-number">3.</span> <span class="toc-text">驱动结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构体实例"><span class="toc-number">3.1.</span> <span class="toc-text">结构体实例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#驱动设备使用"><span class="toc-number">3.2.</span> <span class="toc-text">驱动设备使用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v4l2-subdev-结构体"><span class="toc-number">4.</span> <span class="toc-text">v4l2_subdev 结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v4l2子设备用户空间API"><span class="toc-number">5.</span> <span class="toc-text">v4l2子设备用户空间API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#I2C子设备驱动"><span class="toc-number">6.</span> <span class="toc-text">I2C子设备驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#video-device-结构体"><span class="toc-number">7.</span> <span class="toc-text">video_device 结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ioctls-与-locking"><span class="toc-number">8.</span> <span class="toc-text">ioctls 与 locking</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v4l2-fh-结构体"><span class="toc-number">9.</span> <span class="toc-text">v4l2_fh 结构体</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#V4L2-events"><span class="toc-number">10.</span> <span class="toc-text">V4L2 events</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -239,9 +528,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

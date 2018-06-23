@@ -7,14 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: 感悟 | YellowMax的博客</title>
+  <title>V4L2框架-v4l2 device | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/感悟/index.html">
+  <meta name="description" content="本文对 V4L2 中比较容易理解的骨干结构进行介绍，涉及两个核心结构体：v4l2_device， v4l2_subdev。文章围绕这两个结构体以 Linux-4.4 内核的 omap3isp 代码为例进行相关的介绍，所谓介绍还是起到辅助作用，真真儿的还是要靠 RTFSC、WTFSC。  00 - V4L2框架概述">
+<meta name="keywords" content="编程,V4L2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V4L2框架-v4l2 device">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/06/23/V4L2框架-v4l2-device/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="本文对 V4L2 中比较容易理解的骨干结构进行介绍，涉及两个核心结构体：v4l2_device， v4l2_subdev。文章围绕这两个结构体以 Linux-4.4 内核的 omap3isp 代码为例进行相关的介绍，所谓介绍还是起到辅助作用，真真儿的还是要靠 RTFSC、WTFSC。  00 - V4L2框架概述">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-submods.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-06-23T03:18:12.530Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="V4L2框架-v4l2 device">
+<meta name="twitter:description" content="本文对 V4L2 中比较容易理解的骨干结构进行介绍，涉及两个核心结构体：v4l2_device， v4l2_subdev。文章围绕这两个结构体以 Linux-4.4 内核的 omap3isp 代码为例进行相关的介绍，所谓介绍还是起到辅助作用，真真儿的还是要靠 RTFSC、WTFSC。  00 - V4L2框架概述">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-submods.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,410 +162,254 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-V4L2框架-v4l2-device" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      V4L2框架-v4l2 device
+    </h1>
+  
+
+        
+        <a href="/2018/06/23/V4L2框架-v4l2-device/" class="archive-article-date">
+  	<time datetime="2018-06-23T02:58:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-23</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文对 V4L2 中比较容易理解的骨干结构进行介绍，涉及两个核心结构体：<code>v4l2_device</code>， <code>v4l2_subdev</code>。文章围绕这两个结构体以 Linux-4.4 内核的 omap3isp 代码为例进行相关的介绍，所谓介绍还是起到辅助作用，真真儿的还是要靠 RTFSC、WTFSC。</p>
+</blockquote>
+<p><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
+<a id="more"></a>
+<font color="red">下面「该例程」均指的是 omap3isp 这个例程。</font>
+
+<h2 id="V4L2-框架补充"><a href="#V4L2-框架补充" class="headerlink" title="V4L2 框架补充"></a>V4L2 框架补充</h2><p>首先看图：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-submods.jpg" alt="V4L2 子模块划分"></p>
+<center>V4L2 子模块划分</center>
+
+<p>这并不是官方的划分，是我自己根据自己感觉划分出来的，也就是那么回事儿吧。那么这篇文章里面秀的主题就是子设备系统这一块，就是上面图中的第三个「subdev」。由图也可知，本文主要是讲如何管理众多的输入设备。注意：是所有的设备，并不是运行时的数据流通路上面的设备。</p>
+<h2 id="主设备"><a href="#主设备" class="headerlink" title="主设备"></a>主设备</h2><p>主设备使用 <code>v4l2_device</code> 进行抽象化表示。该例程使用了设备树来进行设备解析，使用平台驱动进行相应的驱动 probe。在文件 <code>drivers/media/platform/omap3isp/isp.c</code> 中有 <code>isp_probe</code> 函数，该函数的第一个参数定义即是 <code>isp_device</code>，回忆前面的文章，里面有提到大多数情况下，需要将 <code>v4l2_device</code> 结构体嵌入到一个更大的结构体里面使用，此为驱动自定义的结构体，那就是它了，那么它的定义如下（删去了与分析无关的部分）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct isp_device &#123;</div><div class="line">	struct v4l2_device v4l2_dev;</div><div class="line">	struct v4l2_async_notifier notifier;</div><div class="line">	struct media_device media_dev;</div><div class="line"></div><div class="line">	... ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中与本节有关的就属于是 <code>struct v4l2_device v4l2_dev</code> 这个了，它将作为串联管理整个 omap3isp 的管理者的存在。</p>
+<p>同时它的用法契合前面讲的「嵌入式」，<code>struct isp_device</code> 是驱动自定义的结构体，这个结构体可以看作是整个 omap3isp 的设备抽象化结构体，也就是说：它就代表了 omap3isp 这个大的设备。下面将看到它的用法。</p>
+<h3 id="注册-v4l2-device"><a href="#注册-v4l2-device" class="headerlink" title="注册 v4l2_device"></a>注册 <code>v4l2_device</code></h3><p>在 isp.c 的 <code>isp_probe</code> 函数中有调用 <code>isp_register_entities</code> 函数，里面开头的内容大致如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">... ...</div><div class="line">	isp-&gt;v4l2_dev.mdev = &amp;isp-&gt;media_dev;</div><div class="line">	ret = v4l2_device_register(isp-&gt;dev, &amp;isp-&gt;v4l2_dev);</div><div class="line">	if (ret &lt; 0) &#123;</div><div class="line">		dev_err(isp-&gt;dev, &quot;%s: V4L2 device registration failed (%d)\n&quot;,</div><div class="line">			__func__, ret);</div><div class="line">		goto done;</div><div class="line">	&#125;</div><div class="line">... ...</div></pre></td></tr></table></figure></p>
+<p>其实可以看到注册函数里面并没有把高设备加入到一个链表里面什么的，而是初始化结构体成员，比如子设备链表头初始化，增加 dev 的引用等。在一切子设备被串联起来之前首先要初始化注册 <code>v4l2_device</code> 这个总的设备。</p>
+<h2 id="v4l2-subdev"><a href="#v4l2-subdev" class="headerlink" title="v4l2_subdev"></a><code>v4l2_subdev</code></h2><p>该结构体是抽象化的子设备，用于子设备管理之用。它有「初始化」、「注册子设备」、「注册子设备节点」等几个操作。通常情况下「初始化」的函数实例被定义在一个个的子设备驱动模块内部，「注册子设备」与「注册子设备节点」这两个函数的实体被定义在父设备模块内部，比如： isp.c 中。</p>
+<p>上代码（<code>isp_probe</code> 函数中）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">ret = isp_initialize_modules(isp);</div><div class="line">if (ret &lt; 0)</div><div class="line">	goto error_iommu;</div><div class="line">ret = isp_register_entities(isp);</div><div class="line">if (ret &lt; 0)</div><div class="line">	goto error_modules;</div></pre></td></tr></table></figure></p>
+<p>下面首先看下 <code>isp_initialize_modules</code> 函数中的实现：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">static int isp_initialize_modules(struct isp_device *isp)</div><div class="line">&#123;</div><div class="line">	int ret;</div><div class="line"></div><div class="line">	ret = omap3isp_csiphy_init(isp);</div><div class="line"></div><div class="line">	ret = omap3isp_csi2_init(isp);</div><div class="line"></div><div class="line">... ...</div><div class="line"></div><div class="line">	ret = omap3isp_h3a_aewb_init(isp);</div><div class="line"></div><div class="line">	ret = omap3isp_h3a_af_init(isp);</div><div class="line">... ...</div><div class="line">	return 0;</div><div class="line">... ...</div></pre></td></tr></table></figure></p>
+<p>再进去 <code>omap3isp_xxxx_init</code> 函数里面就可以看到有类似 <code>v4l2_subdev_init</code> 的函数调用了，文章尽量少贴代码，多讲实现、使用机理，相信你一定能自己找到相关代码的。</p>
+<p>所以结构大体上是这样子的：</p>
+<ol>
+<li>你有一个输入设备 omap3isp，它的管理者列在一个单独的代码文件里面名为 <code>isp.c</code>；</li>
+<li>定义一个自定义的抽象化结构体代表 omap3isp 这个设备，名为 <code>isp_device</code>，并把 <code>v4l2_device</code> 嵌入内部作为子设备管理工具；</li>
+<li>把子设备-类似 csi、preview、3a 等抽象化为一个个子设备，每个子设备一个代码文件，名为 <code>ispxxx.c</code>，分别有自己的抽象化结构体，名为 <code>isp_xxx_dev</code>，内部嵌入了 <code>v4l2_subdev</code> 作为子设备的抽象工具使用。同时实现自己的设备初始化函数，名为 <code>xxx_init_eneities</code>；</li>
+<li>在管理者 <code>isp.c</code> 的 probe 函数里面调用子设备的 <code>xxx_init_entities</code>，子设备初始化函数里面会做好 <code>v4l2_subdev</code> 的初始化工作；</li>
+<li>管理者的 probe 函数里面注册 <code>v4l2_device</code>，注册子设备，必要时注册子设备节点在用户空间生成  <code>/dev/nodeX</code>；</li>
+<li>大功告成，此时你就可以通过 <code>v4l2_device</code> 来管理所有的子设备了，框架本身提供了很好用的管理方式与相关的回调函数、结构体成员等等。</li>
+</ol>
+<h2 id="设备的管理"><a href="#设备的管理" class="headerlink" title="设备的管理"></a>设备的管理</h2><p>设备的管理必然需要主设备与子设备之间能够互联互通，否则的话谈何去管理，本节就介绍如何实现主设备与子设备之间的数据互联互通。</p>
+<h3 id="主设备子设备互通"><a href="#主设备子设备互通" class="headerlink" title="主设备子设备互通"></a>主设备子设备互通</h3><p>通过上面的步骤建立了连接之后怎么从主设备找到子设备呢？如何从子设备找到主设备？如何从 <code>v4l2_device</code> 到自定义的主设备抽象结构体？如何从 <code>v4l2_subdev</code> 到子设备自定义的结构体？</p>
+<ul>
+<li>如何从主设备找到子设备<br>首先需要获取 <code>v4l2_device</code> 结构体，然后可以使用 <code>list_for_each_entry</code> 来对子设备进行遍历，其中子设备的结构体内部有一个 <code>name</code> 成员，长度为32个字节，这个字段要求是整个 <code>v4l2_device</code> 下属唯一的，所以要想找到某一个指定的子设备完全可以在遍历的时候对比子设备的 <code>name</code> 字段看是不是自己想要找的。</li>
+<li>如何从子设备找到主设备<br><code>v4l2_subdev</code> 的结构体里面有一个 <code>v4l2_dev</code> 的指针成员，该成员会在子设备被注册的时候指向 <code>v4l2_device</code> 成员，注册函数为 <code>v4l2_device_register_subdev</code>。在该步骤执行完毕之后就可以通过获取子设备结构体内部的 <code>v4l2_dev</code> 成员来获得主设备结构体。</li>
+<li>如何从主设备到主设备实例化结构体<br>可以看到 <code>v4l2_device</code> 内部并没有什么私有指针之类的东西，那怎么去找到主设备的实例化结构体呢，此时可以通过另一种偏门方法获取，比如在定义结构体的时候把 <code>v4l2_device</code> 放在结构体成员的第一个，之后通过 <code>v4l2_subdev</code> 获取到 <code>v4l2_device</code> 之后就可以把其地址强制转换为主设备自定义的实例化结构体来实现访问。</li>
+<li>如何从子设备到子设备实例化结构体<br>子设备内部有两个私有的指针：<code>dev_priv</code>，<code>host_priv</code>。前一个好理解也很好使用，使用的时候就调用 <code>v4l2_set_subdevdata</code> 函数将 <code>dev_priv</code> 指向子设备实例化结构体即可，然后就可以用 <code>v4l2_get_subdevdata</code> 来从 <code>v4l2_subdev</code> 获取到子设备结构体实例化的结构体数据了。后一个不是很好理解其用处，但是也可以通过 <code>v4l2_set_subdev_hostdata/v4l2_get_subdev_hostdata</code> 来进行设置/获取，host 也即主控端，比如一个 camera sensor 的 SOC 端的控制器就可以作为主控端，再比如使用 I2C 进行通信的 camera sensor 的 SOC 端的 I2C 控制器就可以作为 <code>host_priv</code>，必要时通过 I2C 来控制子设备的行为。或者干脆把主设备实例化的结构体作为 host data 也可以。</li>
+</ul>
+<h3 id="主子设备信息交流"><a href="#主子设备信息交流" class="headerlink" title="主子设备信息交流"></a>主子设备信息交流</h3><p>本节使用多个实际的用例来深入解释下各种信息交流方式与情景。比如：如何控制访问指定类型的子设备？子设备如何向主设备回返通知？</p>
+<ul>
+<li>访问所有的 sensor 设备并关闭其数据流</li>
+</ul>
+<ol>
+<li>子设备注册的时候应该要提供了相关的操作函数，那就是 <code>v4l2_subdev_ops</code> 这个结构体了，在此例中我们就仅仅设置其 <code>video</code> 成员的 <code>s_stream</code> 成员。</li>
+<li>提供子设备组 id，也就是 <code>v4l2_subdev</code> 的 <code>grp_id</code> 成员，此处我们设置为一个我自己假定的枚举类型（你只要保证这个枚举类型是整个 <code>v4l2_device</code> 下属唯一的就行），我假定为 <code>OMAP3ISP_CAMSENSOR</code>。</li>
+<li>初始化并注册子设备，就不再多说了，初始化以及注册的方式前面都有提到过了。</li>
+<li>执行 <code>v4l2_device_call_all(v4l2_device, OMAP3ISP_CAMSENSOR, video, s_stream, 0);</code>，此时会遍历挂在 <code>v4l2_device</code> 名下的所有的 <code>OMAP3ISP_CAMSENSOR</code> 组的子设备，调用其 <code>s_stream</code> 的模块函数进行数据流的关闭。</li>
+</ol>
+<ul>
+<li>子设备数据流关闭后向主设备回返通知</li>
+</ul>
+<ol>
+<li>需要提供主设备的 <code>notify</code> 成员操作函数。</li>
+<li>定义好 <code>notification</code> 的格式，比如我自己的定义，高8位表示哪个子设备，次8位表示哪种类型的操作（此处是 video 类型的 ops），再次8位表示具体的操作函数（s_stream），低8位表示操作值（0关闭）。</li>
+<li>子设备调用 <code>v4l2_subdev_notify</code> 函数进行正式通知的发送，此时也可以带一些参数，只需要传递其地址就可以了，主子设备端商定好数据的格式即可。</li>
+<li>主设备收到通知之后进行相关的操作。</li>
+</ol>
+<h2 id="交通枢纽-video-device"><a href="#交通枢纽-video-device" class="headerlink" title="交通枢纽 video_device"></a>交通枢纽 <code>video_device</code></h2><p>该结构体整合了数据流管理的终端模块功能，负责提供从内核空间到用户空间的数据交流，属于非常重要的一个功能了，必不可少的那种。</p>
+<p>通常情况下所有的子设备都可以注册一个 <code>video_device</code> 结构体来在用户空间生成一个设备节点以供用户进行操作，但是区别在于只有负责真正传递视频数据的那个模块用得着注册 video 类型的设备节点名称（比如内核输入设备数据链的 DMA 数据终端），其它的使用 v4l-subdev 类型的就可以了。</p>
+<p><code>video_device</code> 只与 <code>v4l2_device</code> 进行绑定关联，通过后者这层关系可以访问到整个子设备网络的资源。</p>
+<h3 id="如何注册-video-类型节点"><a href="#如何注册-video-类型节点" class="headerlink" title="如何注册 video 类型节点"></a>如何注册 video 类型节点</h3><p>使用 <code>video_register_device</code> 配合 <code>VFL_TYPE_GRABBER</code> 参数进行注册，此时该函数执行完毕并返回的时候就可以在用户空间看到形如 <code>/dev/videoX</code> 的设备节点了。</p>
+<p>注意需要提供其操作函数，类似下面的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static struct v4l2_file_operations isp_video_fops = &#123;</div><div class="line">	.owner = THIS_MODULE,</div><div class="line">	.unlocked_ioctl = video_ioctl2,</div><div class="line">	.open = isp_video_open,</div><div class="line">	.release = isp_video_release,</div><div class="line">	.poll = isp_video_poll,</div><div class="line">	.mmap = isp_video_mmap,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>关于其成员如何实现本节不详细介绍，在后面的 videobuf2 一文中会进行详细介绍。</p>
+<h3 id="如何注册其它类型节点"><a href="#如何注册其它类型节点" class="headerlink" title="如何注册其它类型节点"></a>如何注册其它类型节点</h3><p>对于 v4l2 输入设备来说，使用 <code>v4l2_device_register_subdev_nodes</code> 来进行批量的设备节点注册，它内部依然会调用 <code>video_register_device</code> 函数，只不过会使用 <code>VFL_TYPE_SUBDEV</code> 类型来代替上面 <code>VFL_TYPE_GRABBER</code>，那么在用户空间生成的设备节点名称就是 <code>v4l-subdevX</code> 了。</p>
+<p>这种情况下注册的设备节点的操作函数是在 <code>v4l2-device.c</code> 里面定义好的默认操作函数，它的定义如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">const struct v4l2_file_operations v4l2_subdev_fops = &#123;</div><div class="line">	.owner = THIS_MODULE,</div><div class="line">	.open = subdev_open,</div><div class="line">	.unlocked_ioctl = subdev_ioctl,</div><div class="line">#ifdef CONFIG_COMPAT</div><div class="line">	.compat_ioctl32 = subdev_compat_ioctl32,</div><div class="line">#endif</div><div class="line">	.release = subdev_close,</div><div class="line">	.poll = subdev_poll,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>到这里为止，基本上关于设备这块的基础操作已经介绍完毕，至于还有一些比较高级的操作就放在后续的文章里面进行介绍了。<font color="red">预告一下，下一篇文章是讲 media framework 的，循序渐进</font>。该篇文章读完并实践之后就可以在用户空间看到有 <code>/dev/video</code> 设备节点了，可以写一个小的测试用例，当打开设备节点的时候遍历一遍子设备把子设备的名字打出来，也可以增加更详细的信息，总之，本文的目的是实现一个 <code>v4l2_device</code> 管理框架下的设备拓扑，你可以把这个拓扑结构打印出来就算是完美完成任务了。</p>
+<p>以防万一有滴同学不知道：<br>「RTFSC」：Read The Fxxking Source Code<br>「WTFSC」：Dao Li Tong Shang</p>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/06/18/生活集思录-如何创造差异化/" class="archive-article-date">
-  	<time datetime="2018-06-18T06:42:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/06/18/生活集思录-如何创造差异化/">如何创造差异化</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/27/生活集思录-习惯性否决/" class="archive-article-date">
-  	<time datetime="2018-05-27T02:10:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/27/生活集思录-习惯性否决/">生活集思录-习惯性否决</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/27/生活集思录-你是否在欺骗自己/" class="archive-article-date">
-  	<time datetime="2018-04-27T14:29:10.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/27/生活集思录-你是否在欺骗自己/">生活集思录-你是否在欺骗自己</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/01/测试VS研发/" class="archive-article-date">
-  	<time datetime="2018-04-01T01:27:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/01/测试VS研发/">测试VS研发</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/25/生活集思录-大学门外的事情/" class="archive-article-date">
-  	<time datetime="2018-03-25T01:53:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/25/生活集思录-大学门外的事情/">生活集思录-大学门外的事情</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/28/2017嵌入式软件行业现状及概述/" class="archive-article-date">
-  	<time datetime="2017-10-28T00:36:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/28/2017嵌入式软件行业现状及概述/">2017嵌入式软件行业现状及概述</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/06/23/V4L2框架-v4l2-device/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/22/生活集思录-入职三个月的迷茫/" class="archive-article-date">
-  	<time datetime="2017-10-22T01:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/18/生活集思录-如何创造差异化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">如何创造差异化</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/22/生活集思录-入职三个月的迷茫/">生活集思录-入职三个月的迷茫</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#V4L2-框架补充"><span class="toc-number">1.</span> <span class="toc-text">V4L2 框架补充</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#主设备"><span class="toc-number">2.</span> <span class="toc-text">主设备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注册-v4l2-device"><span class="toc-number">2.1.</span> <span class="toc-text">注册 v4l2_device</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#v4l2-subdev"><span class="toc-number">3.</span> <span class="toc-text">v4l2_subdev</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设备的管理"><span class="toc-number">4.</span> <span class="toc-text">设备的管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#主设备子设备互通"><span class="toc-number">4.1.</span> <span class="toc-text">主设备子设备互通</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主子设备信息交流"><span class="toc-number">4.2.</span> <span class="toc-text">主子设备信息交流</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#交通枢纽-video-device"><span class="toc-number">5.</span> <span class="toc-text">交通枢纽 video_device</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#如何注册-video-类型节点"><span class="toc-number">5.1.</span> <span class="toc-text">如何注册 video 类型节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何注册其它类型节点"><span class="toc-number">5.2.</span> <span class="toc-text">如何注册其它类型节点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结束语"><span class="toc-number">6.</span> <span class="toc-text">结束语</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -585,9 +437,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

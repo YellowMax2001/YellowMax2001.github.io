@@ -156,6 +156,89 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-V4L2框架-media-device" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/02/V4L2框架-media-device/">V4L2框架-media-device</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/02/V4L2框架-media-device/" class="archive-article-date">
+  	<time datetime="2018-07-02T13:02:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文对 V4L2 的运行时数据流设备管理做一个详细的介绍，包括什么叫「运行时设备管理」，它是干什么用的，怎么使用等等。本文的目标是掌握 media device 的编码使用方法以及功能运用。</p>
+</blockquote>
+<p><a href="http://www.yellowmax2001.com/2018/06/23/V4L2%E6%A1%86%E6%9E%B6-v4l2-device/">01 - V4L2框架-v4l2 device</a><br><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
+        
+          <a class="article-more-a" href="/2018/07/02/V4L2框架-media-device/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/02/V4L2框架-media-device/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-V4L2框架-v4l2-device" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -902,92 +985,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-OpenMAX编程-实现一个组件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/03/OpenMAX编程-实现一个组件/">OpenMAX编程-实现一个组件</a>
-    </h1>
-  
-
-        
-        <a href="/2017/12/03/OpenMAX编程-实现一个组件/" class="archive-article-date">
-  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
-<p>导读：<br>本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。</p>
-<p>注意：该文章主要介绍<font color="blue"><strong>组件内部代码</strong></font>的实现，其余部分简略介绍，实际上完整的组件还包括有<strong>组件类型的管理，组件绑定模块，组件句柄的分配</strong>，然后才是下面的各个组件的实现，但是OpenMAX的标准化使得我们编写组件内部代码的时候不必过于关心更上层的组件管理代码的实现，只需要知道应该按照什么样的规则去编写组件内部代码即可。</p>
-        
-          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-实现一个组件/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-实现一个组件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1111,19 +1108,19 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">经验</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">C语言</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">经验</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
               </li>
              
               <li class="article-tag-list-item">

@@ -7,14 +7,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: hexo 博客配置 | YellowMax的博客</title>
+  <title>V4L2框架-videobuf2 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/hexo-博客配置/index.html">
+  <meta name="description" content="本文介绍在 v4l2 框架之下的数据流交互的实现与使用，主要目的是实现一个能够进行用户空间与内核空间进行数据交互、数据流格式设置、数据流 buffer 申请与释放、数据流开启与关闭的 video 设备驱动。  02 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta name="keywords" content="编程,V4L2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V4L2框架-videobuf2">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/07/15/V4L2框架-videobuf2/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="本文介绍在 v4l2 框架之下的数据流交互的实现与使用，主要目的是实现一个能够进行用户空间与内核空间进行数据交互、数据流格式设置、数据流 buffer 申请与释放、数据流开启与关闭的 video 设备驱动。  02 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/stream-usr-seq.png">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-framework.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-07-15T08:51:38.630Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="V4L2框架-videobuf2">
+<meta name="twitter:description" content="本文介绍在 v4l2 框架之下的数据流交互的实现与使用，主要目的是实现一个能够进行用户空间与内核空间进行数据交互、数据流格式设置、数据流 buffer 申请与释放、数据流开启与关闭的 video 设备驱动。  02 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/stream-usr-seq.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,64 +163,311 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-V4L2框架-videobuf2" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
+    <h1 class="article-title" itemprop="name">
+      V4L2框架-videobuf2
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/07/15/V4L2框架-videobuf2/" class="archive-article-date">
+  	<time datetime="2018-07-15T08:37:42.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-15</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文介绍在 v4l2 框架之下的数据流交互的实现与使用，主要目的是实现一个能够进行用户空间与内核空间进行数据交互、数据流格式设置、数据流 buffer 申请与释放、数据流开启与关闭的 video 设备驱动。</p>
+</blockquote>
+<p><a href="http://www.yellowmax2001.com/2018/07/02/V4L2%E6%A1%86%E6%9E%B6-media-device/">02 - V4L2框架-media-device</a><br><a href="http://www.yellowmax2001.com/2018/06/23/V4L2%E6%A1%86%E6%9E%B6-v4l2-device/">01 - V4L2框架-v4l2 device</a><br><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
+<a id="more"></a>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>videobuf2 用于连接 V4L2 驱动层与用户空间层，提供数据交流的通道，它可以分配并管理视频帧数据。videobuf 层实现了很多 ioctl 函数，包括 buffer 分配、入队、出队和数据流控制。</p>
+<ul>
+<li>为什么要有videobuf2？<br>因为 videobuf1 存在者下面的问题（原文收录于赫尔欣基峰会会议的 PPT 文档中，摘录如下）</li>
+</ul>
+<blockquote>
+<ol>
+<li>不完善的以及错误的内存管理<br> a. 不能停止 streaming（在 streamoff 的时候，buffer 被释放，从而无法灵活地再次开启 stream）;<br> b. VIDIOC_REQBUFS(0) 不会释放内存，这个主要就是使用上的方便与否;<br> c. 不能够使用 VIDIOC_REQBUFS 重复申请内存，道理同上;<br> d. video 内存在 mmap、qbuf 甚至 page fault 中分配；在 unmap、streamoff 或者驱动自定义的地方被释放，也就是说不够标准化、统一化;<br> e. 每一个buffer都有一个等待队列，太过繁琐，会导致 buffer 轮转的时间较长;</li>
+<li>扩展性不足，尤其是嵌入式多媒体设备<br> a. 难以添加新的内存处理函数以及自定义的内存分配函数，比如现在 videobuf2 里面已有的三种-「dma-contig、sg-dma、vmalloc」;<br> b. 对 cache 以及 IOMMU 的支持非常弱;<br> c. 不够灵活。只有一个通用的函数来处理 cache、sg-list 创建等等事情，这些应该分为不同的抽象方法类进行差异化管理;</li>
+<li>无用的成员，代码，变量（这个我就没有深入了解了）</li>
+</ol>
+</blockquote>
+<ul>
+<li>videobuf2要解决的问题<br>a. 更正 V4L2 的 API，修复 videobuf1 的问题与缺点「上面提到的问题」<br>b. 把队列管理与内存管理完全分离，采用分层的设计<br>c. 更多专门的驱动回调，不同类型驱动特定的，同时又满足可定制化的拆分，不必要的不使用，必要的按需使用<br>d. 支持新的V4L2 API扩展，比如多 planar 视频 buffer，比如 YUV 就是多 planer 的格式，它们的 Y、U、V 数据可能不在同一个连续的地址段内</li>
+</ul>
+<h2 id="数据类型「具体指的是视频数据的类型」"><a href="#数据类型「具体指的是视频数据的类型」" class="headerlink" title="数据类型「具体指的是视频数据的类型」"></a>数据类型「具体指的是视频数据的类型」</h2><h3 id="数据类型简介"><a href="#数据类型简介" class="headerlink" title="数据类型简介"></a>数据类型简介</h3><p>不是所有的视频设备都使用同一种类型的 buffer，事实上，buffer 类型可以概括为三种：</p>
+<ul>
+<li>buffer 在虚拟地址以及物理地址上面都是分散的。几乎所有的用户空间 buffer 都是这种类型，在内核空间中，这种类型的 buffer 并不总是能够满足需要，因为这要求硬件可以进行分散的 DMA 操作。</li>
+<li>物理地址分散，虚拟地址连续。也就是通过 vmalloc 分配的 buffer，换句话说很难使用 DMA 来操作这些buffer。</li>
+<li>物理地址连续（虚拟地址不关心）。在分段式系统上面分配这种类型的 buffer 是不可靠的（分段式-也即页式系统上面有可能在长时间运行之后内存出现大量碎片，从而导致连续的内存空间很难获得，所以说不可靠），但是简单 DMA 控制器只能够适用于这种类型的 buffer。也有分段式的 DMA 操作，不过那种需要用到 IOMMU 来实现。</li>
+</ul>
+<p>这三种类型的 buffer 对应的相关操作函数分别对应于 <code>videobuf2-dma-sg.c</code>,<code>videobuf2-vmalloc.c</code>,<code>videobuf2-dma-contig.c</code>。</p>
+<h3 id="结构体、回调函数、初始化"><a href="#结构体、回调函数、初始化" class="headerlink" title="结构体、回调函数、初始化"></a>结构体、回调函数、初始化</h3><p>根据buffer的不同，，需要用到的内核头文件也不同：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;media/videobuf-dma-sg.h&gt;		/* 物理地址分散 */</div><div class="line">&lt;media/videobuf-vmalloc.h&gt;		/* vmalloc() 分配的buffer */</div><div class="line">&lt;media/videobuf-dma-contig.h&gt;	/* 物理地址连续 */</div></pre></td></tr></table></figure></p>
+<p>需要实现以下几个回调函数来管理buffer：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">struct vb2_ops &#123;</div><div class="line">	int (*queue_setup)(struct vb2_queue *q, const void *parg,</div><div class="line">			   unsigned int *num_buffers, unsigned int *num_planes,</div><div class="line">			   unsigned int sizes[], void *alloc_ctxs[]);</div><div class="line"></div><div class="line">	void (*wait_prepare)(struct vb2_queue *q);</div><div class="line">	void (*wait_finish)(struct vb2_queue *q);</div><div class="line"></div><div class="line">	int (*buf_init)(struct vb2_buffer *vb);</div><div class="line">	int (*buf_prepare)(struct vb2_buffer *vb);</div><div class="line">	void (*buf_finish)(struct vb2_buffer *vb);</div><div class="line">	void (*buf_cleanup)(struct vb2_buffer *vb);</div><div class="line"></div><div class="line">	int (*start_streaming)(struct vb2_queue *q, unsigned int count);</div><div class="line">	void (*stop_streaming)(struct vb2_queue *q);</div><div class="line"></div><div class="line">	void (*buf_queue)(struct vb2_buffer *vb);</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<ul>
+<li><code>queue_setup</code>：<br>该回调函数在两个地方会被调用：</li>
+</ul>
+<ol>
+<li><strong>在真正的 memory 分配之前</strong>，由 <code>VIDIOC_REQBUFS</code> 和 <code>VIDIOC_CREATE_BUFS</code> 两个 ioctl 调用，一般情况下我们会使用 <code>VIDIOC_REQBUFS</code> 这个 ioctl，后者不常使用。</li>
+<li>如果不能够分配 <code>num_buffers</code> 指定的原始数量的的 buffer，那么该函数就会再次被调用来尽最大努力去分配 buffer 并返回实际被分配的 buffer 数量，返回值依然存到 <code>num_buffers</code>，返回值这部分应该有驱动编写者来完成。</li>
+<li><code>num_planes</code> 里面返回申请的 buffer 的 planes 的数量，比如对于 YUV420SP 格式的数据来说，它的 planes 就是 2「具体为什么是 2 就需要自己去网上找找 YUV 格式的解析啦，本文重点不在这里」。</li>
+<li>每个 plane 的大小被存放在该回调函数的 <code>sizes</code> 数组成员里面，可选的，<code>alloc_ctxs</code> 数组可以存放每一个 plane 的特定数据，不过这种应用场景暂时没有遇到过，<code>alloc_ctxs</code> 没用过。</li>
+<li>需要返回的值：驱动需要返回实际分配的 buffer 数量，存放在 <code>num_buffers</code> 中。返回 plane 数量，存放在 <code>num_planes</code> 中。每个 plane 的大小按照顺序存放在 <code>sizes[]</code> 中，每个 plane 的分配者特定数据存放在 <code>alloc_ctxs[]</code> 「之前的版本是在 <code>alloc_devs[]</code>」中，这一步是可选的，因为并不总是用得到。</li>
+</ol>
+<ul>
+<li><code>wait_prepare</code>：释放所有在 ioctl 操作函数执行时被持有的锁；该回调在 ioctl 需要等待一个新的 buffer 到达的时候被调用；需要在阻塞访问的时候避免死锁。</li>
+<li><code>wait_finish</code>：请求所有的在上面 <code>wait_prepare</code> 回调锁释放的锁；需要在睡眠等待新的 buffer 到来之后继续运行。</li>
+</ul>
+<p>上面两个回调比较通用的做法是：将 <code>wait_prepare</code> 赋值为 <code>vb2_ops_wait_prepare</code>，将 <code>wait_finish</code> 赋值为 <code>vb2_ops_wait_finish</code>，这两个是 videobuf2 为我们实现的两个回调，直接使用即可。上面两个函数在 <code>vb2_internal_dqbuf</code> 内部会被使用到，通常情况下会在用户 DQBUF 的时候使用，内核里面会判断是否是阻塞的情况，如果是阻塞调用并且没有准备好的数据，内核就会调用 <code>wait_prepare</code> 释放锁并进行休眠等待，直到有数据到达被唤醒之后才调用 <code>wait_finish</code> 重新持有锁。</p>
+<ul>
+<li><p><code>buf_init</code>：在 MMAP 方式下，分配完 buffer 或者 USERPTR 情况下请求完 buffer 之后被调用一次，（一个 buffer 调用一次）。如果该 ioctl 返回失败，将会导致 <code>queue_setup</code> 执行失败。该函数的主要目的是让我们在 buffer 申请完毕之后对 buffer 做一些初始化工作，但是实际上好像并不是经常用到。在该函数里面可以获取到 buffer 的 type，memory 类型，index，planesnum 等</p>
+</li>
+<li><p><code>buf_prepare</code>：每次 buffer 重新入队「就是在用户调用 QBUF 的时候」以及 <code>VIDIOC_PREPARE_BUF</code> 操作的时候被调用，驱动可以做一些硬件操作「通常数据都是由硬件产生的」之前的初始化工作。如果该回调返回失败，那么 buffer 将不会执行 queue 动作。一般在这里需要设置 plane 的 payload，也就是每个 plane 的使用内存长度，单位为 Byte，可以使用 <code>vb2_set_plane_payload</code> 来帮助完成「在 omap3isp 例程当中该回调函数里面获取 buffer 的 dma 地址，然后赋值给 buffer-&gt;dma 成员」。</p>
+</li>
+<li><p><code>buf_finish</code>：每次 buffer 被取出的时候被调用，并且是在 buffer 到达用户空间之前，所以驱动可以访问/修改 buffer 的内容。buffer 的状态可以是：<br>  <code>VB2_BUF_STATE_DONE</code> 或者 <code>VB2_BUF_STATE_ERROR</code>：这两种状态只在 streaming 的时候才会出现，前者是在驱动把 buffer 传递给 videobuf2 的时候被置位，此时还没有被传递给用户空间，后者与前者类似，也会最终被传递给用户，但是表明对 buffer 的操作最终以失败告终<br>  <code>VB2_BUF_STATE_PARPARED</code>：videobuf2 准备好了 buffer，并且驱动持有 buffer。注意，驱动与 videobuf2 看作两个使用者<br>  <code>VB2_BUF_STATE_DEQUEUED</code>：默认状态，表明 buffer 处于被用户使用的状态</p>
+</li>
+<li><p><code>buf_cleanup</code>：buffer 被释放之前调用一次，每个 buffer 仅有一次，驱动可以在这里面做一些额外的操作。</p>
+</li>
+<li><p><code>start_streaming</code>：进入 streaming 状态时被调用一次，一般情况下，驱动在该回调函数执行之前，通过 <code>buf_queue</code> 回调来接收 buffer，这里驱动需要把 buffer 放到驱动自己维护的一个 buffer 队列里面。count 参数存放已经被 queue 的 buffer 数量，驱动可以由此获取它。如果发生硬件错误，驱动可以通过该回调返回一个错误，此时所有的buffer都会被归还给 videobuf2（调用 <code>vb2_buffer_done(VB2_BUF_STATE_QUEUED)</code>）。如果需要设置开始 <code>start_streaming</code> 需要的 buffer 最小数量，比如驱动只有在满足 buffer 数量大于等于 3 的时候才能够开启数据流，那么就可以在该函数被调用之前设置 <code>vb2_queue-&gt;min_buffers_needed</code> 成员为自己想要的值，此时该回调函数会在满足最小 buffer 数量之后才被调用。</p>
+</li>
+<li><p><code>stop_streaming</code>：在 streaming 被禁止的时候调用，驱动需要关掉 DMA 或者等待 DMA 结束，调用 <code>vb2_buffer_done</code> 来归还所有驱动持有的 buffers（参数使用 <code>VB2_BUF_STATE_DONE</code> 或者 <code>VB2_BUF_STATE_ERR</code>），可能需要用到 <code>vb2_wait_for_all_buffers</code> 来等待所有的 buffer，该函数是用来等待所有的 buffer 被归还给 videobuf2 的。</p>
+</li>
+<li><p><code>buf_queue</code>：用来传递 vb（<code>vb2_buffer</code> 结构体） 给驱动，驱动可以在这里开启硬件操作（DMA 等等）。驱动填充 buffer 完毕之后需要调用 <code>vb2_buffer_done</code> 归还 buffer，该函数总是在 <code>VIDIOC_STREAMON</code> 操作之后调用。但是也有可能在 <code>VIDIOC_STREAMON</code> 之前被调用，比如用户空间中 querybuf 之后的 queue 操作。videobuf2 允许自定义一个 buffer 结构体而不是直接使用 <code>vb2_buffer</code>，但是自定义的结构体的第一个成员必须是 <code>vb2_v4l2_buffer</code> 结构体，该结构体的大小需要在 <code>vb2_queue</code> 的 <code>buf_struct_size</code> 成员中指定。</p>
+</li>
+</ul>
+<p>每一个申请到的 buffer 都会被传递给 <code>buf_prepare</code>，该回调函数需要设置 buffer 的 size、width、height 与 field 成员，如果 buffer 的 state 成员为 <code>VIDEOBUF_NEEDS_INIT</code>，驱动需要传递 buffer 给以下函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">/* 该函数调用通常会为buffer分配空间，最后buf_prepare()需要设置buffer的state为VIDEOBUF_PREPARED。 */</div><div class="line">int videobuf_iolock(struct videobuf_queue* q,</div><div class="line">    struct videobuf_buffer *vb, struct v4l2_framebuffer *fbuf);</div></pre></td></tr></table></figure></p>
+<p>当一个 buffer 需要进行队列操作时，它会被传递给 <code>buf_queue</code>，该回调函数需要将 buffer 放到驱动自行维护的一个 buffer 链表中，并且设置 buffer 状态为 <code>VIDEOBUF_QUEUED</code>（这个状态位不需要驱动自己去设置，交给 videobuf2 就好了）。该函数会保持 spinlock（<code>videobuf_queue</code> 里面的 irqlock，新的 videobuf 不会保持锁，需要自己申请并在 <code>buf_queue</code> 里面使用），使用 <code>list_add_tail</code> 来对 buffer 进行入队操作。</p>
+<h2 id="vb2-queue"><a href="#vb2-queue" class="headerlink" title="vb2_queue"></a><code>vb2_queue</code></h2><p>该结构体可以当做是 videobuf2 的一个整体的抽象，要想使用 videobuf2 这个模块，就去初始化一个 <code>vb2_queue</code> 结构体吧，它会帮助我们建立起一个基于 videobuf2 的数据流管理模块的。</p>
+<ul>
+<li><code>vb2_queue</code> 的初始化<br><code>vb2_queue</code> 需要设置以下 field：</li>
+</ul>
+<ol>
+<li><code>type</code>：<code>v4l2_buf_type</code> 枚举类型，表明设备的 buffer 类型</li>
+<li><code>io_modes</code>：<code>vb2_io_modes</code> 枚举类型，表明驱动支持哪一种 streaming，实际应用中 <code>VB2_MMAP</code> 类型的居多</li>
+<li><code>drv_priv</code>：一般指向驱动特定的结构体，也就是驱动自定义维护的结构体</li>
+<li><code>ops</code>：指向 <code>vb2_ops</code>，也就是上面描述的的那一大坨</li>
+<li><code>mem_ops</code>：根据 buffer 类型「物理连续、vmalloc、物理分散的 sg-dma」选择 <code>vb2_dma_contig_memops</code>，<code>vb2_dma_sg_memops</code>,<code>vb2_vmalloc_memops</code> 三种之一，与我来说，最常用的就是第一个啦，当然也可以自己动手丰衣足食，不过常规使用那三个就能够满足了</li>
+<li><code>timestamp_flags</code>：<code>V4L2_BUF_FLAG_TIMESTAMP_MASK</code> 或者 <code>V4L2_BUF_FLAG_TSTAMP_SRC_MASK</code> 类型的 flag 之一，两种 flag 可以是或的关系同时存在，表明时间戳的类型，一般使用 <code>V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC</code> 即可，表明是递增类型的，它是在内核的 monotonic 时钟时间轴上面生成的时间戳</li>
+<li><code>lock</code>：可以与 <code>video_device</code> 共用一个 lock，更推荐使用独立的 lock，独立的 lock 一定程度上可以减少锁竞争</li>
+<li><code>buf_struct_size</code>：自定义的 buffer 结构体大小，自定义的 buffer 结构体必须将 <code>vb2_v4l2_buffer</code> 成员放在第一个。可以在 vb2 的 queue 回调中通过 <code>container_of</code> 来获取自定义的buffer结构体数据。</li>
+</ol>
+<p>上面一顿操作之后要记得使用 <code>vb2_queue_init</code> 对 <code>vb2_queue</code> 进一步初始化，里面主要是一大堆的 WARN_ON 来对我们的设置进行检查，获取 <code>v4l2_buf_ops</code> 这个 <code>vb2_buf_ops</code> 类型的 buffer 操作函数，并且初始化一些锁与一个等待队列，该等待队列主要是用来等待 buffer 变为可 dequeue 状态。</p>
+<h2 id="用户空间的操作"><a href="#用户空间的操作" class="headerlink" title="用户空间的操作"></a>用户空间的操作</h2><p><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/stream-usr-seq.png" alt="用户空间 stream 操作 ioctl 调用流程"></p>
+<center>用户空间 stream 操作 ioctl 调用流程</center>
+
+<p>通常用户空间的操作顺序如下：</p>
+<ul>
+<li><code>VIDIOC_S_PARAM</code>::参数为 <code>struct v4l2_streamparm</code>，主要设置帧率，type 与 capturemode/outputmode 等。内核的 ioctl 需要保存 capturemode（mode需自定义）帧率等数据，可以保存到自定义的结构体里面。也可以在内核里面通过 <code>v4l2_subdev_call</code> 来调用</li>
+<li><code>VIDIOC_S_FMT</code>::参数为 <code>struct v4l2_format</code>，主要设置长宽，数据格式等。内核的 ioctl 需要保存长宽，像素格式，所在的 field 等。必要时需要调用相关的子设备的结构体进行子设备的格式设置。</li>
+<li><code>VIDIOC_REQBUFS</code>::参数为 <code>struct v4l2_requestbuffers</code>，设置 count,type 与 memory     请求数据，在 <code>queue_setup</code> 回调函数里面需要设置一些东西。参见上面关于 <code>queue_setup</code> 的描述。</li>
+<li><code>VIDIOC_QUERYBUF</code>::参数为 <code>struct v4l2_buffer</code>，需设置 index,type,memory,length(plane length) 等参数</li>
+<li><code>VIDIOC_QBUF</code>，该操作与上一个不断循环，直到获取所有的 buf 并将 buf 入队到内核驱动的的 buf 管理列表中</li>
+<li><code>VIDIOC_STREAMON</code>::参数为 <code>enum v4l2_buf_type</code>,开启指定类型的 stream。</li>
+<li>select 等待 buf 可读。在内核驱动里面需要获取 plane 的地址，<code>vb2_plane_vaddr</code>，在数据填充完毕之后需要调用 <code>vb2_buffer_done</code> 来标注该 buffer 已经成功填充完毕，以便 v4l2 把数据放入 <code>done_list</code>，以待用户空间进行读取。</li>
+<li><code>VIDIOC_DQBUF</code>，该操作与上一个操作不断循环，直到停止数据采集</li>
+<li><code>VIDIOC_STREAMOFF</code>，结束数据采集工作。</li>
+</ul>
+<p>超大示意图如下所示，下图展示了用户空间到内核驱动的 ioctl 调用顺序与调用过程中所涉及到的文件「图片比较大，电脑选择新标签页打开图片，或者保存下来看」：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-framework.jpg" alt="用户 ioctl 调用流程"></p>
+<h2 id="如何把-dev-video-节点与-videobuf2-联系起来"><a href="#如何把-dev-video-节点与-videobuf2-联系起来" class="headerlink" title="如何把 /dev/video 节点与 videobuf2 联系起来"></a>如何把 <code>/dev/video</code> 节点与 videobuf2 联系起来</h2><p>其实这个联系的过程上面一张图就能够说明了，这里再说明一些代码层面的联系方式。</p>
+<p>首先 <code>video_device</code> 需要有自己的 <code>open</code>,<code>release</code>,<code>unlocked_ioctl</code> 等等，一个常见的初始化操作如下「此处参照了 omap3isp 里面的代码」：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">static struct v4l2_file_operations isp_video_fops = &#123;</div><div class="line">	.owner = THIS_MODULE,</div><div class="line">	.unlocked_ioctl = video_ioctl2,</div><div class="line">	.open = isp_video_open,</div><div class="line">	.release = isp_video_release,</div><div class="line">	.poll = isp_video_poll,</div><div class="line">	.mmap = isp_video_mmap,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>其中那几个函数几乎都是与 videobuf2 是挂钩的，如果去看下内核里面的代码就可以了然了，其中实用频率最高的就是 <code>.unlocked_ioctl = video_ioctl2,</code> 这个回调函数了，这个回调函数是用户空间通过 <code>/dev/videoX</code> 节点通往 videobuf2 的不二路径，所以干脆直接就把这个成员赋值为 <code>video_ioctl2</code> 了，这个是 videobuf2 为我们提供的操作函数，那就拿起来并使用它吧。从用户空间的角度看，只有一个 ioctl 的入口，但是我们穿过重重关卡，来到内核之后，再往前走两步，就可谓之「初极狭，才通人。复行数十步，豁然开朗」。里面还有一大坨分门别类的 ioctl 回调函数，截取如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">static const struct v4l2_ioctl_ops isp_video_ioctl_ops = &#123;</div><div class="line">	.vidioc_querycap		= isp_video_querycap,</div><div class="line">	.vidioc_g_fmt_vid_cap		= isp_video_get_format,</div><div class="line">	.vidioc_s_fmt_vid_cap		= isp_video_set_format,</div><div class="line">	.vidioc_try_fmt_vid_cap		= isp_video_try_format,</div><div class="line">	.vidioc_g_fmt_vid_out		= isp_video_get_format,</div><div class="line">	.vidioc_s_fmt_vid_out		= isp_video_set_format,</div><div class="line">	.vidioc_try_fmt_vid_out		= isp_video_try_format,</div><div class="line">	.vidioc_cropcap			= isp_video_cropcap,</div><div class="line">	.vidioc_g_crop			= isp_video_get_crop,</div><div class="line">	.vidioc_s_crop			= isp_video_set_crop,</div><div class="line">	.vidioc_g_parm			= isp_video_get_param,</div><div class="line">	.vidioc_s_parm			= isp_video_set_param,</div><div class="line">	.vidioc_reqbufs			= isp_video_reqbufs,</div><div class="line">	.vidioc_querybuf		= isp_video_querybuf,</div><div class="line">	.vidioc_qbuf			= isp_video_qbuf,</div><div class="line">	.vidioc_dqbuf			= isp_video_dqbuf,</div><div class="line">	.vidioc_streamon		= isp_video_streamon,</div><div class="line">	.vidioc_streamoff		= isp_video_streamoff,</div><div class="line">	.vidioc_enum_input		= isp_video_enum_input,</div><div class="line">	.vidioc_g_input			= isp_video_g_input,</div><div class="line">	.vidioc_s_input			= isp_video_s_input,</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>有了上面两个，我们只需要在初始化 <code>video_device</code> 的时候做以下的操作，此时便可以把整个串联起来了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">video-&gt;video.fops = &amp;isp_video_fops;               /*  重点 */</div><div class="line">video-&gt;video.vfl_type = VFL_TYPE_GRABBER;</div><div class="line">video-&gt;video.release = video_device_release_empty; /*  重点 */</div><div class="line">video-&gt;video.ioctl_ops = &amp;isp_video_ioctl_ops;     /*  重点 */</div><div class="line">video-&gt;pipe.stream_state = ISP_PIPELINE_STREAM_STOPPED;</div></pre></td></tr></table></figure></p>
+<p>看到这里是不是就把 <code>/dev/videoX</code>,<code>video_device</code>,<code>vb2_queue</code>,videobuf2 这几个全部贯通起来了，现在再参照上面的那一个大图来重新梳理一遍：首先用户 <code>open</code> 一个 <code>/dev/videoX</code>，获取其句柄，同时触发内核的 <code>open</code> 函数内部对 videobuf2 的 <code>vb2_queue</code> 进行初始化；然后进行一系列的 ioctl 操作，入口是 <code>isp_video_fops-&gt;unlocked_ioctl</code> 成员，再往后会细分为 <code>isp_video_ioctl_ops</code> 里面的一个个回调，这一个个回调与 vb2 众多的 ops 深度结合起来共同完成了数据流的管理工作。</p>
+<p>至于内部的一些细节，比如怎么从 <code>unlocked_ioctl</code> 到细分的 <code>isp_video_ioctl_ops</code> 这里不再细讲，否则占用篇幅过大，这一过程的部分的代码可以在 <code>v4l2-ioctl.c/__video_do_ioctl</code> 函数中看到，快去看吧。</p>
+<h2 id="编程注意事项"><a href="#编程注意事项" class="headerlink" title="编程注意事项"></a>编程注意事项</h2><ul>
+<li><p>要特别注意 plane 与 buffer 索引的区别，一个 buffer 下面有多个 plane，应该是这样的循环方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (buffer) &#123;</div><div class="line">	for (plane) &#123;</div><div class="line">	    ... ...</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>像下面的 ioctl 尽量可以使用 vb2 提供的回调函数，如果需要自己实现的话也需要显式调用 vb2 提供的回调函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">V4L24L2 ioctls</div><div class="line">	VIDIOC_REQBUFS</div><div class="line">	VIDIOC_QUERYBUF</div><div class="line">	VIDIOC_QBUF</div><div class="line">	VIDIOC_DQBUF</div><div class="line"></div><div class="line">VB2 ioctls</div><div class="line">	.start_streaming</div><div class="line">	.stop_streaming</div></pre></td></tr></table></figure>
+</li>
+<li><p>需要自己实现一个自旋锁用于 buffer 队列管理，关于为什么用自旋锁，原因是当驱动要获取数据的时候，可以加锁，然后从该队列删除，释放锁，填充数据可以等到释放锁之后进行，所以没必要用别的，自旋锁轻量，在这种情况下自旋锁的使用成本较低。通常在驱动里面维护一个 list 队列，存放激活的 buffer 数据，使用自旋锁自行管理，在 queue 的时候入队，数据填充完毕之后出队，调用 <code>vb2_buffer_done</code> 来放入 vb2 的 buffer 队列等待用户拿取。在 <code>vb2_queue</code> 初始化的时候可以设置 <code>buf_struct_size</code> 成员为自定义大小的帧结构体（自定义的结构体要把 <code>vb2_v4l2_buffer</code> 放在第一个成员的位置，在里面可以添加帧的属性等等），要用到的时候就使用 <code>container_of</code> 来获取自定义的帧结构体。</p>
+</li>
+<li><p>使用wait队列来定时产生数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">	init_waitqueue_head</div><div class="line">	</div><div class="line">kernel thread</div><div class="line">	set_freezable</div><div class="line"></div><div class="line">	DECLARE_WAITQUEUE</div><div class="line">	add_wait_queue</div><div class="line">	</div><div class="line">	generate datas ...</div><div class="line">	</div><div class="line">	schedule_timeout_interruptible</div><div class="line">	remove_wait_queue</div><div class="line">	try_to_freeze</div><div class="line"></div><div class="line">wake_up_interruptible</div></pre></td></tr></table></figure>
+</li>
+<li><p>在 streamoff 的时候需要调用 <code>vb2_buffer_done(, ERR)</code> 来归还所有的 buffer 到 vb2 里面。只要调用 <code>vb2_buffer_done</code>，该 buffer 就会被放入到 vb2 的各种队列里面，剩下的事情就是调用 <code>vb2_ioctl_streamoff</code> 让 vb2 来完成数据的释放啦。</p>
+</li>
+<li><p>如何获取 <code>vb2_buffer</code> 的虚拟地址与物理地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">dma-contig, scatter/gather-dma,vmalloc(只有虚拟地址)</div><div class="line">虚拟地址：vb2_plane_vaddr()</div><div class="line">物理地址：</div><div class="line">	dma-contig:vb2_dma_contig_plane_dma_addr</div><div class="line">	scatter/gather-dma:vb2_dma_sg_plane_desc</div></pre></td></tr></table></figure>
+</li>
+<li><p>编程步骤</p>
+</li>
+</ul>
+<ol>
+<li>自定义一个 video 设备结构体，最简单的里面需要包含，<code>video_device</code>、<code>vb2_queue</code> 以及自定义的 <code>buffer</code> 帧结构体描述。</li>
+<li>对上面提到的两个结构体 <code>video_device</code>、<code>vb2_queue</code> 进行初始化。</li>
+<li>实现 <code>vb2_ops</code> 结构体，具体的实现以及注意事项参见上面的描述。</li>
+</ol>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/07/15/V4L2框架-videobuf2/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/07/02/V4L2框架-media-device/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">V4L2框架-media-device</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据类型「具体指的是视频数据的类型」"><span class="toc-number">2.</span> <span class="toc-text">数据类型「具体指的是视频数据的类型」</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型简介"><span class="toc-number">2.1.</span> <span class="toc-text">数据类型简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#结构体、回调函数、初始化"><span class="toc-number">2.2.</span> <span class="toc-text">结构体、回调函数、初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vb2-queue"><span class="toc-number">3.</span> <span class="toc-text">vb2_queue</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户空间的操作"><span class="toc-number">4.</span> <span class="toc-text">用户空间的操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何把-dev-video-节点与-videobuf2-联系起来"><span class="toc-number">5.</span> <span class="toc-text">如何把 /dev/video 节点与 videobuf2 联系起来</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编程注意事项"><span class="toc-number">6.</span> <span class="toc-text">编程注意事项</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -239,9 +495,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

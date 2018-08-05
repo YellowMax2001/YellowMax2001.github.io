@@ -7,14 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Tag: OpenMAX | YellowMax的博客</title>
+  <title>V4L2框架-control | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/tags/OpenMAX/index.html">
+  <meta name="description" content="本文介绍在 v4l2 框架下面的 control 控制接口，这些接口通常用来实现一些特效控制、菜单控制等等。  03 - V4L2框架-videobuf202 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta name="keywords" content="编程,V4L2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="V4L2框架-control">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/08/05/V4L2框架-control/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="本文介绍在 v4l2 框架下面的 control 控制接口，这些接口通常用来实现一些特效控制、菜单控制等等。  03 - V4L2框架-videobuf202 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-ctrl.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-08-05T06:18:48.625Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="V4L2框架-control">
+<meta name="twitter:description" content="本文介绍在 v4l2 框架下面的 control 控制接口，这些接口通常用来实现一些特效控制、菜单控制等等。  03 - V4L2框架-videobuf202 - V4L2框架-media-device01 - V4L2框架-v4l2 device00 - V4L2框架概述">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-ctrl.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,308 +162,286 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-V4L2框架-control" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      V4L2框架-control
+    </h1>
+  
+
+        
+        <a href="/2018/08/05/V4L2框架-control/" class="archive-article-date">
+  	<time datetime="2018-08-05T05:40:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-05</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文介绍在 v4l2 框架下面的 control 控制接口，这些接口通常用来实现一些特效控制、菜单控制等等。</p>
+</blockquote>
+<p><a href="http://www.yellowmax2001.com/2018/07/15/V4L2%E6%A1%86%E6%9E%B6-videobuf2/">03 - V4L2框架-videobuf2</a><br><a href="http://www.yellowmax2001.com/2018/07/02/V4L2%E6%A1%86%E6%9E%B6-media-device/">02 - V4L2框架-media-device</a><br><a href="http://www.yellowmax2001.com/2018/06/23/V4L2%E6%A1%86%E6%9E%B6-v4l2-device/">01 - V4L2框架-v4l2 device</a><br><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
+<a id="more"></a>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>既然涉及到视频输入，就会有很多与 ISP 相关的效果，比如对比度、饱和度、色温、白平衡等等，这些都是通用的、必须的控制项，并且大多数仅需要设置一个整数值即可。V4L2 很贴心地为我们提供了这样一些接口以供使用（可以说是非常贴心的了），在内核里面，这些控制项被抽象为一个个的控制 ID，分别以 <code>V4L2_CID_XXX</code> 来命名。</p>
+<p>有许多控制函数并不是单个驱动特定的，这些通用的控制 API 可以挪到 V4L2 内核框架里面。而留给驱动开发者的问题只是以下几个点：</p>
+<ul>
+<li>明确自己需要什么样的 control</li>
+<li>怎样去添加一个 control</li>
+<li>怎么去设置 control 的值，后面会知道设置接口是 <code>s_ctrl</code></li>
+<li>怎么去获取 control 的值，<code>g_volatile_ctrl</code></li>
+<li>怎么去验证用户的 control 的值是否合法（<code>try_ctrl</code>），control 框架依赖于 <code>v4l2_device</code> 以及 <code>v4l2_subdev</code></li>
+</ul>
+<p>control 有两个主要的结构体对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">v4l2_ctrl：描述 control 属性， control 的结构体抽象表示，跟踪 control 的值</div><div class="line">v4l2_ctrl_handler：跟踪 control，包含一个 `v4l2_ctrl` 列表，该列表就是你需要的 control 项的集合</div></pre></td></tr></table></figure></p>
+<p><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/v4l2-ctrl.jpg" alt="V4L2 ctrl 模块内部实现"></p>
+<center>V4L2 ctrl 模块内部实现</center>
+
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><h3 id="准备驱动"><a href="#准备驱动" class="headerlink" title="准备驱动"></a>准备驱动</h3><h4 id="1-添加-handler-到驱动顶层结构体里面"><a href="#1-添加-handler-到驱动顶层结构体里面" class="headerlink" title="1. 添加 handler 到驱动顶层结构体里面"></a>1. 添加 handler 到驱动顶层结构体里面</h4><p>这个结构体就是驱动自定义的结构体，还记得这个结构体它也会包含 <code>v4l2_device</code> 或者 <code>v4l2_subdev</code> 吗？（前面的文章里面还有描述）对，就是它，它还应该包含了 <code>v4l2_ctrl_handler</code> 结构体，实例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct foo_dev &#123;</div><div class="line">	...</div><div class="line">	struct v4l2_ctrl_handler ctrl_handler;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line"></div><div class="line">struct foo_dev *foo;</div></pre></td></tr></table></figure></p>
+<h4 id="2-初始化-handler"><a href="#2-初始化-handler" class="headerlink" title="2. 初始化 handler"></a>2. 初始化 handler</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">v4l2_ctrl_handler_init(&amp;foo-&gt;ctrl_handler, nr_of_controls);</div><div class="line"></div><div class="line">第二个参数指明期望创建的 control 的数量，函数根据这个值来创建一个哈希表，这个数量只是作为一个指导，实际上的 control 数量不一定跟这个数字一致。对于 `video_device` 或者 `v4l2_subdev` 设备来说，需要显式的设置他们的 `ctrl_handler` 成员（去内核代码里面看一下就能看到它）指向驱动结构体的 `ctrl_handler`，否则打开video节点并不能进行相关的控制。</div></pre></td></tr></table></figure>
+<h4 id="3-把控制-handler-挂接到驱动中"><a href="#3-把控制-handler-挂接到驱动中" class="headerlink" title="3. 把控制 handler 挂接到驱动中"></a>3. 把控制 handler 挂接到驱动中</h4><ul>
+<li>对于v4l2 驱动来说<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct foo_dev &#123;</div><div class="line">	...</div><div class="line">	struct v4l2_device v4l2_dev;</div><div class="line">	...</div><div class="line">	struct v4l2_ctrl_handler ctrl_handler;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line">foo-&gt;v4l2_dev.ctrl_handler = &amp;foo-&gt;ctrl_handler;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这里移除了 V4L 一代目原有 <code>v4l2_ctrl_ops</code> 里面的 <code>vidioc_queryctrl</code>, <code>vidioc_query_ext_ctrl</code>, <code>vidioc_querymenu</code>, <code>vidioc_g_ctrl</code>, <code>vidioc_s_ctrl</code>, <code>vidioc_g_ext_ctrls</code>, <code>vidioc_try_ext_ctrls</code> and <code>vidioc_s_ext_ctrls</code> 操作函数，这些在使用了 control 框架之后都不再需要。</p>
+<ul>
+<li>对于子设备驱动来说<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct foo_dev &#123;</div><div class="line">	...</div><div class="line">	struct v4l2_subdev sd;</div><div class="line">	...</div><div class="line">	struct v4l2_ctrl_handler ctrl_handler;</div><div class="line">	...</div><div class="line">&#125;;</div><div class="line">foo-&gt;sd.ctrl_handler = &amp;foo-&gt;ctrl_handler;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>然后设置 <code>v4l2_subdev_core_ops</code> 里面的所有成员指向帮助函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">.queryctrl = v4l2_subdev_queryctrl,</div><div class="line">.querymenu = v4l2_subdev_querymenu,</div><div class="line">.g_ctrl = v4l2_subdev_g_ctrl,</div><div class="line">.s_ctrl = v4l2_subdev_s_ctrl,</div><div class="line">.g_ext_ctrls = v4l2_subdev_g_ext_ctrls,</div><div class="line">.try_ext_ctrls = v4l2_subdev_try_ext_ctrls,</div><div class="line">.s_ext_ctrls = v4l2_subdev_s_ext_ctrls,</div></pre></td></tr></table></figure></p>
+<p>这是一个暂时性的解决方案，等到所有依赖子设备驱动的 v4l2 驱动都转为使用 control 框架之后这些函数将不再需要，也就是说有的 v4l2 驱动仍然可能通过上面的回调去进行 ctrl 控制，上面的帮助函数只是做一个中转，把 v4l2 驱动的回调重新定位，指向 control 框架中的 ctrl，该操作主要是为了兼容旧的驱动，新的驱动就不要采用这种写法了。</p>
+<h4 id="4-最后清理-handler"><a href="#4-最后清理-handler" class="headerlink" title="4. 最后清理 handler"></a>4. 最后清理 handler</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">v4l2_ctrl_handler_free(&amp;foo-&gt;ctrl_handler);</div></pre></td></tr></table></figure>
+<p>说清理是在模块卸载或者使用完毕的时候才去清理，不要刚初始化完就去清理了，那样还用个啥。</p>
+<h3 id="为-v4l2-ctrl-handler-添加控制"><a href="#为-v4l2-ctrl-handler-添加控制" class="headerlink" title="为 v4l2_ctrl_handler 添加控制"></a>为 <code>v4l2_ctrl_handler</code> 添加控制</h3><h4 id="1-初始化控制-handler"><a href="#1-初始化控制-handler" class="headerlink" title="1. 初始化控制 handler"></a>1. 初始化控制 handler</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">static const s64 exp_bias_qmenu[] = &#123;</div><div class="line">       -2, -1, 0, 1, 2</div><div class="line">&#125;;</div><div class="line">static const char * const test_pattern[] = &#123;</div><div class="line">	&quot;Disabled&quot;,</div><div class="line">	&quot;Vertical Bars&quot;,</div><div class="line">	&quot;Solid Black&quot;,</div><div class="line">	&quot;Solid White&quot;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">v4l2_ctrl_handler_init(&amp;foo-&gt;ctrl_handler, nr_of_controls);</div><div class="line">v4l2_ctrl_new_std(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_BRIGHTNESS, 0, 255, 1, 128);</div><div class="line">v4l2_ctrl_new_std(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_CONTRAST, 0, 255, 1, 128);</div><div class="line">v4l2_ctrl_new_std_menu(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_POWER_LINE_FREQUENCY,</div><div class="line">		V4L2_CID_POWER_LINE_FREQUENCY_60HZ, 0,</div><div class="line">		V4L2_CID_POWER_LINE_FREQUENCY_DISABLED);</div><div class="line">v4l2_ctrl_new_int_menu(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_EXPOSURE_BIAS,</div><div class="line">		ARRAY_SIZE(exp_bias_qmenu) - 1,</div><div class="line">		ARRAY_SIZE(exp_bias_qmenu) / 2 - 1,</div><div class="line">		exp_bias_qmenu);</div><div class="line">v4l2_ctrl_new_std_menu_items(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_TEST_PATTERN, ARRAY_SIZE(test_pattern) - 1, 0,</div><div class="line">		0, test_pattern);</div><div class="line">...</div><div class="line">if (foo-&gt;ctrl_handler.error) &#123;</div><div class="line">	int err = foo-&gt;ctrl_handler.error;</div><div class="line"></div><div class="line">	v4l2_ctrl_handler_free(&amp;foo-&gt;ctrl_handler);</div><div class="line">	return err;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到上面有种类繁多的函数调用，它们的功能都会在下面一一描述。</p>
+<h4 id="2-非菜单控制项"><a href="#2-非菜单控制项" class="headerlink" title="2. 非菜单控制项"></a>2. 非菜单控制项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,</div><div class="line">	const struct v4l2_ctrl_ops *ops,</div><div class="line">	u32 id, s32 min, s32 max, u32 step, s32 def);</div></pre></td></tr></table></figure>
+<p><code>v4l2_ctrl_new_std</code> 函数将会基于 control 的 ID 来填充所有成员，但是除了 min, max, step 以及 default values，它们是驱动特定的（函数内部不会自行取值填充，这些需要函数调用的时候在参数里面指定）。每个驱动的上述成员值范围大小都是不固定的，但是 <code>type</code>、<code>name</code>、<code>flags</code> （这三个变量可以在上面那个函数内部实现看到）这些是是全局的，它们被 v4l2 驱动核心固化，每个 ID 都有自己特定的 type,name,flags，这些不需要驱动模块去关心，交给 V4L2 框架去做好了。但是我们仍然需要关注一个点，那就是 <code>flag</code> 变量，里面有很多类型都有自己特定的特性，比如 <code>V4L2_CTRL_FLAG_WRITE_ONLY</code> 表明该 ID 对应的 control 只能够从用户空间往下面写入值，无法读出，<code>V4L2_CTRL_FLAG_VOLATILE</code> 表明值可能会被硬件本身改变，也是只读的，每次写入的时候会被忽略，这些对我们编程是至关重要的，我们要弄清楚我们的 control 是什么类型的（尤其在需要自定义 control 的时候）。该函数调用之后相关的控制 ID 对应的 ctrl 初始值被设置为 <code>def</code> 参数指定的值。搞不清楚就会造成命名调用了相关的 ctrl，内核驱动却收不到消息的状况。</p>
+<h4 id="3-菜单控制项"><a href="#3-菜单控制项" class="headerlink" title="3. 菜单控制项"></a>3. 菜单控制项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,</div><div class="line">	const struct v4l2_ctrl_ops *ops,</div><div class="line">	u32 id, s32 max, s32 skip_mask, s32 def);</div></pre></td></tr></table></figure>
+<p><code>v4l2_ctrl_new_std_menu</code> 函数与 <code>v4l2_ctrl_new_std</code> 很像，只是用在菜单控制上面，对于菜单控制来说，默认 min 都为 0。如果 <code>skip_mask</code> 的第X位为1，那么第X个被加入的菜单项将会被跳过。</p>
+<h4 id="4-驱动特定菜单控制项"><a href="#4-驱动特定菜单控制项" class="headerlink" title="4. 驱动特定菜单控制项"></a>4. 驱动特定菜单控制项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(</div><div class="line"> struct v4l2_ctrl_handler *hdl,</div><div class="line"> const struct v4l2_ctrl_ops *ops, u32 id, s32 max,</div><div class="line"> s32 skip_mask, s32 def, const char * const *qmenu);</div></pre></td></tr></table></figure>
+<p>该函数与 <code>v4l2_ctrl_new_std_menu</code> 比较相似，它有一个额外的参数 qmenu，这是驱动特定的 menu，它是一个二维的数组，数组的每一项是一个字符串，里面就是下拉菜单里面的项目对应的实际值。<code>camif-capture.c</code> 是一个很好的参考例程。</p>
+<h4 id="5-驱动特定的整数菜单控制项"><a href="#5-驱动特定的整数菜单控制项" class="headerlink" title="5. 驱动特定的整数菜单控制项"></a>5. 驱动特定的整数菜单控制项</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,</div><div class="line">	const struct v4l2_ctrl_ops *ops,</div><div class="line">	u32 id, s32 max, s32 def, const s64 *qmenu_int);</div></pre></td></tr></table></figure>
+<p>该函数会根据驱动特定的 item 来创建一个标准的 integer 类型的菜单控制项，该函数的最后一个参数 <code>qmenu_int</code> 是一个有符号的64位整形菜单 item 列表。该函数与上一个非常相似，只不过菜单的内容一个是字符串，一个是整形。</p>
+<p>上述所有的函数一般都在 <code>v4l2_ctrl_handler_init</code> 之后被调用，所有的函数都会返回一个 <code>v4l2_ctrl</code> 类型的指针，如果需要存放相关的 ctrl 的话就可以获取函数的返回值存放起来。值得注意的是，当这些函数调用出错时，就会返回 NULL 或者错误码，并且设置 <code>ctrl_handler-&gt;error</code> 指向错误码，该错误码指向 <code>ctrl_handler</code> 的 ctrl 列表中第一个出错的 ctrl 的错误码。这些对 <code>v4l2_ctrl_handler_init</code> 函数来说也适用。</p>
+<p><code>v4l2_ctrl_cluster</code> 函数可以将指定的 ctrl 列表中一定数量的 ctrl 进行合并，所有合并之后的控制 ID 均被指向合并列表中的第一个控制 ID 项，也就是说，一旦 ID 合并，不管你执行哪一个 ID，只要它处于被合并的 ID 列表中，最终执行的控制 ID 都是列表中的第一项 ID 所在的控制项，常用于多种控制通过同一个硬件来完成的情况下。</p>
+<p>举个例子：假设大部分的硬件中，亮度与色温是属于两个模块控制的，其值的大小也都不一致，这个时候就没有必要去合并，只管各自控制各自的就好，而有的控制器会把亮度与色温进行绑定，由同一个模块进行控制，亮度与<br>色温有一个对照表（一一对应），此时这两个就可以进行合并，合并之后只需要执行其中一个控制即可。那为什么一样的话不直接就用其中一个好了，因为有些应用程序就是分开控制的，但是移植到了一个新的硬件平台上面，我改应用好麻烦的（尤其是业务逻辑），所以在驱动里面去适配是最好不过了。</p>
+<h3 id="6-可选的强制初始化控制设置"><a href="#6-可选的强制初始化控制设置" class="headerlink" title="6. 可选的强制初始化控制设置"></a>6. 可选的强制初始化控制设置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">v4l2_ctrl_handler_setup(&amp;foo-&gt;ctrl_handler);</div></pre></td></tr></table></figure>
+<p>该函数将会为所有的 controls 调用 <code>s_ctrl</code>，一般用来设置硬件为默认配置。如果需要同步硬件与内部数据结构体，那么就可以运行该函数完成同步操作，常用于防止硬件的初始化值与控制 ID 指定的初始化默认值不一致的情况，比如在系统刚刚起来的时候设置一遍默认的值用来初始化整个系统效果，很有用。</p>
+<h3 id="7-实现-v4l2-ctrl-ops-结构体"><a href="#7-实现-v4l2-ctrl-ops-结构体" class="headerlink" title="7. 实现 v4l2_ctrl_ops 结构体"></a>7. 实现 <code>v4l2_ctrl_ops</code> 结构体</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static const struct v4l2_ctrl_ops foo_ctrl_ops = &#123;</div><div class="line">	.s_ctrl = foo_s_ctrl,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>通常情况下需要设置 <code>s_ctrl</code> 成员函数为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">static int foo_s_ctrl(struct v4l2_ctrl *ctrl)</div><div class="line">&#123;</div><div class="line">	struct foo *state = container_of(ctrl-&gt;handler, struct foo, ctrl_handler);</div><div class="line"></div><div class="line">	switch (ctrl-&gt;id) &#123;</div><div class="line">	case V4L2_CID_BRIGHTNESS:</div><div class="line">		write_reg(0x123, ctrl-&gt;val);</div><div class="line">		break;</div><div class="line">	case V4L2_CID_CONTRAST:</div><div class="line">		write_reg(0x456, ctrl-&gt;val);</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>需要注意的是，一旦整个ctrl流程进入到 <code>s/g_ctrl</code> 回调函数里面了，就说明传入的 ctrl 数值是正确的（前提是 ctrl 初始化的时候数值范围等设置正确）， control 框架会根据设置的初始值来判断值的合理性，如果可以走到函数内部的调用，那此时只管进行寄存器操作，不必关心数值的正确与否（它肯定是对的）。如果该次的 ctrl 数值与上一次一致，那么在进入该回调函数之前内核相关模块就会直接返回成功了，如果数值的范围不对，则会按照就近原则进行数值的重新调整。</p>
+<h3 id="添加自定义以及标准-ctrl"><a href="#添加自定义以及标准-ctrl" class="headerlink" title="添加自定义以及标准 ctrl"></a>添加自定义以及标准 ctrl</h3><h4 id="1-标准的ctrl"><a href="#1-标准的ctrl" class="headerlink" title="1. 标准的ctrl"></a>1. 标准的ctrl</h4><ul>
+<li>实现 <code>v4l2_ctrl_ops</code> 结构体<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">static const struct v4l2_ctrl_ops foo_ctrl_ops = &#123;</div><div class="line">	.s_ctrl = foo_s_ctrl,</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>通常情况下需要设置 <code>s_ctrl</code> 成员函数为:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">static int foo_s_ctrl(struct v4l2_ctrl *ctrl)</div><div class="line">&#123;</div><div class="line">	struct foo *state = container_of(ctrl-&gt;handler, struct foo, ctrl_handler);</div><div class="line"></div><div class="line">	switch (ctrl-&gt;id) &#123;</div><div class="line">	case V4L2_CID_BRIGHTNESS:</div><div class="line">		write_reg(0x123, ctrl-&gt;val);</div><div class="line">		break;</div><div class="line">	case V4L2_CID_CONTRAST:</div><div class="line">		write_reg(0x456, ctrl-&gt;val);</div><div class="line">		break;</div><div class="line">	&#125;</div><div class="line">	return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<ul>
+<li>添加至 ctrl_handler 里面<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">v4l2_ctrl_handler_init(&amp;foo-&gt;ctrl_handler, nr_of_controls);</div><div class="line">v4l2_ctrl_new_std(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_BRIGHTNESS, 0, 255, 1, 128);</div><div class="line">v4l2_ctrl_new_std(&amp;foo-&gt;ctrl_handler, &amp;foo_ctrl_ops,</div><div class="line">		V4L2_CID_CONTRAST, 0, 255, 1, 128);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-自定义的-ctrl"><a href="#2-自定义的-ctrl" class="headerlink" title="2. 自定义的 ctrl"></a>2. 自定义的 ctrl</h4><ul>
+<li>添加自定义的 <code>v4l2_ctrl_config</code> 配置结构体<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">static const struct v4l2_ctrl_config ctrl_filter = &#123;</div><div class="line">	.ops = &amp;foo_ctrl_ops,</div><div class="line">	.id = V4L2_CID_CUSTOM_ID,</div><div class="line">	.name = &quot;Spatial Filter&quot;,</div><div class="line">	.type = V4L2_CTRL_TYPE_INTEGER,</div><div class="line">	.flags = V4L2_CTRL_FLAG_SLIDER, // 必要的</div><div class="line">	.max = 15,</div><div class="line">	.step = 1,</div><div class="line">&#125;;</div><div class="line"></div><div class="line">ctrl = v4l2_ctrl_new_custom(&amp;foo-&gt;ctrl_handler, &amp;ctrl_filter, NULL);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>其中菜单类型、普通类型、不同标志位的 ctrl 都可以通过 <code>v4l2_ctrl_config</code> 结构体来进行配置。</p>
+<h4 id="3-用户空间使用"><a href="#3-用户空间使用" class="headerlink" title="3. 用户空间使用"></a>3. 用户空间使用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct v4l2_control ctrl;</div><div class="line"></div><div class="line">ctrl.id = V4L2_CID_CUSTOM_ID;</div><div class="line">ctrl.calue = 200;</div><div class="line">ioctl(fd, VIDIOC_S_CTRL, &amp;ctrl);</div></pre></td></tr></table></figure>
+<p><code>VIDIOC_S_CTRL</code>：该 ioctl 调用可能（与 ctrl 的 flag 以及 value 有关，如果 value 值与上次一致，那么就会直接返回）会导致 <code>foo_ctrl_ops</code> 的 <code>s_ctrl</code> 成员被调用，其它的成员函数有相应的调用 ID，ctrl 的 id 成员应该填充自己想要控制的 ctrl 项，value 就是设置 ctrl 相应项的值。</p>
+<p>对于 <code>/dev/videoX</code> 类型的设备节点来说，会按照 <code>v4l2_fh.ctrl_handler</code>-&gt;<code>video_device.ctrl_handler</code>-&gt;<code>v4l2_ioctl_ops.vidioc_s_ctrl</code>-&gt;<code>v4l2_ioctl_ops.vidioc_s_ext_ctrls</code> 顺序来查找是否有可用的相关的 ctrl 调用。对于子设备类型的节点（<code>/dev/v4l-subdevX</code>）来说，会自动选择 <code>v4l2_fh.ctrl_handler</code> 来进行控制操作，这个在子设备 framework 里面实现，驱动编写者不必关心内部具体实现。</p>
+<h3 id="扩展项"><a href="#扩展项" class="headerlink" title="扩展项"></a>扩展项</h3><ul>
+<li><p>ctrl 的继承<br>当一个子设备被注册的时候(<code>v4l2_device_register_subdev</code>)，同时 <code>v4l2_device</code> 以及 <code>v4l2_subdev</code> 的 <code>ctrl_handler</code> 成员都被设置，那么 V4L2 驱动也可以使用到子设备的 ctrl，如果两者的 ctrl 有重复的话，子设备的 ctrl 将会被跳过（对于V4L2 主设备驱动来说，子设备的仍然会执行自己的 ctrl），等于说是一个由子设备到 V4L2 父设备的自下而上的继承关系。在子设备注册函数中 <code>v4l2_ctrl_add_handler()</code> 函数会被调用以添加子设备的 ctrl 到 V4L2 设备当中（子设备彼此不可共享访问）。如果想在子设备之间共享 <code>ctrl_handler</code> 的话，可以显式地调用 <code>v4l2_ctrl_add_handler</code> 函数来完成。设置 ctrl 的 <code>is_private</code> 位为1可以避免 <code>ctrl_handler</code> 的合并导致 ctrl 共享。</p>
+</li>
+<li><p>访问控制值(access value)<br><code>v4l2_ctrl</code> 结构体为驱动保存了当前的以及新的 value，以供对比，并且只有在合适的时候才能够成功把值从用户空间传递到内核驱动。在 <code>v4l2_ctrl</code> 结构体里面有以下的成员：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">s32 val;</div><div class="line">struct &#123;</div><div class="line">	s32 val;</div><div class="line">&#125; cur;</div><div class="line">union v4l2_ctrl_ptr p_new;</div><div class="line">union v4l2_ctrl_ptr p_cur;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>这几个成员用于保存对应控制的新旧数值，如果控制数值是简单的32位有符号整形的话，他们之间如下的对应关系（只有 <code>s_ctrl</code> 返回为0的时候 ctrl 核心模块才会把新设置的值拷贝到缓存成员当中去，执行失败理所当然是不需要保存的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&amp;ctrl-&gt;val == ctrl-&gt;p_new.p_s32</div><div class="line">&amp;ctrl-&gt;cur.val == ctrl-&gt;p_cur.p_s32</div></pre></td></tr></table></figure></p>
+<p>猜想一下，如果这个里面已经保存了新旧的数值的话，那么 <code>g_volatile_ctrl</code> 就没必要去实现了（因为当我需要读取相关的值的时候我直接从值缓存里面拿取数据就好了）。而该函数的实现是专门用于那些可能由于硬件原因而导致值不断变化的 ctrl 的（所以才命名为 <code>g_volatile_ctrl</code>），此时需要设置 ctrl  的 flag 属性为易变的状态：<code>flag |= V4L2_CTRL_FLAG_VOLATILE;</code>此时所有的来自用户空间的写入操作都会被忽略。表明相关 ctrl 的值可能会由硬件本身来改变，所以每次 get ctrl 的时候都乖乖调用相关的回调函数，在回调函数里面读取寄存器的值，重新返回新读取的值。通常情况下，设置为 volatile 的 ctrl 都是只读的，但是仍然可以在 <code>g_volatile_ctrl</code> 回调函数里面去访问值缓存结构体成员（这个访问是由驱动本身发起的），需要注意的是，如果一个 ctrl 是 volatile 的同时又不是只读的话，就不会产生 <code>V4L2_EVENT_CTRL_CH_VALUE</code> 这一事件消息。</p>
+<p>在驱动内部可以使用以下的函数来进行相关 ctrl 的数值设定（切记不要在 <code>v4l2_ctrl_ops</code> 回调内部使用下面的函数，否则会造成死锁，因为本身进入那些回调函数的时候就加锁了，再次调用下面的函数会导致重复加锁）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl);</div><div class="line">int v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val);</div></pre></td></tr></table></figure></p>
+<ul>
+<li>菜单控制<br><code>v4l2_ctrl</code> 结构体内部有以下成员：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">union &#123;</div><div class="line">	u32 step;</div><div class="line">	u32 menu_skip_mask;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>对于菜单控制来说，该共用体使用 <code>menu_skip_mask</code> 成员，该成员指定了哪些菜单项将会被跳过，如果为0，则表明所有的菜单项都可用，值得注意的是，<code>VIDIOC_QUERYCTRL</code> 调用将会永远返回步长1。一个比较好的例子是 MPEG Audio Layer II 的比特率菜单控制项，实际上，大部分硬件只用到了其中的一部分。</p>
+<ul>
+<li>激活与锁定 control<br>在实际使用当中，有的 control 之间具有一定的强相关性，比如 Chroma AGC 控制打开的时候， Chroma Gain 就无效了（硬件层面属于互斥），当这种情况发生的时候，如果用户接着去设置 Chroma Gain 的相关控制，虽然软件层面是可以设置的，但是硬件是没有办法响应的，这个时候就需要将 Chroma Gain 的相关控制禁止掉，也就是互斥。内核可以调用 <code>v4l2_ctrl_activate()</code> 函数来发出激活/去激活信号，注意，控制 framework 并不会去检查这个标志，这个仅用于 GUI 层面，当函数被调用的时候，用户空间会收到一个事件，通过该事件，GUI 可以进行相关的动作。该函数通常用于 <code>s_ctrl</code> 回调中。该标志位是 ‘active’</li>
+</ul>
+<p>另一个标志位是 ‘grabbed’，代表锁定，比如 MPEG 中，在视频流的传输过程当中，比特率是不能改变的，也就是说，视频传输过程中相关的控制应该是处于锁定状态的，可以使用 <code>v4l2_ctrl_grab()</code> 函数来设置锁定/解锁相关的控制项，控制 framework 会检查该标志位，如果被设置，那么该控制调用就会返回 <code>-EBUSY</code> 信息，通常情况下该函数在码流的开启/关闭函数中被调用。</p>
+<ul>
+<li>为ctrl添加回调<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">void v4l2_ctrl_notify(struct v4l2_ctrl *ctrl,</div><div class="line">	void (*notify)(struct v4l2_ctrl *ctrl, void *priv), void *priv);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>该函数可以为一个 ctrl 添加回调，当相关 ctrl 的值被改变的时候，该回调就会产生作用，一个 ctrl 只能够添加一个回调，如果尝试添加多个 ctrl 的话会导致 <code>WARN_ON</code> 的产生。注意在该回调产生的时候，ctrl 的锁仍然被保持,直到相关的 s_ctrl 返回时才进行解锁。</p>
+<ul>
+<li>与 V4L2 event 的联合使用<br>在内核 control 模块初始化的时候会为每一个 ctrl 设置其初始值，并且为每一个 ctrl 产生一个 <code>V4L2_EVENT_CTRL</code> 的事件。此后在每一次成功设置了相应 ctrl 的值之后都会产生一个 <code>V4L2_EVENT_CTRL</code> 事件，事件的内容包含了 ctrl 的 ID 以及它的值。那么这个东西有什么用呢？比如你有两个进程，一个进程是控制 ISP 效果的，另一个进程需要根据不同的 ISP 效果做出不同的响应，那么就可以在另一个进程里面订阅这个类型的事件，每次值发生改变的时候就可以依据相关的 ctrl 值进行对应的动作。</li>
+</ul>
+<p>关于 V4L2 event 的介绍在第一篇文章的结尾部分就有描述了：<a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a>。</p>
+<p>到本文为止，基本上 V4L2 框架的驱动部分被介绍地差不多了，还有用户空间操作层面的东西，比如应该按照什么样的序列来进行数据流的开启与关闭，应该如何正确、规范地使用 control，如何配合事件使用，以及如何在一个具体的案例里面组合这些模块进行统一的规划编程等等。这些虽然目前为止没有专门的一篇文章来去介绍，但是看完前面几片文章之后相信已经有一个大体的使用框架了，后续是否会更新应用空间的操作待定，大概率不会。</p>
+<hr>
+<center>努力让自己的生活差零点儿</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/01/OpenMAX编程-时钟与同步/" class="archive-article-date">
-  	<time datetime="2018-04-01T10:15:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/04/01/OpenMAX编程-时钟与同步/">OpenMAX编程-时钟与同步</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/OpenMAX编程-实现一个组件/" class="archive-article-date">
-  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/OpenMAX编程-实现一个组件/">OpenMAX编程-实现一个组件</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/08/05/V4L2框架-control/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/12/03/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
-  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/07/29/财富自由之路读书有感/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">财富自由之路读书有感</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/">OpenMAX编程-音视频等组件介绍</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#简介"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">2.</span> <span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备驱动"><span class="toc-number">2.1.</span> <span class="toc-text">准备驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-添加-handler-到驱动顶层结构体里面"><span class="toc-number">2.1.1.</span> <span class="toc-text">1. 添加 handler 到驱动顶层结构体里面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-初始化-handler"><span class="toc-number">2.1.2.</span> <span class="toc-text">2. 初始化 handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-把控制-handler-挂接到驱动中"><span class="toc-number">2.1.3.</span> <span class="toc-text">3. 把控制 handler 挂接到驱动中</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-最后清理-handler"><span class="toc-number">2.1.4.</span> <span class="toc-text">4. 最后清理 handler</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为-v4l2-ctrl-handler-添加控制"><span class="toc-number">2.2.</span> <span class="toc-text">为 v4l2_ctrl_handler 添加控制</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-初始化控制-handler"><span class="toc-number">2.2.1.</span> <span class="toc-text">1. 初始化控制 handler</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-非菜单控制项"><span class="toc-number">2.2.2.</span> <span class="toc-text">2. 非菜单控制项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-菜单控制项"><span class="toc-number">2.2.3.</span> <span class="toc-text">3. 菜单控制项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-驱动特定菜单控制项"><span class="toc-number">2.2.4.</span> <span class="toc-text">4. 驱动特定菜单控制项</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-驱动特定的整数菜单控制项"><span class="toc-number">2.2.5.</span> <span class="toc-text">5. 驱动特定的整数菜单控制项</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-可选的强制初始化控制设置"><span class="toc-number">2.3.</span> <span class="toc-text">6. 可选的强制初始化控制设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-实现-v4l2-ctrl-ops-结构体"><span class="toc-number">2.4.</span> <span class="toc-text">7. 实现 v4l2_ctrl_ops 结构体</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#添加自定义以及标准-ctrl"><span class="toc-number">2.5.</span> <span class="toc-text">添加自定义以及标准 ctrl</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-标准的ctrl"><span class="toc-number">2.5.1.</span> <span class="toc-text">1. 标准的ctrl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-自定义的-ctrl"><span class="toc-number">2.5.2.</span> <span class="toc-text">2. 自定义的 ctrl</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-用户空间使用"><span class="toc-number">2.5.3.</span> <span class="toc-text">3. 用户空间使用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#扩展项"><span class="toc-number">2.6.</span> <span class="toc-text">扩展项</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/22/OpwnMAX编程-数据结构/" class="archive-article-date">
-  	<time datetime="2017-10-22T13:52:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/22/OpwnMAX编程-数据结构/">OpenMAX编程-数据结构</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/10/09/OpenMAX编程-组件/" class="archive-article-date">
-  	<time datetime="2017-10-09T14:01:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/10/09/OpenMAX编程-组件/">OpenMAX编程-组件</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/19/OpenMAX编程初识/">OpenMAX编程初识</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -483,9 +469,9 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

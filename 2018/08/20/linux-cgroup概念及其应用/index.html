@@ -7,14 +7,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives: 2017/8 | YellowMax的博客</title>
+  <title>linux-cgroup概念及其应用 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/2017/08/index.html">
+  <meta name="description" content="本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。  下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部">
+<meta name="keywords" content="Linux,调优">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux-cgroup概念及其应用">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/08/20/linux-cgroup概念及其应用/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。  下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/cgroup-menuconfig.jpg">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-org.gif">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-custom.gif">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-08-26T07:55:07.018Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="linux-cgroup概念及其应用">
+<meta name="twitter:description" content="本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。  下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/cgroup-menuconfig.jpg">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,148 +164,278 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-linux-cgroup概念及其应用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux-cgroup概念及其应用
+    </h1>
+  
+
+        
+        <a href="/2018/08/20/linux-cgroup概念及其应用/" class="archive-article-date">
+  	<time datetime="2018-08-20T13:12:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-20</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。<strong>主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。</strong></p>
+</blockquote>
+<p>下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部分是自己在实践当中收获的。<strong>但是，一如既往，代码会尽可能的少，重在理解其使用场景与理念</strong>。</p>
+<a id="more"></a>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>那么瓦次 cgroup？它的英文名是 Control Group，中文名是「控制组」。它提供一种分组机制，这种机制可以对运行在 Linux 系统上面所有的任务进行资源限制（资源包括 cpu 核、内存、设备等等），使得每一个组里面的任务都在我们人为划定的“法律界限”内部运行，所谓“戴着镣铐跳舞”。其中被划入某个组的任务其子任务也会继承老爹所在的分组资源，说是继承，其实更形象的说法应该叫“被限制在”。</p>
+<p>cgroup 可以限制的资源有很多类型，这些类型被叫做：subsystem。比如 cpuset 子系统用于管理内存与 cpu 资源；devices 子系统可以限制内部任务可以打开以及创建的设备节点；freezer 子系统用于冷冻/解冻内部所有的任务；此外还有 memory、cpu、cpuacct 等。</p>
+<ul>
+<li>层次结构（以 cpuset 子系统为例）<br>使用 mount 命令挂载的 subsystem 是一个 root 节点（后面会进行演示），该节点会把系统现有的所有线程全部囊括进去。如果在这个 root 节点下面创建自己的目录，此时在这个新建的目录下面会有一个新的节点，这个节点就是全新的子节点，可以选择配置其 cpu 核的使用情况，可以配置 memory 的使用等等，在配置完毕之后选择把需要配额的线程加入到相应的子节点的 task 中，此时主节点中的 task 里面就没有这个线程了（<strong>单一子系统内部的互斥性</strong>）。root 节点享有系统上面所有的资源且不可更改其配置，子节点可以享有部分或全部的 root 节点的资源，这个需要注意下，就比如说整个系统有4个cpu 核，那么 cpuset 子系统的 root 节点中的 cpus 就显示0-3且不可更改，子节点可以通过配置使得子节点的 cpus 仅包含0-3中的某一部分，子节点只有配置了cpus 与 mems 才能够正常使用。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">root      cpuset(subsystem)</div><div class="line">             /      \</div><div class="line">child   cpuset0    cpuset1</div><div class="line">       |   |   |  |   |   |</div><div class="line">tasks  task1  &lt;task2&gt; task3</div></pre></td></tr></table></figure>
+<p>同一个 task 不能同时包含在两个 cpuset 里面（<strong>上面 task2 就是一个错误的示范</strong>），如果你罔顾 task 已经心有所属，强行不打一声招呼就放入另一个 cpuset，那么该 task 就会从原来的 cpuset 消失，来到新的 cpuset 中。同一个 cpuset 可以包含多个 tasks，同一个 task 可以包含在不同的子系统当中（比如一个 task 可以同时在 cpuset 与 memory 子系统中），其余的子系统也是类似的行为。</p>
+<p>一个系统上面所有的 cgroup 共同构成一个 <strong>hierarchy</strong>，它可以理解为整个 Linux 系统上面的 cgroup 族系结构，也就是同一个 Linux 系统内部所有的 cgroup 的集合。</p>
+<h2 id="cgroup-的应用"><a href="#cgroup-的应用" class="headerlink" title="cgroup 的应用"></a>cgroup 的应用</h2><ul>
+<li><p>Docker<br>这个相信大家都知道，也就是大名鼎鼎的一个开源的应用容器引擎，有了它可以轻松实现在本地同步一个一模一样的远程开发环境，可以很好的实现远程部署以及调试。那么 cgroup 就用于该容器系统的资源限制，这就可以实现一个与本地系统完全隔绝的虚拟系统。</p>
+</li>
+<li><p>Android<br>Android 里面用到 cgroup 的地方是线程/进程调度管理这块，这也是我使用 cgroup 的场景。Android 里面为众多的进程进行了分类，比如预览相关的、前台线程、后台线程等等，它们都被聚合到不同的 cgroup 资源组里面，用于更加严格的管理，从而对整个系统进行全局层面的统筹规划。</p>
+</li>
+</ul>
+<p>还有其它需要进行资源限制的应用场景，比如说嵌入式设备定制化的资源分组，尤其是需要充分利用芯片性能的场景。嵌入式设备出于成本考虑，普遍来说其芯片的性能不是很强大（刨去手机这类），因此对于资源的利用就会显得更加局促，也就是需要最大限度，最高效率的去实现资源最大化利用。</p>
+<p>当然，即使是手机这种已经拥有强大处理器能力的设备也不是用不到，Android 里面就会用得到，这主要是为了实现更好的用户体验。尤其是对一些要求快速响应的程序来说，资源限制就显得更加必要。</p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><h3 id="1-内核配置项"><a href="#1-内核配置项" class="headerlink" title="1.内核配置项"></a>1.内核配置项</h3><p>在内核里面，配置 cgroup 的地方如下所示：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/cgroup-menuconfig.jpg" alt="cgroup 内核配置项"></center><center>cgroup 内核配置项</center><br\><br>如图所示在内核里面，cgroup 的配置项是 <code>CONFIG_CGROUP</code>，它的相关文档在 <code>Documentation/cgroups/</code> 文件里面。<strong>不过这里重点介绍的只是 cgroup 其中一个子系统，也就是 cpuset</strong>，其余的就不再一一记录了。</br\></p>
+<p>对于 cpuset 子系统来说，还需要在上面图片中指定的配置项选中的基础上，再选中 <code>CONFIG_CPUSETS</code>，该选项选中之后就可以在系统当中使用啦。如果需要尝试其它的子系统功能的话，那就把想要的统统选上。</p>
+<p>cpuset 子系统重点管理两个资源：cpu 核；内存节点。</p>
+<h3 id="2-用户空间的使用"><a href="#2-用户空间的使用" class="headerlink" title="2.用户空间的使用"></a>2.用户空间的使用</h3><p>在用户空间可以按照如下步骤去使用 cgroup 这个功能：</p>
+<ol>
+<li>在 /tmp 目录下新建一个文件夹，名为 cgroup，并在 cgroup 目录下新建 cpuset 目录。</li>
+<li>挂载 cpuset 子系统到上述新建的目录下，使用命令：<code>mount -t cgroup -o cpuset cpuset /tmp/cgroup/cpuset/</code></li>
+<li>设置需要的 cpu 以及 mem 资源。</li>
+</ol>
+<p>上面第二步执行完毕之后可以在 <code>/tmp/cgroup/cpuset</code> 目录下面看到如下的文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">cgroup.clone_children   cpuset.memory_pressure_enabled</div><div class="line">cgroup.event_control    cpuset.memory_spread_page</div><div class="line">cgroup.procs            cpuset.memory_spread_slab</div><div class="line">cgroup.sane_behavior    cpuset.mems</div><div class="line">cpuset.cpu_exclusive    cpuset.sched_load_balance</div><div class="line">cpuset.cpus             cpuset.sched_relax_domain_level</div><div class="line">cpuset.mem_exclusive    notify_on_release</div><div class="line">cpuset.mem_hardwall     release_agent</div><div class="line">cpuset.memory_migrate   tasks</div><div class="line">cpuset.memory_pressure</div></pre></td></tr></table></figure></p>
+<p>首先说使用，在根节点（也就是上面的挂载点）中，cpuset.cpus 与 cpuset.mems 都是分别拥有整个系统中所有的 cpu 与 mem 资源的，可以使用 cat 来查看它们的内容。而 tasks 则包含了系统中所有的进程，表示默认状态下，系统中所有的进程都享有所有的资源。</p>
+<p>如果想对某些进程做单独的限制，比如这类进程有一个统一的特点，它们都属于预览用的，那么我就建立一个文件夹叫做 preview。可以看到该文件夹下面的内容与上面的如出一辙，这时我想选定 cpu 2和3 作为预览进程所有可用的 cpu 资源，mem 1 作为所有可用的内存节点资源，就可以使用以下命令配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo 2-3 &gt; cpuset.cpus</div><div class="line">echo 1 &gt; cpuset.mems</div></pre></td></tr></table></figure></p>
+<p>如果上面的命令有提示没有权限的话就使用 <code>sudo bash -c &#39;echo 0 &gt; cpuset.mems&#39;</code>，其他的命令以此类推。上面的命令执行提示没有权限的原因是因为 echo 与 &gt; 两个都属于是 bash 的命令，而 sudo 只是赋予了 echo 超级用户权限，&gt; 命令并没有（哈哈，没想到吧.jpg）相关权限。</p>
+<p>使用 <code>echo pid &gt; tasks</code> 来为指定的 pid 分配到该 cpuset 组的资源。需要注意的是有一些进程，比如 cpu 相关的 [kworker]，[ksoftirq] 等类型的内核进程是无法进行 cpuset 组的切换的，不过一般情况下，我们需要管理的进程都是用户空间动态指定创建的。</p>
+<p><strong>如果想要删除的话就直接 rmdir 某个子文件夹即可，被删除的 cpuset 里面的任务都会重新回到根节点的 cpuset 中去，也就是会享受整个系统上面的资源。</strong></p>
+<h3 id="5-cpuset-子系统"><a href="#5-cpuset-子系统" class="headerlink" title="5. cpuset 子系统"></a>5. cpuset 子系统</h3><p>cpuset 子系统为用户空间的程序提供了 cpu 以及 memory 节点的管理机制，其主要的应用场景是多核以及多层级内存的系统，如果只有一个 cpu，一个 memory 节点，那么就不要去使用它了，毫无意义。该功能是通过扩充 sched_setaffinity 与 mbind, set_mempolicy 来实现的，它们分别负责 cpu 与 内存的管理。</p>
+<p>其中我比较关注的有以下几个属性：</p>
+<ul>
+<li>cpu_exclusive：指明是否将 cpu 私有化，也就是同一个 cpuset 下面的字文件夹里面 cpu 使用不可重叠，例如：cpuset1 拥有该标志位，并且占有 cpu0，那么 cpuset2 是不能拥有 cpu0 的使用权的，强行设置是会报错的，并且遵循先来先得的设置原则。注意该标志只能在父节点也置位为1的时候才能够使用。根节点默认都是置1的。</li>
+<li>mem_exclusive：类似上面一条，不再赘述。</li>
+<li>sched_load_balance：是否开启均衡负载功能，只有在该 cpuset 组拥有两个及以上的 cpu 核时才有用，通常是需要打开的，默认也是打开的。</li>
+<li>cpus：选择哪些 cpu 可以在该 cgroup 内部使用。</li>
+<li>mems：选择哪些 mem 节点可以在该 cgroup 内部使用。</li>
+</ul>
+<p>使用注意事项</p>
+<ol>
+<li>一个 cpuset 子系统只有在至少初始化了 cpuset.cpus 与 cpuset.mems 之后才能够使用。</li>
+<li>cpuset 子文件夹里面的资源总数不可以超过 cpuset 父文件夹里面的资源总数。</li>
+<li>如果需要切换一个进程的 cpuset 组的话，尽管把它写到目标组的 tasks 文件里面就好，它会从其它的组自动消失的。</li>
+</ol>
+<h3 id="4-如何确定自己的需求"><a href="#4-如何确定自己的需求" class="headerlink" title="4.如何确定自己的需求"></a>4.如何确定自己的需求</h3><p>首先用得着 cpuset 的是在多 cpu 核与多 memory 节点的系统上面，还有一个就是追求实时性的任务场景，该场景下面通常会有一些比较繁重的作业，比如 ISP 处理算法抑或是其它的算法、文件读写操作，还有一些对调度时间要求比较严格的，比如视音频的播放。</p>
+<p>当上述的任务全部跑在一个系统上面的时候，就或许无法达到期望中的效果。就比如系统正在进行紧张的算法处理、文件读写的时候，突然来了一个 UI 滑动事件，造成屏幕重绘，同时这个重绘过程又是软件的，那么可能瞬间会在某一个 cpu 上面占据大量的处理事件，如果此时预览相关的线程也在上面的时候，就会导致预览的卡顿现象。</p>
+<p>再比如，一个系统上面有两个可以并行计算的重度资源消耗线程，如果碰巧系统上面其它的 cpu 使用率也非常高，这两个恰好被分配在了同一个 cpu 上面，而必须串行的任务却被分配在了不同的 cpu 上面，那么这本来可以并行计算的任务却变成了实质上的串行计算，必须串行的任务就算在两个核上面也无法实现真正的并行计算，这样就会造成 cpu 的浪费，会使得整个系统处理效率低下。</p>
+<p>那么总结起来主要就有下面几个点可以纳入是否要使用 cpuset 的考虑：</p>
+<ul>
+<li>系统中有很多繁重的任务，它们可能是可并行的、必须串行的。</li>
+<li>系统中有两个及以上的 cpu 核，事实上真正会用得着的话 cpu 核要在 4 核及以上了。</li>
+<li>某些任务对实时性要求较高，某些任务平时不鸣则已，一鸣就要吃掉差不多大半个 cpu。</li>
+<li>需要为多用户做资源分组限制的，其实嵌入式系统当中这类貌似不多，但是也有这种情况。</li>
+</ul>
+<h2 id="一个设想实例"><a href="#一个设想实例" class="headerlink" title="一个设想实例"></a>一个设想实例</h2><p>假设我有一个系统，它有三个核，一个 mem 节点（事实上大多数的嵌入式设备都是一个 mem 节点）。然后业务代码里面包含有以下几种类型的线程（进程）：</p>
+<ol>
+<li>需要的运算量巨大，并且 cpu 占用率比较稳定。</li>
+<li>需要进行实时预览，并且得尽量保证预览的线程不能出现卡顿的现象（预览相关的线程可能不止一个）。</li>
+<li>大多数时间休眠，偶尔响应的时候需要瞬间的大量 cpu 资源，这个响应的时候预览画面会被遮住，也就是 UI 相关的线程。</li>
+<li>读写文件，其 cpu 使用率也是比较稳定。</li>
+</ol>
+<p>那么上面几个线程的分布该怎么去组织呢，首先将第二类与第三类单独分配一个 cpu 核，第四类单独分配一个，第一类分配两个 cpu 核去完成工作。这样就会相对充分的去利用整个系统的资源。</p>
+<p>然而，事实上一个产品内部的线程或者进程不会是这么简单的，比如通常情况下第一类与第二类是有交叉依赖关系的，也就是说必须得先经过算法处理之后才能够送去预览。再比如系统内部肯定不止有那么几个线程，而是以几十个为单位的，它们之间错综复杂的依赖关系怎么梳理，以及这么多线程我难不成每一个都要去手动管理？这是不可能的。所以还需要做的工作有下面几个：</p>
+<ol>
+<li>按照数据流链路梳理好每一个线程，有相互依赖关系的整合成一条 pipeline，它们可以约束在同一个 cpu 上面去工作，此时要特别处理好线程之间的等待方式，不能是毫无意义的轮询，而是需要后面的线程等待前面的线程处理完毕才能继续工作。</li>
+<li>对于可以并行执行的任务要尽量保证它们能够分布在不同的 cpu 上面，充分利用好多核 cpu 的优势。</li>
+<li>对于需要大量运算，并且是纯软件计算的线程最好单独给它分配一个核，否则它会严重拖累处于同一 cpu 核的其它线程，因为纯软件的计算很难有 cpu 调度点，大多数时候都是需要等它的一轮时间片完全消耗完毕才能轮到其它线程。</li>
+</ol>
+<p>还有其它多种类型的情况，有时候由于项目时间以及成本限制，不可能对这么多的线程去专门一对一的分门别类去管理，此时就需要抽出重点项目，专门为这一类线程做特定管理，而大多数情况也都是这么做的，这种属于“锦上添花”，也就是不影响原来使用的基础上专门针对某一块做出优化，这种可以很好的平衡收益与成本。</p>
+<h2 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h2><h3 id="cpu-的孤立"><a href="#cpu-的孤立" class="headerlink" title="cpu 的孤立"></a>cpu 的孤立</h3><p>除了以上方式可以做到 cpu 的管理之外，Linux 内核还专门提供了一种 cpu 孤立的方法，它可以专门抽出来一个或多个 cpu 核不参与到调度管理当中去。可以作为 cpu 核心限制（有四个核但是只给用三个核），也可以抽出来专门为某些特殊功能使用。</p>
+<p>在内核启动的时候传入 cmdline 参数，丢给内核指定需要哪些 cpu 核被孤立出来，参数如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">isolcpus=n-m</div></pre></td></tr></table></figure></p>
+<p>将 cpu 孤立之后在应用空间查看会发现这个 cpu 核不再参与调度，查看其使用率会发现为0。那么孤立之后需要使用这颗 cpu 的话也是可以的，可以在应用程序里面使用 <code>sched_setaffinity</code> 以及 <code>pthread_setaffinity_np</code>，注意一下它们两个的参数区别，前者是全局唯一进程 id 号，对于用 pthread 线程库创建出来的进程来说，可以用 ·__NR_gettid` 系统调用获取进程 id 号，后者直接使用线程 id(pthread_self) 号即可。</p>
+<h3 id="htop-工具的使用"><a href="#htop-工具的使用" class="headerlink" title="htop 工具的使用"></a>htop 工具的使用</h3><p>htop 这个工具用于图形化展示 cpu 的使用率，线程的内存统计等等。我最常使用的是用它来查看 cpu 占用率、自定义线程的 cpu 使用率、线程跑在哪个 cpu 上、线程的优先级等等。如果是在 ubuntu 上面使用的话，直接使用 <code>sudo apt-get install htop</code> 即可安装使用，如果是在嵌入式设备上面最好还是自己下载代码进行编译：<a href="http://hisham.hm/htop/index.php?page=downloads#sources" target="_blank" rel="external">http://hisham.hm/htop/index.php?page=downloads#sources</a></p>
+<p>下面图片是默认状态下打开 htop 的显示：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-org.gif" alt="htop 默认显示状态"></center><center>htop 默认显示状态</center><br\></br\></p>
+<p>下面演示的是按下 shift+s 之后的设置，在这里我把线程自定义的名称选中、cpu 计数从 0 开始，并且显示每一个线程所运行的 cpu 核心是哪一个？：<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-custom.gif" alt="htop 自定义显示"></center><center>htop 自定义显示</center><br\></br\></p>
+<p>还有一些快捷键使用:</p>
+<ul>
+<li>F10:保存配置并返回主界面</li>
+<li>shift+k：显示内核线程</li>
+<li>shift+p：把进程按照 cpu 占用率依次排列</li>
+<li>shift+h：显示帮助界面</li>
+</ul>
+<p>实际上只用记住最后一个就可以了，遇到不会的直接查帮助，该软件对于分析系统上面的程序十分有用，比如如何知道某一个线程确实正确地被绑定到某一个 cpu 上面，如何确认 cpu 的负载是否均衡，以及当系统发生异常的时候查看是哪一个异常的程序占据了大量的 cpu 时间。</p>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/08/20/linux-cgroup概念及其应用/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/08/19/问题倒逼改革/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">问题倒逼改革</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cgroup-的应用"><span class="toc-number">2.</span> <span class="toc-text">cgroup 的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">3.</span> <span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-内核配置项"><span class="toc-number">3.1.</span> <span class="toc-text">1.内核配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-用户空间的使用"><span class="toc-number">3.2.</span> <span class="toc-text">2.用户空间的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-cpuset-子系统"><span class="toc-number">3.3.</span> <span class="toc-text">5. cpuset 子系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-如何确定自己的需求"><span class="toc-number">3.4.</span> <span class="toc-text">4.如何确定自己的需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个设想实例"><span class="toc-number">4.</span> <span class="toc-text">一个设想实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项"><span class="toc-number">5.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cpu-的孤立"><span class="toc-number">5.1.</span> <span class="toc-text">cpu 的孤立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htop-工具的使用"><span class="toc-number">5.2.</span> <span class="toc-text">htop 工具的使用</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -323,8 +463,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

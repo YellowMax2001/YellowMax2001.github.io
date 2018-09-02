@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-org.gif">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/htop-custom.gif">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-08-26T07:55:07.018Z">
+<meta property="og:updated_time" content="2018-08-26T07:57:04.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="linux-cgroup概念及其应用">
 <meta name="twitter:description" content="本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。  下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部">
@@ -245,7 +245,7 @@ var _hmt = _hmt || [];
 <li>某些任务对实时性要求较高，某些任务平时不鸣则已，一鸣就要吃掉差不多大半个 cpu。</li>
 <li>需要为多用户做资源分组限制的，其实嵌入式系统当中这类貌似不多，但是也有这种情况。</li>
 </ul>
-<h2 id="一个设想实例"><a href="#一个设想实例" class="headerlink" title="一个设想实例"></a>一个设想实例</h2><p>假设我有一个系统，它有三个核，一个 mem 节点（事实上大多数的嵌入式设备都是一个 mem 节点）。然后业务代码里面包含有以下几种类型的线程（进程）：</p>
+<h2 id="假想的实例"><a href="#假想的实例" class="headerlink" title="假想的实例"></a>假想的实例</h2><p>假设我有一个系统，它有三个核，一个 mem 节点（事实上大多数的嵌入式设备都是一个 mem 节点）。然后业务代码里面包含有以下几种类型的线程（进程）：</p>
 <ol>
 <li>需要的运算量巨大，并且 cpu 占用率比较稳定。</li>
 <li>需要进行实时预览，并且得尽量保证预览的线程不能出现卡顿的现象（预览相关的线程可能不止一个）。</li>
@@ -389,6 +389,15 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
+    <a href="/2018/09/02/不要把希望寄托在别人身上/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          不要把希望寄托在别人身上
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/08/19/问题倒逼改革/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">问题倒逼改革</div>
@@ -418,7 +427,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cgroup-的应用"><span class="toc-number">2.</span> <span class="toc-text">cgroup 的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">3.</span> <span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-内核配置项"><span class="toc-number">3.1.</span> <span class="toc-text">1.内核配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-用户空间的使用"><span class="toc-number">3.2.</span> <span class="toc-text">2.用户空间的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-cpuset-子系统"><span class="toc-number">3.3.</span> <span class="toc-text">5. cpuset 子系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-如何确定自己的需求"><span class="toc-number">3.4.</span> <span class="toc-text">4.如何确定自己的需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一个设想实例"><span class="toc-number">4.</span> <span class="toc-text">一个设想实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项"><span class="toc-number">5.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cpu-的孤立"><span class="toc-number">5.1.</span> <span class="toc-text">cpu 的孤立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htop-工具的使用"><span class="toc-number">5.2.</span> <span class="toc-text">htop 工具的使用</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#概念"><span class="toc-number">1.</span> <span class="toc-text">概念</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#cgroup-的应用"><span class="toc-number">2.</span> <span class="toc-text">cgroup 的应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何使用"><span class="toc-number">3.</span> <span class="toc-text">如何使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-内核配置项"><span class="toc-number">3.1.</span> <span class="toc-text">1.内核配置项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-用户空间的使用"><span class="toc-number">3.2.</span> <span class="toc-text">2.用户空间的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-cpuset-子系统"><span class="toc-number">3.3.</span> <span class="toc-text">5. cpuset 子系统</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-如何确定自己的需求"><span class="toc-number">3.4.</span> <span class="toc-text">4.如何确定自己的需求</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#假想的实例"><span class="toc-number">4.</span> <span class="toc-text">假想的实例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#杂项"><span class="toc-number">5.</span> <span class="toc-text">杂项</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cpu-的孤立"><span class="toc-number">5.1.</span> <span class="toc-text">cpu 的孤立</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#htop-工具的使用"><span class="toc-number">5.2.</span> <span class="toc-text">htop 工具的使用</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -578,19 +587,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">调优</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">web</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo 博客配置</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Linux</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">调优</a>
               </li>
              
               <li class="article-tag-list-item">

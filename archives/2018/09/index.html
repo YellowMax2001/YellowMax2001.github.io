@@ -7,23 +7,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>V4L2框架-media-device | YellowMax的博客</title>
+  <title>Archives: 2018/9 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文对 V4L2 的运行时数据流设备管理做一个详细的介绍，包括什么叫「运行时设备管理」，它是干什么用的，怎么使用等等。本文的目标是掌握 media device 的编码使用方法以及功能运用。  01 - V4L2框架-v4l2 device00 - V4L2框架概述">
-<meta name="keywords" content="编程,V4L2">
-<meta property="og:type" content="article">
-<meta property="og:title" content="V4L2框架-media-device">
-<meta property="og:url" content="http://www.yellowmax2001.com/2018/07/02/V4L2框架-media-device/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="YellowMax的博客">
+<meta property="og:url" content="http://www.yellowmax2001.com/archives/2018/09/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="本文对 V4L2 的运行时数据流设备管理做一个详细的介绍，包括什么叫「运行时设备管理」，它是干什么用的，怎么使用等等。本文的目标是掌握 media device 的编码使用方法以及功能运用。  01 - V4L2框架-v4l2 device00 - V4L2框架概述">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/pipeline-desc.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/graph-walk.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-07-02T13:09:23.524Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="V4L2框架-media-device">
-<meta name="twitter:description" content="本文对 V4L2 的运行时数据流设备管理做一个详细的介绍，包括什么叫「运行时设备管理」，它是干什么用的，怎么使用等等。本文的目标是掌握 media device 的编码使用方法以及功能运用。  01 - V4L2框架-v4l2 device00 - V4L2框架概述">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/pipeline-desc.jpg">
+<meta name="twitter:title" content="YellowMax的博客">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -163,277 +154,64 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-V4L2框架-media-device" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      V4L2框架-media-device
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2018" class="archive-year">2018</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2018/09/02/不要把希望寄托在别人身上/" class="archive-article-date">
+  	<time datetime="2018-09-02T07:34:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2018/09/02/不要把希望寄托在别人身上/">不要把希望寄托在别人身上</a>
     </h1>
   
 
-        
-        <a href="/2018/07/02/V4L2框架-media-device/" class="archive-article-date">
-  	<time datetime="2018-07-02T13:02:07.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文对 V4L2 的运行时数据流设备管理做一个详细的介绍，包括什么叫「运行时设备管理」，它是干什么用的，怎么使用等等。本文的目标是掌握 media device 的编码使用方法以及功能运用。</p>
-</blockquote>
-<p><a href="http://www.yellowmax2001.com/2018/06/23/V4L2%E6%A1%86%E6%9E%B6-v4l2-device/">01 - V4L2框架-v4l2 device</a><br><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
-<a id="more"></a>
-<h2 id="media-framework"><a href="#media-framework" class="headerlink" title="media framework"></a>media framework</h2><ul>
-<li><p>简介<br>相关的控制 API 在 <code>Documentation/DocBook/media/v4l/media-controller.xml</code>，本文档聚焦于内核测的media框架实现。<strong>注意：直接查看是看不出啥的，在内核的根目录下 <code>make htmldocs</code> 或者其它格式的都行，易于查看。</strong></p>
-</li>
-<li><p>运行时设备控制<br>也就是设备启动之后的数据流线路控制，就像一个工厂流水线一样，流水线上面的一个个节点（贴商标、喷丝印、打包）就形同于输入设备中的一个个子设备，运行时设备控制就是要达到能够控制节点的效果，比如贴商标的机器有好几台，应该选择哪一台进行此次流水线处理，要不要把喷丝印加上去，加哪一个机子等等。</p>
-</li>
-<li><p>作用<br>提供实时的 pipeline 管理，pipeline 就理解为管道，想象一下水管，里面的水就是数据流，输入设备中的 csi-&gt;isp-&gt;video 就组成了一个 pipeline 线路。media framework 提供 pipeline 的开启、关停、效果控制、节点控制等功能。</p>
-</li>
-<li><p>如何使用<br>内核当中主要利用四个结构体把众多的节点组织起来：<code>media_device</code>,<code>media_entity</code>,<code>media_link</code>,<code>media_pad</code>。整个 media framework 都是围绕这四个结构体来进行使用的，下文会对这些进行详细介绍。</p>
-</li>
-<li><p>抽象设备模型<br>media framework 其中一个目的是：在运行时状态下发现设备拓扑并对其进行配置。为了达到这个目的，media framework将<br>硬件设备抽象为一个个的entity，它们之间通过links连接。</p>
-</li>
-</ul>
-<ol>
-<li>entity：硬件设备模块抽象（类比电路板上面的各个元器件、芯片）</li>
-<li>pad：硬件设备端口抽象（类比元器件、芯片上面的管脚）</li>
-<li>link：硬件设备的连线抽象，link的两端是pad（类比元器件管脚之间的连线）<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#------------#                #------------#</div><div class="line">|          __|__            __|__          |</div><div class="line">|         |  |  |   link   |  |  |         |</div><div class="line">|         | pad |&lt;--------&gt;| pad |         |</div><div class="line">|         |__|__|          |__|__|         |</div><div class="line">|            |                |            |</div><div class="line">|   entity   |                |   entity   |</div><div class="line">#------------#                #------------#</div></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>可以想象一下，如果各个 entity 之间需要建立连接的话，就需要在 pad 中存储 link 以及 entity 信息，link 中需要存储 pad 与 entity 信息，entity 里面需要存储 link 与 pad 信息，属于你中有我，我中有你的情况。</p>
-<h2 id="media-设备"><a href="#media-设备" class="headerlink" title="media 设备"></a>media 设备</h2><p>一个 media 设备用一个 <code>media_device</code> 结构体来表示，通常情况下该结构体要嵌入到一个更大的设备自定义的结构体里面，并且大多数时候 <code>media_device</code> 与 <code>v4l2_device</code> 是处于并列的级别，还是以 omap3isp 的代码为例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">struct isp_device &#123;</div><div class="line">	struct v4l2_device v4l2_dev;</div><div class="line">	struct v4l2_async_notifier notifier;</div><div class="line">	struct media_device media_dev;</div><div class="line">	struct device *dev;</div><div class="line">	u32 revision;</div><div class="line">	... ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>使用以下函数进行 meida 设备的注册：<code>media_device_register(struct media_device *mdev);</code><br>函数的调用者需要在注册之前设置以下结构体成员（提前初始化该结构体是调用者的责任）：</p>
-<ul>
-<li>dev：必须指向一个父设备，通常是平台设备的device成员。</li>
-<li>model：模型名字。<br>以下的成员是可选的：</li>
-<li>serial：序列号，必须是唯一的</li>
-<li>bus_info：总线信息，如果是PCI设备的话就可以设置成”PCI:”</li>
-<li>hw_revision：硬件版本。可以的话，应该用KERNEL_VERSION宏定义进行格式化</li>
-<li>driver_version：驱动版本。最终生成的设备节点的名称是media[0-9]，节点号由内核自动生成。</li>
-</ul>
-<p>使用以下函数进行设备卸载：<code>media_device_unregister(struct media_device *mdev);</code><br>需要注意的是，卸载一个并没有注册过的设备是<strong><em>不安全的</em></strong>。<strong>个人查看代码猜想不安全的原因主要有几个：1. 如果没有被注册，那么 <code>media_device</code> 内部的 entity 成员就有可能没有被初始化，如果其值为一个不确定的值，那么就会引起非法访问；2. 如果没有注册，内部的 <code>devnode</code> 成员就没有初始化，卸载时就会出现问题。</strong></p>
-<h2 id="「entities、pads、links」"><a href="#「entities、pads、links」" class="headerlink" title="「entities、pads、links」"></a>「entities、pads、links」</h2><h3 id="entities"><a href="#entities" class="headerlink" title="entities"></a>entities</h3><p>entities 用一个 <code>media_entity</code> 结构体来表示，该结构体通常被嵌入到一个更大的结构体里面，比如 <code>v4l2_subdev</code> 或者 <code>video_device</code> 结构体（<strong>不必自行分配空间，结构体内部已经包含</strong>），当然也可以直接分配一个 entities。使用以下函数对 entity 进行初始化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">media_entity_init(struct media_entity *entity, u16 num_pads, struct</div><div class="line">    media_pad *pads, u16 extra_links);</div></pre></td></tr></table></figure></p>
-<p>在执行初始化函数之前需要注意的参数有：</p>
-<ul>
-<li>num_pads：pad的数量，与驱动子设备结构相关。</li>
-<li>pads：media_pad结构体数组，通常pad被嵌入到驱动自定义的结构体里面，数组地址被传递给该参数，pad需提前初始化。</li>
-<li>extra_links：该函数会根据num_pads分配link数目，该参数则指明除了预分配的数量之外还需要多少额外的links。</li>
-<li>entity：<code>media_entity</code> 的 <code>name、type、flags、revision和group_id</code> 需要在初始化之前或者之后进行设置，如果结构体被嵌入到更高级的结构体里面，这些成员也可能被更高级的框架代码所设置，entity的id在注册的时候被填充（如果提前设置了id成员，则注册的时候就保持预设的值）。entity有相关的标志位「flags」来标识它的状态与功能，<code>MEDIA_ENT_FL_DEFAULT</code> 就表示这是一个默认的 entity。可以设置多个 entity 的组 ID 为同一个整数来标识它们是属于同一类别的，对于内核来说，组ID是没有用处的，但是组 ID 会在枚举 entity 的时候被传递到用户空间，可能在用户空间的某种情况下用得上。</li>
-</ul>
-<h3 id="pads"><a href="#pads" class="headerlink" title="pads"></a>pads</h3><p>pad 使用一个 <code>media_pad</code> 结构体来表示，pads 数据被驱动程序管理（数组形式）。pads 使用 entity 与数组下标来进行唯一标识，entity 内部的 id 不会重复，但是不同 entity 之间的 pad id 可能会重复，所以 pad 的索引要 entity 与 id 联合确认。</p>
-<p>由于 pads 的数量是提前获知的（<strong>你做的芯片，你肯定知道它有几个管脚</strong>），所以 <code>media_pad</code> 结构体不再动态分配，并且驱动应负责对该结构体数组进行管理（避免动态分配）。驱动必须在 <code>media_entity_init</code> 函数被调用之前对 pads 的方向属性进行设置，pads 有 <code>flags</code> 位来标识它的属性，在初始化的时候仅需要设置该成员即可，其余的交由 <code>media_entity_init</code> 函数来完成：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">MEDIA_PAD_FL_SINK：目的pad</div><div class="line">MEDIA_PAD_FL_SOURCE：源pad</div></pre></td></tr></table></figure></p>
-<h3 id="links"><a href="#links" class="headerlink" title="links"></a>links</h3><p>links 用一个 <code>media_link</code> 结构体来表示，每一个 entity 的所有 pads 里面都存储了与之相关的所有 links，一个 link 会分别被源 pad 以及目的 pad 存储，以便实现正反两个方向的遍历。使用以下函数创建 links：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">media_entity_create_link(struct media_entity *source, u16 source_pad,</div><div class="line">	struct media_entity *sink, u16 sink_pad, u32 flags);</div></pre></td></tr></table></figure></p>
-<p>links 有一些 <code>flags</code> 位来标识其属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">MEDIA_LNK_FL_ENABLED：link被使能，可以用来传输数据，多个link连接到同一个sink pad时，只有一个link可以被使能。</div><div class="line">MEDIA_LNK_FL_IMMUTABLE：link的使能状态不能在运行时被改变，一般情况下这两个标志位同时被设置。</div><div class="line">MEDIA_LNK_FL_DYNAMIC：link的状态是动态可变的。</div></pre></td></tr></table></figure></p>
-<p>和 pads 不一样，links 的数量并不总是提前确定的（<strong>电路板上面有时候你也无法完全确认需要管脚连到多少个设备上面，极有可能出现临时变更的情况</strong>），所以    <code>media_entity_init</code> 函数根据传入的参数预分配一定数量的 <code>media_link</code> 结构体，如果不够用的话会在 <code>media_entity_create_link</code> 中动态分配（如果 link 数量大于等于 max_link 的话就会扩充 link 数量）。</p>
-<h3 id="注册与卸载"><a href="#注册与卸载" class="headerlink" title="注册与卸载"></a>注册与卸载</h3><p>驱动需要使用以下函数对 entity 进行注册与卸载（不需要手动执行，在 <code>v4l2_device_un/register_subdev</code> 函数里面完成）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">media_device_register_entity(struct media_device *mdev, struct </div><div class="line">    media_entity *entity);</div><div class="line">media_device_unregister_entity(struct media_entity *entity);</div></pre></td></tr></table></figure></p>
-<p>内核里面使用一个唯一的正整数来表示每一个 entity（同一个 <code>media_device</code> 下唯一），驱动也可以通过填充 <code>media_entity-&gt;id</code> 成员来指定 entity 的 ID 值，但是必须保证唯一。如果 ID 由内核自动生成，则不能保证它们是连续的，事实上内核自动生成的 id 是由 entity 的 <code>media_device-&gt;entity_id++</code> 来实现赋值的，该值在 <code>media_device_register</code> 函数里面被初始化为1。</p>
-<p>在卸载 entity 之后需要调用以下函数来释放申请到的相关资源，主要是释放动态分配的 <code>media_link</code> 结构体内存：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">media_entity_cleanup(struct media_entity *entity); //与media_entity_init结对使用</div></pre></td></tr></table></figure></p>
-<p>要想遍历 entities 可以在用户空间进行 <code>MEDIA_IOC_ENUM_ENTITIES</code> 系统调用，需要设置 <code>media_entity_desc</code> 的 id 为 <code>(0|MEDIA_ENT_ID_FLAG_NEXT)</code>，循环的过程中只需要设置 <code>id |= MEDIA_ENT_ID_FLAG_NEXT</code> 即可完成 entity 的遍历过程，如果需要枚举指定的 entitiy，需要设置 id 为指定 entity 的 id 值(内核 entity 的 id 是从1开始)，这个在 entity 注册函数里面可以看到。代码实例如下，<strong>我尽量精简了贴出来的代码，防止占用过大篇幅</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">int enum_media_device_entities(int iFd)</div><div class="line">&#123;</div><div class="line">	int iRet;</div><div class="line">	struct media_entity_desc desc;</div><div class="line"></div><div class="line">	desc.id = 0 | MEDIA_ENT_ID_FLAG_NEXT;</div><div class="line">	while (1) &#123;</div><div class="line">		iRet = ioctl(iFd, MEDIA_IOC_ENUM_ENTITIES, &amp;desc);</div><div class="line">		if (iRet &lt; 0) &#123;</div><div class="line">			MODULE_WRN(&quot;enum media entities end\n&quot;);</div><div class="line">			break;</div><div class="line">		&#125;</div><div class="line">		MODULE_DBG(&quot;entity name[%s]\n&quot;, desc.name);</div><div class="line">		desc.id |= MEDIA_ENT_ID_FLAG_NEXT;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">	int iErr = 0, ivFd;</div><div class="line"></div><div class="line">	ivFd = open(&quot;/dev/media0&quot;, O_RDWR);</div><div class="line">	iErr = enum_media_device_entities(ivFd);</div><div class="line"></div><div class="line">	close(ivFd);</div><div class="line">open_err:</div><div class="line">	return iErr;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="图遍历（深度优先）"><a href="#图遍历（深度优先）" class="headerlink" title="图遍历（深度优先）"></a>图遍历（深度优先）</h2><p><strong>图遍历是干嘛的？它为我们提供在运行时访问每一个、指定的 entities 的方法，至于为什么需要访问，是因为我们可能会需要在运行时去管理它们。</strong></p>
-<p>可以使用下面的函数对同属于一个media设备的entities进行遍历（线性遍历，非典型图遍历，也就是跟链表一样的遍历方式）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">struct media_entity *entity;</div><div class="line">media_device_for_each_entity(entity, mdev) &#123;</div><div class="line">	/* entity will point to each entity in turn */</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>驱动可能需要从一个给定的 entity，通过使能的 links 对所有的可访问到的 entities 进行遍历，meida 框架提供了一个深度优先的 API 来完成这个任务。需要注意的是，要避免对闭环的图进行遍历，否则会陷入死循环，为了避免这种情况，函数限制了最大遍历深度为       <code>MEDIA_ENTITY_ENUM_MAX_DEPTH</code>，该宏最新的定义是16<strong>「截至 Linux-4.4.138」</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">media_entity_graph_walk_start(struct media_entity_graph *graph,</div><div class="line">    struct media_entity *entity);</div><div class="line">media_entity_graph_walk_next(struct media_entity_graph *graph);</div></pre></td></tr></table></figure></p>
-<p>使用时先用第一个函数初始化图，然后循环调用第二个函数进行遍历，遍历全部完成之后第二个函数会返回NULL。遍历过程可以在任意一个时刻中断，并且无需调用清理函数。</p>
-<p>有相应的帮助函数用来寻找两个给定的 pads 的 link，或者通过一个 pad 来找到与之相连的另一个 pad。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">media_entity_find_link(struct media_pad *source, struct media_pad *sink);</div><div class="line">media_entity_remote_pad(struct media_pad *pad);</div></pre></td></tr></table></figure></p>
-<h2 id="补充-links-的设置"><a href="#补充-links-的设置" class="headerlink" title="补充 links 的设置"></a>补充 links 的设置</h2><p>link 的属性可以在运行时被改变，调用以下函数即可完成：<code>media_entity_setup_link(struct media_link *link, u32 flags);</code> <code>flags</code> 参数用来设置指定的 link 的属性，允许被配置的属性是从 <code>MEDIA_LNK_FL_ENABLED</code> 属性到 <code>MEDIA_LNK_FL_ENABLE</code> 或者 <code>MEDIA_LNK_FL_DISABLE</code> 标志，如果 link 设置了 <code>MEDIA_LNK_FL_IMMUTABLE</code> 标志的话，就不能够使能或者关闭。当一个 link 使能或者关闭时，meida framework 会分两次调用 sink 以及 source 端的 <code>link_setup</code> 来进行相关的设置，如果第二次调用失败的话，第一个调用也会被复原。</p>
-<p>media 设备驱动可以设置 <code>media_device-&gt;link_notify</code> 指向一个回调函数，此函数会在 <code>link_setup</code> 操作完成之后被调用。如果有任何的 link 是 non-immutable 的话，entity 驱动就需要自己实现 <code>link_setup</code> 操作。一个 link 的配置不应该影响到其他 link，如果一个 link 连接在 sink pad 上，并且该 link 被使能了，那么其他连接到该 pad 的 link 就不能再被使能，此时应该返回 <code>-EBUSY</code>。</p>
-<ol>
-<li>pipeline与media流<br>pipeline 的概念前面已经介绍过了，不再重复，这里给一副说明图（其实这个不是非常的清晰易懂，还有更加清晰易懂的由于某些原因不能放出，请读者发挥想象，根据图中以及上面的描述自行抽象出来一个图，只要紧紧围绕一点-pipeline 就是数据流链路的抽象，我相信你）：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/pipeline-desc.jpg" alt="pipeline 抽象图"><center>pipeline 抽象图</center>
-
-</li>
-</ol>
-<p>当开启 streaming 时，驱动应当通知 pipeline 上所有的 entity 来维护当前状态不被改变，可以调用下面的函数完成通知（该函数只会调用 sink 端的 validate 回调）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">media_entity_pipeline_start(struct media_entity *entity, struct media_pipeline *pipe);</div></pre></td></tr></table></figure></p>
-<p>该函数将会标记所有的处在使能 link 连线上的 entity 为 streaming 状态，<strong>不管是直接还是间接</strong>。第二个参数指向的 media_pipeline 结构体会被传递给 pipeline 上面的所有 entity，驱动需要把 media_pipeline 结构体嵌入到一个更高级的结构体里面，并且可以从 media_entity 结构体访问到 pipeline。等到需要停止 streaming 时，需要调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">media_entity_pipeline_stop(struct media_entity *entity);</div></pre></td></tr></table></figure></p>
-<p>由于start函数可以嵌套调用，所以与之对应，stop函数也应该保持相应数量的调用。<code>media_entity_pipeline_start</code> 函数会进行 link 有效性的检验，此时 <code>media_entity</code> 的 <code>link_validate</code> 成员会被调用用来完成检验。下面一幅图是遍历的说明：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/graph-walk.jpg" alt="pipeline 遍历"></p>
-<center>pipeline 遍历</center>
-
-<p><strong>上图中的圆圈序号指的是访问的先后顺序。值得一提的是内核关于广度优先图遍历的实现很耐人寻味，很具有参考价值，值得自己去找到内核代码探究一番。其中用到了栈、位图等概念。具体的代码在 <code>media-entity.c/media_entity_pipeline_start</code> 函数里面。</strong></p>
-<p>由于上面的遍历是广度优先的，并且是全部遍历，也就是说如果你的 isp 有两个输入源，那这两个输入源可能会同时被打开，更多时候我们并不希望这种情况发生，我们期望的是指定的输入源、指定的单链路的 pipeline 被打开，此时就需要自行去管理 pipeline，可以实现一个自己的 pipeline 结构体进行相关的管理。实现方式就很简单，这个 pipeline 结构体类似下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">struct spec_pipeline &#123;</div><div class="line">    struct list_head entities; // pipeline 线上的 entity 链表头</div><div class="line">    struct media_entity entities[PIPE_LENGTH]; //与上一个类似，随自己想法去实现</div><div class="line">    int (*open_fun)(struct media_entity entity, int onoff);</div><div class="line">    int (*s_stream)(struct media_entity entity, int onoff);</div><div class="line">    ... ...</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>接下来就不用多说了吧，思维赶紧发散一下、扩展一下，很容易实现一个易用的自己特定的 pipeline，可以实现指定同源不同目的的数据流区分管理，不同源不同目的的数据流区分管理等等。</p>
-<h2 id="Tips"><a href="#Tips" class="headerlink" title="Tips"></a>Tips</h2><ol>
-<li>从 <code>media_entity</code> 找到 <code>v4l2_subdev</code> 可以使用 <code>media_entity_to_v4l2_subdev</code> 函数来完成。</li>
-<li>可以在 video 模块的 streamon 部分加入对link的使能标记，<code>media_entity_pipeline_start</code> 函数会对 <code>entity.stream_count</code> 成员进行增值操作，并且会将第二个参数中的 pipe 传递给 link 线上的 <code>entity.pipe</code> 成员。使能标记完成之后可以对各个 entity 进行图遍历来调用其 <code>set_stream</code> 成员开启 stream。事实上在 <code>s_param,s_fmt</code> 等 ioctl 调用时就需要进行图遍历以调用整个 pipeline 上面的各个 entity 的回调函数进行相关的设置。</li>
-<li>在子设备节点都注册完毕之后可以通过 <code>media_entity_create_link</code> 来完成各个 entity 的连接，以待之后整个数据流的开启。</li>
-<li>为什么要有 media framework？因为仅仅有 subdev 的话，各个子设备类是处于平级状态，并没有数据流的流向之分，如果需要建立数据流 pipeline 的话需要自行去实现，这样会比较麻烦，而有了 media framework 的话这些管理就会方便很多，因为它提供了 pipeline 的一切管理操作，这样就可以把众多的 subdev 串联成为一个完整的数据流，从而进行正确、有向的数据传递。</li>
-<li><code>v4l2_subdev</code> 与 <code>video_device</code> 内部都有一个 <code>media_entity</code> 结构体（非指针类型），<code>video_device</code> 内部的entity会随着video 设备的注册而注册，名字沿用 <code>video_deivce</code> 的名字，这两个是有所区别的，使用的时候需要特别注意下。</li>
-</ol>
-<p>结束语：本文到此结束，希望你已经能够完成一个完整功能的 pipeline，能够进行 open/close, s_stream 等操作了，并且可以实现自定义的设备数据流串联，实时管理等功能。<strong>下文预告-videobuf2 的实现与使用。</strong></p>
-<hr>
-<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/07/02/V4L2框架-media-device/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2018/07/15/V4L2框架-videobuf2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          V4L2框架-videobuf2
-        
-      </div>
-    </a>
   
   
-    <a href="/2018/06/23/V4L2框架-v4l2-device/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">V4L2框架-v4l2 device</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#media-framework"><span class="toc-number">1.</span> <span class="toc-text">media framework</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#media-设备"><span class="toc-number">2.</span> <span class="toc-text">media 设备</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#「entities、pads、links」"><span class="toc-number">3.</span> <span class="toc-text">「entities、pads、links」</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#entities"><span class="toc-number">3.1.</span> <span class="toc-text">entities</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pads"><span class="toc-number">3.2.</span> <span class="toc-text">pads</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#links"><span class="toc-number">3.3.</span> <span class="toc-text">links</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注册与卸载"><span class="toc-number">3.4.</span> <span class="toc-text">注册与卸载</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图遍历（深度优先）"><span class="toc-number">4.</span> <span class="toc-text">图遍历（深度优先）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#补充-links-的设置"><span class="toc-number">5.</span> <span class="toc-text">补充 links 的设置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Tips"><span class="toc-number">6.</span> <span class="toc-text">Tips</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -461,8 +239,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
-		isArchive: false,
+		isPost: false,
+		isArchive: true,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

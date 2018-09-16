@@ -7,29 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>微信公众号二维码美化极简实用教程 | YellowMax的博客</title>
+  <title>linux进程优先级 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文带来一篇公众号二维码美化与内部图片美化的实用教程。不是广告贴，里面的工具是我在使用的时候收集到的，感觉好就推荐了。本文重在极简、实用、可操作性强。">
-<meta name="keywords" content="经验,总结">
+  <meta name="description" content="Linux 中进程的优先级绝不是如想象中的那么简单，相反它的概念比较混杂，它甚至不是很符合直觉。  Linux 进程的优先级跟随调度算法的不断发展，其意义在不同的阶段也有着不同的含义，所以本来想从 Linux 的调度发展史写起，但是无奈那一部分的涉猎不是很深入。不管怎样，发展到最后，结果是 Linux 系统可以在同一个系统上扩展多个调度算法，于是在同一个系统上面优先级也有了不同的含义，本文只对较">
+<meta name="keywords" content="Linux,调优">
 <meta property="og:type" content="article">
-<meta property="og:title" content="微信公众号二维码美化极简实用教程">
-<meta property="og:url" content="http://www.yellowmax2001.com/2018/06/09/微信公众号二维码美化极简实用教程/index.html">
+<meta property="og:title" content="linux进程优先级">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/09/16/linux进程优先级/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="本文带来一篇公众号二维码美化与内部图片美化的实用教程。不是广告贴，里面的工具是我在使用的时候收集到的，感觉好就推荐了。本文重在极简、实用、可操作性强。">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-网站.gif">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-简要编辑.gif">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-简单效果.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-高级编辑.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-前景图.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-液化与圆点.jpg">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-最终效果.gif">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/图像边框阴影.jpg">
+<meta property="og:description" content="Linux 中进程的优先级绝不是如想象中的那么简单，相反它的概念比较混杂，它甚至不是很符合直觉。  Linux 进程的优先级跟随调度算法的不断发展，其意义在不同的阶段也有着不同的含义，所以本来想从 Linux 的调度发展史写起，但是无奈那一部分的涉猎不是很深入。不管怎样，发展到最后，结果是 Linux 系统可以在同一个系统上扩展多个调度算法，于是在同一个系统上面优先级也有了不同的含义，本文只对较">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/sched-methond.png">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-06-09T12:25:11.320Z">
+<meta property="og:updated_time" content="2018-09-16T10:35:47.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="微信公众号二维码美化极简实用教程">
-<meta name="twitter:description" content="本文带来一篇公众号二维码美化与内部图片美化的实用教程。不是广告贴，里面的工具是我在使用的时候收集到的，感觉好就推荐了。本文重在极简、实用、可操作性强。">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-网站.gif">
+<meta name="twitter:title" content="linux进程优先级">
+<meta name="twitter:description" content="Linux 中进程的优先级绝不是如想象中的那么简单，相反它的概念比较混杂，它甚至不是很符合直觉。  Linux 进程的优先级跟随调度算法的不断发展，其意义在不同的阶段也有着不同的含义，所以本来想从 Linux 的调度发展史写起，但是无奈那一部分的涉猎不是很深入。不管怎样，发展到最后，结果是 Linux 系统可以在同一个系统上扩展多个调度算法，于是在同一个系统上面优先级也有了不同的含义，本文只对较">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/sched-methond.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -169,20 +162,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-微信公众号二维码美化极简实用教程" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-linux进程优先级" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      微信公众号二维码美化极简实用教程
+      linux进程优先级
     </h1>
   
 
         
-        <a href="/2018/06/09/微信公众号二维码美化极简实用教程/" class="archive-article-date">
-  	<time datetime="2018-06-09T08:44:39.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-09</time>
+        <a href="/2018/09/16/linux进程优先级/" class="archive-article-date">
+  	<time datetime="2018-09-16T09:58:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-16</time>
 </a>
         
       </header>
@@ -190,39 +183,108 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>本文带来一篇公众号二维码美化与内部图片美化的实用教程。不是广告贴，里面的工具是我在使用的时候收集到的，感觉好就推荐了。本文重在极简、实用、可操作性强。</p>
+<p>Linux 中进程的优先级绝不是如想象中的那么简单，相反它的概念比较混杂，它甚至不是很符合直觉。</p>
 </blockquote>
+<p>Linux 进程的优先级跟随调度算法的不断发展，其意义在不同的阶段也有着不同的含义，所以本来想从 Linux 的调度发展史写起，但是无奈那一部分的涉猎不是很深入。不管怎样，发展到最后，结果是 Linux 系统可以在同一个系统上扩展多个调度算法，于是在同一个系统上面优先级也有了不同的含义，<strong>本文只对较新的 Linux 系统（截止4.4）的优先级做一个基本介绍</strong>，这个过程需要逐步深入，前面的一坨看起来与优先级不相关的东西并不是废话，别说话，耐心看。</p>
 <a id="more"></a>
-<h2 id="二维码的美化"><a href="#二维码的美化" class="headerlink" title="二维码的美化"></a>二维码的美化</h2><p>除了工具推荐之外，后续用我的二维码美化过程来进行一次实例演示。</p>
-<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ol>
-<li>公众号二维码图片（通常是从微信公众号后台导出的，大小不定，最好是大一点的，选最大号即可）。</li>
-<li>公众号logo图片（最好是正方形的）。</li>
-<li>二维码美化工具（这里推荐<strong>草料二维码美化器</strong>，在线版、免费、功能强大）。</li>
+<h2 id="字义上的优先级"><a href="#字义上的优先级" class="headerlink" title="字义上的优先级"></a>字义上的优先级</h2><p>所谓优先级就字面的意思来看就是事情的紧急程度，虽说有一个先来后到的说法，但是优先级则打破了这一规则。在可抢占的操作系统上面，高优先级的进程可以在后来者的情况下优先占据 cpu 的使用权，而更低优先级的进程则只能选择被动出让 cpu，无论其是否心甘情愿，也就是不管它的事情有咩有完成，都得让路给高优先级的进程（VIP）。</p>
+<p>通常意义上来讲，我们平时说优先级也正是指的上面字面意义上的优先级，代表对 cpu 的优先使用级别，高优先级的进程先使用，低优先级的进程后使用。对于没有时间片限制的一些调度算法来说，只有最高优先级的进程主动让出 cpu（完成它自己的工作），次低一点优先级的进程才可以获取 cpu 使用权。而对于有时间片限制的调度算法，优先级高的进程则代表它优先、较多地享有 cpu 使用权，注意：<strong>优先、较多。它意味着可能不等到高优先级任务主动出让 cpu，就会被强制切换到更低一点优先级的进程，但是总体来说，高优先级的进程会有比其它进程更多的 cpu 使用时间。</strong></p>
+<h2 id="Linux-系统的调度类"><a href="#Linux-系统的调度类" class="headerlink" title="Linux 系统的调度类"></a>Linux 系统的调度类</h2><ol>
+<li>实时调度类<br>Linux 上面的实时调度不是硬实时的，而是尽可能的实时，比如 <code>SCHED_RR</code>、<code>SCHED_FIFO</code> 两种，采用 RT 调度算法。但是估计是这种实时调度策略只能够在某些特定的场景下发挥作用，而有一些对周期要求比较严格的场景，比如多媒体数据流，则无法满足。于是后续出台了更<strong>硬</strong>的实时调度策略，它就是 <code>SCHED_DEADLINE</code>，采用 EDF 调度算法，不过说实话，这种调度类我一直没能够驾驭得了，用上去效果总是不如预期，还是自己功力不足，有待进一步调教。</li>
+<li>非实时调度类<br>就是大名鼎鼎的完全公平调度 CFS(Completely fair schedule)。在内核定义中是 <code>SCHED_OTHER</code> 或者 <code>SCHED_NORMAL</code>，这两个代表同样的含义。还有 <code>SCHED_BATCH</code> 与 <code>SCHED_IDLE</code> 这两种，不过不是很常用，不过他们同属于 CFS 调度算法，也就是说它们的优先级概念是一样的。</li>
 </ol>
-<h3 id="简单美化"><a href="#简单美化" class="headerlink" title="简单美化"></a>简单美化</h3><ol>
-<li>去<strong>「草料二维码美化器」</strong>官方网站，链接在这里（<font color="blue"><a href="https://cli.im/" target="_blank" rel="external">https://cli.im/</a></font>），选择<strong>『微信』</strong>栏目。如下图所示：<img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-网站.gif" alt="微信栏目">，操作完毕之后可以得到一张原始的二维码图。</li>
-<li>点击上图最后的<strong>『开始美化』</strong>，在这个页面已经可以进行多种样式的选择了，可以看到上面有三个项目：<strong>『选择预设』</strong>、<strong>『图标与文字』</strong>、<strong>『局部微调』</strong>，如下图所示。<ul>
-<li>『选择预设』：为二维码选择一个大体的框架图，这个形状影响了整体的布局观感。</li>
-<li>『图标与文字』：图标一般是选择<strong>『本地上传』</strong>，因为里面的很少有能直接满足要求的，大多数时候是需要我们亲自定制的。文字则是对公众号进行简单的介绍。</li>
-<li>『局部微调』：我觉得这个里面比较重要的是<strong>『码眼样式』</strong>、<strong>『内/外框颜色』</strong>，其余保持背景透明，容错率最大即可。</li>
+<p>Linux 上面的调度类主要就是这几个了，还有一类叫做 <code>SCHED_ISO</code>，不过在内核里面作为保留字段，并没有实现。其中实时调度类使用 RT 调度算法，不过实时类的 <code>SCHED_DEADLINE</code> 调度类是 EDF 调度算法，非实时的调度类就是 CFS 调度算法了，可以推知，在 Linux 系统上面有三种优先级的概念，它们分别归属于不同的调度算法上，如下图所示:<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/sched-methond.png" alt="调度算法分类"></center></p>
+<h2 id="内核角度看优先级"><a href="#内核角度看优先级" class="headerlink" title="内核角度看优先级"></a>内核角度看优先级</h2><p>在内核里面 <code>task_struct</code> 用于描述进程的各个属性，属于进程的结构体抽象，其中有几个字段如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">struct task_struct &#123;</div><div class="line">	... ...</div><div class="line">	int prio, static_prio, normal_prio;</div><div class="line">	unsigned int rt_priority;</div><div class="line">	... ...</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到内核里面的优先级有一坨，分别记录为：</p>
+<ul>
+<li><code>prio</code>：动态优先级。，该值使用 <code>effective_prio</code> 函数进行计算，在 CFS 类或者 EDF 类的调度策略中与 <code>normal_prio</code> 是一致的，在 RT 策略当中就直接返回当前的动态优先级值（其值与静态优先级相同），该值主要是用于在运行过程中动态改变程序优先级的值，保证调度的公平性，低优先级的进程在长时间得不到运行状况下会暂时调高其动态优先级，这个计算过程比较复杂，这里不深入。</li>
+<li><code>static_prio</code>：静态优先级。只有 CFS 类的才有静态优先级，其他的类在内核当中也为其设置了该成员，但是并没有实际的物理意义，<strong>也就是静态优先级只有在 CFS 类中才有其实际的作用，其它的只是个幌子。</strong>该值的计算方式是通过一个宏定义来完成：<code>#define NICE_TO_PRIO(nice)    ((nice) + DEFAULT_PRIO)</code>，展开之后就是 <code>nice + (100+(19-(-20)+1)/2)</code>。</li>
+<li><code>normal_prio</code>：归一化优先级。所谓归一化就是统一的意思，因为对于不同的调度类来说，它们的优先级的概念是不一样的，但是对于内核来说，它需要一个简单的概念来区分归根结底到底是谁的优先级更高一点。可以理解为不同的调度类优先级就是不同国家的货币，归一化优先级就是黄金，把不同国家的货币（不同调度类）转换为等量黄金，之后才能够比较到底谁才是土豪（谁拥有优先调度权）。</li>
+<li><code>rt_priority</code>：RT 调度算法类的优先级，其值与用户空间传进来的值一致（用户空间使用 <code>sched_setparam</code> 等函数传递），取值范围 1~99.</li>
 </ul>
-</li>
-<li>下面一个动图演示了上述三个项的基本作用：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-简要编辑.gif" alt="二维码美化-简要编辑"><br><center>简要编辑</center><br>下图得到一个测试的简单效果，里面眼花缭乱的箭头以及其杀马特的造型先忽略不计，只是为了说明下效果（手动捂脸）。<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-简单效果.jpg" alt="二维码美化-简单效果"><br><center>简单效果</center><br>上面的二维码是扫描不了的，因为它的『码眼内框』（二维码要素之一）是浅黄色的，无法识别（并不是因为眼花缭乱的箭头），要想识别出来就得保证它的颜色是深色才行，为了验证这一点也可以截图然后手动涂黑它就能得到一个可以扫描的二维码了。</li>
-</ol>
-<h3 id="高级美化"><a href="#高级美化" class="headerlink" title="高级美化"></a>高级美化</h3><p>上面的美化效果纵然有，但是总归有很多的不便，比如<strong>『文字内容』</strong>无法拖动细调，logo无法放大缩小，字体样式少等等等等，这个时候就需要<strong>『切换至高级美化器』</strong>来完成细节自定义了，上面最近的一张gif图最后就点击了<strong>『切换至高级美化器』</strong>，它的布局如下：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-高级编辑.jpg" alt="二维码美化-高级编辑"></p>
-<center>高级编辑</center><br>1. 先说基本的选项，这里选择『前景色』为黑；『渐变方式』无，『前景图』倒是可以选一下，类似的效果如下所示（<strong>注意，如果颜色较浅，比如我这张，就无法完成扫描识别，需要颜色深一点的前景图</strong>）：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-前景图.jpg" alt="二维码美化-前景图"><br><center>前景图效果</center><br><strong>『背景色』</strong>选择白色、透明；<strong>『背景图』</strong>类似前景图，这里我就不选了；<strong>『旋转角度』</strong>为0°，一般用不上如果是过年那种「福到」类型的倒是可以选择旋转45°，然后在里面嵌入一个「福」字；<strong>『二维码容错』</strong>选择高，不然可能有被logo盖住一致不能扫描的尴尬；<strong>『外边距』</strong>测试选择10个像素比较好看；一个个人觉得比较惊喜的效果是<strong>『液态/圆点』</strong>，我这里取了值为7的液态，极端效果图如下：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-液化与圆点.jpg" alt="二维码美化-液化与圆点"><br><center>液化与圆点</center><br>2. <strong>「模板」</strong>我没有用，可以随自己的喜好去指定。<strong>「嵌入」</strong>里面选择上传本地的logo图片（注意最好是方形的）；<strong>『LOGO效果』</strong>我选择圆角的，觉得这个最好看了；<strong>『添加文字』</strong>这个有点小bug，有时候按正常是没法输入的，需要按着鼠标左键将焦点聚在文字框内（不要松手），然后输入文字，文字是可以拖动的，一般是要拖动寻找一个合适的位置；<strong>『文字效果』</strong>个人测试内融合与外融合是最好看的，与二维码浑然一体，其中外融合更加显得一体化，但是我选择内融合；<strong>『字体/字号』</strong>分别是微软雅黑和16号；<strong>『字体颜色』</strong>与二维码颜色一致；<br>3. <strong>「码眼」</strong>。<strong>『码眼外框』</strong>选择比二维码内部颜色低三个等级的黑色；<strong>『码眼内框』</strong>选择蓝色（颜色这部分各取所需）；<strong>『码眼样式』</strong>选择圆滑；<br>4. 测试手机是否能够成功扫描二维码，如果可以的话就选择200像素、100像素、300像素保存。最终的效果图如下所示：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/二维码美化-最终效果.gif" alt="二维码美化-最终效果"><br><center>最终效果</center>
-
-<h2 id="图片的简单美化"><a href="#图片的简单美化" class="headerlink" title="图片的简单美化"></a>图片的简单美化</h2><p>默认情况下，图片都是平铺嵌入到文章当中的，没有一点儿图片的「嵌入感」，为图片的周围加上一点儿阴影会使得其具有实体相框的那种嵌入感。我一般是用 MarkdownHere 来做格式转换的，其中图片的 css 属性是「img」，我的 MarkdownHere 里面这部分的设置是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">img</div><div class="line">&#123;</div><div class="line">  display: block;</div><div class="line">  margin:0 auto;  /*图片水平居中*/</div><div class="line">  /* margin:0 0;  */ /*图片水平居左，如需要请打开*/</div><div class="line">  max-width:100%;</div><div class="line">  -moz-box-shadow:0px 0px 8px #616161; -webkit-box-shadow:0px 0px 8px #616161; box-shadow:0px 0px 8px #616161;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>图片的效果如下所示：</p>
-<center><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/图像边框阴影.jpg" alt="图像边框阴影"></center><br><center>图像边框阴影</center>
-
-<p>如果嫌文字间距有点儿太小了，这里也可以修改文字间距来达成舒服的效果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">p &#123;</div><div class="line">  /* !important is needed here because Hotmail/Outlook.com uses !important to</div><div class="line">     kill the margin in &lt;p&gt;. We need this to win. */</div><div class="line">  margin: 0 0 1.2em 0 !important;</div><div class="line">  letter-spacing:1px; /* 修改字间距为1个像素*/</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>往期导读：</p>
-<ol>
-<li><a href="http://www.yellowmax2001.com/2017/08/08/hexo%E6%B7%B1%E5%BA%A6%E4%BD%BF%E7%94%A8/">hexo博客搭建、MarkdownHere使用</a></li>
-</ol>
+<p>在内核的 <code>INIT_TASK</code> 宏定义中可以看到上面三个值初始化默认都是 <code>MAX_PRIO-20</code>，也就是 120.后面有一张表列出了不同调度类情况下的归一化优先级的计算方法与值的范围。<strong>内核里面的归一化优先级值越小，代表实际优先级越高，目前最小的值是 -1</strong></p>
+<h2 id="DEADLINE-调度类"><a href="#DEADLINE-调度类" class="headerlink" title="DEADLINE 调度类"></a>DEADLINE 调度类</h2><p>该调度类在目前的 Linux 内核里面属于优先级最高的调度类，也就是说假设系统上面存在多个调度类，那么每次重新调度的时候，都是先从该调度类下面去找到一个可以投入运行的进程进行调度。归属于该调度类的进程其归一化优先级都是 -1，在该调度类内部不再区分多个优先级，统一归为 -1.</p>
+<p>如果要切换某一个进程的调度类到 DEADLINE，那么就采用 <code>sched_setattr</code> 函数进行设置，大概的方式如下（由于本文章不讨论调度类的使用与原理，此处简略若干）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">struct sched_attr attr;</div><div class="line"></div><div class="line">memset(&amp;attr, 0, sizeof(attr));</div><div class="line">attr.size = sizeof(attr);</div><div class="line"></div><div class="line">/* This creates a 200ms / 1s reservation */</div><div class="line">attr.sched_policy = SCHED_DEADLINE;</div><div class="line">attr.sched_runtime = 20*1000*1000;</div><div class="line">attr.sched_deadline = attr.sched_period = 33*1000*1000;</div><div class="line">ret = sched_setattr(0, &amp;attr, flags);</div></pre></td></tr></table></figure></p>
+<p>内核里面关于该调度类优先级的一个宏定义是：<code>MAX_DL_PRIO</code>，它的值是0，转换为归一化优先级就是 -1.目前为止，这个归一化优先级值的优先级最高。</p>
+<h2 id="FIFO、RR-等-RT-调度类"><a href="#FIFO、RR-等-RT-调度类" class="headerlink" title="FIFO、RR 等 RT 调度类"></a>FIFO、RR 等 RT 调度类</h2><p>从内核的定义中可以看到宏定义：`<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#define MAX_USER_RT_PRIO	100</div><div class="line">#define MAX_RT_PRIO		MAX_USER_RT_PRIO</div></pre></td></tr></table></figure></p>
+<p>可以看到它的优先级最大是 100，转换之后就是 99（内核要减去1），也就是 RT 类型的调度类优先级范围在 0~99 之间，该调度类可以采用 <code>sched_setparam</code> 函数来完成优先级的设置，该函数的参数是 pid 号与一个叫做 <code>sched_param</code> 的结构体，该结构体只有一个参数，那就是优先级的值，该值越大（用户空间值越大优先级越高）表示优先级越高，范围是 1~99，需要注意的是从内核的角度来看归一化优先级的值越小，优先级才越高，也就是说用户在 user 空间设置的这个值是与内核里面的值是翻转着来的。</p>
+<p>上面 <code>task_struct-&gt;rt_priority</code> 成员的值就是 <code>sched_setparam</code> 函数第二个参数的 <code>sched_priority</code> 成员传递的值。</p>
+<h2 id="CFS-调度类"><a href="#CFS-调度类" class="headerlink" title="CFS 调度类"></a>CFS 调度类</h2><p>主要就是 NORMAL/OTHER，BATCH 这两种调度类。它们的优先级可以通过 <code>setpriority</code> 函数来进行设置，可以设置的范围是 -20~19，需要注意的是这个范围指的是 nice 值，它与优先级有一定的区别（详情参考后面），分别对应内核里面的归一化优先级 100~139.</p>
+<p>在 CFS 调度算法中，优先级并不会特别大地影响到程序被调用的先后顺序，在这种调度算法当中，优先级影响最大的是 cpu 使用时间，优先级越高可以占有的 cpu 使用时间就相对越多。所以如果拼命提高某些进程的优先级，最后发现它的实时性还不是很好，那不是因为优先级失效了，而是因为使用不当，要想提高程序的响应速度与实时性，最好是将它设置为 RT 调度类。</p>
+<p>上述的有些调度类如果是在 ubuntu 桌面版上面做的实验，有些可能是不起作用的，因为 ubuntu 系统对非 root 用户的权限做了限制，比如优先级减少不能增加，调度类也不能随意更换（内核相关的选项没有被编译进去等），切换到 root 用户就可以正确地得到部分实验效果。</p>
+<h2 id="调度类的优先级"><a href="#调度类的优先级" class="headerlink" title="调度类的优先级"></a>调度类的优先级</h2><p>在内核里面，调度类的优先级顺序如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">SCHED_DEADLINE &gt; SCHED_FIFO/SCHEDRR &gt; SCHED_NORMAl/SCHED_OTHER/SCHED_BATCH &gt; SCHED_IDLE</div></pre></td></tr></table></figure></p>
+<p>区分一下调度类的优先级与进程的优先级，调度类包含了归属其下的进程，优先级高的调度类所包含的进程自然会被优先调度，然后在调度类内部才会进一步区分进程的优先级，其中优先级高的调度类中的进程总是会优先于优先级低的调度类中的进程被调度。比较绕，简单说调度顺序的选择有两个层级，调度类是第一层，进程是第二层。</p>
+<p>对于使用同一种调度算法的调度类（RT、EDF、CFS），其调度类的优先级是一样的，实际调度中会在这几个调度类内部找到优先级比较高的进程去进行下一次调度，也就是优先级高的先调度。需要注意的是，就算是属于同一个调度算法的调度类，其实现上也有所不同，进程的调度行为也有所不同（比如 SCHED_RR 与 SCHED_FIFO 的调度行为有所不同），但是优先级的概念一定是统一的。</p>
+<p>看下内核里面是怎样计算归一化优先级的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">static inline int normal_prio(struct task_struct *p)</div><div class="line">&#123;</div><div class="line">	int prio;</div><div class="line"></div><div class="line">	if (task_has_dl_policy(p))</div><div class="line">		prio = MAX_DL_PRIO-1;</div><div class="line">	else if (task_has_rt_policy(p))</div><div class="line">		prio = MAX_RT_PRIO-1 - p-&gt;rt_priority;</div><div class="line">	else</div><div class="line">		prio = __normal_prio(p);</div><div class="line">	return prio;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>如果是 DEADLINE 调度类，那么它的归一化优先级就是 <code>MAX_DL_PRIO-1</code>，也就是 -1，如果是实时的调度类，它的优先级是 <code>MAX_RT_PRIO-1 - p-&gt;rt_priority</code>，范围是 0~98（没有 99 的原因是 <code>rt_priority</code> 的取值范围是 1~99），如果是 CFS 调度类，那么归一化优先级就和静态优先级是相等的，计算公式上面给出过，是一个叫 <code>NICE_TO_PRIO</code> 的宏定义完成计算的，这里再重复下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">#define MAX_NICE	19</div><div class="line">#define MIN_NICE	-20</div><div class="line">#define NICE_WIDTH	(MAX_NICE - MIN_NICE + 1)</div><div class="line"></div><div class="line">#define MAX_USER_RT_PRIO	100</div><div class="line">#define MAX_RT_PRIO		MAX_USER_RT_PRIO</div><div class="line"></div><div class="line">#define MAX_PRIO		(MAX_RT_PRIO + NICE_WIDTH)</div><div class="line">#define DEFAULT_PRIO		(MAX_RT_PRIO + NICE_WIDTH / 2)</div><div class="line"></div><div class="line">#define NICE_TO_PRIO(nice)	((nice) + DEFAULT_PRIO)</div><div class="line">#define PRIO_TO_NICE(prio)	((prio) - DEFAULT_PRIO)</div></pre></td></tr></table></figure></p>
+<p>展开之后就是：静态优先级=nice值+MAX_USER_RT_PRIO+(MAX_NICE - MIN_NICE + 1)/2，带入计算一下就知道范围是 100~139（内核里面的 nice 取值范围是 -20~19）.</p>
+<table>
+<thead>
+<tr>
+<th>调度类</th>
+<th>内核归一化优先级范围</th>
+<th>user 可设置优先级/NICE范围</th>
+<th>设置函数</th>
+<th>调度算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SCHED_OTHER/NORMAL</td>
+<td>100~139</td>
+<td>-20~19</td>
+<td>sched_setpriority</td>
+<td>CFS</td>
+</tr>
+<tr>
+<td>SCHED_IDLE</td>
+<td>100~139</td>
+<td>-20~19</td>
+<td>sched_setpriority</td>
+<td>CFS</td>
+</tr>
+<tr>
+<td>SCHED_BATCH</td>
+<td>100~139</td>
+<td>-20~19</td>
+<td>sched_setpriority</td>
+<td>CFS</td>
+</tr>
+<tr>
+<td>SCHED_RR</td>
+<td>0~98</td>
+<td>99~1</td>
+<td>sched_setparam</td>
+<td>RT</td>
+</tr>
+<tr>
+<td>SCHED_FIFO</td>
+<td>0~98</td>
+<td>99~1</td>
+<td>sched_setparam</td>
+<td>RT</td>
+</tr>
+<tr>
+<td>SCHED_DEADLINE</td>
+<td>-1</td>
+<td>不可设置</td>
+<td>sched_setparam</td>
+<td>EDF</td>
+</tr>
+</tbody>
+</table>
+<p>可以注意到 RT 调度类有一个奇怪的问题，它的范围是 0~98，而不是 0~99，至于它的历史来由是什么我也不清楚，这里只是指出这个现象。另外前期 Linux 对不同的调度类极其优先级有一大堆的不同设置函数，从上表就可以看得出，后来在 DEADLINE 加入之后，估计是开发人员也受不了记忆这么多的函数，于是有了一个万能的函数：<code>sched_setattr</code>，在系统里面可能找不到这个函数实现，使用 <code>__NR_sched_setattr</code> 系统调用号结合 <code>syscall</code> 就可以自行实现，该系统调用的第二个参数 <code>sched_attr</code> 如下所示（不解释了，很容易看懂它是如何统一各个调度类的设置的）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">struct sched_attr &#123;</div><div class="line">	u32 size;</div><div class="line"></div><div class="line">	u32 sched_policy;</div><div class="line">	u64 sched_flags;</div><div class="line"></div><div class="line">	/* SCHED_NORMAL, SCHED_BATCH */</div><div class="line">	s32 sched_nice;</div><div class="line"></div><div class="line">	/* SCHED_FIFO, SCHED_RR */</div><div class="line">	u32 sched_priority;</div><div class="line"></div><div class="line">	/* SCHED_DEADLINE */</div><div class="line">	u64 sched_runtime;</div><div class="line">	u64 sched_deadline;</div><div class="line">	u64 sched_period;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<h2 id="用户空间的-NI-PRI"><a href="#用户空间的-NI-PRI" class="headerlink" title="用户空间的 NI,PRI"></a>用户空间的 NI,PRI</h2><p>除了内核空间里面繁杂、错综的优先级概念，在用户空间也有一些容易混淆的概念，它们之间有着某种联系，这里主要就说用户空间使用 htop 或者 top 命令看到的 NI 与 PRI 值是怎么一回事儿。</p>
+<p>NI 就是 nice 值，顾名思义，就是这个进程的友好程度，越友好的程序 NI 值越大（取值范围 -20~19），也就越慷慨，它们会使用相对较少的 cpu 时间，所谓优先级低；而不那么友好的进程则使用相对较多的 cpu 时间，所谓优先级高。很怀疑起这个名字（nice）这是内核开发者的恶趣味，老实人就一定要慷慨，要付出更多，坏人就可以得到更多。由此可见，nice 值代表了可以使用的 cpu 资源的比例。</p>
+<p>PRI 就是优先级，这个优先级不对应内核里面任何一个优先级的概念，可以看到它的值跟随 NI 值不断变化，在 CFS 调度时关系看起来就像是：PRI = 20+NI。实际上：PRI(new)=PRI(old)+nice，用户空间的进程刚初始化是默认都是 PRI=20，NI=0，当 NI 的值改变的时候，PRI 的值就显而易见。</p>
+<p>在用户空间，我们想要设置某一个进程的 nice 值，那么这个进程一定是 CFS 调度算法下面的调度类，否则无意义，如果想让这个程序尽可能优先的运行，那么通过 nice 值修改可能并不会得到想象中的效果，更好的办法是提升进程的调度类，比如从 <code>SCHED_OTHER</code> 升级到 <code>SCHED_RR</code>。如果想让自己的进程尽可能多地使用 cpu 时间，那么减少 nice 值就是一个很好的选择。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>Linux 里面优先级绝不是那么简单就可以区分的，并且在使用的时候很可能会误用，需要针对内核角度、用户空间角度对优先级有一个全面的了解才能够更好地去使用它。本文的文字比较多，要想更加细致的理解就需要自己动手操作一番，在不同的调度类里面辗转腾挪一波，调调优先级，改改 nice 值就很容易理解这些概念了。</p>
+<p>上周微信公众平台收到了第一笔赞赏，感谢，算是个从零到一的突破，记录一下。想来我这公众号也没有做过任何推广，十分佛系，且写着吧，如果有认为能够学得点儿东西的话，也可以随缘推荐一波。</p>
+<p>话说今天珠海刮台风，名曰「山竹」，然而它并不如听上去那么美好，刮起来真的是让人害怕.jpg，「山竹」大哥的级别达到了 17 级，比去年的「天鸽」姐姐 14 级更加暴躁，这一天还经历了断电断水，想必明天珠海肯定又是一片狼藉。我就很好奇，台风真的这么喜欢从珠海登陆？这有什么地理上的说法不。</p>
 <hr>
-<center>想做的事就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+
 
       
 
@@ -262,11 +324,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">总结</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
         		</li>
       		
 		</ul>
@@ -322,7 +384,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/06/09/微信公众号二维码美化极简实用教程/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/09/16/linux进程优先级/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -336,18 +398,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2018/06/16/V4L2框架概述/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          V4L2框架概述
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/05/27/生活集思录-习惯性否决/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">生活集思录-习惯性否决</div>
+    <a href="/2018/09/09/生活中的骚操作/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">生活中的骚操作</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -374,7 +427,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二维码的美化"><span class="toc-number">1.</span> <span class="toc-text">二维码的美化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#工具"><span class="toc-number">1.1.</span> <span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#简单美化"><span class="toc-number">1.2.</span> <span class="toc-text">简单美化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高级美化"><span class="toc-number">1.3.</span> <span class="toc-text">高级美化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图片的简单美化"><span class="toc-number">2.</span> <span class="toc-text">图片的简单美化</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字义上的优先级"><span class="toc-number">1.</span> <span class="toc-text">字义上的优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Linux-系统的调度类"><span class="toc-number">2.</span> <span class="toc-text">Linux 系统的调度类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内核角度看优先级"><span class="toc-number">3.</span> <span class="toc-text">内核角度看优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DEADLINE-调度类"><span class="toc-number">4.</span> <span class="toc-text">DEADLINE 调度类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FIFO、RR-等-RT-调度类"><span class="toc-number">5.</span> <span class="toc-text">FIFO、RR 等 RT 调度类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CFS-调度类"><span class="toc-number">6.</span> <span class="toc-text">CFS 调度类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调度类的优先级"><span class="toc-number">7.</span> <span class="toc-text">调度类的优先级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#用户空间的-NI-PRI"><span class="toc-number">8.</span> <span class="toc-text">用户空间的 NI,PRI</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">9.</span> <span class="toc-text">End</span></a></li></ol>
                     </div>
                 </span>
             </div>

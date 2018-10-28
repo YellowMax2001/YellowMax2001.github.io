@@ -20,7 +20,7 @@
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/ctrl-buckets.png">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/insert-contorls.png">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-10-21T08:12:21.244Z">
+<meta property="og:updated_time" content="2018-10-28T08:53:45.671Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="V4L2框架-control的数据结构">
 <meta name="twitter:description" content="本篇文章写一下 V4L2 里面的众多 control 的组织方式，也就是它的数据结构。主要就是新建的 control 是如何存放的，以及在需要用到的时候如何查找。里面用到了类似于「桶」的概念，没错就是「桶排序」里面的那个桶，这种比较特殊的小优化为查找速度提供了不少的帮助。  话不多说，直接进入正题，本文章是基于 linux-4.4.138 内核来探讨的。">
@@ -358,6 +358,15 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
+    <a href="/2018/10/28/95后平均7个月离职/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          95后平均7个月离职
+        
+      </div>
+    </a>
+  
   
     <a href="/2018/10/14/谁说的话才可信/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">谁说的话才可信</div>
@@ -523,19 +532,19 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C语言</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">经验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">感悟</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编程</a>
               </li>
              
               <li class="article-tag-list-item">

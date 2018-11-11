@@ -7,14 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives: 2018/9 | YellowMax的博客</title>
+  <title>硬核拆解动态库静态库 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/2018/09/index.html">
+  <meta name="description" content="动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。">
+<meta name="keywords" content="C语言,编程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="硬核拆解动态库静态库">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/11/11/硬核拆解动态库静态库/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。">
+<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-11-11T09:58:25.469Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="硬核拆解动态库静态库">
+<meta name="twitter:description" content="动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。">
+<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
   
     <link rel="alternative" href="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-gz.jpg" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,78 +161,142 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-硬核拆解动态库静态库" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/30/别人眼中的自己/" class="archive-article-date">
-  	<time datetime="2018-09-30T12:34:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/30/别人眼中的自己/">别人眼中的自己</a>
+    <h1 class="article-title" itemprop="name">
+      硬核拆解动态库静态库
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/23/OpenMAX数据流传递规则/" class="archive-article-date">
-  	<time datetime="2018-09-23T10:20:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-23</time>
+        
+        <a href="/2018/11/11/硬核拆解动态库静态库/" class="archive-article-date">
+  	<time datetime="2018-11-11T09:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-11</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/23/OpenMAX数据流传递规则/">OpenMAX数据流传递规则</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。</p>
+<a id="more"></a>
+<h2 id="库的目的"><a href="#库的目的" class="headerlink" title="库的目的"></a>库的目的</h2><p>从表面上来讲，粗略点来讲，库的用处是为了方便代码复用以及发布，都知道哈，但是我觉得还是要深入说下这个玩意儿。</p>
+<p>库分动态库与静态库（你又知道了），其中动态库是用于执行时加载并映射的，如果有众多的可执行程序用到了很多的公共部分的代码，那么就可以把这一部分代码作为动态库给独立出来，这样虽然增加了一些运行速度，但是对减少内存占用有很大的帮助。并且库可以解决版本升级的问题，我们事先约定好 API 接口，然后在自己的程序里面调用这些接口，等到需要升级功能或者解 bug 的时候只需要把动态库更新一下即可，完全不需要动到业务逻辑部分的代码，Glibc 就是如此。</p>
+<p>总结下来动态库大的目的就两个：</p>
+<ol>
+<li>节省体积，增加代码的复用率。</li>
+<li>便于维护、升级、版本管理。</li>
+</ol>
+<p>动态库的特点：</p>
+<ol>
+<li>运行时装载，提供运行时的高复用。</li>
+<li>不占用过多可执行文件的本身体积，并且升级之后可执行文件无需重新编译链接，即生即用。</li>
+</ol>
+<p>静态库就不会是运行时加载了，也不存在什么多次复用这样子的功能，它就是一个高可复用的代码包的集合，但是它只提供代码编写、编译时候的复用性，而不提供程序装载、运行时候的复用性。静态库的特点是编译时直接拷贝符号表到可执行文件里面，这也意味着可执行文件的大小会大很多，并且运行时的可复用性被打破。不过它有一个优点就是可执行文件在运行时无需加载额外的库，我们在不同物理机上转移可执行文件的时候只需要拷贝少量文件即可。</p>
+<p>静态库的目的：</p>
+<ol>
+<li>提供编码、编译时候的代码可复用性。</li>
+<li>减少可执行文件的依赖，拷贝复制时需要的文件少。</li>
+</ol>
+<p>静态库的特点：</p>
+<ol>
+<li>生成的可执行文件体积大，因为包含了真正的代码段，破坏了运行时的复用性，但无需依赖额外的库。</li>
+<li>目标文件的集合，本身不提供其它目标文件之外的额外信息。</li>
+<li>升级时可执行文件需要重新编译，升级过程相较于动态库依赖更加简单。</li>
+</ol>
+<h2 id="库的分解"><a href="#库的分解" class="headerlink" title="库的分解"></a>库的分解</h2><p>静态库完全是由一个个的 .o 目标文件组成，不包含什么动态库里面的符号表链接信息等等，而动态库里面的东西显然比静态库的更加复杂，因为动态库加载是需要大小、符号表位置、符号依赖项等等信息的，我这里选取一个自建的动静态库举例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d libdylib1.so </div><div class="line"></div><div class="line">Dynamic section at offset 0xf00 contains 24 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div><div class="line"> 0x0000000c (INIT)                       0x3c4</div><div class="line"> 0x0000000d (FINI)                       0x5b0</div><div class="line"> 0x00000019 (INIT_ARRAY)                 0x1ef4</div><div class="line"> 0x0000001b (INIT_ARRAYSZ)               4 (bytes)</div><div class="line"> 0x0000001a (FINI_ARRAY)                 0x1ef8</div><div class="line"> 0x0000001c (FINI_ARRAYSZ)               4 (bytes)</div><div class="line"> 0x6ffffef5 (GNU_HASH)                   0x138</div><div class="line"> 0x00000005 (STRTAB)                     0x258</div><div class="line"> 0x00000006 (SYMTAB)                     0x178</div><div class="line"> 0x0000000a (STRSZ)                      198 (bytes)</div><div class="line"> 0x0000000b (SYMENT)                     16 (bytes)</div><div class="line"> 0x00000003 (PLTGOT)                     0x1ff4</div><div class="line"> 0x00000002 (PLTRELSZ)                   24 (bytes)</div><div class="line"> 0x00000014 (PLTREL)                     REL</div><div class="line"> 0x00000017 (JMPREL)                     0x3ac</div><div class="line"> 0x00000011 (REL)                        0x36c</div><div class="line"> 0x00000012 (RELSZ)                      64 (bytes)</div><div class="line"> 0x00000013 (RELENT)                     8 (bytes)</div><div class="line"> 0x6ffffffe (VERNEED)                    0x33c</div><div class="line"> 0x6fffffff (VERNEEDNUM)                 1</div><div class="line"> 0x6ffffff0 (VERSYM)                     0x31e</div><div class="line"> 0x6ffffffa (RELCOUNT)                   3</div><div class="line"> 0x00000000 (NULL)                       0x0</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ nm --size-sort -r libdylib1.so </div><div class="line">00000029 T dy1_print</div><div class="line">00000029 T dy1_clean</div><div class="line">00000001 b completed.6874</div></pre></td></tr></table></figure>
+<p>我的动态库里面只有两个函数：<code>dy1_print</code>, <code>dy1_clean</code>。我使用的编译链接选项是：<code>-fPIC --shared</code>。使用 nm 命令可以看到里面有两个全局代码段，分别是 <code>dy1_print</code>, <code>dy1_clean</code>，使用 readelf 可以看到该动态库有依赖 <code>libc.so.6</code> 这个动态库。</p>
+<p>下面是一个静态库的相关信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d libstlib1.a </div><div class="line"></div><div class="line">File: libstlib1.a(stlib1.o)</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ nm --size-sort -r libstlib1.a </div><div class="line"></div><div class="line">stlib1.o:</div><div class="line">00000029 T st1_print</div><div class="line">00000029 T st1_clean</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ ar -t libstlib1.a </div><div class="line">stlib1.o</div></pre></td></tr></table></figure></p>
+<p>可以看到使用 readelf 完全看不出来静态库的依赖什么的，只有一个 File，它代表该静态库是由 stlib1.o 这个目标文件组成。nm 可以看到符号表有 <code>st1_print</code>, <code>st1_clean</code>。从这里也可以看出，静态库单纯就是把目标文件打包在一块，避免每次链接时候需要写一大堆文件文件的尴尬，除此之外，它与单纯的多个 .o 目标文件组合链接生成可执行文件没有任何区别。</p>
+<h2 id="库与库之间的依赖"><a href="#库与库之间的依赖" class="headerlink" title="库与库之间的依赖"></a>库与库之间的依赖</h2><p>库与库之间的依赖可是非常大的一个知识点儿，与其说是知识点，不如说是坑点，不知道其它公司项目的库与库之间的依赖关系是如何，就我自己接触到的稍微大点的项目，库与库之间的依赖关系简直是一团乱麻，稍有不慎编译的时候就万劫不复。</p>
+<h3 id="动态库依赖动态库"><a href="#动态库依赖动态库" class="headerlink" title="动态库依赖动态库"></a>动态库依赖动态库</h3><p>我在我的本地环境构造了几个动态库，其中动态库1（libdylib1.so）里面包含 <code>dy1_print</code>, <code>dy1_clean</code> 两个符号，动态库2（libdylib2.so）里面包含 <code>dy2_print</code>, <code>dy2_clean</code> 两个符号，其中 <code>dy2_clean</code> 调用到了动态库1里面的 <code>dy1_clean</code>。下面我按照这样的方法生成动态库与可执行文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">gcc -o libdylib1.so -fPIC --shared dylib1.c</div><div class="line">gcc -o libdylib2.so -fPIC --shared dylib2.c</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ cat main.c </div><div class="line">#include &lt;stdio.h&gt;</div><div class="line">int main(int argc, char *argv[])</div><div class="line">&#123;</div><div class="line">	dy2_clean();</div><div class="line">	return 0;</div><div class="line">&#125;</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o main main.c -fPIC -L. -ldylib2</div><div class="line">./libdylib2.so: undefined reference to `dy1_clean&apos;</div><div class="line">collect2: error: ld returned 1 exit status</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o main main.c -fPIC -L. -ldylib1 -ldylib2</div><div class="line">./libdylib2.so: undefined reference to `dy1_clean&apos;</div><div class="line">collect2: error: ld returned 1 exit status</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o main main.c -L. -ldylib2 -ldylib1</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ export LD_LIBRARY_PATH=~/workstation/apps/compiles/Libs</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ ./main </div><div class="line">This is dylib2&apos;s clean funciton.</div><div class="line">This is dylib1&apos;s clean funciton.</div></pre></td></tr></table></figure>
+<p>可以看到只有最后一种编译链接方式可以成功编译、生成、运行程序，可以看到如果动态库之间有相互依赖的话在最终链接可执行文件的时候需要把被依赖项放到后面，否则就会提示找不到某某符号，这里也可以看出其依赖解析关系是从前往后的，前面的动态库会往后面找依赖项。</p>
+<p>采用这种方式编译出来的库与可执行文件使用 readelf 查看得到依赖关系如下（隐藏部分不关注信息）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d libdylib1.so </div><div class="line"></div><div class="line">Dynamic section at offset 0xf00 contains 24 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div><div class="line"></div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d libdylib2.so </div><div class="line"></div><div class="line">Dynamic section at offset 0xf00 contains 24 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div><div class="line"></div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d main</div><div class="line"></div><div class="line">Dynamic section at offset 0xef8 contains 26 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libdylib2.so]</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libdylib1.so]</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div><div class="line"></div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -s libdylib2.so </div><div class="line"></div><div class="line">Symbol table &apos;.dynsym&apos; contains 15 entries:</div><div class="line">     7: 00000000     0 NOTYPE  GLOBAL DEFAULT  UND dy1_clean</div></pre></td></tr></table></figure></p>
+<p>可以看到在库层级使用这种方式是看不出来真实的依赖关系的，也就是 libdylib2.so-&gt;libdylib1.so 这一层依赖，从这里也可以猜到在动态库生成的时候是没有链接这一步骤的，否则肯定会出现错误提示，并且使用 readelf -s 可以看到动态库2里面的 <code>dy1_clean</code> 属于未定义符号，总结如下：</p>
+<ol>
+<li>动态库生成的时候没有链接动作，并且默认允许未定义符号的存在。</li>
+<li>动态库的依赖关系是从前往后解析的，被依赖者需要放在使用者的前面。</li>
+<li>可执行文件需要解析最终的真实依赖关系，因此必须把所有的动态库全部链接进来。</li>
+</ol>
+<p>上面的方式有某些弊端，那就是如果我是直接拿到 [libdylib2.so]，[libdylib1.so] 两个成品动态库的话，不加以分析我是不知道它们两个之间的依赖关系的，这种情况下如果我没有更加详细的文档的话我是不知道如何去链接这些动态库的，这个时候可以采用下面的方式进行动态库的生成以及可执行文件的链接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o libdylib2.so -fPIC --shared -Wl,--no-undefined dylib2.c</div><div class="line">/tmp/ccrLpPaL.o: In function `dy2_clean&apos;:</div><div class="line">dylib2.c:(.text+0x4e): undefined reference to `dy1_clean&apos;</div><div class="line">collect2: error: ld returned 1 exit status</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o libdylib2.so -fPIC --shared -Wl,--no-undefined dylib2.c -L. -ldylib1</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ gcc -o main main.c -L. -ldylib2</div><div class="line">yellow@ubuntu:~/workstation/apps/compiles/Libs$ ./main </div><div class="line">This is dylib2&apos;s clean funciton.</div><div class="line">This is dylib1&apos;s clean funciton.</div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d libdylib2.so </div><div class="line"></div><div class="line">Dynamic section at offset 0xef8 contains 25 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libdylib1.so]</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div><div class="line"></div><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ readelf -d main</div><div class="line"></div><div class="line">Dynamic section at offset 0xf00 contains 25 entries:</div><div class="line">  Tag        Type                         Name/Value</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libdylib2.so]</div><div class="line"> 0x00000001 (NEEDED)                     Shared library: [libc.so.6]</div></pre></td></tr></table></figure></p>
+<p>秘诀在于 <code>-Wl,--no-undefined</code> 这个链接选项，它要求在生成动态库的时候不能有未定义的符号，这个选项可以帮助我们检查动态库之间的依赖关系，最终使用 -l 链接生成动态库之后可以看到器依赖项里面包含了 <code>libdylib1.so</code>，这个时候在生成可执行文件的时候就无需再指定链接多个动态库了，只需要指定链接一个 <code>libdylib2.so</code> 即可，剩下的链接工作编译器自己会去做的。</p>
+<p>为什么编译的时候不默认使用 <code>-Wl,--no-undefined</code> 选项呢，这个在后面的库于库之间相互依赖这节会说明。</p>
+<h3 id="动态库依赖静态库"><a href="#动态库依赖静态库" class="headerlink" title="动态库依赖静态库"></a>动态库依赖静态库</h3><p>动态库依赖静态库是十分不推荐的，因为这违背了动态库的初心，这里就不再去重复做试验了，直接说结果，如果动态库里面有调用到某个静态库里面的函数，并且在生成动态库的时候没有去做 <code>-Wl,--no-undefined</code> 的限定动作，那么在生成可执行文件的时候无论如何都是无法成功生成的。</p>
+<p>况且，思考一下，这种依赖关系本身就是畸形的，动态库依赖动态库还是可以理解的，它们都是动态库，种类相同，个性相似，功效雷同。但是动态库一旦依赖了静态库，这就变态了，因为它们的目的不同，动态库本质上是为了运行时动态加载，而静态库则是完全拷贝代码段，这两者的属性是相互排斥的，一旦出现这种依赖关系，动态库还怎么动态加载！！！如果允许这种行为的话，动态库就失去了动态库的意义，从设计哲学上来讲就是不应该允许的。</p>
+<p>如果无法避免出现这种情况，那就加上 <code>-Wl,--no-undefined</code> 这个链接选项，这样静态库里面的被依赖代码段就会被拷贝到动态库里面成为动态库的一部分，虽然体积会变大，但是完全不影响它的功能与初心。</p>
+<h3 id="静态库依赖静态库"><a href="#静态库依赖静态库" class="headerlink" title="静态库依赖静态库"></a>静态库依赖静态库</h3><p>关注静态库的时候，就要把它一眼看透，不要关注它的表面，而要关注它的内在，外在衣物不重要，重要的是里面的东西，那才是本质。那么静态库的本质就是一个个的 .o 目标文件的集合，既然是一个集合，就完全可以按照我们常规理解的 .o 文件之间的相互依赖来进行解析。</p>
+<p>静态库依赖静态库就需要按照库的解析顺序，上文说过，需要把被依赖者放在使用者的后面，仅此而已。静态库的生成使用类似 <code>ar -cr libstlibname.a x.o xx.o xxx.o</code> 的命令来生成，它是完全没有链接的过程的，也就是不会有上面的 <code>-Wl,--no-undefined</code> 链接选项可用，在最终生成可执行文件的时候必须得人为解析、指定依赖关系，并且遵循一定的依赖先后顺序。</p>
+<h3 id="静态库依赖动态库"><a href="#静态库依赖动态库" class="headerlink" title="静态库依赖动态库"></a>静态库依赖动态库</h3><p>静态库依赖动态库与普通目标文件的依赖没有二致，也是需要在链接的时候把相关的动态库放在这个静态库的后面，这样就能完成正确的链接过程。</p>
+<p>那么为什么静态库就可以依赖动态库而又不至于变态呢，因为静态库的本质是目标文件的合集，你可以完全把它当做是 main.c 文件的一部分，把左右的目标文件看作一个整体，这样就可以想象得到为什么静态库可以依赖动态库了，本质上它与 main.c 文件依赖动态库是一样的性质。</p>
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><p>循环依赖就是库 A 依赖库 B，同时库 B 又依赖库 A，完全就是鸡生蛋、蛋生鸡，虽然在实际的开发过程当中不推荐这种依赖关系，但是有时候又会不可避免的出现这种依赖关系，本质上也很难说到底是不是设计缺陷，但是事实是这种情况是会发生的。</p>
+<p>有循环依赖的时候上面有几个点就失效了：</p>
+<ol>
+<li>不能使用 <code>-Wl,--no-undefined</code> 来生成动态库，因为相互依赖问题无法在生成动态库的时候解决。</li>
+<li>生成可执行文件的时候依赖顺序规则失效，不管两个库谁在先谁在后都无法完成链接过程。</li>
+</ol>
+<p>我构造两个动态库，<code>libdylib1.so</code> 里面调用 <code>libdylib2.so</code> 里面的函数，<code>libdylib2.so</code> 调用 <code>libdylib1.so</code> 里面的函数，形成相濡以沫的关系，接下来我会在 <code>main.c</code> 里面调用两者里面的一个函数。这样就形成了相互依赖的关系。</p>
+<p>相互依赖的关系可以在链接的时候写两遍库来解决，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -o main main.c -L. -ldylib1 -ldylib2 -ldylib1 -ldylib2</div></pre></td></tr></table></figure></p>
+<p>也可以使用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -o main main.c -L. -Wl,--start-group -ldylib1 -ldylib2 -Wl,--end-group</div></pre></td></tr></table></figure></p>
+<p>不过我发现在一些高版本的编译器中，比如我使用的 gcc-4.9 里面就不用加这些额外的选项，貌似它会自行去解决这些循环依赖关系的。</p>
+<h2 id="库的加载"><a href="#库的加载" class="headerlink" title="库的加载"></a>库的加载</h2><p>静态库全部都是运行前加载的，在链接时候就全部导入到可执行文件里面的，这个就不说了。动态库有两种加载方式，一个是运行前加载，一个是运行时加载。</p>
+<ol>
+<li>运行前加载<br>运行前加载意思就是在程序被执行的时候，在 main 函数之前程序会先去加载它链接时候指定的动态库，等准备好之后才会跑到 main 函数处执行。</li>
+<li>运行时加载<br>运行时加载就需要依靠 dlopen、dlsym、dlclose 这些动态库辅助加载函数来完成。这类动态库无需在函数 main 函数之前完成加载，而是在程序里面随用随加载。</li>
+</ol>
+<p>使用 strace 跟踪一个可执行文件的运行前加载动态库状况如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">X@ubuntu:~/workstation/apps/compiles/Libs$ strace ./main </div><div class="line">access(&quot;/etc/ld.so.nohwcap&quot;, F_OK)      = -1 ENOENT (No such file or directory)</div><div class="line">access(&quot;/etc/ld.so.preload&quot;, R_OK)      = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/i686/sse2/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/i686/sse2/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/i686/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/i686/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/sse2/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/sse2/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/tls/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/i686/sse2/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/i686/sse2/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/i686/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/i686/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/sse2/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/sse2/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/cmov/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/libdylib1.so&quot;, O_RDONLY|O_CLOEXEC) = 3</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/libdylib2.so&quot;, O_RDONLY|O_CLOEXEC) = 3</div><div class="line">open(&quot;/home/yellow/workstation/apps/compiles/Libs/libc.so.6&quot;, O_RDONLY|O_CLOEXEC) = -1 ENOENT (No such file or directory)</div><div class="line">open(&quot;/etc/ld.so.cache&quot;, O_RDONLY|O_CLOEXEC) = 3</div></pre></td></tr></table></figure></p>
+<p>可以看到它找动态库的路径是极为冗长的，这是跟 ld.so 程序的一个特性有关的，具体的特性是一个动态库版本查找规则，这里就不深入去说了，这个冗长的步骤是无法去除的，也就是无法一步到位，因为这是个特性哈，知道有这个过程就行，并且在 <code>ld.so.cache</code> 文件里面可以自定义程序的库路径查找逻辑。</p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><ol>
+<li>动态库的裁剪<br>可以通过 <code>readelf -d</code> 来分析动态库的依赖关系，可执行文件的依赖关系来确认是否有用不到的动态库，如果用不到，删除之，当然要注意添加白名单，主要是照顾那些运行时使用 dl 库函数加载的动态库。</li>
+<li>静态库打包到动态库里面<br>有时候我们可能需要把一个静态库成品转化为一个动态库，就可以使用：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">gcc -shared -o libdylib1.so -L. -Wl,--whole-archive libstlib1.a -Wl,--no-whole-archive</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这个会把静态库全部打包进动态库，使用 <code>readelf -s</code> 可以看到动态库里面多了一些符号。</p>
+<ol>
+<li>动态库的预加载<br>写一个空的 main 函数，只包含一个 hello world，但是链接的时候添加想要预加载的动态库，就可以使用该袖珍版程序提前把动态库加载到内存里面，在真正的可执行程序运行的时候这个动态库的家在过程就快很多了。通常这个特性会用在嵌入式设备的快速启动优化当中，不细讲了，仅抛砖引玉。</li>
+<li>符号表大小分析<br>使用 nm 命令可以分析 elf 文件里面的符号表，特别关注其大小信息就可以使用 <code>nm --size-sort -r elf</code>，这个可以把符号表由大到小排列，用于裁剪程序的体积。</li>
+<li>不加载未使用的函数<br>在静态库链接的时候可能会有很多未使用到的函数、变量等等，可以使用 <code>-fdata-sections</code>, <code>-ffunciton-sections</code> 等选项来去掉那些用不到的函数，这里去掉只是在最终的可执行文件里面看不到而已，并不是从静态库里面删掉。</li>
+</ol>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://oukc514ep.bkt.clouddn.com/img/head-pic/weixin-geren.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -237,153 +308,121 @@ var _hmt = _hmt || [];
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
         		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/11/11/硬核拆解动态库静态库/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/16/linux进程优先级/" class="archive-article-date">
-  	<time datetime="2018-09-16T09:58:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-16</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/28/95后平均7个月离职/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">95后平均7个月离职</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/16/linux进程优先级/">linux进程优先级</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#库的目的"><span class="toc-number">1.</span> <span class="toc-text">库的目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#库的分解"><span class="toc-number">2.</span> <span class="toc-text">库的分解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#库与库之间的依赖"><span class="toc-number">3.</span> <span class="toc-text">库与库之间的依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#动态库依赖动态库"><span class="toc-number">3.1.</span> <span class="toc-text">动态库依赖动态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动态库依赖静态库"><span class="toc-number">3.2.</span> <span class="toc-text">动态库依赖静态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态库依赖静态库"><span class="toc-number">3.3.</span> <span class="toc-text">静态库依赖静态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态库依赖动态库"><span class="toc-number">3.4.</span> <span class="toc-text">静态库依赖动态库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#循环依赖"><span class="toc-number">3.5.</span> <span class="toc-text">循环依赖</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#库的加载"><span class="toc-number">4.</span> <span class="toc-text">库的加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#拓展"><span class="toc-number">5.</span> <span class="toc-text">拓展</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/09/生活中的骚操作/" class="archive-article-date">
-  	<time datetime="2018-09-09T08:40:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/09/生活中的骚操作/">生活中的骚操作</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/02/不要把希望寄托在别人身上/" class="archive-article-date">
-  	<time datetime="2018-09-02T07:34:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/02/不要把希望寄托在别人身上/">不要把希望寄托在别人身上</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -411,8 +450,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

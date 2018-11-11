@@ -17,7 +17,7 @@
 <meta property="og:site_name" content="YellowMax的博客">
 <meta property="og:description" content="动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。">
 <meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-11-11T09:58:25.469Z">
+<meta property="og:updated_time" content="2018-11-11T13:05:16.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="硬核拆解动态库静态库">
 <meta name="twitter:description" content="动态库与静态库是编程中十分常见的玩意儿，但是如此常见的东西在我真正用心去了解梳理过一遍之后才发现原来这里面有这么多的门道。本文就介绍一波 Linux 平台下，特指 GCC 编译器生成的动态库与静态库的依赖于关联，甚至还拓展一波编译工具的冷门用法。虽然有一些内容看的时候觉得都知道，但是我保证，一定会有那么一些不知道的，所谓硬核。">
@@ -261,6 +261,7 @@ var _hmt = _hmt || [];
 <li>符号表大小分析<br>使用 nm 命令可以分析 elf 文件里面的符号表，特别关注其大小信息就可以使用 <code>nm --size-sort -r elf</code>，这个可以把符号表由大到小排列，用于裁剪程序的体积。</li>
 <li>不加载未使用的函数<br>在静态库链接的时候可能会有很多未使用到的函数、变量等等，可以使用 <code>-fdata-sections</code>, <code>-ffunciton-sections</code> 等选项来去掉那些用不到的函数，这里去掉只是在最终的可执行文件里面看不到而已，并不是从静态库里面删掉。</li>
 </ol>
+<p>继续分享极客时间的课程，由于一次分享一篇太慢，所以以后每次会分享三篇或者是一整个章节，方便连续阅读，这个是我自行购买的付费课程，但是它有一个免费分享的机制（虽然名额有限），就是得微信客户端打开。（以下链接需要在微信客户端打开，如果是通过公众号【阅读原文】打开的话可以直接点击阅读）：<br><a href="https://time.geekbang.org/column/article/aabfe6f46f24d2ee7092ba0e72787714/share" target="_blank" rel="external">[12 | 排序（下）：如何用快排思想在O(n)内查找第K大元素？]</a><br><a href="https://time.geekbang.org/column/article/a00141e1c4553f284e73e2835f8799ab/share" target="_blank" rel="external">[11 | 排序（上）：为什么插入排序比冒泡排序更受欢迎？]</a><br><a href="https://time.geekbang.org/column/article/7bfcefec41911414944dfa5c75641870/share" target="_blank" rel="external">[10 | 递归：如何用三行代码找到“最终推荐人”？]</a><br><a href="https://time.geekbang.org/column/article/e728bfc29d93f73ed096c2a95904b8d7/share" target="_blank" rel="external">[09 | 队列：队列在线程池等有限资源池中的应用]</a><br><a href="https://time.geekbang.org/column/article/88c3d6ac4965d40150b6390e300ed70b/share?oss_token=8548b6b811ca4932" target="_blank" rel="external">[08 | 栈：如何实现浏览器的前进和后退功能？]</a><br>自行评估自己是否需要咯，说实话这个课程看起来还是需要一定基础的，我看到后面也有点吃力了，一起进步吧。<a href="http://ous9jl7tv.bkt.clouddn.com/img/blog/data-structure-algo.jpg" target="_blank" rel="external">留白</a></p>
 <hr>
 <center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
 

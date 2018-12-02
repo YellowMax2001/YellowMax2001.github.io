@@ -7,14 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>YellowMax的博客</title>
+  <title>一部分男生的择偶观 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/page/4/index.html">
+  <meta name="description" content="故事要从很久以前说起，那是我高二的时候，我和我前前任、前任与现任女朋友（其实是一个人）的相遇是在我上高二下学期分班之后的事情了，那个时候才高二，男生本来就成熟的比较晚，并且我女朋友比我大几个月，所以当我的前桌告诉我：你同桌好像有点儿喜欢你啊。那一刻之前我是丝毫没有意识到的，是真的，那时我真的没有细腻到女生跟自己打个招呼、眨个眼就觉得对方喜欢自己、孩子名字都想好了的地步。">
+<meta name="keywords" content="感悟,经验">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一部分男生的择偶观">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/12/02/一部分男生的择偶观/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="故事要从很久以前说起，那是我高二的时候，我和我前前任、前任与现任女朋友（其实是一个人）的相遇是在我上高二下学期分班之后的事情了，那个时候才高二，男生本来就成熟的比较晚，并且我女朋友比我大几个月，所以当我的前桌告诉我：你同桌好像有点儿喜欢你啊。那一刻之前我是丝毫没有意识到的，是真的，那时我真的没有细腻到女生跟自己打个招呼、眨个眼就觉得对方喜欢自己、孩子名字都想好了的地步。">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-12-02T05:32:42.862Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="一部分男生的择偶观">
+<meta name="twitter:description" content="故事要从很久以前说起，那是我高二的时候，我和我前前任、前任与现任女朋友（其实是一个人）的相遇是在我上高二下学期分班之后的事情了，那个时候才高二，男生本来就成熟的比较晚，并且我女朋友比我大几个月，所以当我的前桌告诉我：你同桌好像有点儿喜欢你啊。那一刻之前我是丝毫没有意识到的，是真的，那时我真的没有细腻到女生跟自己打个招呼、眨个眼就觉得对方喜欢自己、孩子名字都想好了的地步。">
+<meta name="twitter:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,725 +161,96 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-malloc-memset-memcpy之探索" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-一部分男生的择偶观" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/21/malloc-memset-memcpy之探索/">memset对memcpy耗费时间的影响</a>
+    <h1 class="article-title" itemprop="name">
+      一部分男生的择偶观
     </h1>
   
 
         
-        <a href="/2017/11/21/malloc-memset-memcpy之探索/" class="archive-article-date">
-  	<time datetime="2017-11-21T14:05:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-21</time>
+        <a href="/2018/12/02/一部分男生的择偶观/" class="archive-article-date">
+  	<time datetime="2018-12-02T04:55:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-02</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前言：<br>源于之前几天的一个测试程序，作用是用来测试某个系统的内存访问能力，主体测试策略是分配一个缓冲区，然后使用memcpy在分配的缓冲区之间拷贝若干次，计算拷贝时间，然后在多线程的环境下运行多个拷贝程序，再次分别计算每个线程花费的时间，以此来估算系统的内存访问能力、线程调度性能以及带宽分配性能。然而，测试过程中却发生了很多问题，从而也引发了不少的思考，下面细细道来。</p>
-        
-          <a class="article-more-a" href="/2017/11/21/malloc-memset-memcpy之探索/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/11/21/malloc-memset-memcpy之探索/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-2017嵌入式软件行业现状及概述" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/28/2017嵌入式软件行业现状及概述/">2017嵌入式软件行业现状及概述</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/28/2017嵌入式软件行业现状及概述/" class="archive-article-date">
-  	<time datetime="2017-10-28T00:36:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>导读：<br>本文章介绍了截止2017年为止的嵌入式软件行业现状，包括就业方向，行业产品类型，待遇等等。另外还简单概述了下嵌入式软件所需的知识技能以及未来可能的技能发展走向。本文章远不如专业的行业报告一般精准、专业，仅仅是根据个人见闻来提供一个比较整体的嵌入式软件行业印象，抛砖引玉，以供参考。（文末有2017年集成电路行业薪资表哦）。</p>
-        
-          <a class="article-more-a" href="/2017/10/28/2017嵌入式软件行业现状及概述/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/28/2017嵌入式软件行业现状及概述/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OpwnMAX编程-数据结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/22/OpwnMAX编程-数据结构/">OpenMAX编程-数据结构</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/22/OpwnMAX编程-数据结构/" class="archive-article-date">
-  	<time datetime="2017-10-22T13:52:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
-<h2 id="导读"><a href="#导读" class="headerlink" title="导读"></a>导读</h2><p>该篇文章对OpenMAX的数据结构进行概要描述，包括OpenMAX的一些官方定义的头文件介绍，以及各种结构体数据介绍：比如OpenMAX组件结构体描述、PORT端口结构体描述。并对组件内部线程的大概结构以及组织方式进行介绍，本文章的目标是可以实现一个有基本功能的组件。</p>
-<p><font color="red">该文章中提到的IL Client可以看作是组件的使用者，负责组件的创建、销毁、命令控制等等。<strong>注意本文章需要结合例程代码去看，否则会觉得本文不知所云。代码参考<a href="http://blog.csdn.net/u013904227/article/details/78242464" target="_blank" rel="external">OpenMAX编程-组件</a>一文中的<em>OpenMAX IL sample</em>下载链接</strong></font><br><!--less--><br>
-        
-          <a class="article-more-a" href="/2017/10/22/OpwnMAX编程-数据结构/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/22/OpwnMAX编程-数据结构/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-生活集思录-入职三个月的迷茫" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/22/生活集思录-入职三个月的迷茫/">生活集思录-入职三个月的迷茫</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/22/生活集思录-入职三个月的迷茫/" class="archive-article-date">
-  	<time datetime="2017-10-22T01:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>生而为人，问题很多。</p>
-</blockquote>
-<p>我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就不太一样了。</p>
-        
-          <a class="article-more-a" href="/2017/10/22/生活集思录-入职三个月的迷茫/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/22/生活集思录-入职三个月的迷茫/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OpenMAX编程-组件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/09/OpenMAX编程-组件/">OpenMAX编程-组件</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/09/OpenMAX编程-组件/" class="archive-article-date">
-  	<time datetime="2017-10-09T14:01:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>OpenMAX的重点组成部分就是组件，OpenMAX通过将meida流过程中的各个模块抽象化为组件来进行耦合，在OpenMAX标准下，数据流通过组件来进行传递、处理、显示。在该篇文章里，不需要了解细致的组件内部实现机理，也不需要知道各种方法的代码实现形式（如遇少量代码形式的解析说明可暂时略过，只需要知道该段代码要完成的工作是什么即可），通过阅读该文章，需要知道的是组件是什么？它有什么用处？内部的主要组成结构是怎样的？更加细节性的介绍放到后面的文章里面介绍。</p>
-</blockquote>
-<ul>
-<li><a href="https://www.khronos.org/files/openmax_il_spec_1_0.pdf" target="_blank" rel="external">OpenMAX IL spec手册下载</a>：<a href="https://www.khronos.org/files/openmax_il_spec_1_0.pdf" target="_blank" rel="external">https://www.khronos.org/files/openmax_il_spec_1_0.pdf</a></li>
-<li><a href="https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c" target="_blank" rel="external">OpenMAX IL sample下载</a>：<a href="https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c" target="_blank" rel="external">https://www.khronos.org/files/openmax/sample_implementation/OMX_CONF_MyComponent_Alt.c</a></li>
-<li><a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">OpenMAX IL 头文件下载</a>：<a href="https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip" target="_blank" rel="external">https://www.khronos.org/files/openmax/headers/omx_il_v1/omx_il_v1.zip</a></li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/10/09/OpenMAX编程-组件/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/09/OpenMAX编程-组件/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OpenMAX编程初识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/19/OpenMAX编程初识/">OpenMAX编程初识</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/19/OpenMAX编程初识/" class="archive-article-date">
-  	<time datetime="2017-09-19T13:35:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>导读：</p>
-<blockquote>
-<p>本篇文章对OpenMAX做了一个整体的介绍与概述，说明OpenMAX是什么？可以解决什么问题？用在什么地方？以及为什么要用OpenMAX？这里并不对OpenMAX进行深入介绍（放到接下来的几篇文章里面），希望通过这篇文章可以对OpenMAX有一个大体的了解。</p>
-</blockquote>
-<h2 id="什么是OpenMAX"><a href="#什么是OpenMAX" class="headerlink" title="什么是OpenMAX"></a>什么是OpenMAX</h2><blockquote>
-<p>OpenMAX：open media acceleration.<br>直译为开放多媒体加速器，可以理解为是一个拥有免费使用权的多媒体加速器。OpenMAX是<a href="https://www.khronos.org/openmax/" target="_blank" rel="external">Khronos Group</a>开发制定的，该标准采用C语言实现，这个小组是由3Dlabs、ATI、Intel、Nvidia等行业大佬联合创建，目的是实现跨平台的免费的多媒体加速、回放。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2017/09/19/OpenMAX编程初识/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/19/OpenMAX编程初识/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C语言之list_head双向链表" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/13/C语言之list_head双向链表/">C语言之list_head双向链表</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/13/C语言之list_head双向链表/" class="archive-article-date">
-  	<time datetime="2017-09-13T14:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>对于嵌入式开发者来说，双向链表是用的非常多的一种数据结构之一，在linux内核里面有一个叫做list_head的结构体，专门用来做双向链表的种种操作，掌握并理解双向链表以及list_head的实现方式对于嵌入式开发来说是非常有帮助的。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2017/09/13/C语言之list_head双向链表/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/13/C语言之list_head双向链表/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-C指针深度剖析" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/09/10/C指针深度剖析/">C指针深度剖析</a>
-    </h1>
-  
-
-        
-        <a href="/2017/09/10/C指针深度剖析/" class="archive-article-date">
-  	<time datetime="2017-09-10T12:36:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-10</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>该文章详解了C语言中指针的概念与用法，对初学者了解C语言中指针这一重要概念有很大的帮助，其中变量的定义与使用一节尤为有价值。要点如下：</p>
+        <p>故事要从很久以前说起，那是我高二的时候，我和我前前任、前任与现任女朋友（其实是一个人）的相遇是在我上高二下学期分班之后的事情了，那个时候才高二，男生本来就成熟的比较晚，并且我女朋友比我大几个月，所以当我的前桌告诉我：你同桌好像有点儿喜欢你啊。那一刻之前我是丝毫没有意识到的，是真的，那时我真的没有细腻到女生跟自己打个招呼、眨个眼就觉得对方喜欢自己、孩子名字都想好了的地步。</p>
+<a id="more"></a>
+<p>我还记得第一次怀着「约会」的心情一起出去玩儿是一次家长会，那是一个星期六，家长们在学校开家长会，我们几个小孩儿就约着去溜冰场玩儿，那是第一次我跟她说了很多话的时候，并且这个时候我察觉到了很多同学也就好像默认了我们那种朦胧的关系那种感觉，起哄的那种感觉都懂的吧。虽然那是我第一次滑旱冰，但是仍然摔成狗，当时的我竟然没意识到自己可能出了丑，还傻乎乎的跟人搭讪，丝毫不觉得摔的一点都没有尊严，不过还别说，我滑到最后还真的掌握了一点技巧。</p>
+<p>如果就此没有了下文的话，可能多年之后我会成为知乎里面「有哪些你过了很久才意识到女生在撩你的时刻」下面答案的主人公了。当然由于我的独特魅力，简单说就是我也不知道是因为啥，反正就这么磕磕绊绊一起走到了高中毕业，中间无数小矛盾、小情绪，高中都懂的吧，一点点很小的事情与情绪就可以影响到这段「感情」的生死存亡。</p>
+<p>从那个时候的恋爱经历来看，一个正常的、好的恋爱应该是使得两个人相互促进、共同进步的，反正至少我是这样的，我高中恋爱阶段学习成绩是螺旋上升的，我就不清楚为毛有的人恋爱会影响学习成绩，肯定是不健康的恋爱关系哼。如果是这种恋爱关系的话班主任都会睁一只眼闭一只眼，毕竟学习成绩一点没下降嘛，管你的。</p>
+<p>大学呢没有在一个学校，就这么四年过去，中间分手过一次，两个小时不到。工作之后也分过一次，那是 2018.1.16 号那天，我收到了极其惨痛的消息，自此几天上班都是上着上着哭出声的那种，你想下，五年啊，五年了（脑补下张家辉），就这么结束了。PS：摘抄一段在当时在知乎上面的回答，问题好像是为什么初恋总是走不到最后。</p>
+<hr>
+<p>跟初恋高二认识，到大学大一的时候正式确立关系（大学异地），由于我大学的时候比较忙（寒假只过一两周、暑假不超过8，9天那种），加之离得远（时间、经济制约），所以大学里面一年见面的次数很少。到毕业之后工作，没错，又是异地，她在厦门，我在珠海，话说有从珠海到上海的动车，中间明明有到厦门北站的停靠信息，奈何就是不卖这段路程的票（啊~，铁道部赔我的爱情）。</p>
+<p>前不久，确切来说是2018.1.16号，她跟我提出分手，理由是对我没感觉了，话说我作为一个死程序员，一时之间怎么能够接收这种分手理由呢？于是我就问：</p>
+<p>我：根本原因是什么？异地？我没钱吗？我不帅吗？（插播一句，我确实不帅）你是不是有小三啦？</p>
+<p>答曰：没有什么根本原因；不是；不是；不是；没有。</p>
+<p>我：肯定有一个原因诱发的，想一下，它是什么？</p>
+<p>答曰：没有，跟第三方无关，也跟经济等无关，就是没有感觉了。</p>
+<p>我：。。。崩溃</p>
+<p>此时我的泪水已经止不住了，为什么？五年多时间为什么就是这个结局，这比“对不起，我得癌症了，我们分手吧”（无恶意）更加让人难以接受啊，不行，极力挽回，车票船票买起来，电话告知下，但是，电话已经打不通了，于是微信告知，最终得到的消息是你不要过来，否则你这次见不到我，过年回去也见不到我，你这次不来的话，过年我们平静的见面吧！我一想，这种套路不是见多了，照去不误，正好我另一个高中同学过来玩（我们三个是同班同学，都认识），于是拉着他一块先去了深圳，再次试探，得到消息还是不行（PS：她的脾气这次是真的不行了，再去就是找死）。</p>
+<p>于是厦门女友挽回战略行动改为基友深圳散心（要知道此前几天根本班都不能正常上）。此间想了很多事情，如下：</p>
+<p>Q：为什么说对我没感觉了，就那么随意好像就分手了？<br>A：你有没有过小时候喜欢一样东西（不管是吃的、玩的、偶像等等），在你长大的时候突然不喜欢了，而有些东西你又突然喜欢了，比如我初中喜欢爱情公寓里面的陈美嘉、喜欢喝糯米米酒汤（带蛋花的）、不喜欢吃香菜。而到了我高中以及大学的时候，前面的东西都是反着来了。再比如，常能听到说“这些东西都不是小时候的味道了”，真的是客观上不是小时候的味道了吗？我想有很多时候只是主观上的原因。但是，最重要的是，这些变化你能说出来根本原因吗，获取层层剥离、抽丝剥茧，能够找到那么一些原因，但是你有能真正确认就是这些原因导致的吗？对我来说是不能的，好像就是莫名其妙有些东西就是不喜欢了，有的东西突然就喜欢了，说不清楚。</p>
+<p>Q：为什么初恋修成正果概率很低？<br>A：初恋有很大一部分不是因为性格、内在相互吸引，而是一种朦胧的说不清的东西吸引双方走到一块，或许就是荷尔蒙的感觉吧，到了后来，每个人想法会发生变化，比如他开始想要找一个三观符合的、性格符合的、内在吸引的人在一块，而长时间在一块又消磨了当初在一块的荷尔蒙的感觉或者其它什么感觉，于是恋爱关系渐渐出现裂隙，最终或早或晚走向终点。</p>
 <ol>
-<li>指针是个变量，本质代表了一个地址。</li>
-<li>变量拆解遵循由近到远，从左到右的原则。</li>
-<li>C语言中，变量怎么使用就怎么定义（指的是书写格式上保持一致）。</li>
+<li>异地。初恋除了那么少数人，大部分都是要经历长时间异地的，期间双方有不同的生活环境、人文环境，久而久之心理距离也会变得更远。</li>
+<li>经济实力。虽说这块貌似影响是不大的，但是终究是有影响的，世界上诱惑那么多，双方都是需要满足自己的需求的，一旦经济实力不够，而对方不想跟你一起奋斗，一起成长，那最终分手就是必然的结果了。</li>
+<li>厌烦，渴望新鲜感。婚姻还有七年之痒，别说初恋了，随着阅历的增长，三观的建立与完善，可能每个人都或多或少渴望见一见新的人，经历一下新的事。初恋维系那么久真的很累、很枯燥的，再加上结婚还有那么多年，你想想。</li>
 </ol>
+<p>当然，不是所有的初恋都是不能在一块的，也不是所有的初恋分手都是不能复合的，前者是你足够幸运，遇到一个肯跟你一起打拼、奋斗的人。后者想象一下产品经理的需求，改来改去还是觉得第一个好，那就是了，在一起吧。</p>
+<p>能做的是什么？不断提升自己，想想自己的梦想，为遇到下一个人做好准备，也可以到时候杀一个漂亮的回马枪。也不要害怕、抗拒初恋或者下一段恋情，该投入投入，患得患失只会使人生变得越发糟糕。</p>
+<hr>
+<p>我还是想讲一下失恋之后的感觉，开始的时候会想着对方好的地方，不断地想起过往的一些美好回忆，尤其是她笑着的时候的回忆更多；然后对生活中看到的每一件东西寄托一种伤感的情绪，看到枕头会想起对方，看到街道会想起对方等等，并且觉得她昨天好像还在，幻想这她明天就会打来电话说和好；然后就是慢慢接受这个事实，然后想到她被别的男生抱着、和别的男生接吻等等，觉得无法接受；再之后就是认真接受分手的既定事实，然后在心里面抹黑对方的形象，想起种种她不好的地方，不一定是真的不好，但是这是一种为了恢复自己心情的手段；再之后就会想着自己在恋爱过程中是个什么样子，是不是有很多做的不好的地方；再之后就是总结经验，把自己之前自己认为自己犯过的错误罗列出来，然后一条条尝试着改正。再之后就是复合了哈哈哈，这个结尾不具有参考价值。</p>
+<p>想今年我已经做好了孤独终老的准备，还别说，分手的这几个月让我想到了很多东西，很多关系与对事物的看法也都重新审视了一遍，这让我的思维有了进一步的成熟化的提升，果然分手有益思考与进步啊，如果没分手的赶紧试一下，说不定有奇效啊哈哈。</p>
+<p>话说回来，在分手的这段时间里面自己想了很多，也听朋友们讲了很多，也经历了社会上面的一些事情、见识了工作之后的一些人的观点。我发现对于一部分男生来讲，他们（我们）理想中的女友应该是这样的：</p>
+<blockquote>
+<p>能够经常性的反思自己，不一定是有做的不对的地方，但是能够经常对自己在恋人中的关系进行反思，为了更好的相处。能够两个人一起奋斗，女生应该是十分上进的，两个人在一起能够形成一种积极向上的氛围，而不是男生单方面的奋斗，而女生在一旁坐着加油鼓气，甚至一脸冷漠，甚至认为这是男生理所应当承担的责任。女生应该是在生活过程当中不断学习进步的，而不是一下班就是窝在床上看电视剧、玩游戏，被所谓家务系的瞎忙活占据大部分的时间而连看书学习的时间都没有，或者说根本就是不想看、不想学。</p>
 </blockquote>
-<h2 id="指针简述"><a href="#指针简述" class="headerlink" title="指针简述"></a>指针简述</h2><blockquote>
-<p>在C语言中，指针就是一个地址，不管是什么类型的指针，它都代表了一个地址，指针本身的值是一个整形的数（长度跟系统和硬件有关，这里认为指针长度是32位）。</p>
-</blockquote>
-<h3 id="不同的指针类型代表着什么？"><a href="#不同的指针类型代表着什么？" class="headerlink" title="不同的指针类型代表着什么？"></a>不同的指针类型代表着什么？</h3><p>指针的类型是对于指针指向的内容来说的，比如char类型的指针代表其指向的地址内容是char类型的，指定类型是为了在取数据的时候知道取多少个字节。比如一个指针名为ptr，假设指向0xFFFF0000，如下图所示：<br>
-        
-          <a class="article-more-a" href="/2017/09/10/C指针深度剖析/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<p>女生听起来可能会感觉是不是有点直男癌，但是关于是不是这个问题我就不讨论了，问题是很多男生确实会有这样一种想法，并且也不能说错吧，即使被认为是直男癌了，但是真的也不能说就是错的，只能说这种想法是切实存在的。</p>
+<p>分手一段时间之后我的反思是：感情并不是刻意懈怠自己的原因，如果男女双方有遇到更好的人，各方面都比你好的，如果恰巧他/她自己也配得上，那么有任何的理由不抛弃你转而向其他人吗？说到底还是一个实力的问题。还有就是自己的实力要能够匹配得上自己的欲望，想要一个积极进取、同甘共苦，善解人意的女生首先自己的实力要能够与之匹配，也就是要能够跟人一样优秀才可以。</p>
+<p>PS：懈怠严重一点就是不思进取、混吃等死，觉得已经是男女朋友了，就没必要再去提升自己；次一点就是对自己的另一半没有之前那么上心了，所谓追到手就以为万事大吉了，关心程度直线下降，暴露出的缺点也越来越难以让人忍受；再次就是丝毫不注意自己的形象了，也不去练习一些艺术类的东西比如弹吉他、打鼓之类的。</p>
+<p>个人关于恋爱的看法从之前的感情为先到个人好恶（说难听点就是利益）稍稍占据上风。其实我也是很向往书里面、电影里面的很纯粹的恋爱，但是我发现有一个点，那就是里面的男女主人公都是非常受人喜爱的，换句话说，他们的缺点说实话真的很少了，长得又那么漂亮帅气。丑小鸭变白天鹅的童话之所以让人向往是因为绝大部分人做不到，属于难度很高的操作，所以才屡屡出现在影视作品中，所谓影视作品有很多时候都是为了造梦而生。</p>
+<p>现在我十分注重恋爱双方的自身实力差距，也就是综合能力的差距，在失恋的那段时间里面我有意识到，不管自己处于何种状态，一定要让自己的实力变得很强，这样不管是不是一个人，至少能够让自己过得舒服，爱情、纯粹的爱情、长长久久的爱情在这次经历之后我觉得它变得十分虚无缥缈，变得十分不可靠。自己完全没有必要因为对方在某些人生重大节点上面改变某些决定，因为努力提升自己才是最重要的。</p>
+<p>上面一段话想必可能会招来一些非议，难道恋爱当中不就是包容对方的缺点吗？就是要互相有所妥协啊！之前我可能是会这样认为，但是经此一役我有了危机感、很强烈的危机感。我觉得恋爱不是妥协，而是要让自己不断进步，如果对方进步的比你快，那么就努力跟上他/她，如果不知道怎么做，那就去问对方，他会告诉你的，如果差距一旦达到一定程度，自己就真的该有思想准备了。从另一个角度来讲，退一步想，就算因为没有妥协而导致恋爱最终无法走到最后，那么自己能够过得好，换句话说就是经济实力够强才是最重要的，这样能够保证自己即使失去了对方，也不会因为此而失去自己的生活质量，失去自己的一切。</p>
+<p>努力追赶对方的脚步，而不是让对方停下来等等自己，也不要把一切的计划全盘建立在对方会陪你走到底的基础上，更不要因为已经确认恋爱关系而懈怠自己，这是我从这次分手中得到的东西。我把它写出来也是为了再次告诫自己，也是为了有人可以参考一下自己的经历，也仅供参考，也提供不了，更不会提供任何建议。</p>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
 
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/09/10/C指针深度剖析/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-嵌入式面试全攻略，记我的一次校招" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及它们的相互转换方法，知道函数指针与指针函数的使用以及区别等等。在学习过程中要找准自己的方向，不要去过度追求各种金光闪闪的框架以及语言的奇淫技巧，学习过程中要注重各个知识背后的原理，而不是仅仅会用。</p>
-</blockquote>
-<h2 id="校招的优点（相对社招）"><a href="#校招的优点（相对社招）" class="headerlink" title="校招的优点（相对社招）"></a>校招的优点（相对社招）</h2><ul>
-<li>对应聘者的专业实践技能要求不是很高，更多看重理论基础</li>
-<li>大公司校招很多，是进入到大公司工作的好途径</li>
-<li>公司经过学校进行一轮初级筛选，会主动为应聘者避开一些坑人的公司</li>
-<li>地点集中，都是公司去学校招聘，不必满世界跑来跑去，节省时间财力</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/#more">more >></a>
-        
-      
-
       
     </div>
     <div class="article-info article-info-index">
@@ -896,16 +274,75 @@ var _hmt = _hmt || [];
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/12/02/一部分男生的择偶观/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/25/刻意的隐藏真实的想法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">刻意的隐藏真实的想法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -920,101 +357,30 @@ var _hmt = _hmt || [];
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-新的开始，与大学告别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>四年的大学生活很快便过去了，想想仍然有很多的遗憾，其中最为追悔的就是目标的确立与学习方法的选择。在大学里面没有及时的形成正确的大学观念以及人生观念，这导致我有很多时候选错了方向，弄错了方法，造成了不可追回的时间浪费。如果我的大学要用一句话来总结，那便是：努力尚可，慵懒有余。</p>
-</blockquote>
-<p>不知道如何提高自制力的同学可以看下<a href="#学习观念的转换"><strong>学习观念的转换</strong></a>一节，放心，不会长篇大论空泛的道理，而是给出了一个切实可行的操作步骤，按照1~4步去做即可验证该方法是否有用。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;这篇文章有自己大学四年来积累的一些对大学以及一些很大一部分人都有的疑问的一些自己的看法，也有对自己大学四年来的一些总结与感悟。对于有些问题的答案，不保证符合每个人的观点，但保证每一个都是个人实践得来的结果，希望对读者有所帮助，甚或能够及时纠正一些错误的看法，那就再好不过。（后面有干货，对于一些观点，我会尽量举出例子来说明，以免文章落入空泛不实的境地）<br>
-        
-          <a class="article-more-a" href="/2017/08/21/新的开始，与大学告别/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/21/新的开始，与大学告别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
+  
+  
+  
 
   
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
-    </nav>
+
   
 
 
@@ -1042,8 +408,8 @@ var _hmt = _hmt || [];
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

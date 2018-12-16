@@ -7,14 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives: 2017/8 | YellowMax的博客</title>
+  <title>Linux-gdb-段错误调试 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/2017/08/index.html">
+  <meta name="description" content="Gdb 是一个超级强大的工具，经常在 Linux 平台的内核开发与应用程序开发当中看到它的身影。由于它的命令集极其庞大，本文就不针对具体的命令进行介绍，而是根据具体的问题场景进行一次使用总结，我最常用来调试的是段错误一类的场景，这里就取一个例子进行总结。。">
+<meta name="keywords" content="Linux,调优">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-gdb-段错误调试">
+<meta property="og:url" content="http://www.yellowmax2001.com/2018/12/16/Linux-gdb-段错误调试/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="Gdb 是一个超级强大的工具，经常在 Linux 平台的内核开发与应用程序开发当中看到它的身影。由于它的命令集极其庞大，本文就不针对具体的命令进行介绍，而是根据具体的问题场景进行一次使用总结，我最常用来调试的是段错误一类的场景，这里就取一个例子进行总结。。">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2018-12-16T11:22:18.280Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="Linux-gdb-段错误调试">
+<meta name="twitter:description" content="Gdb 是一个超级强大的工具，经常在 Linux 平台的内核开发与应用程序开发当中看到它的身影。由于它的命令集极其庞大，本文就不针对具体的命令进行介绍，而是根据具体的问题场景进行一次使用总结，我最常用来调试的是段错误一类的场景，这里就取一个例子进行总结。。">
+<meta name="twitter:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,148 +161,248 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Linux-gdb-段错误调试" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux-gdb-段错误调试
+    </h1>
+  
+
+        
+        <a href="/2018/12/16/Linux-gdb-段错误调试/" class="archive-article-date">
+  	<time datetime="2018-12-16T10:48:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-16</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Gdb 是一个超级强大的工具，经常在 Linux 平台的内核开发与应用程序开发当中看到它的身影。由于它的命令集极其庞大，<strong>本文就不针对具体的命令进行介绍，而是根据具体的问题场景进行一次使用总结，我最常用来调试的是段错误一类的场景，这里就取一个例子进行总结。</strong>。</p>
+<a id="more"></a>
+<p>段错误类属于泛指，其实包括 SIGBUS、SIGSEGV 等类型的错误，或者是程序运行到某一段之后出现崩溃导致程序退出的问题。通常情况下使用一些 log 工具集成到代码里面也可以查出段错误类发生时刻的函数调用栈，但是大多数情况下不够灵活，比如要实时进行单步调试、查看调用栈里面的函数参数、查看段错误发生的那一刻所处函数的符号变量的值、查看指定寄存器的值、查看指定地址的值等等。</p>
+<h2 id="程序示例"><a href="#程序示例" class="headerlink" title="程序示例"></a>程序示例</h2><p>一段简单的可以导致段错误的代码如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">1 #include &lt;stdio.h&gt;</div><div class="line">2</div><div class="line">3 struct ring_king &#123;</div><div class="line">4     int iIdx;</div><div class="line">5     char *skill;</div><div class="line">6     char name[60];</div><div class="line">7     struct ring_king *next;</div><div class="line">8 &#125;;</div><div class="line">9</div><div class="line">10 void print_info(struct ring_king *king)</div><div class="line">11 &#123;</div><div class="line">12     int i = 0;</div><div class="line">13     struct ring_king *local_king;</div><div class="line">14</div><div class="line">15     for (local_king = king; local_king != NULL; local_king = local_king-&gt;next) &#123;</div><div class="line">16         local_king-&gt;skill[0] = &apos;e&apos;;</div><div class="line">17         printf(&quot;skill[%s],name[%s].\n&quot;, local_king-&gt;skill, local_king-&gt;name);</div><div class="line">18         i++;</div><div class="line">19     &#125;</div><div class="line">20     printf(&quot;got [%d] kings.\n&quot;, i);</div><div class="line">21 &#125;</div><div class="line">22</div><div class="line">23 char skills_fly[6] = &quot;fly&quot;;</div><div class="line">24 char skills_eat[6] = &quot;eat&quot;;</div><div class="line">25 char skills_sleep[6] = &quot;sleep&quot;;</div><div class="line">26</div><div class="line">27 struct ring_king global_kings[] = &#123;</div><div class="line">28     &#123;0, &amp;skills_fly[0], &quot;K1&quot;, NULL&#125;,</div><div class="line">29     &#123;1, NULL, &quot;K2&quot;, NULL&#125;,</div><div class="line">30     &#123;2, &amp;skills_sleep[0], &#123;0&#125;, NULL&#125;,</div><div class="line">31 &#125;;</div><div class="line">32</div><div class="line">33 int main(int argc, char *argv[])</div><div class="line">34 &#123;</div><div class="line">35     int i = 0;</div><div class="line">36     for (i = 1; i &lt; sizeof(global_kings)/sizeof(struct ring_king); i++) &#123;</div><div class="line">37         global_kings[i-1].next = &amp;global_kings[i];</div><div class="line">38     &#125;</div><div class="line">39</div><div class="line">40     print_info(&amp;global_kings[0]);</div><div class="line">41</div><div class="line">42     return 0;</div><div class="line">43 &#125;</div><div class="line">44</div></pre></td></tr></table></figure></p>
+<p>运行过程中当然会出现段错误，位置在上面代码的第 16 行，但是没有任何嵌入的 log 系统的话，报错提示只会有一个段错误的提示，并告诉你核心转储（core dump），提示内容类似下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">yellow@ubuntu:~/workstation/apps/debugs$ ./seg-fault</div><div class="line">skill[ely],name[K1].</div><div class="line">Segmentation fault (core dumped)</div></pre></td></tr></table></figure></p>
+<p>如果内核没有开启 core dump 功能的话这段报错就会到此为止，没有任何多余的提示，这样及不利于程序额调试，如果是上面示例程序的错误类型还是比较容易查找的，但是一旦程序的规模大起来，不说代码量的事情，就光是因为多线程同步之类的问题导致的段错误，或者是运行过程中由硬件引入错误值导致的段错误是非常难以查找的，这个时候就有必要求助于 gdb 调试工具了。</p>
+<p>使用 gdb 调试工具之前需要先洗手，然后在程序编译生成可执行文件的时候加上 -g 选项，这样才能够生成 gdb 可以识别的调试信息。我在本地的 ubuntu 虚拟机做实验的时候发现有以下几个问题：</p>
+<ol>
+<li>如果在从 C 源文件生成目标文件的时候没有加上 -g 选项，那么即使链接的时候加上 -g 选项最终也不会生成完整的 gdb 可识别的调试信息，只是部分调试信息。调试信息的打入是在编译阶段产生的。</li>
+<li>-g 与 -Os、-O2 等选项同时存在的时候 -g 会被后者覆盖掉，-Os 是专门针对可执行程序大小进行优化的，-O2 只是优化级别为2，在使用 -g 的时候最好屏蔽后面两个选项以保留最完整的调试信息。</li>
+<li>不同版本的 gcc 与 gdb 混用也会导致虽然加了 -g 选项，但是在栈回溯的时候仍然看不到函数内部的变量信息，这是因为 gcc 的 dwarf 版本与 gdb 的不匹配。本实验最开始使用 gdb-7.4 和 gcc-4.8 就出现了这种情况。在编译的时候使用 gcc -gdwarf-2 -g 才成功生成 gdb 可以识别的调试信息。</li>
+<li>使用 -s 选项编译或者使用 strip 进行程序瘦身的时候 gdb 是看不到任何调试信息的。要注意该 -s 选项也会覆盖 -g 选项的。</li>
+<li>带有链接库的，如果程序死在链接库里面，并且链接库有以上四种情况的任何一种，都会导致在断点那里看不到完整的 gdb 调试信息。</li>
+</ol>
+<p>以上几个方面在 gdb 调试之前的准备工作时要额外注意，尤其是第四个，因为在嵌入式设备当中通常会为了节省存储空间而把程序的调试信息全部去掉（这个节省的空间是非常可观的），这个时候在线测试出来是无法看到完整的调试信息的，通常情况下会在送测之前保留一个没有经过 strip 或者其它体积优化措施的可执行文件，在出现错误的时候按照复现步骤再去用保留完整调试信息的程序去调试。或者是直接拿到 core dump 文件进行调试。</p>
+<h2 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h2><p>在上面的工作全部准备好之后就可以开始正式的调试工作了，使用 <code>gdb ./seg-fault</code> 命令运行程序，如果需要参数的话有两种方法可以指定参数：</p>
+<ol>
+<li><code>gdb --args ./seg-fault args</code>。</li>
+<li><code>gdb ./seg-fault</code>，然后在进入 gdb 命令行之后执行 <code>set args arg</code>。</li>
+</ol>
+<p>进入程序之后执行 r 命令运行程序，我这里的程序执行到段错误的时候会停下来，提示如下面所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">yellow@ubuntu:~/workstation/apps/debugs$ gdb ./seg-fault</div><div class="line">GNU gdb (Ubuntu/Linaro 7.4-2012.04-0ubuntu2.1) 7.4-2012.04</div><div class="line">Copyright (C) 2012 Free Software Foundation, Inc.</div><div class="line">License GPLv3+: GNU GPL version 3 or later &lt;http://gnu.org/licenses/gpl.html&gt;</div><div class="line">This is free software: you are free to change and redistribute it.</div><div class="line">There is NO WARRANTY, to the extent permitted by law.  Type &quot;show copying&quot;</div><div class="line">and &quot;show warranty&quot; for details.</div><div class="line">This GDB was configured as &quot;i686-linux-gnu&quot;.</div><div class="line">For bug reporting instructions, please see:</div><div class="line">&lt;http://bugs.launchpad.net/gdb-linaro/&gt;...</div><div class="line">Reading symbols from /home/yellow/workstation/apps/debugs/seg-fault...done.</div><div class="line">(gdb) r</div><div class="line">Starting program: /home/yellow/workstation/apps/debugs/seg-fault</div><div class="line">skill[ely],name[K1].</div><div class="line"></div><div class="line">Program received signal SIGSEGV, Segmentation fault.</div><div class="line">0x08048427 in print_info (king=0x804a0c0) at ./seg-fault.c:16</div><div class="line">16			local_king-&gt;skill[0] = &apos;e&apos;;</div></pre></td></tr></table></figure></p>
+<p>这里可以非常清晰的看到出错的地方是在 <code>./seg-fault.c</code> 文件的第 16 行，并且连 C 代码都给打出来了，这种属于非常简单的例子，所以提示信息也是一目了然，我们很自然就可以想到是因为 <code>local_king</code> 或者是 <code>local_king-&gt;skill</code> 两个变量中的一个地址给错了，不一定是 NULL，只要是处于非法地址中的任何一个地址都有可能，比如数组越界访问都是有可能的，这里我在再深入探究一下。</p>
+<p>然后在这里再次执行命令 <code>bt</code>，该命令会把函数调用栈打出来，范围是从出错的函数处到 main 函数中的第一层入口调用者，我的程序打印出来就是下面的样子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(gdb) bt</div><div class="line">#0  0x08048427 in print_info (king=0x804a0c0) at ./seg-fault.c:16</div><div class="line">#1  0x080484d8 in main (argc=1, argv=0xbffff294) at ./seg-fault.c:40</div></pre></td></tr></table></figure></p>
+<p>可以看到它连函数的地址、函数的参数、调用的位置以及段错误的位置全部都给打出来了，顺序是从里到外，先打印最近一次的函数调用，然后依次回溯。这里先进去第 #0 个函数调用栈内部看一下。使用命令 <code>f 0</code>，后面接的 0 就是栈回溯的函数调用栈编号，<code>f 0</code> 就是进入第 0 个函数调用栈内部，此时 gdb 的调试上下文就会切换到这里：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(gdb) f 0</div><div class="line">#0  0x08048427 in print_info (king=0x804a0c0) at ./seg-fault.c:16</div><div class="line">16			local_king-&gt;skill[0] = &apos;e&apos;;</div><div class="line">(gdb) info args</div><div class="line">king = 0x804a0c0</div><div class="line">(gdb) info local</div><div class="line">i = 1</div><div class="line">local_king = 0x804a108</div></pre></td></tr></table></figure></p>
+<p>使用 <code>info args</code> 查看函数调用的时候传入的参数的值，使用 <code>info local</code> 查看函数内部的变量的值，这个时候好像并没有看出来太离谱的异常，两个有可能出错的变量值之一 <code>local_king</code> 的值也不是 NULL 或者 0xFFFFFFFF 之类的一眼就可以看出异常的值，那就进一步看下另一个参数的值好了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">(gdb) p local_king</div><div class="line">$5 = (struct ring_king *) 0x804a108</div><div class="line">(gdb) p *local_king</div><div class="line">$1 = &#123;iIdx = 1, skill = 0x0, name = &quot;K2&quot;, &apos;\000&apos; &lt;repeats 57 times&gt;, next = 0x804a150&#125;</div><div class="line">(gdb) set print pretty on</div><div class="line">(gdb) p *local_king</div><div class="line">$2 = &#123;</div><div class="line">  iIdx = 1,</div><div class="line">  skill = 0x0,</div><div class="line">  name = &quot;K2&quot;, &apos;\000&apos; &lt;repeats 57 times&gt;,</div><div class="line">  next = 0x804a150</div><div class="line">&#125;</div><div class="line">(gdb) p &amp;i</div><div class="line">$3 = (int *) 0xbffff1a8</div><div class="line">(gdb) p i</div><div class="line">$4 = 1</div></pre></td></tr></table></figure></p>
+<p>如上面所示，最终打出来 local_king 的成员的值（<code>set print pretty on</code> 只是为了更好看的输出打印信息），发现 <code>skill</code> 成员的值是 0x0，如果不看代码的话，有可能 <code>skill</code> 是一个 int 类型之类的值，好像也不能说明什么，此时有三种方法可以找到问题：</p>
+<ol>
+<li>直接看代码，因为源代码有，并且也打出来了出错的位置，直接看就完了。</li>
+<li>使用 l 命令列出当前所处位置的代码，我执行之后就可以直接看到 <code>skill</code> 的使用方式是下标取值的形式，对一个地址 0 再去取下标肯定是错的，因为程序内存分布中地址 0 不应该存放数据段。</li>
+<li>直接在 gdb 里面查看 <code>skill</code> 的类型，使用 ptype 命令：<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">(gdb) ptype local_king</div><div class="line">type = struct ring_king &#123;</div><div class="line">    int iIdx;</div><div class="line">    char *skill;</div><div class="line">    char name[60];</div><div class="line">    struct ring_king *next;</div><div class="line">&#125; *</div><div class="line">(gdb) x/10d local_king</div><div class="line">0x804a108 &lt;global_kings+72&gt;:	1	0	12875	0</div><div class="line">0x804a118 &lt;global_kings+88&gt;:	0	0	0	0</div><div class="line">0x804a128 &lt;global_kings+104&gt;:	0	0</div><div class="line">(gdb) x/10s local_king</div><div class="line">0x804a108 &lt;global_kings+72&gt;:	 &quot;\001&quot;</div><div class="line">0x804a10a &lt;global_kings+74&gt;:	 &quot;&quot;</div><div class="line">0x804a10b &lt;global_kings+75&gt;:	 &quot;&quot;</div><div class="line">0x804a10c &lt;global_kings+76&gt;:	 &quot;&quot;</div><div class="line">0x804a10d &lt;global_kings+77&gt;:	 &quot;&quot;</div><div class="line">0x804a10e &lt;global_kings+78&gt;:	 &quot;&quot;</div><div class="line">0x804a10f &lt;global_kings+79&gt;:	 &quot;&quot;</div><div class="line">0x804a110 &lt;global_kings+80&gt;:	 &quot;K2&quot;</div><div class="line">0x804a113 &lt;global_kings+83&gt;:	 &quot;&quot;</div><div class="line">0x804a114 &lt;global_kings+84&gt;:	 &quot;&quot;</div><div class="line">(gdb) x/10x local_king</div><div class="line">0x804a108 &lt;global_kings+72&gt;:	0x01	0x00	0x00	0x00	0x00	0x00	0x00	0x00</div><div class="line">0x804a110 &lt;global_kings+80&gt;:	0x4b	0x32</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>可以看到 <code>local_king</code> 内部的成员的类型，很容易知道 <code>skill</code> 是一个指针类型的变量，这个时候就可以基本断定出错的原因了。<code>x/NumType Addr</code> 这个命令是用于查看内存的，上面演示了三种查看的方式，可以看到内存里面的值的内容，如果是字符串类型就可以使用 <code>x/100s Addr</code> 这样的形式去查看里面的内容，这个主要是用于查看某段地址里面的内容是否是非法的。</p>
+<p>再次基础上我们还可以根据栈回溯来一层层往上去查看参数传递在哪一层出现了错误赋值，虽然这个过程比较艰难，但是目前我还没有找到一个比较好的办法去断定参数值变态恶化的具体位置。</p>
+<h2 id="核心转储"><a href="#核心转储" class="headerlink" title="核心转储"></a>核心转储</h2><p>也可以使用 core dump 文件来暂时转储段错误时生成的信息，然后再使用 gdb 进行调试。在 PC 机上面需要进行一些操作：<code>ulimit -c unlimited</code>。执行该命令之后执行程序出现段错误等可使程序终止的错误时会生成一个 core 文件，里面保存了出错时的调试信息，这个时候直接执行：<code>gdb core_file ./seg-fault</code> 即可进入犯罪现场。接下来的操作就是跟上面的一样了。</p>
+<p>为什么要使用核心转储？因为通常情况下测试与开发总是分隔两地，可望不可即，测试也不总是直接带着 gdb 去跑程序，并且某些错误可能会比较难以复现，当测试很轻松的复现之后，拿到开发人员这边使用同样的操作步骤却是死活都整不出来这个错误。这个时候保留犯罪现象就是非常有必要的了，省去了开发这边的辛苦复现工作，直接拿过来用即可。</p>
+<p>在嵌入式设备上操作方式与 ubuntu 发行版有所不同，需要自行定制 core dump 功能，在内核选项里面选中该功能并打开它即可使用。通常情况下还可以自行修改核心转储的代码进行一些定制化的调试信息保存或者打印，这个不在本文的讨论范围。</p>
+<h2 id="其它类型段错误"><a href="#其它类型段错误" class="headerlink" title="其它类型段错误"></a>其它类型段错误</h2><p>造成段错误的原因不止有 NULL 这一种类型，也有可能是内存的越界访问，内存越界问题通常会导致某些值非常奇怪，比如一个数组下标变量可能会变成负值，或者是非常大的一个值，比如说一个亿，这个时候就需要注意它是怎么来的了。</p>
+<p>非法的值范围，不仅包括数组下标一种，还有可能是其它的受限值，比如某个系统中只有四个视频输入设备，程序按照本来的设计，理论上智能访问到四个设备的赋值范围，但是在某一刻出现了超出这个范围的访问。一个人怎么也不可能出现三条腿，一旦出现了，那就去查下程序，肯定是某个地方搞错了，跟踪一波。</p>
+<p>指令错误，通常发生在硬件修改了内存的内容，应用程序一般也不可能修改到指令段。指令错误可能是未定义的指令，或者非法的指令，比如编译器对于结构体的对齐行为不同导致非法指令，通常发生在动态库代码执行的过程当中。</p>
+<h2 id="其它命令"><a href="#其它命令" class="headerlink" title="其它命令"></a>其它命令</h2><p>打断点：<code>break</code> 命令用来设置断点，有以下几种情况：</p>
+<ol>
+<li>多文件。使用 break FileName:LineNum。</li>
+<li>单文件或者当前代码上下文所处的文件。break LineNum。</li>
+<li>函数。break FunctionName。</li>
+<li>指定代码段地址。break CodeAddress。<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">(gdb) info b</div><div class="line">No breakpoints or watchpoints.</div><div class="line">(gdb) break print_info</div><div class="line">Breakpoint 1 at 0x8048412: file ./seg-fault.c, line 12.</div><div class="line">(gdb) break seg-fault.c:35</div><div class="line">Breakpoint 2 at 0x8048481: file ./seg-fault.c, line 35.</div><div class="line">(gdb) info b</div><div class="line">Num     Type           Disp Enb Address    What</div><div class="line">1       breakpoint     keep y   0x08048412 in print_info at ./seg-fault.c:12</div><div class="line">2       breakpoint     keep y   0x08048481 in main at ./seg-fault.c:35</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>如上图，我打了两个断点，分别使用第一和第三种方法打的，使用 <code>info b</code> 查看断点情况，如果需要禁止断点的话就使用 <code>disable breakpoint 1</code>/<code>enable breakpoint 1</code>，如果要删除断点就使用 <code>delete breakpoint 1</code>，如果不加断点号，都全部默认对所有的断点进行操作。</p>
+<p>监听某一个变量：<code>watch</code> 命令用来跟踪某一个变量的变化情况，只要这个变量被读取或者写入都会触发中断：</p>
+<ol>
+<li>watch Var。监听 Var 变量的改变动作，也就是变量 Var 的值每次被改变的时候就会中断。</li>
+<li>rwatch Var。监听 Var 变量的读取动作。</li>
+<li>awatch Var。监听 Var 变量的读取和写入动作。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">(gdb) c</div><div class="line">Continuing.</div><div class="line"></div><div class="line">Breakpoint 1, print_info (king=0x804a0c0) at ./seg-fault.c:12</div><div class="line">12		int i = 0;</div><div class="line">(gdb) info local</div><div class="line">i = -1073745412</div><div class="line">local_king = 0xb7fc5ff4</div><div class="line">(gdb) watch i</div><div class="line">Hardware watchpoint 3: i</div><div class="line">(gdb) c</div><div class="line">Continuing.</div><div class="line">skill[ely],name[K1].</div><div class="line">Hardware watchpoint 3: i</div><div class="line"></div><div class="line">Old value = -1073745412</div><div class="line">New value = 1</div><div class="line">print_info (king=0x804a0c0) at ./seg-fault.c:15</div><div class="line">15		for (local_king = king; local_king != NULL; local_king = local_king-&gt;next) &#123;</div><div class="line">(gdb) c</div><div class="line">Continuing.</div><div class="line">skill[eat],name[K2].</div><div class="line">Hardware watchpoint 3: i</div><div class="line"></div><div class="line">Old value = 1</div><div class="line">New value = 2</div><div class="line">print_info (king=0x804a0c0) at ./seg-fault.c:15</div><div class="line">15		for (local_king = king; local_king != NULL; local_king = local_king-&gt;next) &#123;</div></pre></td></tr></table></figure>
+<p>如上所示，运行在第二个断点的时候停下，然后使用 <code>watch</code> 命令监听某一个变量，当这个变量的值被修改的时候就会触发一次中断，然后把值改变前后的状态打印出来。使用该命令可以监听某些变量是怎么被修改成非法值的。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>Gdb 的命令集非常庞大，当我第一次看到的时候就被吓到了，因为其功能太过强大，同时也带来了学习成本，最好不要死记某一些命令，没可能记得全的，根据具体的场景摸索出调试步骤，第一次很困难，但是多试几次之后就会很顺畅了，基于案例的学习效率要比基于命令的学习效率高很多。</p>
+<p>Gdb 还有其它很多的功能，本文就只总结下很简单的段错误调试案例。其它还有调试多线程的死锁类型问题，不仅仅是互斥锁，还有可能是其它类型的资源等待，死循环等待也是一种死锁，只不过不涉及到通常概念上的锁操作。其它的情况在以后的文章中会进行总结。</p>
+<p>继续分享极客时间的课程，由于一次分享一篇太慢，所以以后每次会分享三篇或者是一整个章节，方便连续阅读，这个是我自行购买的付费课程，但是它有一个免费分享的机制（虽然名额有限），就是得微信客户端打开。（以下链接需要在微信客户端打开，如果是通过公众号【阅读原文】打开的话可以直接点击阅读）：<br><a href="https://time.geekbang.org/column/article/9b916731f98508f11dd96a99885dad58/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D" target="_blank" rel="external">[30 | 图的表示：如何存储微博、微信等社交网络中的好友关系？]</a><br><a href="https://time.geekbang.org/column/article/66f107d3d9b4a7f8f8054c65164ebf32/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D" target="_blank" rel="external">[29 | 堆的应用：如何快速获取到Top 10最热门的搜索关键词？]</a><br><a href="https://time.geekbang.org/column/article/3d346d19b0dcc5c786232eda365f5d63/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D" target="_blank" rel="external">[28 | 堆和堆排序：为什么说堆排序没有快速排序快？]</a><br><a href="https://time.geekbang.org/column/article/e62309e3a675da5247f55cc7749faabf/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D" target="_blank" rel="external">[27 | 递归树：如何借助树来求解递归算法的时间复杂度？]</a><br><a href="https://time.geekbang.org/column/article/3449e1cfef142bf1385b40290f049096/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D" target="_blank" rel="external">[26 | 红黑树（下）：掌握这些技巧，你也可以实现一个红黑树]</a><br><a href="https://time.geekbang.org/column/article/6ae1088d0b2801784fec5108aed2a02f/share?code=N5pa3IDrvHBTO6hfb6%2Fs-YoI4vfcQLN%2FAWtXe%2FysTGA%3D&amp;oss_token=fa351229d50e51b1" target="_blank" rel="external">[25 | 红黑树（上）：为什么工程中都用红黑树这种二叉树？]</a><br>自行评估自己是否需要咯，说实话这个课程看起来还是需要一定基础的，我看到后面也有点吃力了，一起进步吧。<a href="http://www.yellowmax2001.com/img/data-structure-pic.jpg">留白</a></p>
+<hr>
+<center>想做的事情就去做吧</center><br><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/12/16/Linux-gdb-段错误调试/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/09/做有用的事/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">做有用的事</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#程序示例"><span class="toc-number">1.</span> <span class="toc-text">程序示例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#调试"><span class="toc-number">2.</span> <span class="toc-text">调试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#核心转储"><span class="toc-number">3.</span> <span class="toc-text">核心转储</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它类型段错误"><span class="toc-number">4.</span> <span class="toc-text">其它类型段错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其它命令"><span class="toc-number">5.</span> <span class="toc-text">其它命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">6.</span> <span class="toc-text">End</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -323,8 +430,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

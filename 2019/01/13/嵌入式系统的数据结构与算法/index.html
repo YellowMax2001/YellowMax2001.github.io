@@ -7,26 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>C语言之list_head双向链表 | YellowMax的博客</title>
+  <title>嵌入式系统的数据结构与算法 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="对于嵌入式开发者来说，双向链表是用的非常多的一种数据结构之一，在linux内核里面有一个叫做list_head的结构体，专门用来做双向链表的种种操作，掌握并理解双向链表以及list_head的实现方式对于嵌入式开发来说是非常有帮助的。">
-<meta name="keywords" content="C语言,编程">
+  <meta name="description" content="嵌入式系统也有自己的数据结构与算法，而且还不少。  本文对嵌入式系统里面所用到的数据结构与算法进行一个简要的介绍，主要是为了对嵌入式领域的数据结构与算法做一个简单的描述总结，非算法原理性描述。这里不特意区分是数据结构还是算法，两者我把它们作为一个整体进行描述，因为数据结构往往伴随着相关的算法，而算法也往往需要基础数据结构作为支撑。">
+<meta name="keywords" content="嵌入式,数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C语言之list_head双向链表">
-<meta property="og:url" content="http://www.yellowmax2001.com/2017/09/13/C语言之list_head双向链表/index.html">
+<meta property="og:title" content="嵌入式系统的数据结构与算法">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/01/13/嵌入式系统的数据结构与算法/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="对于嵌入式开发者来说，双向链表是用的非常多的一种数据结构之一，在linux内核里面有一个叫做list_head的结构体，专门用来做双向链表的种种操作，掌握并理解双向链表以及list_head的实现方式对于嵌入式开发来说是非常有帮助的。">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/单向链表.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/双向链表.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/链表头部初始化.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/添加一个节点.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/container_of.png">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
-<meta property="og:updated_time" content="2017-09-17T14:44:15.007Z">
+<meta property="og:description" content="嵌入式系统也有自己的数据结构与算法，而且还不少。  本文对嵌入式系统里面所用到的数据结构与算法进行一个简要的介绍，主要是为了对嵌入式领域的数据结构与算法做一个简单的描述总结，非算法原理性描述。这里不特意区分是数据结构还是算法，两者我把它们作为一个整体进行描述，因为数据结构往往伴随着相关的算法，而算法也往往需要基础数据结构作为支撑。">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2019-01-13T02:55:29.108Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C语言之list_head双向链表">
-<meta name="twitter:description" content="对于嵌入式开发者来说，双向链表是用的非常多的一种数据结构之一，在linux内核里面有一个叫做list_head的结构体，专门用来做双向链表的种种操作，掌握并理解双向链表以及list_head的实现方式对于嵌入式开发来说是非常有帮助的。">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/blog/单向链表.png">
+<meta name="twitter:title" content="嵌入式系统的数据结构与算法">
+<meta name="twitter:description" content="嵌入式系统也有自己的数据结构与算法，而且还不少。  本文对嵌入式系统里面所用到的数据结构与算法进行一个简要的介绍，主要是为了对嵌入式领域的数据结构与算法做一个简单的描述总结，非算法原理性描述。这里不特意区分是数据结构还是算法，两者我把它们作为一个整体进行描述，因为数据结构往往伴随着相关的算法，而算法也往往需要基础数据结构作为支撑。">
+<meta name="twitter:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -166,20 +161,20 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-C语言之list_head双向链表" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-嵌入式系统的数据结构与算法" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      C语言之list_head双向链表
+      嵌入式系统的数据结构与算法
     </h1>
   
 
         
-        <a href="/2017/09/13/C语言之list_head双向链表/" class="archive-article-date">
-  	<time datetime="2017-09-13T14:06:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-13</time>
+        <a href="/2019/01/13/嵌入式系统的数据结构与算法/" class="archive-article-date">
+  	<time datetime="2019-01-13T02:25:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-13</time>
 </a>
         
       </header>
@@ -187,84 +182,53 @@ var _hmt = _hmt || [];
     <div class="article-entry" itemprop="articleBody">
       
         <blockquote>
-<p>对于嵌入式开发者来说，双向链表是用的非常多的一种数据结构之一，在linux内核里面有一个叫做list_head的结构体，专门用来做双向链表的种种操作，掌握并理解双向链表以及list_head的实现方式对于嵌入式开发来说是非常有帮助的。</p>
+<p>嵌入式系统也有自己的数据结构与算法，而且还不少。</p>
 </blockquote>
+<p>本文对嵌入式系统里面所用到的数据结构与算法进行一个简要的介绍，主要是为了对嵌入式领域的数据结构与算法做一个简单的描述总结，非算法原理性描述。这里不特意区分是数据结构还是算法，两者我把它们作为一个整体进行描述，因为数据结构往往伴随着相关的算法，而算法也往往需要基础数据结构作为支撑。</p>
 <a id="more"></a>
-<h2 id="为什么要用链表"><a href="#为什么要用链表" class="headerlink" title="为什么要用链表"></a>为什么要用链表</h2><p>在嵌入式开发实际编程当中，会经常有数据管理之类的需求，比如一个视频设备，在采集视频帧的时候需要一个buffer队列来进行视频帧的缓存管理，这个时候就需要用到一些队列管理类的数据结构。再比如说，设备的管理也需要用到双向链表（linux内核的设备驱动管理）。</p>
-<ul>
-<li>数组<br>数组当然可以实现数据管理这个需求，常见的方式使用数组来管理一个具有固定序列的数据列表，比如说一个有固定数量的设备，数量序号从0~3，在这种情况下，不需要做队列循环的操作，在创建一个设备的时候只需要将相应的设备按照标号放入到对应的数组位置当中即可。这种方式可以快速的定位数据所在的位置，而不需要从头到尾去顺序查询。</li>
-<li>链表<br>有些没有固定数量，处于不断地更新变化的数据，比如一个需要异步执行并且不可丢失的命令序列、一个需要进行实时加载与卸载的驱动，无序且数量未知，这个时候就需要链表结构来协助完成数据的管理。链表不需要过度关注数据的顺序，还可以方便快捷地在任意一个地方插入删除一个元素，并且不会影响到其它的元素。</li>
-<li>哈希表<br>哈希表融合了数组与链表的优点，既可以快速查询到指定元素，又可以十分灵活的添加或者删除相关的元素。不过哈希表不在本文的讨论范围之内，暂且略过不表。</li>
-</ul>
-<p>链表以极强的灵活性而被内核作为广泛使用的数据结构，通常用于各种驱动列表的管理，还有各种拓扑结构上也使用到了链表：比如V4L2驱动框架。链表相较于数组更适合用于这些管理的原因有：</p>
+<p>由于本人处于服务于消费电子产品的SOC芯片产品线，并且比较倾向于编码终端产品（非手机类），它们通常没有非常大量的复杂数据要存储，通常是用作物理世界的信息采集传递接口，不涉及到后端服务器那大量的数据存储、查找等等操作，所以可能说的东西不够全面，也仅仅是针对终端产品开发所涉及到的那些数据结构与算法而言，难免一家之言，有失偏颇。</p>
+<p><strong>本文数据结构与算法不做特意区分，并且内核特指 Linux 内核，SOC 特指 ARM 平台。</strong></p>
+<h2 id="字符串查找类"><a href="#字符串查找类" class="headerlink" title="字符串查找类"></a>字符串查找类</h2><p>像是字符串查找类的算法，常常能够接触到但是并不需要如何如何深究其实现的算法有很多，其最常见的载体函数就是 strcmp/strncmp，strstr，C++ 里面的 find 等等，最常见的命令有 grep、find、sed 等等。其中会涉及到 KMP、BM、Sundy 等字符串匹配算法，抑或是其中的混合，在这里这几种算法的基本实现不需要依赖于非常特殊的数据结构，仅使用「普通」的数组就可以搞定。</p>
+<p>这几种算法是我们会经常在无意识当中使用过，但是嵌入式领域来讲，通常情况下我们很少去关注其内部的具体实现，不是说没有那个意识，有两个理由：一是嵌入式里面没必要去关注这种算法的实现；而是也不一定知道里面有这种算法存在。</p>
+<p>再者，在平时的代码编译与执行过程当中，我们可能会用到一些自己实现的字符串匹配算法，比如要实时的解析一个字符串文件用作程序的配置文件，可能会用到一些 fscanf，strcmp 抑或是自己实现的字符串对比函数。</p>
+<p>其中编译时候最常用的就是一些脚本命令如 grep 等，还有就是 Makefile 里面自带的 make 语法函数，执行的时候通常简单的例程一般就会使用自己实现的字符串匹配（最常见暴力匹配法哈），大点的程序会用到 lua 来解析字符串。</p>
+<p>与字符串有关的数据结构与算法最常接触到的就是暴力匹配、没那么暴力的 RK 算法、KMP 系及其改进与变种，像字典树这种更加高级一点的在搜索引擎里面可以看到，但是嵌入式领域就万万是不怎么常见的，可以说根本就见不到的。</p>
+<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>队列是目前在用户态编程当中最为常见的一种数据结构了，因为编码、解码系列产品代码里面需要大量的视频数据处理，自然就少不了视频数据的传递，而数据的传递就非常满足先进先出的特性，而且整个代码工程里面大部分数据传递的地方都满足这个特征，也就是常说的「生产者消费者」模型。</p>
+<p>于是软件里面的视频数据传递与管理、消息处理队列、环形缓冲区、命令处理队列、事件分发模块等等都适用于队列这个数据结构，而最常用的组织方式有自行实现的单向链表、内核数据结构中的 list 双向链表。C++ 模板库中的 queue 组织方式就是一种队列结构。</p>
+<p>队列的实现方式有不同的途径，并且队列的使用范围有一定的限定。比如我最常用的队列，在同一个队列实例下，可能会有一个或者多个生产者，但是只有一个消费者，如果要实现多个消费者的一般会创建多个队列实例，减少编码难度。</p>
+<p>说到这里，想象一下如果要一个实例多个消费者要如何实现，消费者可以实时加入，只需要多一个引用计数即可，正常情况下，消费者应该享有完全一致的生产资料，也就是说某一个生产元素只有等到所有的消费者都取用完毕之后其引用计数才能够减为0并被丢弃，还要考虑万一有个消费者挂了，需要有一个超时机制，如果超过某个时间计数没有减为0，就得强行丢弃这个数据。综合考虑在内存没有极度紧张的前提下，还不如多点空间换取更加简单的编码，不易出错，易理解，易维护。</p>
+<p>常见队列模型比如环形缓冲区<a href="#1">[参考]</a><span id="R1"></span>，通常就会用数组来实现，实现的方式便是不难，不过如果要编写的极致一点的话就参考内核里面的 kfifo 的实现，属于鬼斧神工一类的。其它的类型更加常用内核的 list 双向链表<a href="#2">[参考]</a><span id="R2"></span>实现，特点是通用，如果需要使用只需要把 list_head 结构体嵌入到需要管理的结构体里面即可使用，并且双向链表也带来了数据访问的灵活性。还有就是自己实现的特定数据类型的单向链表，不过很不常用。</p>
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>栈的结构特点是先进后出，那么在嵌入式系统里面会常用于参数的传递，不仅包括函数的参数传递，还包括一些自定义参数的传递，比如在模块解耦的情况下会使用迪米特法则对参数传递进行设计，在参数的 push 与 pop 过程当中就可能会用得到栈这种数据结构，当然使用队列也未尝不可。</p>
+<p>还有用到栈的地方见于需要使用递归结构的时候，比如内核里面 V4L2 框架的 pipeline 管理中的流开启函数，里面用到了图的广度优先遍历，其中为了避免整个函数的嵌套调用，就使用了栈这种数据结构对 pipeline 节点进行保存，完全符合先进后出的特点。</p>
+<p>其它地方比如函数的栈回溯，比如 gdb 调试时候的函数调用过程回溯，比如函数执行过程中的栈式存储，比如某些 log 系统对函数调用的跟踪也用到栈式存储结构，就比如谷歌的开源日志系统 glog，内核的 oops 也会有栈式存储结构的身影。</p>
+<p>栈的实现更常见与数组结构，使用链表结构实现也可以，但是由于栈这种比较特殊的先进先出的结构，我们不需要对删除与添加的灵活性有太多的要求，所以为了访问的效率与存储空间的适度节省，通常使用数组结构来实现。平时需要自己实现的栈结构的模块并不多。</p>
+<h2 id="图和位图"><a href="#图和位图" class="headerlink" title="图和位图"></a>图和位图</h2><p>图结构常用于表示有着非单一性的、有着多方联系的复杂关系，比如说社交关系这种就属于相对比较复杂的图类型。在嵌入式编程里面由于不怎么涉及到这种复杂的相互关联的结构，所以图这一结构基本上不会出现在平时的编程实现当中去。</p>
+<p>不过在内核里面会用到图结构，其中我了解的有 V4L2 的 pipeline 开启函数，这个函数里面不仅用到了图遍历，还用到了位图（bitmap），还用到了栈，这个函数可以说是很吊了，那个函数的名字叫做<code>media_entity_pipeline_start</code>。这里的图结构是一个单向无权无环图，主要用来表示整个 V4L2 视频输入设备框架下属管理的视频输入硬件模块，比如 CSI、ISP、SENSOR 等等，它们的数据流向是单向的，并且是无环的，因为视频数据流的大体流向始终是从硬件到驱动到用户空间的，中间是不会有回环的操作。</p>
+<p>位图一般用于标记，标记某个对象是否是有效的、存在与否等等，总之被标记的对象只有两种（因为 bit 只有 0 和 1 这两种取值）。而上面说到的函数里面位图是用于标记一个图的端点是否被访问到，访问到就会置 1，否则的话就置0，具体的位图操作在内核的 bitmap.h、bitmap.c 等文件里面有相关描述，也可以直接看内核的 bitmap 相关的文档。</p>
+<p>位图在 buffer 管理的时候也用的上，就比如我最近开发的一个视频处理子模块，里面就用到了一个 <code>unsigned long long</code> (ARM-32 64bit)长度的位图变量，用于存储并标记 buffer 是否正在被使用，以此为基础应用于 buffer 的 push 与 pop 标记。当然一个通用的 bitmap 结构应该是可以自定义长度的。</p>
+<p>位图结构的特点是短小，以及精悍，只使用一个位就可以代替平常一个字节的功能，可想而知，位图这种数据结构就必须使用数组结构来实现，链表想都不要想。位图可以实现一种有序进出的数据标记管理，但是大多数时候用来实现一种无序进出的数据标记管理，常见使用哈希数据结构来实现从数据到位图的索引，升级版的还有布隆过滤器（Bloom Filter）这一类位图应用。</p>
+<h2 id="排序类"><a href="#排序类" class="headerlink" title="排序类"></a>排序类</h2><p>首先最常见的排序的目的是为了索引（筛选）与查找，这几乎是排序的大部分需求，一种是排序出来之后方便找到极值，比如淘宝购物的按时间顺序排序或者按照金额顺序排序，这是为了满足我们主观的筛选等需求。还有的是排序是为了更快的拿到想要的值，也就是方便查找，比如搜索引擎，比如数据库，比如内核里面的进程树。</p>
+<p>需要注意的是，这里指的排序并不是限定与从大到小或者从小到大，只要是满足一定的规则，按照我们的设计去依照一定的顺序规则排列的都算是排序。拿内核里面维护的一个用于调度的进程树来讲，它是用红黑树实现的排序类结构，里面的元素是进程描述符，最左子节点是最急切需要调度的进程。每次新建一个进程或者调度完毕一个进程的时候内核会按照进程的加权执行时间把它重新插入到红黑树里面并保持从小到大的顺序，需要取出的时候就从最左子节点取出，需要删除就从树里面剔除。</p>
+<p>上面的操作涉及到查找（插入与删除）、索取（取最左子节点）这些操作，而红黑树能够把查找的时间复杂度降低到 OlogN。还有其它的有利于查找、插入、删除的数据结构与算法有哈希表、跳表、桶排序、快排等等。其中内核的 V4L2 control 模块<a href="#3">[参考]</a><span id="R3"></span>就用到了类似桶排序的概念.</p>
+<p>编解码产品最核心的地方是视频的编码与解码以及相关的处理，比如ISP特效等等，而针对视频的管理来说由于内存的限制，也不可能缓存太多的帧，自然这一部分就用不到排序了，甚至大部分场景下，哈希表都可以完全的被双向链表来代替，效率上完全够用。</p>
+<p>综合来讲，排序类的算法多存在于内核里面，以及我们常用的 sqlite 数据库内部，但是数据库内部是不需要我们自己去实现一个排序函数的，用户可能会用到的排序操作并不多。</p>
+<h2 id="非通用类"><a href="#非通用类" class="headerlink" title="非通用类"></a>非通用类</h2><p>在嵌入式系统里面显得不是非常的“通用”，这里说的通用是指的大众化，广范围，比如内核的 CFS 调度算法，它虽然广泛使用在 Linux 内核里面，但是并没有太多的人需要关注并去实现一个这样的算法，它的应用面没有那么的广，所以我定义为非通用。</p>
+<p>在嵌入式编解码产品中，「同步」是一个非常大的类别，音视频播放时候的同步、音视频采集时候的同步，涉及到同步，那问题就麻烦了，问题麻烦的点在于两个方面：</p>
 <ol>
-<li>链表适合于做队列循环，链表做一次队列循环只需要对两个元素进行操作，而数组需要对所有的元素进行操作。</li>
-<li>链表可以即时即刻，在任意一个位置新建、插入、删除元素而不至于影响到其它的元素，而数组想在一个地方插入一个元素，假设元素个数为n，在第m个位置插入元素，则至少需要挪动n-m+1个元素，并且数组的空间拓展相较于链表更加繁琐一点。</li>
-<li>链表的存储空间拓展比较灵活，随用随分配，而数组通常情况下得提前定好长度，这样极有可能会造成空间的浪费或者空间不足。不过可以通过另外一种方式实现变长数组，有一种不完全类型可以实现变长的数组，这个变长的数组叫做柔性数组，使用结构体可以实现（文章结尾会介绍<a href="#柔性数组">柔性数组</a>），但即使是变长的，也是增加空间容易，减少空间困难，不如链表。</li>
+<li>物理采集到的音频与视频与其打上时间戳的时间间隔不是非常确定。</li>
+<li>视频对于音频的对应关系不是一对一，而是一对多的。</li>
+<li>音视频采集一旦某一帧同步失败，就必须得丢弃或者主动补齐，并且不能够阻塞下一次采集。</li>
 </ol>
-<h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><h3 id="单向链表"><a href="#单向链表" class="headerlink" title="单向链表"></a>单向链表</h3><ul>
-<li><p>原型</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">simplex</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> value;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">simplex</span> *<span class="title">next</span>;</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-</li>
-<li><p>结构图<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/单向链表.png" alt="单向循环链表"></p>
-</li>
-</ul>
-<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表<span id="双向链表"></span></h3><ul>
-<li><p>原型</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dlist</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dlist</span> *<span class="title">next</span>;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">dlist</span> *<span class="title">prev</span>;</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-</li>
-<li><p>结构图<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/双向链表.png" alt="双向循环链表"></p>
-</li>
-</ul>
-<p>根据上面的两种简单链表结构可看出，单向循环链表的遍历顺序是单一的，从链表的某一个成员开始，如果要匹配的成员已知在链表遍历方向的反方向，整个遍历过程就会显得十分繁琐，不够灵活。而双向链表可以在任意一个位置双向遍历，比单项链表显得更加灵活。</p>
-<h2 id="list-head结构体"><a href="#list-head结构体" class="headerlink" title="list_head结构体"></a>list_head结构体</h2><h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>在linux内核当中，一个随处可见的结构体就是<code>list_head</code>结构体，其原型是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> &#123;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">next</span>, *<span class="title">prev</span>;</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p>此结构体在linux内核中被大量的引用，几乎所有内核当中需要构成链表结构的地方都用到了这个结构体。例如内核的设备驱动管理就广泛使用到了这个结构体。该结构体相关的代码可以在<code>include/linux/list.h</code>内核文件当中看到。</p>
-<ul>
-<li><p>一个问题<br>Q：为什么linux内核里面不使用类似<a href="#双向链表">双向链表</a>一节所描述的链表结构？<br>A：因为内核里面的结构体众多，每个结构体的类型都不一样，如果在每个结构体里面都实现一个特定的双向链表，不仅结构体的代码量增加了，而且每个结构体都需要单独实现特定的链表管理方法，这样会在内核里面增加大量繁琐、冗余的代码。</p>
-</li>
-<li><p>解决方法<br>实现一个<code>list_head</code>双向链表元结构体，然后在每一个需要进行队列管理的结构体里面嵌入这个<code>list_head</code>元结构体，使用统一的接口来对众多的结构体链表进行管理。</p>
-</li>
-<li><p>如何使用<code>list_head</code>结构体</p>
-</li>
-</ul>
-<ol>
-<li>在需要管理的结构体里面嵌入类似<code>struct list_head list</code>的代码。</li>
-<li>使用linux提供的统一的接口进行链表增删、遍历操作。</li>
-</ol>
-<p>实例：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;list.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> &#123;</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">next</span>, *<span class="title">prev</span>;</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">test_list</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *name;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">test</span>;</span></div><div class="line">    <span class="keyword">int</span> value;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">test_list</span> <span class="title">lists</span>[] = &#123;</span></div><div class="line">    [<span class="number">0</span>] = &#123;</div><div class="line">        .value = <span class="number">0</span>,</div><div class="line">        .name = <span class="string">"apple"</span></div><div class="line">    &#125;,</div><div class="line">    [<span class="number">1</span>] = &#123;</div><div class="line">        .value = <span class="number">1</span>,</div><div class="line">    &#125;,</div><div class="line">    [<span class="number">2</span>] = &#123;</div><div class="line">        .value = <span class="number">2</span>,</div><div class="line">        .name = <span class="string">"xiaomi"</span></div><div class="line">    &#125;,</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argv, <span class="keyword">char</span> *argc[])</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">mod</span>;</span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line"></div><div class="line">    INIT_HEAD(head);</div><div class="line"></div><div class="line">    list_add_tail(&amp;lists[<span class="number">0</span>].test, &amp;head);</div><div class="line">    list_add_tail(&amp;lists[<span class="number">1</span>].test, &amp;head);</div><div class="line">    list_add_tail(&amp;lists[<span class="number">2</span>].test, &amp;head);</div><div class="line"></div><div class="line">    list_for_each(mod, &amp;head)</div><div class="line">    &#123;</div><div class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">test_list</span> *<span class="title">inode</span>;</span></div><div class="line">        </div><div class="line">        inode = list_entry(mod, struct test_list, test);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d %s\n"</span>, inode-&gt;value, inode-&gt;name);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>该段程序编译运行的结果是：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">0 apply</div><div class="line">1 (null)</div><div class="line">2 xiaomi</div></pre></td></tr></table></figure></p>
-<h3 id="实现方法"><a href="#实现方法" class="headerlink" title="实现方法"></a>实现方法</h3><ul>
-<li>链表头的初始化<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LIST_HEAD_INIT(name) &#123; &amp;(name), &amp;(name) &#125;</span></div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> LIST_HEAD(name) \</span></div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">name</span> = <span class="title">LIST_HEAD_INIT</span>(<span class="title">name</span>)</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>此时<code>name</code>的结构就如下图所示：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/链表头部初始化.png" alt="链表头部初始化"></p>
-<ul>
-<li>节点的添加<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">__list_add(struct list_head *<span class="keyword">new</span>,</div><div class="line">                  struct list_head *prev,</div><div class="line">                  struct list_head *next)</div><div class="line">&#123;</div><div class="line">    next-&gt;prev = <span class="keyword">new</span>;</div><div class="line">    <span class="keyword">new</span>-&gt;next = next;</div><div class="line">    <span class="keyword">new</span>-&gt;prev = prev;</div><div class="line">    prev-&gt;next = <span class="keyword">new</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>图形化描述：<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/添加一个节点.png" alt="添加一个节点"></p>
-<ul>
-<li>从<code>list_head</code>结构体成员找到父结构体<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> list_entry(ptr, type, member) \</span></div><div class="line">    container_of(ptr, type, member)</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> container_of(ptr, type, member) (&#123;          \</span></div><div class="line">    const typeof( ((type *)0)-&gt;member ) *__mptr = (ptr);    \</div><div class="line">    (type *)( (<span class="keyword">char</span> *)__mptr - offsetof(type,member) );&#125;)</div><div class="line"><span class="meta">#<span class="meta-keyword">define</span> offsetof(TYPE, MEMBER) ((size_t) &amp;((TYPE *)0)-&gt;MEMBER)</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>把上面例程代码段中的<code>list_entry(mod, struct test_list, test);</code>展开就得到：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    const typeof( ((struct test_list *)0)-&gt;test ) *__mptr = (mod);</div><div class="line">    (struct test_list *)( (<span class="keyword">char</span> *)__mptr - ((<span class="keyword">size_t</span>) &amp;((struct test_list *)<span class="number">0</span>)-&gt;test));</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* test_list结构体原型 */</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">test_list</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">char</span> *name;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">test</span>;</span></div><div class="line">    <span class="keyword">int</span> value;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">/* mod 变量定义*/</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> *<span class="title">mod</span>;</span></div></pre></td></tr></table></figure></p>
-<p>拆解一下代码步骤可得：</p>
-<ol>
-<li><code>((struct test_list *)0)</code>：将0转换为<code>struct test_list</code>类型的指针。</li>
-<li><code>typeof( ((struct test_list *)0)-&gt;test )</code>：获取<code>test_list</code>结构体内的<code>test</code>成员的类型，也就是<code>list_head</code>类型。</li>
-<li><code>typeof( ((struct test_list *)0)-&gt;test ) *__mptr = (mod)</code>：定义一个<code>struct list_head</code>类型的指针，名为<code>__mptr</code>，指向<code>mod</code>所指向的内存（mod为整个链表中的某一个<code>list_head</code>节点）。</li>
-<li><code>((size_t) &amp;((struct test_list *)0)-&gt;test</code>：获取<code>test_list</code>结构体头到<code>test</code>成员的字节长度。</li>
-<li><code>(char *)__mptr - ((size_t) &amp;((struct test_list *)0)-&gt;test)</code>：<code>list_head</code>节点地址减去<code>test_list</code>结构体头到<code>test</code>成员的字节长度（也就是该<code>list_head</code>节点的父结构体<code>test_list</code>的地址）。</li>
-<li><code>(struct test_list *)( (char *)__mptr - ((size_t) &amp;((struct test_list *)0)-&gt;test))</code>：强制转换为<code>struct test_list</code>类型的指针返还给调用者。<br><img src="http://ous9jl7tv.bkt.clouddn.com/img/blog/container_of.png" alt="container_of"></li>
-</ol>
-<p>当然也可以自己实现：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> mlist_entry(list_head, type, member_name) \</span></div><div class="line">            (type *)((<span class="keyword">unsigned</span> <span class="keyword">int</span>)list_head - (<span class="keyword">unsigned</span> <span class="keyword">int</span>)(&amp;(((type*)(<span class="number">0</span>))-&gt;member_name)))</div></pre></td></tr></table></figure></p>
-<p>内核当中还有很多的链表操作方法，例如<code>list_move_tail</code>（链表元素的移动），还有链表的遍历（前向遍历、后向遍历）等等，这些不在赘述，可以去内核的<code>list.h</code>文件里面看看，有了上面的知识，其它的理解起来就轻而易举了。</p>
-<h2 id="柔性数组"><a href="#柔性数组" class="headerlink" title="柔性数组"></a>柔性数组<span id="柔性数组"></span></h2><h3 id="什么是柔性数组"><a href="#什么是柔性数组" class="headerlink" title="什么是柔性数组"></a>什么是柔性数组</h3><p>柔性数组是C99标准特性，GNU的GCC编译器也允许这样的写法。具体为在一个结构体最后可以加上一个类似于<font color="red">char str[0];</font>的声明，代表可变长的数组，在编译的时候并不占用具体的内存空间，str并不是一个指针，而是代表着str这个数组在其结构体中的偏移量，这个在下面的代码中可以看出来。在使用的时候动态分配内存，使用完之后随手释放。</p>
-<h3 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt; </span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;wchar.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">p_test</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">int</span> height;</div><div class="line">    <span class="keyword">char</span> name[<span class="number">0</span>];   <span class="comment">//如果放在中间或者前面的话，则name代表的偏移量与紧跟其后的变量地址是一样的，那就造成了变量重叠的后果</span></div><div class="line">&#125;__attribute ((packed));    <span class="comment">//禁止编译器进行字节对齐</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">p_test1</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">int</span> height;</div><div class="line">    <span class="keyword">char</span> *name;</div><div class="line">&#125;__attribute ((packed));</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">p_test2</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">int</span> height;</div><div class="line">    <span class="keyword">char</span> name[<span class="number">3</span>];</div><div class="line">&#125;__attribute ((packed));</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">p_test3</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">    <span class="keyword">int</span> age;</div><div class="line">    <span class="keyword">int</span> height;</div><div class="line">    <span class="keyword">char</span> name[];</div><div class="line">&#125;__attribute ((packed));    <span class="comment">//不进行对齐</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argv, <span class="keyword">char</span> *argc[])</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">p_test</span> *<span class="title">example</span>;</span></div><div class="line">    </div><div class="line">    example = (struct p_test *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(struct p_test) + <span class="number">20</span>);</div><div class="line">    </div><div class="line">    example-&gt;age = <span class="number">30</span>;</div><div class="line">    example-&gt;height = <span class="number">176</span>;</div><div class="line">    </div><div class="line">    <span class="built_in">memcpy</span>(example-&gt;name, <span class="string">"job geo"</span>, <span class="number">8</span>);</div><div class="line">    </div><div class="line">    <span class="built_in">printf</span>(<span class="string">"age = %d\nheight = %d\nname = %s\n"</span>, example-&gt;age, example-&gt;height, example-&gt;name);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"sizeof p_test : %d\n"</span>, <span class="keyword">sizeof</span>(struct p_test));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"sizeof p_test1 : %d\n"</span>, <span class="keyword">sizeof</span>(struct p_test1));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"sizeof p_test2 : %d\n"</span>, <span class="keyword">sizeof</span>(struct p_test2));</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"sizeof p_test3 : %d\n"</span>, <span class="keyword">sizeof</span>(struct p_test3));</div><div class="line">    </div><div class="line">    <span class="built_in">free</span>(example);</div><div class="line">    </div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>编译执行结果：<br>打印结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">height = 176</div><div class="line">name = job geo</div><div class="line">sizeof p_test : 8</div><div class="line">sizeof p_test1 : 12</div><div class="line">sizeof p_test2 : 11</div><div class="line">sizeof p_test3 : 8</div><div class="line"></div><div class="line">--------------------------------</div></pre></td></tr></table></figure></p>
-<p>可以看到，上面的<font color="red">p_test1</font>与<font color="red">p_test2</font>结构体的长度都是12，因为<font color="red">p_test1</font>里面的<font color="red">char *name;</font>中的<font color="red">name</font>是一个指针，既然是指针，那么在内存当中就会占用空间（而p_test里面的name却不占用空间），并且其地址不一定是与结构体上面的成员紧密相连，这样就会造成内存的碎片化。并且使用name的时候需要对其分配空间，在释放的时候需要先把name指向的内容释放，并且把其结构体也释放掉，而柔性数组则是一次性分配完毕，一次性释放完毕。形如<font color="red">char name[3];</font>这样的定义在结构体初始化的时候就指定了长度，有些时候如果我们用不到那么多的空间就会造成空间的浪费，所以不如柔性数组来的有效。<br>&emsp;&emsp;通过上面一段描述，那么问题来了，为什么不用指针来代替柔性数组呢？毕竟指针也可以完成同样的操作啊，而且指针更加容易理解与使用。当我们使用指针的时候，需要先释放结构体内部指针成员的内存，然后再释放结构体本身，而柔性数组则不要前一步，只需要释放结构体本身即可，不用担心因为释放顺序错误或者忘记释放结构体内成员而造成内存泄漏的问题。</p>
+<p>其实这种音视频采集比解码多了一个物理采集的部分，物理采集可是硬实时，采集不等人的，你错过了这一帧就是错过了，没得后悔的，要说解码还可以有一定的延迟容忍，那么采集是丝毫不跟你讲道理的。音视频虽然涉及到的硬件以及整体的流程比较复杂，但是好歹还有 200ms 的容忍度在，除了音视频的同步之外，还有其它的同步，比如常见的基于陀螺仪的在线实时防抖算法，这个要求就更过分了，要求基本上在几十甚至几毫秒级别的同步（陀螺仪数据与视频帧数据）。</p>
+<p>还有内存分配算法，比如 slab、虚拟内存页管理算法、畸变校正、ISP 特效等等，其中有一些是属于文件系统管理类的，有一些就属于计算机视觉类的了。非通用类的算法在以后的学习总结过程当中不是属于重点，因为我也可能、极大可能没有那么多的精力去研究这些东西，更多的是关注现在已经总结出来的，比较通用的数据结构与算法。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>本文只对嵌入式涉及到的数据结构与算法做一个简单的概述，必然有其局限性，不过我觉得无伤大雅。之后的学习过程中会更多的关注不限于嵌入式领域的算法，包括计算机科学里面一些比较通用的算法以及思想，拓展思维与界限。下一篇文章不出意外应该会是从队列开始，应该不止有一篇文章来描述队列，因为这个在嵌入式领域有着广泛的应用，所以有可能会实现一些实用性的工具模块，从中去领会队列的应用精髓。</p>
+<p>打算尽量结合一些切实可用的代码一起总结学习，其实这个之前已经有在做了。如果你看到这里了，我在 github 上面搭建了一个仓库，叫做 Newbie-C，顾名思义就是用 C 来写的，目前仅有个大体的框架，内容仅有一个环形缓冲区的模块实现，还待慢慢添加完善，所以这里就不放链接了。</p>
+<p>如果有同学有心去找着看下，也欢迎往上提交一些自己的代码，不过我还是会尽量靠自己去完善它的，我还得把那个编译模块完善一下，不然目前编译起来还是挺麻烦的，每次都是得全局编译。下面是本文的一些参考文章，其实还是自己写的啦，进去看下吧。是时候开启一个新的篇目了。</p>
+<p><a href="#R1">[返回]</a><span id="1">环形缓冲区可以参考这篇文章：<a href="https://blog.csdn.net/u013904227/article/details/51168398" target="_blank" rel="external">环形缓冲区</a></span><br><a href="#R2">[返回]</a><span id="2">list 双向链表可以参考这篇文章：<a href="https://blog.csdn.net/u013904227/article/details/78014341" target="_blank" rel="external">C语言之list_head双向链表</a></span><br><a href="#R3">[返回]</a><span id="3">类似桶排序的概念可以参考这篇文章：<a href="https://blog.csdn.net/u013904227/article/details/83242446" target="_blank" rel="external">V4L2框架-control的数据结构</a></span></p>
 <hr>
-<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+<p><center>想做的事情就去做吧</center></p>
+<p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
+
       
 
       
@@ -303,11 +267,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">嵌入式</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
@@ -363,7 +327,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/09/13/C语言之list_head双向链表/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/01/13/嵌入式系统的数据结构与算法/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -377,18 +341,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/09/19/OpenMAX编程初识/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          OpenMAX编程初识
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/09/10/C指针深度剖析/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">C指针深度剖析</div>
+    <a href="/2019/01/06/胡思乱想综合征/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">胡思乱想综合征</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -415,7 +370,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么要用链表"><span class="toc-number">1.</span> <span class="toc-text">为什么要用链表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#链表"><span class="toc-number">2.</span> <span class="toc-text">链表</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#单向链表"><span class="toc-number">2.1.</span> <span class="toc-text">单向链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向链表"><span class="toc-number">2.2.</span> <span class="toc-text">双向链表</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#list-head结构体"><span class="toc-number">3.</span> <span class="toc-text">list_head结构体</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简述"><span class="toc-number">3.1.</span> <span class="toc-text">简述</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现方法"><span class="toc-number">3.2.</span> <span class="toc-text">实现方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#柔性数组"><span class="toc-number">4.</span> <span class="toc-text">柔性数组</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#什么是柔性数组"><span class="toc-number">4.1.</span> <span class="toc-text">什么是柔性数组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#代码测试"><span class="toc-number">4.2.</span> <span class="toc-text">代码测试</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串查找类"><span class="toc-number">1.</span> <span class="toc-text">字符串查找类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#队列"><span class="toc-number">2.</span> <span class="toc-text">队列</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">3.</span> <span class="toc-text">栈</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图和位图"><span class="toc-number">4.</span> <span class="toc-text">图和位图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#排序类"><span class="toc-number">5.</span> <span class="toc-text">排序类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非通用类"><span class="toc-number">6.</span> <span class="toc-text">非通用类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">7.</span> <span class="toc-text">End</span></a></li></ol>
                     </div>
                 </span>
             </div>

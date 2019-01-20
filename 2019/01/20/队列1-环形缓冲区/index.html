@@ -7,21 +7,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>生活中的骚操作 | YellowMax的博客</title>
+  <title>队列1-环形缓冲区 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="千万朵花里，你一枝独秀；千万坨山峰，你与众不同。  这周去杭州晃了一圈儿，技术文章没来得及写，于是就水一水，鸡汤写得多了会营养过剩，加点水冲一冲。不知不觉地想着干什么事情都要有意义、有目的，写什么文章都要有深刻立意，一直绷着会太累，偶尔瞎 JB 写写也挺舒服的。">
-<meta name="keywords" content="感悟,经验">
+  <meta name="description" content="本篇为队列的第一篇文章，介绍基于数组结构的一个环形缓冲区队列。我觉得没有必要再从数组来写起，毕竟对于数组本身来说，我觉得是没有太多可说的，但是基于数组的数据结构就有的说了。">
+<meta name="keywords" content="数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="生活中的骚操作">
-<meta property="og:url" content="http://www.yellowmax2001.com/2018/09/09/生活中的骚操作/index.html">
+<meta property="og:title" content="队列1-环形缓冲区">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/01/20/队列1-环形缓冲区/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="千万朵花里，你一枝独秀；千万坨山峰，你与众不同。  这周去杭州晃了一圈儿，技术文章没来得及写，于是就水一水，鸡汤写得多了会营养过剩，加点水冲一冲。不知不觉地想着干什么事情都要有意义、有目的，写什么文章都要有深刻立意，一直绷着会太累，偶尔瞎 JB 写写也挺舒服的。">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2018-09-09T09:01:13.311Z">
+<meta property="og:description" content="本篇为队列的第一篇文章，介绍基于数组结构的一个环形缓冲区队列。我觉得没有必要再从数组来写起，毕竟对于数组本身来说，我觉得是没有太多可说的，但是基于数组的数据结构就有的说了。">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/ring_buffer_graph.JPG">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2019-01-20T11:23:19.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生活中的骚操作">
-<meta name="twitter:description" content="千万朵花里，你一枝独秀；千万坨山峰，你与众不同。  这周去杭州晃了一圈儿，技术文章没来得及写，于是就水一水，鸡汤写得多了会营养过剩，加点水冲一冲。不知不觉地想着干什么事情都要有意义、有目的，写什么文章都要有深刻立意，一直绷着会太累，偶尔瞎 JB 写写也挺舒服的。">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png">
+<meta name="twitter:title" content="队列1-环形缓冲区">
+<meta name="twitter:description" content="本篇为队列的第一篇文章，介绍基于数组结构的一个环形缓冲区队列。我觉得没有必要再从数组来写起，毕竟对于数组本身来说，我觉得是没有太多可说的，但是基于数组的数据结构就有的说了。">
+<meta name="twitter:image" content="http://www.yellowmax2001.com/img/ring_buffer_graph.JPG">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -161,57 +162,92 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-生活中的骚操作" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-队列1-环形缓冲区" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      生活中的骚操作
+      队列1-环形缓冲区
     </h1>
   
 
         
-        <a href="/2018/09/09/生活中的骚操作/" class="archive-article-date">
-  	<time datetime="2018-09-09T08:40:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
+        <a href="/2019/01/20/队列1-环形缓冲区/" class="archive-article-date">
+  	<time datetime="2019-01-20T11:04:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>千万朵花里，你一枝独秀；千万坨山峰，你与众不同。</p>
-</blockquote>
-<p>这周去杭州晃了一圈儿，技术文章没来得及写，于是就水一水，鸡汤写得多了会营养过剩，加点水冲一冲。不知不觉地想着干什么事情都要有意义、有目的，写什么文章都要有深刻立意，一直绷着会太累，偶尔瞎 JB 写写也挺舒服的。</p>
+        <p>本篇为队列的第一篇文章，介绍基于数组结构的一个环形缓冲区队列。我觉得没有必要再从数组来写起，毕竟对于数组本身来说，我觉得是没有太多可说的，但是基于数组的数据结构就有的说了。</p>
 <a id="more"></a>
-<h2 id="题外话"><a href="#题外话" class="headerlink" title="题外话"></a>题外话</h2><p>话说此次杭州之行收获了一个经验，那就是机场酒店接送机服务一般是在出发大厅（自己在三个机场的体验都是这样子，不知道是否能得出“一般”的结论），说实话这有点儿违反我的直觉，不清楚具体的原因是什么。还有一个就是机场附近是真的比较荒凉，酒店大部分都是小旅馆、民宿类型的，如果是网上订票的话一不小心就订到一个很简陋、偏僻的地方。</p>
-<p>我这次订酒店的名字叫做「萧山国际机场大酒店」，听起来够有格调，美团搜索机场附近综合排名第一，配图很高大上，价格也属于搜索结果里面比较高的，又因为时间紧迫，来不及了，就这个了。</p>
-<p>实际上我到的时候是午夜了快，坐上接机的车之后七拐八绕才到目的地，如果不是有两人同行的话，我真的要跳车跑路了，因为位置实在是比较偏僻。不过话说回来，服务还是可以的，环境能够接受，就是隔音不行，基础设施差点儿，但是比一般的旅馆好点。感觉时间紧迫，来不及调查的话还是要订连锁的比较好，名字太浮夸的也不太靠谱。</p>
-<h2 id="机场见闻"><a href="#机场见闻" class="headerlink" title="机场见闻"></a>机场见闻</h2><p>在我回来的时候去机场大厅值机，习惯了自助值机，于是就去自助值机终端（<del>自助值机机</del>）微操。在我点进界面之后发现跟之前的界面不太一样，于是就停顿了一下找正确的按钮，只是一下下，我很确定。就在此时，一位社会人士以迅雷不及掩耳之势出现在我旁边，一言不发在屏幕上噼里啪啦一顿操作，在我还有点儿懵的时候，已经被他搞完了值机流程。</p>
-<p>待我取回机票，对他口头表达谢意之后就准备去过安检了，走了没有10米大概，就被刚刚那位大哥追了上来，只见他拿着一张索要捐助的纸条，这我才意识到刚刚一直沉默是因为他是残疾人士。不过我一看到纸条的时候下意识觉得是骗人的（这个很多地方都有，别看数目不多，还真就被人曝出来是骗人的，我之前在火车站遇到过要回家路费的，我还给了），不过我没有仔细求证，也就无从得知是不是真的了。</p>
-<p>那位大哥应该是不能说话，还是听得到的，我看纸条上面写的是20，我正想说没带现金的时候突然发现他右手还有一个二维码，绿绿的背景看起来是微信的收款码。就在我准备改口说我现在赶时间（疯狂暗示扫完码我就得误机啦），得赶快安检的前一秒，我意识到，刚刚人家帮了我哦，不给是不是不太好，毕竟人家对自己有付出，要点儿回报未尝不可啊。但是那个时候我听过的种种新闻与看过的文章暂时处于上风，压制了捐助的意愿，于是最终还是没给。</p>
-<p>事后想来，不管那个人是不是真的残疾人士，这种操作很高明啊，尤其是在机场等地方，人流量大，需要帮助的人也不在少数，我相信他们除了自助值机一定还有其它的方式“给予”我们帮助，这时候再问你要钱，成功率绝对大了不少，这也是知识变现啊，并且额外增加的成本极低（也就是学习一下自助值机，观察一段时间很容易就会了）。这个事情让我现在还有一点点愧疚，下次遇到我真的需要帮助的时候一定就会给了。</p>
-<p>这让我意识到，在生活当中，总会有一些人用一个很微小的举动就带来很大的体验升级，所谓以小博大，从产品的角度来讲就是增加闪光点、制造差异化，不得不服。</p>
-<h2 id="令人印象深刻的设计"><a href="#令人印象深刻的设计" class="headerlink" title="令人印象深刻的设计"></a>令人印象深刻的设计</h2><ul>
-<li><p>理发店的屏幕<br>在我去剪发的时候，发现有些理发店里面镜子下面有一个显示器，里面会循环播放一些资讯、搞笑视频段子等等。我第一次进去见到的时候觉得蛮新鲜，在剪发的时候终于不用听 Tony 在耳边絮絮叨叨，以及无聊的盯着镜子发呆了，我觉得这个小的细节挺好的，对我来说，周边理发店大致规格相同的话，我就会稍微偏向于去这种理发店。</p>
-</li>
-<li><p>饭店的一次性筷子<br>我住的楼下有几个餐厅，常去的有两家（现在只有一家了），其中有一个是提供一次性筷子，并且把碗筷消毒柜摆在外面供食客自取。还有一个不提供一次性筷子，并且也没有见到消毒柜什么的。且不说后者是否真的有消毒，但从外表来看我会选择第一家，因为我的印象中，一次性筷子一定比不消毒的筷子更卫生一点，摆在外面的消毒柜也极大安慰了我的恐惧心理。</p>
-</li>
-<li><p>火车站自助取票机<br>火车站的自助取票机放身份证的地方都是倾斜的，我开始还觉得这是不是脑残的设计，这身份证放上去不就掉了，根本放不了嘛。但是后来我才发现，它就是故意让你放不上去的，此举是为了防止身份证放上去之后取完票有的人赶时间，就忘了取回身份证，这样放不上去的设计让你一定会时刻保持手与身份证的接触，丢掉的几率就小很多了。</p>
-</li>
-<li><p>电梯的手脚同步<br>相信这条很多人都知道了，坐电梯的时候总感觉扶手跑得比脚踏快，感觉就像是手脚不协调的人一样。这个倒说不好是不是故意为之，美标（美国标准）要求电梯扶手要与脚踏速度大致相同，欧标与国标要求扶手要比脚踏快 0%~2%。实际生产的产品中，扶手与脚踏是两个独立的驱动系统，由于各种误差累积导致保持速度完全一致要不就是极难控制、要不就是安装调试成本极高。在此条误差一定存在的基础上，由于人体结构的原因，可以试一下自己的身体是前倾更不容易摔倒还是后仰更不容易摔倒，所以就导致电梯一定会将扶手设计的比脚踏转得更快。</p>
-</li>
-<li><p>矿泉水贴纸<br>一般情况下，矿泉水贴纸的字都是朝外的，但是之前有见过字在靠近瓶身的那一内侧，这样可以利用水自身的放大作用把字体给放大，于是实际的字体只需要很小，贴纸也很小，但是依然能够让人看得一清二楚。这种设计初看很惊艳，但是发现市面上几乎从没见过这种设计，我猜一个是因为成本原因，一个是因为放大作用会在水喝完的时候消失，那个时候就看不到了。</p>
-</li>
+<h2 id="什么是环形缓冲区"><a href="#什么是环形缓冲区" class="headerlink" title="什么是环形缓冲区"></a>什么是环形缓冲区</h2><ul>
+<li>环形缓冲区，顾名思义就是一个环状的存储数据的区域，其空间使用数组进行构造（链表也可以）。环形缓冲区特点是读和写可以是分开的，写入数据之后可以先不去读取，等到需要读取的时候再去读取，并且数据一经读取之后就做丢弃处理（当然也可以实现重复读取的效果，不过大多用作一次性读取），等于说是一次性的读取。</li>
+<li>假设一个长度为256字节的数组，构建出一个环形缓冲区，当写操作进行到数组的第256项之后，再一次写入就会回到第0个进行写入；同样读操作是读取到数组的第256项时，再一次进行读取就会回到数组的第一项。是谓环形缓冲</li>
 </ul>
-<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>这是一篇扯淡文，没啥营养，只是作为一个小小的记录，写东西也不一定要是篇篇鸡汤、篇篇技术文，偶尔吹吹水，释放一下想说的东西也是好的。不追求什么深刻的意义，不指望从中获取什么非常有价值的帮助，感觉想写，于是就写了。</p>
+<p>可以看到，环形缓冲区是一种先进先出的队列类型结构，通常情况下会用于一个符合生产着消费者模型的场景。比如说视频帧数据的管理、消息队列的管理等等。</p>
+<p>队列类型的数据结构还有链表形式，只不过对于环形缓冲区来说，使用数组更加的高效。本文就基于 Linux 内核里面的 kfifo 队列实现一个高效、自定义功能并且以面向对象模式组织的环形缓冲区模块，不是照抄，理会精髓，自己实现，然后加入一些扩展。</p>
+<h2 id="基本结构"><a href="#基本结构" class="headerlink" title="基本结构"></a>基本结构</h2><p>一个环形缓冲区包括以下元素：</p>
+<ol>
+<li>读指针、写指针。</li>
+<li>数组类型的存储空间（有链表类型的，但是这里只说数组类型）。</li>
+<li>缓冲区是否满标志、锁。</li>
+</ol>
+<p>用图形化的描述就如下图所示：<center><img src="http://www.yellowmax2001.com/img/ring_buffer_graph.JPG"></center></p>
+<p>上面一个是它的直观存储方式，也就是一个数组类型的结构，其中 <code>r</code> 代表读指针，用于指示下一个应该读取的环形缓冲区元素。<code>w</code> 代表写指针，用于指示下一个该写入的位置。黑色的一列小方框就是用于存储环形缓冲区数据的存储空间。锁在单生产者、单消费者的情况下是不需要的，原因后面讲。其中 <code>r</code>,<code>w</code> 指针其实很容易看出来，它就是个数组的下标索引。</p>
+<p>下面一个圆形的图就是形象化的环形缓冲区，其实把直线棍状的数组给它折叠起来了而已，看起来没头没尾的一个自交型贪吃蛇结构。这个图更接近环形缓冲区的本身的抽象化形象，在代码实现上其实就是把读写指针取一个模完成”环形化”。</p>
+<p>这里要提一下的是关于缓冲区的满与空的标志，首先说结论：</p>
+<ol>
+<li>当 <code>r</code> 与 <code>w</code> 相等的时候，就说明这个环形缓冲区队列空了。</li>
+<li>当 <code>r</code> == (<code>w</code> + 1)%<code>size</code> 的时候就说明这个环形缓冲区满了。</li>
+</ol>
+<p>上面两个断言似乎有冲突的地方，比如写指针绕过一圈子之后如果 <code>w</code> 与 <code>r</code> 相等也能够说这个环形缓冲区是满的，并且上面第二条看起来会空余一个元素没有用到啊。第一个我们在代码实现的时候就会在出队列的时候才会判断这个缓冲区是否为空，第二个为了方便起见，环形缓冲区始终会空出一个元素的位置来明确的区分队列空与队列满的标记。所以第一个冲突的情况就不会发生。</p>
+<p>如果希望能够充分利用存储空间的话就需要一个额外的变量来存储目前缓冲区里面已经存放好的元素有多少个，然后与环形缓冲区创建之初指定的元素总数进行比较，这样就可以充分利用所有缓冲区里面的存储空间，因为大多数时候环形缓冲区的元素都是大于一个字节的。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>保留之前的习惯，在文章里面会尽可能少的贴代码，我觉得贴的代码过多会导致整篇文章很难看，并且使得文章显得冗长并且有用的部分还不多，代码我贴到 github 上面在文末给出链接。</p>
+<p>首先我这里的代码实现提出了几个要求：</p>
+<ol>
+<li>能够自定义环形缓冲区的元素个数、自定义每个元素的字节数。</li>
+<li>能够支持多线程安全的方式进行读取或者写入。</li>
+<li>模块化，使用者只需要初始化一个环形缓冲区对象，然后可以很方便地使用它。</li>
+<li>可以很方便、快速地初始化多个环形缓冲区实例。</li>
+</ol>
+<p>这里我会先规定一个环形缓冲区的抽象化结构体，在需要使用的时候就实例化一个环形缓冲区结构体，我把它的结构写成下面这种：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">struct ring_buffer &#123;</div><div class="line">    int (*rb_in)(struct ring_buffer *rb_hd,</div><div class="line">            void *buf_in, uint32_t elem_num);</div><div class="line">    int (*rb_out)(struct ring_buffer *rb_hd,</div><div class="line">            void *buf_out, uint32_t elem_num);</div><div class="line">    void (*rb_reset)(struct ring_buffer *rb_hd);</div><div class="line"></div><div class="line">    uint32_t (*rb_g_bufsize)(struct ring_buffer *rb_hd);</div><div class="line">    uint32_t (*rb_g_validnum)(struct ring_buffer *rb_hd);</div><div class="line">    uint32_t (*rb_g_elemsize)(struct ring_buffer *rb_hd);</div><div class="line"></div><div class="line">    void *private;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>里面的前面大部分项都不去解释了，很容易可以知道它们每个值的意义。最后一个 <code>private</code> 需要特别解释下，这个是用于模块内部的自用结构的索引。仔细看一下上面的结构体里面缺少了哪些元素？</p>
+<p>可以看到少了环形缓冲区的总大小、元素大小、锁、读指针、写指针等等。而这些东西对于使用者来讲是不需要用到的数据，不需要关心，而这部分数据我就放在另外一个内部的结构体里面了，它的定义如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">struct ring_buffer_entity &#123;</div><div class="line">    pthread_mutex_t rb_lock;</div><div class="line">    uint32_t rb_in;</div><div class="line">    uint32_t rb_out;</div><div class="line"></div><div class="line">    uint32_t elem_size;</div><div class="line">    uint32_t elem_cnt;</div><div class="line">    bool rb_full;</div><div class="line"></div><div class="line">    unsigned char *rb_buf;</div><div class="line"></div><div class="line">    struct ring_buffer_attr rb_attr;</div><div class="line">    struct ring_buffer rb_handle;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>在使用的时候我通常会做以下的转换：<code>struct ring_buffer_entity *entity = (struct ring_buffer_entity *)ring_buffer-&gt;private;</code>。这样就达到了封装的目的，在 C++ 里面封装是不需要用得到那个 <code>private</code> 的，但是在 C 里面就不得不用这种方式实现封装的目的。</p>
+<p>扯多了，回到代码中与环形缓冲区相关的地方。</p>
+<h2 id="临界判断"><a href="#临界判断" class="headerlink" title="临界判断"></a>临界判断</h2><p>在上面的第二个结构体里面，读写指针都是32位的无符号整形，这个是有特殊作用的，因为这种情况下可以直接使用 <code>rb_in - rb_out</code> 来表示目前环形缓冲区里面有效的数据个数，不用取模，在写入之后 <code>rb_in</code> 尽管加上写入元素的个数即可，也不用在写入结束的时候把 <code>rb_in</code> 取模。</p>
+<p>想象一下无符号整形数的特点，就是在溢出的时候会恢复到0值，也就是 0xFFFFFFFF+1 会等于 0，在没有溢出的情况下 <code>rb_in - rb_out</code> 用于表示目前已写入的元素个数很好理解，那么一旦当 <code>rb_in</code> 溢出了，<code>rb_in - rb_out</code> 还是可以满足计算要求。</p>
+<p>用一个实例套入计算即可，比如说现在环形缓冲区里面有三个元素，正常情况下 <code>rb_in</code> 与 <code>rb_out</code> 的关系是类似 3与0，116与113 的关系，直接减去没有问题，但是如果这个时候 <code>rb_in</code> 已经超了，比如此时 <code>rb_out == 0xFFFFFFFE</code>, 呢么 <code>rb_in</code> 就是 0xFFFFFFFE+3，这个值在无符号的时候是2，因为溢出了，那么无符号的 2-0xFFFFFFFE 在内部计算的时候就是一个很大的负数，而这个负数重新转化为无符号类型就是 3.</p>
+<p>目前代码里面没有只用了一个已写入元素的个数计数和整个环形缓冲区的可存储元素总数来进行比较，没有使用 <code>r</code>,<code>w</code> 指针本身来进行判断，这样会充分利用环形缓冲区里面的每一个存储空间。</p>
+<h2 id="读写的实现"><a href="#读写的实现" class="headerlink" title="读写的实现"></a>读写的实现</h2><p>写入的核心代码有下面几个步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">uint32_t cp_cnt   = min(要写入的元素个数, 剩余的元素个数);</div><div class="line">uint32_t cp_step1 = min(cp_cnt, 数组右侧剩余的可存储元素空间个数);</div><div class="line">memcpy(写指针在的位置, 输入buffer地址, cp_step1乘以元素的大小);</div><div class="line">memcpy(数组起始地址, 输入buffer剩下的数据起始地址, (cp_cnt-cp_step1)乘以元素大小);</div><div class="line">rb_ent-&gt;rb_in += cp_cnt; /* 写指针后移 */</div></pre></td></tr></table></figure></p>
+<p>读取的核心代码有下面几个步骤：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">uint32_t cp_cnt   = min(要读出的元素个数, 有效元素个数);</div><div class="line">uint32_t cp_step1 = min(cp_cnt, 数组右侧剩余的有效元素个数);</div><div class="line"></div><div class="line">if (NULL == buf_out)</div><div class="line">    goto copy_end;</div><div class="line"></div><div class="line">memcpy(输出buffer地址, 读指针在的位置, cp_step1乘以元素大小);</div><div class="line">memcpy(输出buffer剩余空间起始地址, 数组零下标起始地址, (cp_cnt-cp_step1)乘以元素大小);</div><div class="line"></div><div class="line">copy_end:</div><div class="line">rb_ent-&gt;rb_out += cp_cnt; /* 读指针后移 */</div></pre></td></tr></table></figure></p>
+<p>这里读写指针不必每次后移的时候都取模，只用在索引数组下标的时候对其取模即可，原因在上一条里面描述过了。</p>
+<p>如果在单生产者单消费者的情况下，这个读写的过程是不用加锁的，唯一需要担心的也就是指令重排了，但是这种情况发生的概率也是极小的，一般情况下在嵌入式的场景里面基本是不用担心的。</p>
+<p>那么如果在写的时候被打断，看下会发生什么情况，由于写过程中用到的会时刻变化的共享变量也就是 <code>rb_out</code> 了，如果在取到了 <code>rb_out</code> 的值之后它的值被别人改变了，也就是环形缓冲区中的存储空间又被释放出了一部分，此时顶多会导致本来可以写入的部分由于缓冲区被判定为满而写不进去了，稍等片刻再写或者干脆丢掉也不影响，整体上不会导致读写错乱。</p>
+<p>而读的过程也是类似，顶多是有些已经写入的东西被误判为还没有写入，那下次再去读取就好，无非是多耗费了一点时间，况且加锁的话这部分时间也是无法省去的。这也是代码里面为什么要在数据拷贝完成之后在改变 <code>rb_in</code> 与 <code>rb_out</code> 的一个考虑，因为如果在拷贝之前改变它的值就有可能读出来非法的值或者写入值把原来的值给覆盖了。</p>
+<p>所以单生产者但消费者的情况下，基本上是不用考虑锁的问题的。从另一种角度来讲，这种队列模式其实不太可能用于多个消费者的情况，原因是因为通常情况下消费者是不能够错过队列中的任何一个消息的，或者说必须获取连续的队列内容。</p>
+<p>想象一下多消费者的实现，我这里有一种思路：提前确定好消费者的数量，然后为每一个队列项添加一个引用计数，一旦有一个消费者取用就将引用计数减一，到0才真正从队列里面删掉这个数据。这样会有几个问题：</p>
+<ol>
+<li>一旦有任何一个消费者阻塞，其它的都会阻塞。</li>
+<li>必须确定每一个元素的引用计数，需要添加一个成员，这样会导致一次性的多个元素拷贝变得很困难，因为可能有的读得多，有的读的少，这样会导致引用计数无法保持一致性的减少。</li>
+</ol>
+<p>所以，多个消费者一般是不会使用同一个队列对象的，多个生产者却是可能的，因为生产元素有很多时候无需满足十分有序的输入，比如命令分发、消息分发队列，这个时候可以只在生产者那一端也就是队列写入操作那里加上锁，读出就不需要加锁了。</p>
+<h2 id="代码设计"><a href="#代码设计" class="headerlink" title="代码设计"></a>代码设计</h2><p>在代码里面我添加了一些属性，比如线程安全属性，与普通情况不同的是它加了一把锁，但是表现在使用者那里就对应的是同一个回调函数成员，只不过其指向的函数实现不一样而已。</p>
+<p>代码采用了面向对象的方式进行编写，可以非常方便的初始化一个环形缓冲区，并且使用实例化对象结构体内部的成员就可以完成整个的环形缓冲区的操作，十分方便。</p>
+<p>代码参考了内核里面的 kfifo 的实现，力求尽量地精简，但是为了使用的便捷，加入了不少的自定义内容，并且加入了一些可能会用得到的特性，比如线程安全属性等等。</p>
+<p>环形缓冲区内部不区分你想存入的数据结构类型，它只管按照当初约定好的元素长度以及你传递给它的读写 buffer 地址来进行指定长度的拷贝或者读取，数据类型的一致性要靠使用者自己来保证。</p>
+<p>利用 void* 指针的特性来屏蔽一些用户不需要的细节，比如上面说到的两个结构体，一个作为模块内部使用，一个作为用户与模块内部交互的接口使用。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>这是队列的第一篇，主要介绍下环形缓冲区这个队列，下一篇文章会介绍一下链表类型的队列，会先写一下链表队列的实现，然后再结合一个实际的链表类型的应用进行辅助，风格与这个类似，力求使用方便，代码清晰易懂。</p>
+<p>需要注意的是代码里面肯定会不可避免的有一些 bug，要实现一个无 bug 的小模块显然比我想象当中的更困难，这一点在工作当中已经无数次验证过，所以当你使用我的代码遇到一些操蛋的问题，那一定不是用法的问题，我觉得大概率是我的代码 bug。那么为什么会有 bug 呢，主要还是我没有精力与动力去搞大规模测试，代码精确 review 这些，领会精髓吧，如果后续有必要，比如有人提了 issue 或者啥的我可能才会去修一修，不然凭我自己的主观能动性怕是比较玄学了。</p>
+<p>这篇其实是比较浅显易懂的，不过不要怪我水，因为写一篇技术类的文章太难了，要有代码要有文章，要有调试要尽量少错误，由浅及深，后续估计进度会越来越慢的（逃。</p>
+<p>Github 代码链接：<a href="https://github.com/YellowMax2001/Newbie-C/tree/master/MaxCLib/data_structs/fifo/ring_buffer" target="_blank" rel="external">链接</a></p>
 <hr>
-<center>想做的事情就去做吧</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixingz_200px_blue.png" alt="微信公众号"></center>
-
-
-
+<p><center>想做的事情就去做吧</center></p>
+<p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
 
       
 
@@ -251,11 +287,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
@@ -311,7 +343,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2018/09/09/生活中的骚操作/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/01/20/队列1-环形缓冲区/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -325,18 +357,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2018/09/16/linux进程优先级/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          linux进程优先级
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/09/02/不要把希望寄托在别人身上/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">不要把希望寄托在别人身上</div>
+    <a href="/2019/01/13/嵌入式系统的数据结构与算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">嵌入式系统的数据结构与算法</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -363,7 +386,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#题外话"><span class="toc-number">1.</span> <span class="toc-text">题外话</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#机场见闻"><span class="toc-number">2.</span> <span class="toc-text">机场见闻</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#令人印象深刻的设计"><span class="toc-number">3.</span> <span class="toc-text">令人印象深刻的设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">4.</span> <span class="toc-text">End</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是环形缓冲区"><span class="toc-number">1.</span> <span class="toc-text">什么是环形缓冲区</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本结构"><span class="toc-number">2.</span> <span class="toc-text">基本结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码实现"><span class="toc-number">3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#临界判断"><span class="toc-number">4.</span> <span class="toc-text">临界判断</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#读写的实现"><span class="toc-number">5.</span> <span class="toc-text">读写的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码设计"><span class="toc-number">6.</span> <span class="toc-text">代码设计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">7.</span> <span class="toc-text">End</span></a></li></ol>
                     </div>
                 </span>
             </div>

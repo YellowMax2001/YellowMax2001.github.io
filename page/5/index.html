@@ -156,6 +156,86 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-malloc-memset-memcpy之探索" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/21/malloc-memset-memcpy之探索/">memset对memcpy耗费时间的影响</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/21/malloc-memset-memcpy之探索/" class="archive-article-date">
+  	<time datetime="2017-11-21T14:05:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前言：<br>源于之前几天的一个测试程序，作用是用来测试某个系统的内存访问能力，主体测试策略是分配一个缓冲区，然后使用memcpy在分配的缓冲区之间拷贝若干次，计算拷贝时间，然后在多线程的环境下运行多个拷贝程序，再次分别计算每个线程花费的时间，以此来估算系统的内存访问能力、线程调度性能以及带宽分配性能。然而，测试过程中却发生了很多问题，从而也引发了不少的思考，下面细细道来。</p>
+        
+          <a class="article-more-a" href="/2017/11/21/malloc-memset-memcpy之探索/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/21/malloc-memset-memcpy之探索/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-2017嵌入式软件行业现状及概述" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -931,108 +1011,9 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-hexo深度使用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/08/hexo深度使用/">hexo博客深度使用</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/08/hexo深度使用/" class="archive-article-date">
-  	<time datetime="2017-08-08T14:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-08</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>写在前面：由于如何搭建hexo博客网上已经有了非常多的详细教程，这里就不再详述安装过程，只针对遇到的问题以及较为进阶的使用方法。该文章简介了hexo的安装，重点介绍了如何集成自己想要的主题到hexo里面，并且介绍了一个完整的博客发布流程解决方案。</p>
-</blockquote>
-<h2 id="hexo的安装（windows）"><a href="#hexo的安装（windows）" class="headerlink" title="hexo的安装（windows）"></a>hexo的安装（windows）</h2><ul>
-<li><p>材料</p>
-<blockquote>
-<ul>
-<li>git-for-windows：<a href="http://download.csdn.net/download/u013904227/9923305" target="_blank" rel="external">http://download.csdn.net/download/u013904227/9923305</a></li>
-<li>node.js：<a href="https://nodejs.org/en/download/" target="_blank" rel="external">https://nodejs.org/en/download/</a></li>
-<li>hexo：<a href="https://hexo.io/" target="_blank" rel="external">https://hexo.io/</a></li>
-</ul>
-</blockquote>
-</li>
-<li><p>安装hexo<span id="安装hexo"></span><br>在git-for-windows上面运行下面的语句（git-for-windows版本要高于2.12）</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">npm install hexo-cli -g #使用全局设置下载、安装hexo至默认的文件夹</div><div class="line">hexo init blog          #在当前文件夹下初始化一个blog项目，从远程git仓库拷贝</div><div class="line">cd blog                 #进入blog</div><div class="line">npm install             #安装指定模块，package.json指定</div><div class="line">hexo server             #这一步是在本地启动一个http服务</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<blockquote>
-<p>在linux上面需要安装需要根据自己的系统去网上找到教程，有的系统如ubuntu使用apt-get进行包管理，有的如centOS使用yum进行管理（根据相应的系统可以选择使用apt-get或者yum进行下载）。也可以直接下载相应工具的二进制代码包，直接解压即可运行。甚或有会折腾的老鸟可以去下载源码包自行编译安装。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2017/08/08/hexo深度使用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">web</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo 博客配置</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/08/hexo深度使用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
     </nav>
   
 
@@ -1153,19 +1134,19 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C语言</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">编程</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">经验</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">感悟</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">编程</a>
               </li>
              
               <li class="article-tag-list-item">

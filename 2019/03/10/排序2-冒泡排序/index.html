@@ -7,21 +7,24 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>生活集思录-入职三个月的迷茫 | YellowMax的博客</title>
+  <title>排序2-冒泡排序 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
-<meta name="keywords" content="经验,感悟">
+  <meta name="description" content="本篇文章介绍冒泡排序及其优化方式与改进算法，从最简单的冒泡排序开始，不断地升级算法处理方式，介绍包括「鸡尾酒排序」、「梳排序」相关的实现与原理。">
+<meta name="keywords" content="数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="生活集思录-入职三个月的迷茫">
-<meta property="og:url" content="http://www.yellowmax2001.com/2017/10/22/生活集思录-入职三个月的迷茫/index.html">
+<meta property="og:title" content="排序2-冒泡排序">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/03/10/排序2-冒泡排序/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
-<meta property="og:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
-<meta property="og:updated_time" content="2017-10-22T11:44:16.097Z">
+<meta property="og:description" content="本篇文章介绍冒泡排序及其优化方式与改进算法，从最简单的冒泡排序开始，不断地升级算法处理方式，介绍包括「鸡尾酒排序」、「梳排序」相关的实现与原理。">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190310172350468.JPG">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019031017232157.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190310172231160.gif">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2019-03-10T09:25:07.615Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="生活集思录-入职三个月的迷茫">
-<meta name="twitter:description" content="生而为人，问题很多。  我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就">
-<meta name="twitter:image" content="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg">
+<meta name="twitter:title" content="排序2-冒泡排序">
+<meta name="twitter:description" content="本篇文章介绍冒泡排序及其优化方式与改进算法，从最简单的冒泡排序开始，不断地升级算法处理方式，介绍包括「鸡尾酒排序」、「梳排序」相关的实现与原理。">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190310172350468.JPG">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -161,50 +164,157 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-生活集思录-入职三个月的迷茫" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-排序2-冒泡排序" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      生活集思录-入职三个月的迷茫
+      排序2-冒泡排序
     </h1>
   
 
         
-        <a href="/2017/10/22/生活集思录-入职三个月的迷茫/" class="archive-article-date">
-  	<time datetime="2017-10-22T01:29:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-22</time>
+        <a href="/2019/03/10/排序2-冒泡排序/" class="archive-article-date">
+  	<time datetime="2019-03-10T09:14:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>生而为人，问题很多。</p>
-</blockquote>
-<p>我从小学到大学乃至到毕业工作，每到一个新的环境中，总归会有一段迷茫的时期，或是对目标的迷茫，或是对人际关系的迷茫，又或是对前途归属的迷茫。其实在初中高中的时候，这种现象并不是很突出，大概是因为初中高中都有一个明确的目标以及计划，初中的时候会想着要考一个好的高中，等到了高中会想着要考一个好的大学，目标极其清晰，并且计划也非常明确，整个可供选择的余地并不大。但是这之后，情况就不太一样了。</p>
+        <p>本篇文章介绍冒泡排序及其优化方式与改进算法，从最简单的冒泡排序开始，不断地升级算法处理方式，介绍包括「鸡尾酒排序」、「梳排序」相关的实现与原理。</p>
 <a id="more"></a>
-<h2 id="迷茫的来由"><a href="#迷茫的来由" class="headerlink" title="迷茫的来由"></a>迷茫的来由</h2><p>就我的大学生活来说，迷茫的阶段集中在大一的上学期，从下学期开始一切“渐入佳境”，仔细想了一下，大概是因为大学里面比中学多了这么一些东西：</p>
-<ul>
-<li>专业：大学里面的专业很多，虽说入学时专业差不多已经确定，但是也存在喜不喜欢，想不想转专业这个问题，就我来说，我所在的专业是大类招生，直到大二才进行细分专业，所以具体选哪个专业又是造成我迷茫的一部分原因。</li>
-<li>学习方式：大学里面不想中学，学习方式灵活多变，可供选择的学习内容也非常的多，在面对这么多选择的情境下，我陷入了“选择困难”的迷茫期。</li>
-<li>未来的人生目标：是读研呢？还是工作呢？这个问题每个人都会遇到，而且会有很大一部分人面临不知如何选择的困境。</li>
-<li>工作的方向：虽然确定了要工作，但是就业范围那么广，到底应该选择哪些职位呢？选择哪些职位未来才会有更好的发展，才会更有前途。</li>
-</ul>
-<p>综合以上的种种，就造成了出入大学期间的迷茫，归根结底，造成迷茫的原因可以概括为：1.选择；2.不了解。因为有选择，所以才会有迷茫不知所措，因为不了解，才不知该如何去选择，才会对自己的目标产生怀疑。</p>
-<h2 id="进入工作期"><a href="#进入工作期" class="headerlink" title="进入工作期"></a>进入工作期</h2><p>还记得刚刚毕业时，一切都很新鲜，处于对未来充满期待的状态，浑身上下都充满了干劲。在进入公司工作之后，随着对这个行业的了解以及对所在城市等等的了解，一种不安的感觉渐渐浮现，到现在入职了三个月之后，这种不安与迷茫渐渐变得越来越明显，中间由于国庆节的一次远游之后这种感觉达到了顶峰。</p>
-<h3 id="房价"><a href="#房价" class="headerlink" title="房价"></a>房价</h3><p>在导致不安与迷茫的问题中最明显的一个就是房价的问题（老生常谈了），确切来说，是钱的问题，其实关于房价的问题我刚开始的时候并没有去过度关注过。国庆期间去厦门找女友玩（程序员也是可以有女朋友的），在回程的时候第一次认真在考虑结婚这件事，虽然就我个人来说，结婚计划可以排在5年之后，但是对于另一半来说，由于她是女生（废话，不能是男的），就不得不考虑结婚的年龄，拖个三年还可以理解，毕竟现在很多女生大学毕业又经过三年的研究生之后才结婚的，而且对于绝大部分的女生来说，选择尽量在25,6岁之前结婚是很正常的一件事吧，更何况有时候来自父母的压力，结婚的年龄只许提前，不许延后。对于什么女权以及新时代下的男女身份地位什么的，我不想去关心，我只知道我女朋友是想要早点结婚的，而结婚是需要买房的，就珠海（我的工作地）来说，三四线的小城市（虽说近年升二线，但就基础设施来看，真的丝毫算不上二线），超越二线的物价、房价，工资却严重落后，这样的环境下真的是让人难以产生定居于此的想法。并且国内房价上涨的大环境下，在三年内买房的困难程度也让我望而生畏。民工毕竟也只是民工。</p>
-<h3 id="工作"><a href="#工作" class="headerlink" title="工作"></a>工作</h3><p>相信跟我一样，有那么很大一部分（可能超过80%）的人，刚毕业时的第一份工作内容都不是自己真正想做的，并且与自己想象中的工作内容相差很大，这个时候不禁会怀疑自己这份工作的意义。曾经问过一个同组的比我早一年进来的前辈，原来他也有这种感觉，自己干的工作与自己当初想像的工作有很大的出入，可能这个是很大一部分人的郁闷之处，而他的回答是，先做好自己的手头工作，利用一切可以利用的业余时间来丰富自己的技能树，在机会到来的时候可以紧紧抓住它，争取到一份符合自己期望的工作。话虽这么说，我也知道这样是目前为止最好的选择了，但是这还是止不住我那郁闷的心情。</p>
-<h2 id="我的问题"><a href="#我的问题" class="headerlink" title="我的问题"></a>我的问题</h2><p>这一系列的迷茫可能用一种方法可以解决：那就是有一个人告诉我，你这么这么做，达到这样一种境界，然后你就能达到你的目标啦。然而世界是不确定的，生活更是不确定的，也许根本就不会，也没有人可以告诉我，你这样这样就一定能够实现你XXX的目标，虽然我很想，很希望可以找到一个这样的人。</p>
-<h3 id="叶公好龙"><a href="#叶公好龙" class="headerlink" title="叶公好龙"></a>叶公好龙</h3><p>这个故事曾经出现在小学的课本中，而有时候（其实是很多时候），我都处于“叶公好龙”的状态，我知道想要拜托现状的可能的最好的方法就是提高执行力、提高自制力、坚持不断学习，跳出生活工作当中的舒适圈。可是真到了做决定的时候，我又会害怕，害怕自己的决定会是徒劳无功，浪费了大量无谓的时间精力在错误的选择上，导致现有的该紧紧抓住，深入学习的东西一点点溜走。于是在面临计划实施的前夕，我又不断地变怂，不敢踏过这个门槛。</p>
-<h3 id="三分钟热度"><a href="#三分钟热度" class="headerlink" title="三分钟热度"></a>三分钟热度</h3><p>平时的想法挺多，有的甚至也列出了较为详细的计划，然而均是三分钟热度，所有的计划都是“干劲十足-&gt;自信心爆棚-&gt;感觉没什么效果-&gt;等等再弄吧-&gt;算了先不弄了”，计划都是这么无疾而终的。</p>
-<h3 id="拖延症"><a href="#拖延症" class="headerlink" title="拖延症"></a>拖延症</h3><p>我现在越来越感觉这个拖延症是无法战胜的，拖延症永远存在，只不过有绝症、感冒之分，拖延症晚期就真的没救了。比如我的博客计划，规划的是一周一篇文章，从周一到周日不断地完善，最终那个任务进度条应该是应该是从周一到周日均匀增加，而事实是任务进度条几乎只有在周六与周日才会走，其余时间保持似0非0的状态，还有时候干脆就拖到下周。</p>
-<h3 id="处境"><a href="#处境" class="headerlink" title="处境"></a>处境</h3><p>我现在的工作待遇大概就属于那种不好不坏的中间水平，这是一个比较尴尬的处境，属于有那么一点紧张感，但是有没有足够的动力去力争上游的情况。最怕的就是这种“中庸”的困境，属于温水煮青蛙，等到意识到危险来临的时候，已经来不及逃脱了，这也一定程度上导致了上面几种问题的出现。想我大学的时候周六周末不休息，早上6点多起床，晚上十一点多才睡，全是在学习（为了毕业不失业），现在让我这样，我却提不起三分的劲来。</p>
-<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>然而目前为止，我还是没有找到一种方法可以脱离现在的困境，知道问题的存在，但是却无法解决，这是最无奈的。但是解决问题的第一步是发现问题，问题的解决就需要从长计议（感觉又要拖延），只要努力，相信问题一定会慢慢解决的。</p>
+<h2 id="经典冒泡排序"><a href="#经典冒泡排序" class="headerlink" title="经典冒泡排序"></a>经典冒泡排序</h2><p>其基本原理在之前的文章里面已经说过，就是利用相邻待排序数组的数组元素大小比较并交换达到整个序列的排序目的。基本的过程如下图所示：</p>
+<center><img src="https://img-blog.csdnimg.cn/20190310172350468.JPG"></center>
+
+<p>图中红色的双向箭头就是指的比较与交换，图中的箭头指向的对象只是每一个元素的位置，并不是元素本身，它代表着「比较、交换」的前后的顺序，忽略图中箭头指向的具体元素值。通常情况下，最原始版本的冒泡排序是需要进行 N-1 次整个数组的遍历，每次都对整个数组区间范围的元素进行比较与交换，这个是最符合直觉的排序算法了，但是显然，它显得不那么的高效。</p>
+<p>但是，作为开拓者，我还是需要把这个最原始的代码实现出来并且亲自测一测的，终于，本篇文章开始，可能就真的需要常常狂贴代码了，因为有些时候算法的优化或者理解，代码还是不可少的。首先就贴一波我写的经典冒泡排序的代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">classic_bubble_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> end_idx = size<span class="number">-1</span>;</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size<span class="number">-1</span>; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; end_idx; idx++) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[idx+<span class="number">1</span>]) &#123;</div><div class="line">                swap_tmp = sort_butt[idx];</div><div class="line">                sort_butt[idx] = sort_butt[idx+<span class="number">1</span>];</div><div class="line">                sort_butt[idx+<span class="number">1</span>] = swap_tmp;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    nb_logd(<span class="string">"[%s] "</span>, __FUNCTION__);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>首先来分析下无聊的时间、空间复杂度啥的，最末尾那个函数形参先忽略掉，暂时没用，用不到它。简要分析下它的复杂度，首先它有内外两层循环，每级循环是 N-1 次，合起来就是 $(N-1)^{2}$，忽略掉低阶、常熟、系数等就是 $N^{2}$。每一次循环里面都会有一个判断，判断如果成立的话会有对应的三次赋值。</p>
+<p>所以比较详细的函数执行过程就是，$(N-1)^{2}$ 次大小判断加上 $(K-1)^{2}$ 次值交换。空间复杂度是 O(1)，因为没有用到多余的数组，除了 <code>swap_tmp</code> 等几个临时变量。那么问题来了，这玩意儿该怎么去优化呢？这里还是列下最常用的几个点：</p>
+<ol>
+<li>利用标志位（类似哨兵）来标识某一次循环是否有交换操作，如果没有则就此结束排序，因为此时数组就已经是有序的了。</li>
+<li>内层循环每次循环之后就减去1个循环长度，因为每次循环过后就把最大（最小）的那个数放在了数组末尾，下次就无需再次全部遍历了。</li>
+</ol>
+<p>基于上面的准则，下面来一个经典冒泡排序的优化代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fast_bubble_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> end_idx = size<span class="number">-1</span>;</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">bool</span> swap_flag = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size<span class="number">-1</span>; i++) &#123;</div><div class="line">        <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; end_idx; idx++) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[idx+<span class="number">1</span>]) &#123;</div><div class="line">                swap_tmp = sort_butt[idx];</div><div class="line">                sort_butt[idx] = sort_butt[idx+<span class="number">1</span>];</div><div class="line">                sort_butt[idx+<span class="number">1</span>] = swap_tmp;</div><div class="line">                swap_flag = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!swap_flag)</div><div class="line">            <span class="keyword">goto</span> end;</div><div class="line"></div><div class="line">        swap_flag = <span class="number">0</span>;</div><div class="line">        end_idx--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">end:</div><div class="line">    nb_logd(<span class="string">"[%s] "</span>, __FUNCTION__);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>那么，它为什么快呢？先看下它的循环次数，$\sum<em>{(1,N-1)}^{N}$，合计就是$\frac{N*(N-1)}{2}$，但是它比上一个代码里面多了$\sum</em>{(1,N-1)}^{N}$个判断、赋值、减减操作。还多了若干个 <code>swap_flag = 1</code> 的操作。那么，它为什么就这么快呢，因为它虽然内部的操作多了点，但是架不住循环少了，少了几乎一半那种，并且这是在最坏的情况下，实际上运气好的话排到某个循环的时候就会满足 <code>swap_flag = 0</code> 了，那个时候就可以直接退出了。</p>
+<p>那么，它究竟快多少呢？我在文章末尾的时候把所有的优化措施与改进算法与经典算法的耗时分别列出来看看。</p>
+<h2 id="鸡尾酒排序"><a href="#鸡尾酒排序" class="headerlink" title="鸡尾酒排序"></a>鸡尾酒排序</h2><p>那么，上面的优化已经很给力了，但是能不能更快啊？！这个时候就需要鸡尾酒排序出场了，它的基本思路是把上面的内层循环改为两个，一次从前到后（跟上面的一样）找最大值，一次从后往前找最小值，听起来是不是感觉循环更多了哈，代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">shaker_bubble_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> end_idx = size<span class="number">-1</span>, start_idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">bool</span> swap_flag = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (start_idx &lt; end_idx) &#123;</div><div class="line">        <span class="keyword">for</span> (idx = start_idx; idx &lt; end_idx; idx++) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[idx+<span class="number">1</span>]) &#123;</div><div class="line">                swap_tmp = sort_butt[idx];</div><div class="line">                sort_butt[idx] = sort_butt[idx+<span class="number">1</span>];</div><div class="line">                sort_butt[idx+<span class="number">1</span>] = swap_tmp;</div><div class="line">                swap_flag = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!swap_flag)</div><div class="line">            <span class="keyword">goto</span> end;</div><div class="line">        swap_flag = <span class="number">0</span>;</div><div class="line">        end_idx--;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (idx = end_idx; idx &gt; start_idx; idx--) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &lt; sort_butt[idx<span class="number">-1</span>]) &#123;</div><div class="line">                swap_tmp = sort_butt[idx];</div><div class="line">                sort_butt[idx] = sort_butt[idx<span class="number">-1</span>];</div><div class="line">                sort_butt[idx<span class="number">-1</span>] = swap_tmp;</div><div class="line">                swap_flag = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!swap_flag)</div><div class="line">            <span class="keyword">goto</span> end;</div><div class="line">        swap_flag = <span class="number">0</span>;</div><div class="line">        start_idx++;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">end:</div><div class="line">    nb_logd(<span class="string">"[%s] "</span>, __FUNCTION__);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<center><img src="https://img-blog.csdnimg.cn/2019031017232157.gif"></center>
+
+<p>我对上面的代码加了一个粗略的调试手段，就是在每一个满足排序成功退出时候的 <code>swap_flag</code> 标记位之后加上一个打印，看下经过优化的排序与鸡尾酒排序两者之间经历的循环次数，目前在我的机器上面使用随机数进行了多组测试，只列出数组长度是 5000 的情况：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">排序算法</th>
+<th style="text-align:center">数组长度</th>
+<th style="text-align:center">外层循环次数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">经典冒泡</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">5000</td>
+</tr>
+<tr>
+<td style="text-align:center">优化冒泡</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">4912</td>
+</tr>
+<tr>
+<td style="text-align:center">经典冒泡</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">1242</td>
+</tr>
+</tbody>
+</table>
+<p>可以看到虽然鸡尾酒排序的内层循环看起来多了一层，但是即使是把循环的次数加倍也没有优化过后的冒泡排序循环次数多，所以这就造成鸡尾酒排序的时间消耗最终还是比其它的冒牌排序更快。那么，问题是：为什么它的总的循环次数就这么少呢？表面一点的解释是因为它每次内部循环的时候都会搬移一个最大的值到未排序区间的末尾，搬移一个最小的值到未排序区间的开头。</p>
+<p>那么，按照常规的理解，虽然你这样搬会一次搬运两个极值，但是你这个循环多了一次啊，这么一算，好像理论上来讲并没有减少多少循环次数啊。我们看那个鸡尾酒排序的内层循环的代码，它的循环次数也是由 N-1 往下递减，比如第一次外层循环，内层循环的第一个找最大值循环是 N-1 次，第二个找最小值循环是 N-2 次，往后依次递减，如果不考虑数据的有序度的话，鸡尾酒排序与优化的冒泡排序的理论循环次数是相等的，怎么也不会比它快啊。</p>
+<p>问题就在于数据的有序度上面，在鸡尾酒排序状态下，保持理论的最大循环次数怎么都不会超过优化过后的冒泡排序，同时鸡尾酒排序加快了整体数组数据的有序性进度（因为它每次找两个极值嘛），它会让小的数尽快地转移到数组的开头，而优化的经典冒泡排序小的数每次都是被动的慢慢往数组的开头移动。这就造成从概率上来讲，大概率你每次搬运两个极值的情况下会比每次单方向搬运一个极值的情况下更快的让整个数组变得有序，从而提前退出整个循环。</p>
+<p>我这个没有非常确切的数学模型来描述它，我也不尝试去证明这个玩意儿了，感觉至少现在对我来说，费老鼻子劲去从数学上建模并证明它是付出与收获不成正比的。我只能按照自己的理解方式从一个大概的方向上去描述它。</p>
+<h2 id="梳排序"><a href="#梳排序" class="headerlink" title="梳排序"></a>梳排序</h2><p>鸡尾酒排序看起来已经很快了哈，那么，能不能更快呢（快无止境啊）？！答案是，果然还能更快，看看，就个冒泡排序都能玩出花来，先看下它的排序操作图：</p>
+<center><img src="https://img-blog.csdnimg.cn/20190310172231160.gif"></center>
+
+<p>梳排序的原理是比较骚气的，它重在走位风骚，它每次不是只迈一步，而是一次迈出好几步的距离，但是它不会扯着蛋，这怎么比，这完全比不了嘛！先上个代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">gap_bubble_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> end_idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> gap = size;</div><div class="line">    <span class="keyword">bool</span> swap_flag = <span class="number">1</span>;</div><div class="line"></div><div class="line">    <span class="keyword">while</span>(swap_flag || gap != <span class="number">1</span>) &#123;</div><div class="line">        swap_flag = <span class="number">0</span>;</div><div class="line">        gap /= <span class="number">1.3</span>;</div><div class="line">        gap = (gap &lt; <span class="number">1</span>) ? <span class="number">1</span> : gap;</div><div class="line"></div><div class="line">        end_idx = size-gap;</div><div class="line">        <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; end_idx; idx++) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[idx+gap]) &#123;</div><div class="line">                swap_tmp = sort_butt[idx];</div><div class="line">                sort_butt[idx] = sort_butt[idx+gap];</div><div class="line">                sort_butt[idx+gap] = swap_tmp;</div><div class="line">                swap_flag = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">end:</div><div class="line">    nb_logd(<span class="string">"[%s] "</span>, __FUNCTION__);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以看到，它的步长是按照 <code>gap = gap/1.3</code> 来依次递减的，那么先不管它为什么快啊，咱就先说下为什么是 1.3，它不是 1.5，也不是 2，它怎么就整出来个 1.3。根据维基百科来讲呢，这个值是试出来的，没错，它就是试出来的，据说是尝试了 2000 个以上的数，最终优中选优得到的这个数，感觉跟卡马克的求平方根倒数那个静态魔数有的一拼，后面在快速排序里面还能够看到类似这种不知道哪里蹦出来的数，但它就是很神奇的加速了整个的排序过程。</p>
+<p>为了验证下梳排序的性能，我也加了些打印调试，在 5000 个数的时候：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Gap比例</th>
+<th style="text-align:center">数组长度</th>
+<th style="text-align:center">外层循环次数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1.3</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">33</td>
+</tr>
+<tr>
+<td style="text-align:center">1.5</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">531</td>
+</tr>
+<tr>
+<td style="text-align:center">1.2</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">41</td>
+</tr>
+</tbody>
+</table>
+<p>这么一比，事情就是这么的神奇，更多的数我没有试过哦，我就试了这三个，我不想试好几千个，总之甭管为什么了，1.3 就是最屌的，那就先用着呗。还有没有发现一个问题，梳排序的交换次数也太少了，比起上面的鸡尾酒啥的少了好几十倍那种，这个性能也是有点恐怖的，这个快的让我一度怀疑程序是不是写错了，后来加了一个验证程序在后面，发现好像它就是这么快，这么不讲道理。</p>
+<p>那么，它又是为什么这么快的呢，首先要明确一个点，那就是判断比交换省的时间更多，梳排序以更长的跨度来比较交换，它会使得原有的数组更快的趋于有序，为什么呢？因为它的跨度大，如果数组当中比较大的数恰好在这个大跨度比较的某个节点，那么这个数只需要比之前少的多的交换即可到达数组的终点。</p>
+<p>又是从概率上来讲，大跨度加速了交换的效率，把大的数据尽可能的一次性直接从接近头部搬到接近尾部，同样的，在交换过程中小的数据也能够尽可能一次性的从尾部搬到接近头部，开始的跨度大，循环需要的时间短，并且前期的积累给整个数组带来了更有序的特点，每次更大的跨度排序完毕，这个数组就变得更加有序了一点，往后需要额交换就越少，判断比交换耗费的时间更短，这就是它为什么这么快。</p>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">数组长度</th>
+<th style="text-align:center">外层循环次数</th>
+<th style="text-align:center">时间消耗</th>
+<th style="text-align:center">平均时间复杂度（稍微精确了点儿）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">经典冒泡</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">103.41</td>
+<td style="text-align:center">$N^{2}$</td>
+</tr>
+<tr>
+<td style="text-align:center">优化冒泡</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">4912</td>
+<td style="text-align:center">61.044</td>
+<td style="text-align:center">$\frac{N*(N-1)}{2}$</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡尾酒</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">1242</td>
+<td style="text-align:center">59.114</td>
+<td style="text-align:center">$\frac{N*(N-1)}{2}$</td>
+</tr>
+<tr>
+<td style="text-align:center">梳排序</td>
+<td style="text-align:center">5000</td>
+<td style="text-align:center">33</td>
+<td style="text-align:center">0.846</td>
+<td style="text-align:center">$N*\frac{N}{2^{k}}$</td>
+</tr>
+</tbody>
+</table>
+<p>可以想到，梳排序是不稳定的排序算法，因为 Gap 大于 1，可能会把中间的值给隔过去了。对于代码本身还是可以可以有进一步优化空间的，比如 <code>if</code> 比 <code>x&gt;y?x:y</code> 这样的更快，循环的时候不要每次都计算 <code>size-1</code>，提前算好一次就行这类的优化，不过这不是重点，不再赘述了。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>那么，还能不能更快呢？！对于冒泡排序来说，我暂时无能为力了。冒泡排序就这么搞完啦，下一波就是选择排序和插入排序了，这两个可以放到一起说下。完整的代码放到：<a href="https://github.com/YellowMax2001/Newbie-C/tree/master/MaxCLib/algorithm/sort" target="_blank" rel="external">Github 这里</a><br>现在还没上传，稍后整理下上传。</p>
 <hr>
-<center>如果觉得本文章不错，请关注微信公众号-YellowMax多多支持，查看更多文章</center><br><center>欢迎转发、关注、点赞一波</center><br><center><img src="http://ous9jl7tv.bkt.clouddn.com/img/weixin-gz_344.jpg" alt="微信公众号"></center>
+<p><center>想做的事情就去做吧</center></p>
+<p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
 
       
 
@@ -244,11 +354,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
@@ -304,7 +410,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2017/10/22/生活集思录-入职三个月的迷茫/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/03/10/排序2-冒泡排序/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -318,18 +424,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2017/10/22/OpwnMAX编程-数据结构/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          OpenMAX编程-数据结构
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/10/09/OpenMAX编程-组件/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">OpenMAX编程-组件</div>
+    <a href="/2019/03/03/排序1-几大经典排序算法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">排序1-几大经典排序算法</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -356,7 +453,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#迷茫的来由"><span class="toc-number">1.</span> <span class="toc-text">迷茫的来由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#进入工作期"><span class="toc-number">2.</span> <span class="toc-text">进入工作期</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#房价"><span class="toc-number">2.1.</span> <span class="toc-text">房价</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#工作"><span class="toc-number">2.2.</span> <span class="toc-text">工作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#我的问题"><span class="toc-number">3.</span> <span class="toc-text">我的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#叶公好龙"><span class="toc-number">3.1.</span> <span class="toc-text">叶公好龙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三分钟热度"><span class="toc-number">3.2.</span> <span class="toc-text">三分钟热度</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#拖延症"><span class="toc-number">3.3.</span> <span class="toc-text">拖延症</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处境"><span class="toc-number">3.4.</span> <span class="toc-text">处境</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#经典冒泡排序"><span class="toc-number">1.</span> <span class="toc-text">经典冒泡排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#鸡尾酒排序"><span class="toc-number">2.</span> <span class="toc-text">鸡尾酒排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#梳排序"><span class="toc-number">3.</span> <span class="toc-text">梳排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对比"><span class="toc-number">4.</span> <span class="toc-text">对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">5.</span> <span class="toc-text">End</span></a></li></ol>
                     </div>
                 </span>
             </div>

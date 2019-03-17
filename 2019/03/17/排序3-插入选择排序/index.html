@@ -7,21 +7,26 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>胡思乱想综合征 | YellowMax的博客</title>
+  <title>排序3-插入选择排序 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="和复读机一样，胡思乱想是人类的本质之一。  这篇文章更像是我对自己的吐槽，因为我自己太常会陷入胡思乱想的节奏了，常见于晚上十点半以后躺在床上还没睡着的那一段时间，那段时间大脑真的是信马由缰、纵横天下，仿佛可以装下整个宇宙的事情。">
-<meta name="keywords" content="感悟,经验">
+  <meta name="description" content="本篇文章把插入排序与选择排序合在一起介绍了，插入排序与选择排序的实际时间消耗总体上都会比冒泡排序要更少一点，但是基本上它们的平均时间复杂度是一样的。另外，在对比的时候我全部采用了随机数组的形式测试，没有专门测试过倒序或者其它局部有规律的数组。">
+<meta name="keywords" content="数据结构与算法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="胡思乱想综合征">
-<meta property="og:url" content="http://www.yellowmax2001.com/2019/01/06/胡思乱想综合征/index.html">
+<meta property="og:title" content="排序3-插入选择排序">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/03/17/排序3-插入选择排序/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
-<meta property="og:description" content="和复读机一样，胡思乱想是人类的本质之一。  这篇文章更像是我对自己的吐槽，因为我自己太常会陷入胡思乱想的节奏了，常见于晚上十点半以后躺在床上还没睡着的那一段时间，那段时间大脑真的是信马由缰、纵横天下，仿佛可以装下整个宇宙的事情。">
+<meta property="og:description" content="本篇文章把插入排序与选择排序合在一起介绍了，插入排序与选择排序的实际时间消耗总体上都会比冒泡排序要更少一点，但是基本上它们的平均时间复杂度是一样的。另外，在对比的时候我全部采用了随机数组的形式测试，没有专门测试过倒序或者其它局部有规律的数组。">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190317160729398.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190317161810570.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019031716084871.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190317160925470.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190317161000759.gif">
 <meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2019-01-06T07:46:32.232Z">
+<meta property="og:updated_time" content="2019-03-17T08:28:27.474Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="胡思乱想综合征">
-<meta name="twitter:description" content="和复读机一样，胡思乱想是人类的本质之一。  这篇文章更像是我对自己的吐槽，因为我自己太常会陷入胡思乱想的节奏了，常见于晚上十点半以后躺在床上还没睡着的那一段时间，那段时间大脑真的是信马由缰、纵横天下，仿佛可以装下整个宇宙的事情。">
-<meta name="twitter:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta name="twitter:title" content="排序3-插入选择排序">
+<meta name="twitter:description" content="本篇文章把插入排序与选择排序合在一起介绍了，插入排序与选择排序的实际时间消耗总体上都会比冒泡排序要更少一点，但是基本上它们的平均时间复杂度是一样的。另外，在对比的时候我全部采用了随机数组的形式测试，没有专门测试过倒序或者其它局部有规律的数组。">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190317160729398.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -161,62 +166,141 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-胡思乱想综合征" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-排序3-插入选择排序" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      胡思乱想综合征
+      排序3-插入选择排序
     </h1>
   
 
         
-        <a href="/2019/01/06/胡思乱想综合征/" class="archive-article-date">
-  	<time datetime="2019-01-06T07:22:56.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-01-06</time>
+        <a href="/2019/03/17/排序3-插入选择排序/" class="archive-article-date">
+  	<time datetime="2019-03-17T07:56:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>和复读机一样，胡思乱想是人类的本质之一。</p>
-</blockquote>
-<p>这篇文章更像是我对自己的吐槽，因为我自己太常会陷入胡思乱想的节奏了，常见于晚上十点半以后躺在床上还没睡着的那一段时间，那段时间大脑真的是信马由缰、纵横天下，仿佛可以装下整个宇宙的事情。</p>
+        <p>本篇文章把插入排序与选择排序合在一起介绍了，插入排序与选择排序的实际时间消耗总体上都会比冒泡排序要更少一点，但是基本上它们的平均时间复杂度是一样的。另外，在对比的时候我全部采用了随机数组的形式测试，没有专门测试过倒序或者其它局部有规律的数组。</p>
 <a id="more"></a>
-<p>我最早对这事有感觉和意识的时候是大三下学期，之前的可能我没有意识到或者根本就没有这种现象。我所谓的「胡思乱想」。有以下几个方面：</p>
+<p>本文就不贴完整的代码段了，只贴最核心的部分，不然显得太乱了。这里先贴下本文中有用得到的一些通用函数：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> <span class="title">insert_elem</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> sel_pos, <span class="keyword">int</span> insert_pos)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> insert_tmp = sort_butt[sel_pos];</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = sel_pos<span class="number">-1</span>; i &gt;= insert_pos; i--)</div><div class="line">        sort_butt[i+<span class="number">1</span>] = sort_butt[i];</div><div class="line"></div><div class="line">    sort_butt[insert_pos] = insert_tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="经典插入排序"><a href="#经典插入排序" class="headerlink" title="经典插入排序"></a>经典插入排序</h2><p>插入排序区分了两个区间，一个是未排序区间，一个是已排序区间，每次都从未排序区间抽取一个数插入到已排序区间的合适位置，同时保持已排序区间的有序性，等整个数组遍历完毕之后就达成了有序的要求。</p>
+<center><img src="https://img-blog.csdnimg.cn/20190317160729398.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70"></center>
+
+<p>其基本的排序过程如上图所示，红色箭头指向的就是已排序区间的最后一个元素，紫色箭头的起始端就是未排序区间的第一个元素，每次取出未排序区间的第一个元素，然后把它插入到已排序区间的合适位置，重复此步骤知道遍历完整个数组，排序完毕。</p>
+<center><img src="https://img-blog.csdnimg.cn/20190317161810570.gif"></center>
+
+<p>看起来很简单嘛，这样的代码写起来也确实是比较简单的，但是其中有不少可以优化的点，先搞下没有任何优化、凭借着我的第一直觉写出来的代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; size; i++) &#123;</div><div class="line">    <span class="keyword">for</span> (idx = <span class="number">0</span>; idx &lt; i; idx++) &#123;</div><div class="line">        <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[i])</div><div class="line">            insert_elem(sort_butt, i, idx);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>其中 <code>insert_elem</code> 就是文章开头时候贴出来的那段代码，目的是为了插入一个数组元素到数组的指定位置，这个插入的操作十分的粗暴，就是很简单的挨个挪挪，实际上单单就插入这个动作本身来讲，这样以及可以了，没必要再去搞一些深度优化。</p>
+<p>那么上面的那段代码是否有可以改进的地方呢？答案肯定是有的。可以优化的地方就是那个查找插入点以及插入数值的那个地方。上面的那段代码关于这部分的行为包括两个步骤：</p>
 <ol>
-<li>对某个事情进行全方位的可能性推演，大多数是对最糟糕可能性的推演，反复去想都有哪些最坏的情况，并在心里为之担心。</li>
-<li>对某些已经发生过的事情进行补救式、自我提名男主式的疯狂覆盖式回放，常见于某些十分尴尬、自己表现不好的事情。</li>
-<li>好似陀螺一般停不下来的跳跃性思维，就像毫无逻辑的梦境一样，我很容易就忘记自己是怎么切换到这个思维轨道上面的，并且这个过程将横冲直撞，极为持久。</li>
-<li>单纯怀旧，就是想起了小时候的事情，然后觉得，哎呀，真好，于是就停不下来。</li>
-<li>预演事情的发生过程，比如明天要有一个考核、报告什么的，前一天晚上就会不断地预演这个过程，中间不断地给自己加戏，这样说可能会得到别人这样的反应，诸多可能逐一推演，不断重复，颇有几分试镜的感觉。</li>
+<li>从已排序区间的开头（也就是数组下标为0的位置）开始查找，直到找到一个比当前取出来的未排序元素值还要大的元素。</li>
+<li>把取出的元素插入到这个大的元素的前一个位置，这个过程涉及到数组的部分区域元素搬移操作。</li>
 </ol>
-<p>可以看到，我的脑壳很累，每天想这么多杂七杂八的事情（好像侧面说明我身体还不够累，看来还是加班加的少）。不过变态如我，我竟然想起来把它们总结起来，对其中的某一些批判一番，对另外一些加以赞扬，而剩下一批就由它去吧。胡思乱想是人类（我）的本质之一。</p>
-<h2 id="全方位的推演"><a href="#全方位的推演" class="headerlink" title="全方位的推演"></a>全方位的推演</h2><p>我个人是一个相对悲观的人，对一些还没有发生的并且没有太多证据证明它一定会按照自己的设想发生的，我倾向于认为它一定不会按照自己的设想发生。</p>
-<p>这个时候我就会控制不住自己，对所有可能导致最坏结果的可能性加以推演与重现，在这个过程当中我可能会按照最坏的情况先来一遍，其实就相当于自暴自弃的这种情况。</p>
-<p>然后发现这样不行的，不可以这么放弃自己，然后就往里面加佐料，比如我自己做了某些尝试，然后事情的结果应该是这样子的（自动播放推演片段），发现还是不够放心，那么就继续加。</p>
-<p>一觉醒来之后会发现有很多想法都被忘掉了，但是没关系，其中还有一部分是保留在记忆里面的，那么就会尝试着去做一下，不管对结果在客观上是不是真的有帮助。</p>
-<p>这种瞎想我给它定义为是一种繁琐、累但是有那么一点用的东西，因为它在最坏的情况下可以先给我打打预防针，在心里面先复现一遍最坏的预期，至少能够均摊自己的痛苦。赶到时机有那么一点好的情况下，说不定事情的结果会因为我的某些想法行动而变得更好。</p>
-<p>其实还有一些讲出来感觉比较玄学的事情，就是如果某件事情，你特别担心它不会按照自己设想的方向前进，并且在努力的过程中你几乎都要想放弃了，但是结局往往真的是你希望的那样。而如果你没有那么担心，觉得这件事情哎呀肯定没问题，那么结局往往就是不是你想的那样。</p>
-<p>我个人觉得有两个原因：一个是我太担心，所以中间会不断地做些事情去修正它，使得最终的轨道没有那么大的偏差；一个是我忽略了某些不担心也依然达成自己设想的情况统计，所谓「光环效应」。</p>
-<p>基于此，我现在养成了一个习惯，那就是在某件事情还没有达成的时候，客观确定的达成之前，我认为它没有达成，然后做出尽可能多的努力与尝试。这样看起来我不管做成什么事好像都比别人累很多，但是基于结果我也就认同了，管它累不累呢，反正干成了。</p>
-<h2 id="已发生事情的回放"><a href="#已发生事情的回放" class="headerlink" title="已发生事情的回放"></a>已发生事情的回放</h2><p>众所周知，我的脸皮儿比较薄，遇到有些尴尬的事情我的记忆会留存的特别久，然后这个「大宝库」在某一个晚上会突然闪现在自己脑海当中，这就比较糟糕了，我会一遍又一遍的回放这些东西并时不时为之捶胸顿足。</p>
-<p>除了重现这些尴尬之余，我会进行一些友善的片段修改，就是如果我这样这样做的话，它不就不会那么尴尬了，然后再次为自己原本的尴尬而感到更加的尴尬，同时痛惜自己为啥这么蠢。</p>
-<p>对于一些自己当时吃了哑巴亏或者后续突然想到还有更好的方法处理的事情，它们也会时常在某些时候露一个脸，通常是在隔了好几天甚至好几个月才猛然想起：WC，我这么做不就好了吗？后续便引发连续的后悔叹息之情。</p>
-<p>这种我觉得是完全没必要的，但是我又控制不住自己的，属于需要批判的那一类。说实话尴尬的那一类我可能现在想的少了很多，主要是尴尬多了之后就习惯了。</p>
-<h2 id="跳跃性思维"><a href="#跳跃性思维" class="headerlink" title="跳跃性思维"></a>跳跃性思维</h2><p>本来是想着明天的那个 Bug 怎么解的，中间不知道发生了什么事情，就那么一转一转的转到了宇宙的终极奥秘：42.这种我是比较苦恼的，因为这是经常导致我失眠的罪魁祸首。</p>
-<p>就我自己而言，为什么这种脑壳里面的想法停不下来，我有一个比较形象的描述：就比如如果我的想法中出现了一个规律摆动的时钟，那么如果我想完全凭借想法本身，不施加任何外力的情况下让它停止摆动并定在某个角度，我是没办法做到的，它总是会在我尝试停止它的时候稍微卡顿那么一下然后就继续自顾自的摇摆下去。</p>
-<p>我觉得这个是很坏的一个习惯或者毛病，大多数情况下这些想法都是无用的，而且会极为分散自己的注意力。反映到平时的学习当中也是，很容易被中间的一个小知识点给带走，然后不断地嵌套，最终浏览器的标签开了满满一屏。</p>
-<p>目前还没有想到办法解决，而且我甚至还没有给它定性，这个到底是有用的事情还是无用的事情并没有一个确切的结论。</p>
-<h2 id="预演事情经过"><a href="#预演事情经过" class="headerlink" title="预演事情经过"></a>预演事情经过</h2><p>至于单纯怀旧我就不说了，由它去吧，总得偶尔虽没有用但是还要怀旧一下的。预演事情的经过我觉得是很有用的，我经常会把一些我很紧张的事情进行极为细致的情节推演，虽然结果是并没有完全按照我的想法来，但是经常能有个百分之六七十。</p>
-<p>这就带来一个好处，就是在真的到了事情发生的时候能够有多条预案，很容易想到每种情况发生时候的应对方式。</p>
-<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>看起来很累的吧，我写出来自己看一遍也会觉得很累，但是这些不是我自己能够人为控制的，它就是这样发生了。</p>
-<p>我很容易想的太多是我个人的习惯导致的，并不是我刻意的想去想这么多东西，碰巧有些情况下可以利用这种想法来去提前准备一些事情，其实我也不愿意整天这么累，想太多真的很累。</p>
-<p>接下来准备全面投入到数据结构与算法的学习当中去，其中有很多的东西都是前人已经学习总结过了的，但是我希望自己写出来的东西能够做到两个点：全面、有新意。不至于说每一篇文章都是在完全重复别人已经做过的工作，如果有人已经写过，那么我希望能够做到比他更好、更加全面，至少得让人读起来比较舒服。</p>
-<p>打算用接下来几个月的时间来撸一遍数据结构与算法，在没有重大外力，俗称不可抗力干扰的情况下每周尽量能够写出一篇文章总结，Flag 立下来了，也算是跟随年终总结来的。希望能够做到大部分文章言之有物，而不是简简单单就跟白开水一样饮之无味。</p>
+<p>那么可以优化的点呢，一个是从查找的地方做优化，比如使用二分查找法，一个是从插入的地方做优化，比如从已排序区间的末尾往前查找，如果比当前元素大，就把查找项往后挪一个位置，直到找到第一个小于等于当前元素的数组项，终止插入操作。</p>
+<p>上面两个优化的本质都是为了减少整个插入过程的时间，一个是通过加速查找来实现，一个是通过减少冗余的数组项遍历步骤来实现。先说下第二个，具体的代码优化方式如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; size; i++) &#123;</div><div class="line">    insert_tmp = sort_butt[i];</div><div class="line">    <span class="keyword">for</span> (idx = i; idx &gt;= <span class="number">1</span> &amp;&amp; sort_butt[idx<span class="number">-1</span>] &gt; insert_tmp; idx--)</div><div class="line">        sort_butt[idx] = sort_butt[idx<span class="number">-1</span>];</div><div class="line"></div><div class="line">    sort_butt[idx] = insert_tmp;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>可以明显的看到内层循环的区别，与之前不一样，这里的内层循环是从后往前开始的，在循环判断数值大小的同时就把数据给搬运过去了，判断结束的那一刻，整个插入的过程也结束了，如果把已排序区间的长度记为 N，插入的位置在第 K 项，那么优化过之后的数据访问只包括 N-K+1 项，而未优化的就需要 N 项。所以这个整体的时间会比未优化之前的少很多，基本上少的时间遵循正态分布 0~N 项访问时间的正态分布。</p>
+<p>下面再贴下二分查找形式的优化：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">int</span> <span class="title">binsearch</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> sel_pos)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> left_pos = <span class="number">0</span>, right_pos = sel_pos;</div><div class="line">    <span class="keyword">int</span> search_idx = <span class="number">0</span>, find_pos = sel_pos;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (left_pos &lt;= right_pos) &#123;</div><div class="line">        search_idx = left_pos + (right_pos-left_pos)/<span class="number">2</span>;</div><div class="line">        <span class="keyword">if</span> (sort_butt[search_idx] &gt; sort_butt[sel_pos]) &#123;</div><div class="line">            find_pos = search_idx;</div><div class="line">            right_pos = search_idx<span class="number">-1</span>;</div><div class="line">        &#125; <span class="keyword">else</span></div><div class="line">            left_pos = search_idx+<span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> find_pos;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; size; i++)</div><div class="line">    insert_elem(sort_butt, i, binsearch(sort_butt, i));</div></pre></td></tr></table></figure></p>
+<p>在数据量巨大的情况下，这种方法会比没有经过任何优化以及第二种优化的方式都要更快，因为二分查找的时间复杂度是 O(logN)，当然需要注意的是，这里二分查找的对象是第一个大于给定值的数组项，而不是等于或者任意一个大于的，关键字是：<strong>第一个</strong>、<strong>大于</strong>。其实我也不确定我那个二分查找的代码是否存在 bug，但是目前使用随机数测试还没有测出来问题，二分查找是后面的问题了，我这里就先凑合用着。</p>
+<h2 id="变形插入排序"><a href="#变形插入排序" class="headerlink" title="变形插入排序"></a>变形插入排序</h2><center><img src="https://img-blog.csdnimg.cn/2019031716084871.gif"></center>
+
+<p>如果觉得前面的那些还是不够快，这里就有一种变形的插入排序，名曰：希尔排序（shell sort）。希尔排序就是把 gap 这个玩意儿又玩了一遍。犹记得梳排序这种冒泡排序的变体就是把步长给改成 <code>gap /= 1.3</code> 这种类型了，没错，希尔排序也是这样干的。先贴个代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">shell_insertion_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>, idx = <span class="number">0</span>, gap_idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> gap[] = &#123;<span class="number">701</span>, <span class="number">301</span>, <span class="number">132</span>, <span class="number">57</span>, <span class="number">23</span>, <span class="number">10</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">-1</span>&#125;;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> insert_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> gap_val = gap[gap_idx++];</div><div class="line">    <span class="keyword">while</span> (gap_val != <span class="number">-1</span>) &#123;</div><div class="line">        <span class="keyword">for</span> (i = gap_val; i &lt; size; i++) &#123;</div><div class="line">            insert_tmp = sort_butt[i];</div><div class="line">            <span class="keyword">for</span> (idx = i; idx &gt;= gap_val &amp;&amp; sort_butt[idx-gap_val] &gt; insert_tmp; idx-=gap_val)</div><div class="line">                sort_butt[idx] = sort_butt[idx-gap_val];</div><div class="line"></div><div class="line">            sort_butt[idx] = insert_tmp;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        gap_val = gap[gap_idx++];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这段代码的内层循环理解起来是有点麻烦的，先说下它的大致原理，希尔排序就是把原有的排序按照步长重新划分，下面有一张图：</p>
+<center><img src="https://img-blog.csdnimg.cn/20190317160925470.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70"></center>
+
+<p>其中 <code>gap == 4</code> 的时候，红色线是一组需要插入排序的子序列，蓝色、浅蓝和绿色也都是这样的一组子序列，分别对它们进行插入排序，下面紫色的是 <code>gap == 1</code> 的情况，那么它就相当于是整个的数组序列了。</p>
+<p>为什么带有 gap 就可以加速排序的过程呢？其实原理跟之前冒泡排序里面的优化是原理是差不多的，也是尽快的加速整个数组的有序度，让后面较长的子序列能够以尽可能短的时间去完成排序过程，所以自然也就会加快整个的排序进度，可以看下冒泡排序里面的解释。</p>
+<p>说回代码，代码的整个最外层循环是遍历所有的 gap 值，那个数组是怎么来的呢？我没有去深入研究过，不过有人研究过，反正这种是目前比较快的希尔排序 gap 取值方法之一了，还有其它奇形怪状的取值方式，可以自行试下。里面的子循环其实比较难以理解的是为什么 <code>for (i = gap_val; i &lt; size; i++)</code> 这样子写，这个是把上面那幅图同为 <code>gap == 4</code> 的红、蓝、浅蓝、绿色杂糅到一块交叉进行处理的意思。</p>
+<p>正常情况下呢，自然而然的想法就是先排红色的，然后再拍蓝色的。。。但是上面的代码它的排序过程如下：</p>
+<ol>
+<li>红色的前两项，也就是 0 和 4 下标对应的两个值，此时 i == 4。</li>
+<li>蓝色的前两项，也就是 1 和 4 下标对应的两个值，此时 i == 5。</li>
+<li>浅蓝的前两项，也就是 2 和 5 下标对应的两个值，此时 i == 6。</li>
+<li>绿色的前两项，也就是 6 和 6 下标对应的两个值，此时 i == 7。</li>
+<li>红色的三项，也就是 0、4、8 下表对应的三个值，此时 i == 8。</li>
+</ol>
+<p>对比着这个排序的目的看下最内层的循环与 i 的取值方法就知道为什么代码可以这样子写，这样写也遵循了前面的从后往前遍历已排序序列，同时做插入搬移动作的原则，尽可能的减少冗余的数据项遍历步骤，这种写法我是比较服气的。</p>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>选择排序主要的操作对象是和插入排序反着来的，它的主要操作对象是未排序区间，每次都从未排序区间选择一个最大/最小的数放到已排序区间的末尾，可以看到它的主要时间消耗就浪费在这个找最大/最小值的操作上面了。</p>
+<p><center><img src="https://img-blog.csdnimg.cn/20190317161000759.gif"></center><br>它的代码相对来说就比较简单了：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; size; i++) &#123;</div><div class="line">    min_idx_tmp = i;</div><div class="line">    <span class="keyword">for</span> (idx = i; idx &lt; size; idx++) &#123;</div><div class="line">        <span class="keyword">if</span> (sort_butt[idx] &lt; sort_butt[min_idx_tmp])</div><div class="line">            min_idx_tmp = idx;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i != min_idx_tmp) &#123;</div><div class="line">        swap_tmp = sort_butt[i];</div><div class="line">        sort_butt[i] = sort_butt[min_idx_tmp];</div><div class="line">        sort_butt[min_idx_tmp] = swap_tmp;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">/* 每次选择最大和最小两个值来进行排序 */</span></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">faster_selection_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size, <span class="keyword">bool</span> ascend)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> min_idx_tmp = <span class="number">0</span>, max_idx_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> right_idx = size;</div><div class="line"></div><div class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; right_idx; i++) &#123;</div><div class="line">        min_idx_tmp = i;</div><div class="line">        max_idx_tmp = right_idx<span class="number">-1</span>;</div><div class="line">        <span class="keyword">for</span> (idx = i; idx &lt; right_idx; idx++) &#123;</div><div class="line">            <span class="keyword">if</span> (sort_butt[idx] &lt; sort_butt[min_idx_tmp])</div><div class="line">                min_idx_tmp = idx;</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (sort_butt[idx] &gt; sort_butt[max_idx_tmp])</div><div class="line">                max_idx_tmp = idx;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (min_idx_tmp == right_idx<span class="number">-1</span>) &#123;</div><div class="line">            swap_tmp = sort_butt[min_idx_tmp];</div><div class="line">            sort_butt[min_idx_tmp] = sort_butt[i];</div><div class="line">            sort_butt[i] = swap_tmp;</div><div class="line"></div><div class="line">            <span class="keyword">if</span> (max_idx_tmp != i) &#123;</div><div class="line">                swap_tmp = sort_butt[max_idx_tmp];</div><div class="line">                sort_butt[max_idx_tmp] = sort_butt[right_idx<span class="number">-1</span>];</div><div class="line">                sort_butt[right_idx<span class="number">-1</span>] = swap_tmp;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            swap_tmp = sort_butt[max_idx_tmp];</div><div class="line">            sort_butt[max_idx_tmp] = sort_butt[right_idx<span class="number">-1</span>];</div><div class="line">            sort_butt[right_idx<span class="number">-1</span>] = swap_tmp;</div><div class="line"></div><div class="line">            swap_tmp = sort_butt[min_idx_tmp];</div><div class="line">            sort_butt[min_idx_tmp] = sort_butt[i];</div><div class="line">            sort_butt[i] = swap_tmp;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        right_idx--;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第一段代码是最简单的选择排序代码，后面的那个是对选择排序的优化，区别于每次只选择一个极值，这里每次选择最大与最小两个极值。代码为毛比之前的看起来啰嗦了很多呢？考虑到有下面的几种情况（按照从小到大排序的情况说明这种问题所在）：</p>
+<ol>
+<li>最小值在未排序区间的末尾，最大值在未排序区间的开头。</li>
+<li>最小值在未排序区间的末尾，最大值在未排序区间非开头的任意点。</li>
+<li>最小值在未排序区间非末尾的任意点，最大值在未排序区间的开头。</li>
+<li>最大值最小值都不在开头或者末尾的位置。</li>
+<li>最小值在未排序区间的开头，最大值在未排序区间的末尾。</li>
+</ol>
+<p>其中第一种是只要求两者交换一次的，第二种要求必须得先交换最小值所在的位置，然后再交换最大值所在的位置，第三种要求必须先交换最大值所在的位置，然后再交换最小值所在的位置，第四种就没有限制了，第五种根本就无需进行任何交换（原本第五种情况我是有写到代码判断里面的，但是看起来这种情况发生的几率很小很小，对整体速度的提升没有太大帮助，于是就把这个选项去掉了）。</p>
+<p>至于为什么有上面的限制，直接手画下交换的序列图就可以知道了，如果没有那些限制的话，最后会导致数据丢失、大小错位等问题，所以这部分编码稍微麻烦了一点。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>希尔排序的排序时间相较于其它的类型是质的飞跃，虽然其时间复杂度还是做不到 O(nlogn)，但是已经很快了，这个速度在我的虚拟机上面实测是与梳排序在同一个级别的，一个 10000 长度的随机数组，它们两个跑出来的时间都是 2ms 这个级别的，其它的最小也是 60+ms 的级别，最高到 450+ms，当然这个时间要看相对值，毕竟机器硬件配置不一样跑出来的结果也是不一样的。</p>
+<p>列一个简单的时间测试：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">数组长度</th>
+<th style="text-align:center">时间消耗/ms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">经典冒泡</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">453</td>
+</tr>
+<tr>
+<td style="text-align:center">优化冒泡</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">297</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡尾酒</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">250</td>
+</tr>
+<tr>
+<td style="text-align:center">梳排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">插入排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">109</td>
+</tr>
+<tr>
+<td style="text-align:center">优化的排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">81</td>
+</tr>
+<tr>
+<td style="text-align:center">二分查找优化的插入排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">62</td>
+</tr>
+<tr>
+<td style="text-align:center">希尔排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">选择排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">146</td>
+</tr>
+<tr>
+<td style="text-align:center">优化的选择排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">87</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://github.com/YellowMax2001/Newbie-C/tree/master/MaxCLib/algorithm/sort" target="_blank" rel="external">Github代码链接</a></p>
 <hr>
 <p><center>想做的事情就去做吧</center></p>
 <p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
@@ -259,11 +343,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
@@ -319,7 +399,7 @@ var _hmt = _hmt || [];
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/01/06/胡思乱想综合征/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/03/17/排序3-插入选择排序/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -333,18 +413,9 @@ var _hmt = _hmt || [];
   
 <nav id="article-nav">
   
-    <a href="/2019/01/13/嵌入式系统的数据结构与算法/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          嵌入式系统的数据结构与算法
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/12/30/2018年终走马灯/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">2018年终走马灯</div>
+    <a href="/2019/03/10/排序2-冒泡排序/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">排序2-冒泡排序</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -371,7 +442,7 @@ var _hmt = _hmt || [];
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#全方位的推演"><span class="toc-number">1.</span> <span class="toc-text">全方位的推演</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#已发生事情的回放"><span class="toc-number">2.</span> <span class="toc-text">已发生事情的回放</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跳跃性思维"><span class="toc-number">3.</span> <span class="toc-text">跳跃性思维</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#预演事情经过"><span class="toc-number">4.</span> <span class="toc-text">预演事情经过</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">5.</span> <span class="toc-text">End</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#经典插入排序"><span class="toc-number">1.</span> <span class="toc-text">经典插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#变形插入排序"><span class="toc-number">2.</span> <span class="toc-text">变形插入排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-number">3.</span> <span class="toc-text">选择排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">4.</span> <span class="toc-text">End</span></a></li></ol>
                     </div>
                 </span>
             </div>

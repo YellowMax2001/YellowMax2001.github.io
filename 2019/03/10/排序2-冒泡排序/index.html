@@ -20,7 +20,7 @@
 <meta property="og:image" content="https://img-blog.csdnimg.cn/2019031017232157.gif">
 <meta property="og:image" content="https://img-blog.csdnimg.cn/20190310172231160.gif">
 <meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
-<meta property="og:updated_time" content="2019-03-10T09:25:07.615Z">
+<meta property="og:updated_time" content="2019-03-10T09:26:56.346Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="排序2-冒泡排序">
 <meta name="twitter:description" content="本篇文章介绍冒泡排序及其优化方式与改进算法，从最简单的冒泡排序开始，不断地升级算法处理方式，介绍包括「鸡尾酒排序」、「梳排序」相关的实现与原理。">
@@ -310,7 +310,7 @@ var _hmt = _hmt || [];
 </tr>
 </tbody>
 </table>
-<p>可以想到，梳排序是不稳定的排序算法，因为 Gap 大于 1，可能会把中间的值给隔过去了。对于代码本身还是可以可以有进一步优化空间的，比如 <code>if</code> 比 <code>x&gt;y?x:y</code> 这样的更快，循环的时候不要每次都计算 <code>size-1</code>，提前算好一次就行这类的优化，不过这不是重点，不再赘述了。</p>
+<p>k 的值为 1.3。可以想到，梳排序是不稳定的排序算法，因为 Gap 大于 1，可能会把中间的值给隔过去了。对于代码本身还是可以可以有进一步优化空间的，比如 <code>if</code> 比 <code>x&gt;y?x:y</code> 这样的更快，循环的时候不要每次都计算 <code>size-1</code>，提前算好一次就行这类的优化，不过这不是重点，不再赘述了。</p>
 <h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>那么，还能不能更快呢？！对于冒泡排序来说，我暂时无能为力了。冒泡排序就这么搞完啦，下一波就是选择排序和插入排序了，这两个可以放到一起说下。完整的代码放到：<a href="https://github.com/YellowMax2001/Newbie-C/tree/master/MaxCLib/algorithm/sort" target="_blank" rel="external">Github 这里</a><br>现在还没上传，稍后整理下上传。</p>
 <hr>
 <p><center>想做的事情就去做吧</center></p>
@@ -423,6 +423,15 @@ var _hmt = _hmt || [];
 
   
 <nav id="article-nav">
+  
+    <a href="/2019/03/17/排序3-插入选择排序/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          排序3-插入选择排序
+        
+      </div>
+    </a>
   
   
     <a href="/2019/03/03/排序1-几大经典排序算法/" id="article-nav-older" class="article-nav-link-wrap">
@@ -589,11 +598,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">经验</a>
+                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
+                <a href="javascript:void(0)" class="js-tag color3">经验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -629,11 +638,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数据结构与算法</a>
+                <a href="javascript:void(0)" class="js-tag color4">嵌入式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">嵌入式</a>
+                <a href="javascript:void(0)" class="js-tag color3">数据结构与算法</a>
               </li>
              
               <li class="article-tag-list-item">

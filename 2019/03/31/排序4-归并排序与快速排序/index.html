@@ -7,14 +7,25 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>YellowMax的博客</title>
+  <title>排序4-归并排序与快速排序 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/page/3/index.html">
+  <meta name="description" content="排序3-插入选择排序排序2-冒泡排序排序1-几大经典排序算法 隔了一周，整的差不多了，在学习的过程中会发现不管是什么样的数据结构或者是算法，最重要是要掌握其思想，还有少量核心的编程技巧，其它大部分都是边边角角的，这两个是核心，所谓要知其然，更要知其所以然，这样才能够应付众多的数据结构，否则每一个都要靠硬记是很伤神的。">
+<meta name="keywords" content="数据结构与算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="排序4-归并排序与快速排序">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/03/31/排序4-归并排序与快速排序/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="排序3-插入选择排序排序2-冒泡排序排序1-几大经典排序算法 隔了一周，整的差不多了，在学习的过程中会发现不管是什么样的数据结构或者是算法，最重要是要掌握其思想，还有少量核心的编程技巧，其它大部分都是边边角角的，这两个是核心，所谓要知其然，更要知其所以然，这样才能够应付众多的数据结构，否则每一个都要靠硬记是很伤神的。">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190331150707756.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019033115081643.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190331150853194.gif">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190331150912241.png">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2019-03-31T07:12:08.437Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="排序4-归并排序与快速排序">
+<meta name="twitter:description" content="排序3-插入选择排序排序2-冒泡排序排序1-几大经典排序算法 隔了一周，整的差不多了，在学习的过程中会发现不管是什么样的数据结构或者是算法，最重要是要掌握其思想，还有少量核心的编程技巧，其它大部分都是边边角角的，这两个是核心，所谓要知其然，更要知其所以然，这样才能够应付众多的数据结构，否则每一个都要靠硬记是很伤神的。">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20190331150707756.gif">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,37 +165,208 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-V4L2框架-control的数据结构" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-排序4-归并排序与快速排序" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/21/V4L2框架-control的数据结构/">V4L2框架-control的数据结构</a>
+    <h1 class="article-title" itemprop="name">
+      排序4-归并排序与快速排序
     </h1>
   
 
         
-        <a href="/2018/10/21/V4L2框架-control的数据结构/" class="archive-article-date">
-  	<time datetime="2018-10-21T07:24:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-21</time>
+        <a href="/2019/03/31/排序4-归并排序与快速排序/" class="archive-article-date">
+  	<time datetime="2019-03-31T06:50:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-31</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <blockquote>
-<p>本篇文章写一下 V4L2 里面的众多 control 的组织方式，也就是它的数据结构。主要就是新建的 control 是如何存放的，以及在需要用到的时候如何查找。里面用到了类似于「桶」的概念，没错就是「桶排序」里面的那个桶，这种比较特殊的小优化为查找速度提供了不少的帮助。</p>
-</blockquote>
-<p>话不多说，直接进入正题，本文章是基于 linux-4.4.138 内核来探讨的。<br>
-        
-          <a class="article-more-a" href="/2018/10/21/V4L2框架-control的数据结构/#more">more >></a>
-        
+        <p><a href="https://blog.csdn.net/u013904227/article/details/88621056" target="_blank" rel="external">排序3-插入选择排序</a><br><a href="https://blog.csdn.net/u013904227/article/details/88380991" target="_blank" rel="external">排序2-冒泡排序</a><br><a href="https://blog.csdn.net/u013904227/article/details/88093299" target="_blank" rel="external">排序1-几大经典排序算法</a></p>
+<p>隔了一周，整的差不多了，在学习的过程中会发现不管是什么样的数据结构或者是算法，最重要是要掌握其思想，还有少量核心的编程技巧，其它大部分都是边边角角的，这两个是核心，所谓要知其然，更要知其所以然，这样才能够应付众多的数据结构，否则每一个都要靠硬记是很伤神的。</p>
+<a id="more"></a>
+<p>还有一个就是别人的代码不管写的再怎么简洁了，看起来还是比较难以理解，所以掌握思想才是最重要的，就好像同一个意思你的表达跟别人的表达是不一样的，学别人的表达方式是很难的，但是掌握实现表达目的的方式，用自己的语言来描述就很清晰。</p>
+<h2 id="分治与递归"><a href="#分治与递归" class="headerlink" title="分治与递归"></a>分治与递归</h2><p>「分治」是一种解决问题的思想，这个我是十分理解的，因为工作中接触到的很多很多问题，负责的几个专题都是需要用到「分治」这一思想的，扯点别的，工作一段时间你会发现问题的分解是一个很重要的技能，因为有些东西直接给你做你初看下来是不知道该如何下手的，只有把整个问题拆解下来才能够有序解决。</p>
+<p>之前的时候通常接手的都是已经分解好的子问题，觉得分配问题的工作好轻松啊，就是把问题分解下，然后分发给相关人员解决嘛。等到自己去做的时候发现问题的分解也是个很难的事情，有些问题你都不知道该怎么去分解，该采用什么方案分解，分解下来的子问题是不是合理也是个难点。算了，说回分治，总之它就是一个把大问题拆解成小问题的这么「简单」的一个思想。</p>
+<p>「递归」是一种编程的技巧，有关分治解决子问题的执行过程可以采用递归来完成，递归在某种程度上来讲很适合去解决一些需要用到分治思想的问题，其主要特点是：</p>
+<ol>
+<li>一个大的问题可以拆解成若干个小的问题。</li>
+<li>每一个子问题的解决方式都是一样的，或者说是非常类似的。</li>
+<li>左右的子问题归总到最后会有一个终止条件。</li>
+</ol>
+<p>只要满足上述的条件都可以采用「分治」➕「递归」的方式去解决，递归的编程方式如果要深入到细节里面去的话是比较难以理解的，因为人脑思考不适合这种层峦叠嶂的过程展开，我们还是更适合直来直去的思维方式，关于递归，大多数学霸讲的是：</p>
+<ol>
+<li>不要过度关注递归的展开。</li>
+<li>抓住递归的子问题这个小范围的问题解决，然后找到递推公式。</li>
+<li>找好终止条件。</li>
+</ol>
+<p>本文涉及到的两种排序算法都是需要用到这两个概念的，所以这里就先简单的提一下。</p>
+<h2 id="合并"><a href="#合并" class="headerlink" title="合并"></a>合并</h2><p>这个是合并的动作，会有很多优化的归并排序用到这些代码，这些都是我根据自己的理解写出来的，肯定不是最优的代码，但是自己思考的过程得出的结果还是很有用的，这里就先贴出来：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* dst_butt 与 merge_butt 必须是等长的。 */</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">void</span> __merge(<span class="keyword">int</span> *dst_butt, <span class="keyword">int</span> *merge_butt, <span class="keyword">int</span> left_idx, <span class="keyword">int</span> mid_idx, <span class="keyword">int</span> right_idx)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> i = left_idx, j = mid_idx+<span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> sort_tmp_cnt = i;</div><div class="line"></div><div class="line">    j = j &gt; right_idx ? right_idx : j;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (i &lt;= mid_idx &amp;&amp; j &lt;= right_idx) &#123;</div><div class="line">        <span class="keyword">if</span> (merge_butt[i] &lt;= merge_butt[j])</div><div class="line">            dst_butt[sort_tmp_cnt++] = merge_butt[i++];</div><div class="line">        <span class="keyword">else</span></div><div class="line">            dst_butt[sort_tmp_cnt++] = merge_butt[j++];</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i &gt; mid_idx) &#123;</div><div class="line">        <span class="keyword">for</span> (i = j; i &lt;= right_idx; i++)</div><div class="line">            dst_butt[sort_tmp_cnt++] = merge_butt[i];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">for</span> (j = i; j &lt;= mid_idx; j++)</div><div class="line">            dst_butt[sort_tmp_cnt++] = merge_butt[j];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="「归并排序」"><a href="#「归并排序」" class="headerlink" title="「归并排序」"></a>「归并排序」</h2><p>其主要的思想是把待排序的数组从整体拆解成最多包含两个元素的子排序单元，然后从下到上依次合并排序好的子排序单元，最终形成的数组就是有序的了，归并排序是可以做到稳定的，也就是相同元素在排序前后的相对顺序是不变的。</p>
+<center><img src="https://img-blog.csdnimg.cn/20190331150707756.gif"></center>
+
+<p>上面的图是从维基百科获取到的，自己懒得画，很费时间的，上面的动图已经可以很形象的去描述归并排序的排序过程了，可以看到它并不是一个原地的排序算法，需要有另外一个辅助数组来存放临时变量。</p>
+<p>归并排序的英文名词是「merge sort」，按照通常的直译就是合并排序，我找了找为什么会翻译成归并的信息，但是没有收获，按照我的理解，在归并排序的实际操作过程当中是包含了递归与合并两个过程的，所以理解「归」就是递归的意思，「并」就是合并的意思，不一定是真实的含义。</p>
+<p>贴下归并排序使用递归方式写的代码（看下它的结构是不是很符合先递归后合并的特征）：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> __merge_sort(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> *sort_tmp, <span class="keyword">int</span> left_idx, <span class="keyword">int</span> right_idx)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> mid_idx = left_idx + (right_idx - left_idx) / <span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (left_idx + <span class="number">1</span> &lt; right_idx) &#123;</div><div class="line">        __merge_sort(sort_butt, sort_tmp, left_idx, mid_idx);</div><div class="line">        __merge_sort(sort_butt, sort_tmp, mid_idx+<span class="number">1</span>, right_idx);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/* 上面有相关的 __merge 代码实现 */</span></div><div class="line">    __merge(sort_tmp, sort_butt, left_idx, mid_idx, right_idx);</div><div class="line"></div><div class="line">    <span class="keyword">int</span> i = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span> (i = left_idx; i &lt;= right_idx; i++) &#123;</div><div class="line">        sort_butt[i] = sort_tmp[i];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>它的终止条件是：<code>left_idx + 1 &gt;= right_idx</code></p>
+<p>它的递推公式是：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">__merge_sort(sort_butt, sort_tmp, left_idx, mid_idx);</div><div class="line">__merge_sort(sort_butt, sort_tmp, mid_idx+<span class="number">1</span>, right_idx);</div></pre></td></tr></table></figure></p>
+<p>找到这两个元素，就可以很简单的写出归并排序的代码了，上面的代码还有优化的余地，就是不必每次合并的操作都要重复的两次拷贝数组数据，于是有下面的优化代码：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/* 需要提前拷贝原始数组数据到 tmp_butt 里面，保证它们完全一致 */</span></div><div class="line"><span class="keyword">static</span> <span class="keyword">inline</span> <span class="keyword">void</span> __perform_merge_sort(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> *tmp_butt, <span class="keyword">int</span> left_idx, <span class="keyword">int</span> right_idx)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> mid_idx = left_idx + (right_idx - left_idx) / <span class="number">2</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (right_idx - left_idx &gt; <span class="number">1</span>) &#123;</div><div class="line">        __merge_sort(tmp_butt, sort_butt, left_idx, mid_idx);</div><div class="line">        __merge_sort(tmp_butt, sort_butt, mid_idx+<span class="number">1</span>, right_idx);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    __merge(sort_butt, tmp_butt, left_idx, mid_idx, right_idx);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看起来好像区别不太大，主要就是递推过程那个 <code>tmp_butt</code> 与 <code>sort_butt</code> 的位置有变化，这个优化采用了暂存数组与原始排序数组角色互换的方式，同一个层级的每两次归并操作之后就把两者的角色对调，这样就可以保证每次只有一次拷贝动作。</p>
+<p>还有个问题是，怎么保证最后一次一定是把 <code>tmp_butt</code> 里面的数据给搬运到 <code>sort_butt</code> 里面？数据被切分之后总归是有奇有偶的，如何保证这一点？在上面的代码里面，<code>__merge</code> 函数的数组角色是与 <code>__perform_merge_sort</code> 的保持一致的，也就是说最后一个退出的递归操作一定是最顶层的 <code>__merge</code> 操作，最顶层的那个一定不会搞错原始数组与暂存数组的关系的。也就是说，最后一步合并操作永远都是从 <code>tmp_butt</code> 到 <code>sort_butt</code>。</p>
+<p>这里面的细节问题我是无法展开去想象的，其实到这里我是懂为什么最后一步能够保证操作的正确性，但是为什么它这样就是可以的呢？不知道我有没有表达清楚我的疑问，就是「道理我都懂，但是这个鸽子它为什么这么大呢？」，这是我一直有的一个疑问，因为我没有理清楚中间过程，直到我写完了非递归模式下的归并排序代码实现。</p>
+<p>根据测试，我实际发现两者的时间差距并不大，我觉得是因为优化之后的代码在最开始的时候有一个完整数组的拷贝动作（数组角色交换所必须的），但是优化之前的不需要拷贝，虽然理论上来讲小规模数据一次一次的拷贝是要比大规模数据一次性拷贝要快一点点的，但是实际上在我的机器上看来并不是这样的，只能说这个优化在我的机器上面是鸡肋的，在数据规模达到100万的时候才能看出稍微明显的时间差距。</p>
+<h2 id="非递归的「归并排序」"><a href="#非递归的「归并排序」" class="headerlink" title="非递归的「归并排序」"></a>非递归的「归并排序」</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">non_recursive_merge_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> *sort_tmp = <span class="built_in">malloc</span>(size*<span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line"></div><div class="line">    <span class="built_in">memcpy</span>(sort_tmp, sort_butt, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)*size);</div><div class="line"></div><div class="line">    <span class="keyword">int</span> gap = <span class="number">1</span>;</div><div class="line">    <span class="keyword">int</span> left_idx = <span class="number">0</span>, right_idx = <span class="number">0</span>, mid_idx = <span class="number">0</span>;</div><div class="line">    <span class="keyword">bool</span> exchange_flag = <span class="number">0</span>;</div><div class="line">    <span class="keyword">bool</span> exit_flag = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (<span class="number">1</span>) &#123;</div><div class="line">        left_idx = <span class="number">0</span>;</div><div class="line">        right_idx = gap*<span class="number">2</span> - <span class="number">1</span>;</div><div class="line">        mid_idx = left_idx + (right_idx - left_idx) / <span class="number">2</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (right_idx &gt;= size - <span class="number">1</span>)</div><div class="line">            exit_flag = <span class="number">1</span>;</div><div class="line">        right_idx = right_idx &gt;= size ? size - <span class="number">1</span> : right_idx;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (!exchange_flag) &#123;</div><div class="line">            <span class="keyword">while</span> (mid_idx &lt; size<span class="number">-1</span>) &#123;</div><div class="line">                __merge(sort_butt, sort_tmp, left_idx, mid_idx, right_idx);</div><div class="line">                left_idx += gap*<span class="number">2</span>;</div><div class="line">                right_idx = left_idx + gap*<span class="number">2</span> - <span class="number">1</span>;</div><div class="line">                mid_idx = left_idx + (right_idx - left_idx) / <span class="number">2</span>;</div><div class="line">                right_idx = right_idx &gt;= size ? size - <span class="number">1</span> : right_idx;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (left_idx &lt; size)</div><div class="line">                <span class="built_in">memcpy</span>(&amp;sort_butt[left_idx], &amp;sort_tmp[left_idx], <span class="keyword">sizeof</span>(sort_butt[<span class="number">0</span>])*(size-left_idx));</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">while</span> (mid_idx &lt; size<span class="number">-1</span>) &#123;</div><div class="line">                __merge(sort_tmp, sort_butt, left_idx, mid_idx, right_idx);</div><div class="line">                left_idx += gap*<span class="number">2</span>;</div><div class="line">                right_idx = left_idx + gap*<span class="number">2</span> - <span class="number">1</span>;</div><div class="line">                mid_idx = left_idx + (right_idx - left_idx) / <span class="number">2</span>;</div><div class="line">                right_idx = right_idx &gt;= size ? size - <span class="number">1</span> : right_idx;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span> (left_idx &lt; size)</div><div class="line">                <span class="built_in">memcpy</span>(&amp;sort_tmp[left_idx], &amp;sort_butt[left_idx], <span class="keyword">sizeof</span>(sort_tmp[<span class="number">0</span>])*(size-left_idx));</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        exchange_flag = !exchange_flag;</div><div class="line"></div><div class="line">        gap *= <span class="number">2</span>;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (exit_flag)</div><div class="line">            <span class="keyword">break</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (exchange_flag) &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Bingo, that is good.\n"</span>);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Bad news, should do more copy.\n"</span>);</div><div class="line">        <span class="built_in">memcpy</span>(sort_butt, sort_tmp, <span class="keyword">sizeof</span>(<span class="keyword">int</span>)*size);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">free</span>(sort_tmp);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>代码是按照我自己的理解来写的，所以看起来比较难懂也是正常的，这是因为我写的太乱了，用图片来描述上面的代码就是：</p>
+<center><img src="https://img-blog.csdnimg.cn/2019033115081643.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3UwMTM5MDQyMjc=,size_16,color_FFFFFF,t_70"></center>
+
+<p>上面的代码保留了暂存数组与原始数组角色互换的操作，是用一个标记位来实现的，每个层级的归并完成之后就交换角色，最后还会判断退出时候角色的位置，如果不幸的话还会多一次拷贝操作，我想之前的递归形式代码只不过把这一步隐藏到了递归的过程中而已。</p>
+<h2 id="「快速排序」"><a href="#「快速排序」" class="headerlink" title="「快速排序」"></a>「快速排序」</h2><p>它与归并排序是十分类似的最本质的区别有这么几个：</p>
+<ol>
+<li>它不是稳定的排序算法，相同值的两个元素在排序前后的相对位置可能会发生变化。</li>
+<li>区别于归并排序，它是自顶向下的排序算法，也就是先整体后局部。</li>
+<li>它是原地的排序算法，不需要再额外去申请更多的内存空间。</li>
+</ol>
+<p>其基本的思想是：对于一个分割好的排序区间，找到一个分割值，然后把大于其的数据放到排序序列的最右边，把小于其的数据放到排序序列的最左边，然后不断地缩小排序区间，直到数据变得有序。</p>
+<center><img src="https://img-blog.csdnimg.cn/20190331150853194.gif"></center>
+
+<p>下面一幅图就是对整个排序序列分割的过程，可以很明显的看到自顶向下的过程，先对整个数组进行基于分割值的分割操作，然后再是余下的子序列分割操作：</p>
+<center><img src="https://img-blog.csdnimg.cn/20190331150912241.png"></center>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">void</span> __quick_sort_recursive(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> left, <span class="keyword">int</span> right)</div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> i = left, j = right;</div><div class="line">    <span class="keyword">int</span> pivot_idx = pick_pivot(sort_butt, left, right);</div><div class="line">    <span class="keyword">int</span> pivot_tmp = sort_butt[pivot_idx];</div><div class="line">    <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line"></div><div class="line">    swap_tmp = sort_butt[left];</div><div class="line">    sort_butt[left] = sort_butt[pivot_idx];</div><div class="line">    sort_butt[pivot_idx] = swap_tmp;</div><div class="line">    pivot_idx = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</div><div class="line">        <span class="comment">//sort</span></div><div class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</div><div class="line">            <span class="keyword">while</span> (j &gt; i &amp;&amp; sort_butt[j] &gt;= pivot_tmp) j--;</div><div class="line">            <span class="keyword">while</span> (j &gt; i &amp;&amp; sort_butt[i] &lt;= pivot_tmp) i++;</div><div class="line"></div><div class="line">            swap_tmp = sort_butt[i];</div><div class="line">            sort_butt[i] = sort_butt[j];</div><div class="line">            sort_butt[j] = swap_tmp;</div><div class="line">        &#125;</div><div class="line">        sort_butt[left] = sort_butt[i];</div><div class="line">        sort_butt[i] = pivot_tmp;</div><div class="line"></div><div class="line">        <span class="comment">//sort left</span></div><div class="line">        __quick_sort_recursive(sort_butt, left, i<span class="number">-1</span>);</div><div class="line">        <span class="comment">//sort right</span></div><div class="line">        __quick_sort_recursive(sort_butt, i+<span class="number">1</span>, right);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码是基于递归的，首先选择当前排序区间的区分点，可以有很多种方案，我这里用 <code>pick_pivot</code> 来代替了，然后交换区分点和当前排序区间的第一个数据项，这一步是把其变成普通的快排模式，然后是实际的交换操作了。</p>
+<p>有几个比较关键的点：</p>
+<ol>
+<li>区分点的选择，以及选择完毕之后要把它挪到当前排序区间的第一个。</li>
+<li>终止条件为 <code>left &gt;= right</code>，此时代表当前排序区间里面只有一个以下的元素了。</li>
+<li>排序时采用两个哨兵的模式，其中右侧哨兵需要先行动。</li>
+<li>当前一轮排序结束要交换区分点与哨兵碰头的位置的数据。</li>
+<li>然后递归执行当前区分点两侧的排序区间进行排序。</li>
+</ol>
+<p>其中为什么要右侧哨兵先动？这是因为左侧哨兵停留的位置永远是小于等于区分点的，右侧哨兵停留的位置永远是大于等于区分点的，想象一下结束标志，是两个哨兵碰头就算结束，最后还要交换区分点与碰头点，那我们就必须要保证碰头点的数据是小于等于区分点的，否则最后一步交换会把之前排好的序给打乱掉。如果想让左侧哨兵先动，那么在最初的区分点交换的时候应该交换到当前排序区间的最右侧。</p>
+<h2 id="非递归「快速排序」"><a href="#非递归「快速排序」" class="headerlink" title="非递归「快速排序」"></a>非递归「快速排序」</h2><p>快速排序的代码很好理解，前提是理解了快速排序的思想，掌握其思想之后写代码是很轻松的事情。快速排序也可以写成非递归的形式，我按照自己的理解写出来的代码如下：<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">nonrecursive_quick_sort</span><span class="params">(<span class="keyword">int</span> *sort_butt, <span class="keyword">int</span> size)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">int</span> *strack_butt = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(<span class="keyword">int</span>)*size);</div><div class="line">    <span class="keyword">int</span> strack_cnt = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">int</span> left = <span class="number">0</span>, right = size<span class="number">-1</span>;</div><div class="line"></div><div class="line">loop:</div><div class="line">    <span class="keyword">while</span> (left &lt; right) &#123;</div><div class="line">        <span class="keyword">int</span> i = left, j = right;</div><div class="line">        <span class="keyword">int</span> pivot_idx = pick_pivot(sort_butt, left, right);</div><div class="line">        <span class="keyword">int</span> pivot_tmp = sort_butt[pivot_idx];</div><div class="line">        <span class="keyword">int</span> swap_tmp = <span class="number">0</span>;</div><div class="line"></div><div class="line">        swap_tmp = sort_butt[left];</div><div class="line">        sort_butt[left] = sort_butt[pivot_idx];</div><div class="line">        sort_butt[pivot_idx] = swap_tmp;</div><div class="line">        pivot_idx = <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="comment">//sort</span></div><div class="line">        <span class="keyword">while</span> (i &lt; j) &#123;</div><div class="line">            <span class="keyword">while</span> (j &gt; i &amp;&amp; sort_butt[j] &gt;= pivot_tmp) j--;</div><div class="line">            <span class="keyword">while</span> (j &gt; i &amp;&amp; sort_butt[i] &lt;= pivot_tmp) i++;</div><div class="line"></div><div class="line">            swap_tmp = sort_butt[i];</div><div class="line">            sort_butt[i] = sort_butt[j];</div><div class="line">            sort_butt[j] = swap_tmp;</div><div class="line">        &#125;</div><div class="line">        sort_butt[left] = sort_butt[i];</div><div class="line">        sort_butt[i] = pivot_tmp;</div><div class="line"></div><div class="line">        <span class="comment">/* 把区分点右侧排序区间端点值入栈。 */</span></div><div class="line">        strack_butt[strack_cnt++] = i+<span class="number">1</span>;</div><div class="line">        strack_butt[strack_cnt++] = right;</div><div class="line"></div><div class="line">        left = left;</div><div class="line">        right = i;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (strack_cnt) &#123;</div><div class="line">        right = strack_butt[--strack_cnt];</div><div class="line">        left   = strack_butt[--strack_cnt];</div><div class="line">        <span class="keyword">goto</span> loop;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="built_in">free</span>(strack_butt);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>看起来也不是很麻烦，其思路是这样的，我先对当前的排序区间进行快排，然后把区分点后面的排序区间端点值放在一个数组栈里面存储，再继续排左侧的，直到满足退出条件。退出之后判断数组栈是否为空，如果不为空那就取出两个数，分别赋值给右端点与左端点（取决于你存入的顺序），然后回到之前的循环里面去，直到栈为空为止。</p>
+<p>其实跟其他的实现思路差不多完全一致，我这里没有用可变长的栈来实现，只是用数组来简单的模拟了一个定长的栈，理论上来讲这个栈的长度为 N 就肯定够用了。中间的哨兵排序代码与之前的完全一致，只是多了入栈出栈的操作而已。</p>
+<p>根据我的实际测试，在数据量为百万级别的时候非递归比递归的快一点点，千万级别就没啥区别了，唯一有区别的也就是栈的使用量了，手动模拟的栈实际存在于堆上，函数调用栈就真的是在栈区。</p>
+<p>其余的优化还有聚集与区分点相同元素到区分点周围，采用更加科学的方式选择区分点（根据我的测试，对于随机数来说，三数取中法与去当前排序区间中间值效果是差不多的），使用尾递归优化等等我就没再去深究了，毕竟排序思想才是最重要的。</p>
+<h2 id="End"><a href="#End" class="headerlink" title="End"></a>End</h2><p>这两种排序的时间复杂度平均都是 O(N*logN)，其中归并排序的空间复杂度是O(N)，而快速排序是O(1)，惯例，做一个对比测试。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">数组长度</th>
+<th style="text-align:center">时间消耗/ms</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">经典冒泡</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">453</td>
+</tr>
+<tr>
+<td style="text-align:center">优化冒泡</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">297</td>
+</tr>
+<tr>
+<td style="text-align:center">鸡尾酒</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">250</td>
+</tr>
+<tr>
+<td style="text-align:center">梳排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">插入排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">109</td>
+</tr>
+<tr>
+<td style="text-align:center">优化的排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">81</td>
+</tr>
+<tr>
+<td style="text-align:center">二分查找优化的插入排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">62</td>
+</tr>
+<tr>
+<td style="text-align:center">希尔排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">选择排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">146</td>
+</tr>
+<tr>
+<td style="text-align:center">优化的选择排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">87</td>
+</tr>
+<tr>
+<td style="text-align:center">递归归并排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">1.52</td>
+</tr>
+<tr>
+<td style="text-align:center">非递归归并排序</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">1.29</td>
+</tr>
+<tr>
+<td style="text-align:center">递归的快排</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">1.38</td>
+</tr>
+<tr>
+<td style="text-align:center">非递归的快排</td>
+<td style="text-align:center">10000</td>
+<td style="text-align:center">1.33</td>
+</tr>
+</tbody>
+</table>
+<p>下周清明节放假，就不更新算法相关的内容了，可能会不定期的更新点游记啊，思考啊啥的，清明时节雨纷纷，适合凭吊逝者以及吃东西，准备长沙走一波了。</p>
+<hr>
+<p><center>想做的事情就去做吧</center></p>
+<p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
+
       
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
       
     </div>
     <div class="article-info article-info-index">
@@ -195,11 +377,7 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
@@ -208,16 +386,75 @@ var _hmt = _hmt || [];
       
 
       
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/21/V4L2框架-control的数据结构/">展开全文 >></a>
-        </p>
-      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/03/31/排序4-归并排序与快速排序/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
       
       <div class="clearfix"></div>
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/03/24/推荐几本推理小说/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">推荐几本推理小说</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -232,762 +469,30 @@ var _hmt = _hmt || [];
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-谁说的话才可信" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/14/谁说的话才可信/">谁说的话才可信</a>
-    </h1>
-  
-
-        
-        <a href="/2018/10/14/谁说的话才可信/" class="archive-article-date">
-  	<time datetime="2018-10-14T07:01:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-14</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>现在信息来源渠道那么多，我该相信谁说的话？我又怎么知道他说的是不是对的？</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2018/10/14/谁说的话才可信/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/10/14/谁说的话才可信/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#分治与递归"><span class="toc-number">1.</span> <span class="toc-text">分治与递归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#合并"><span class="toc-number">2.</span> <span class="toc-text">合并</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#「归并排序」"><span class="toc-number">3.</span> <span class="toc-text">「归并排序」</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非递归的「归并排序」"><span class="toc-number">4.</span> <span class="toc-text">非递归的「归并排序」</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#「快速排序」"><span class="toc-number">5.</span> <span class="toc-text">「快速排序」</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#非递归「快速排序」"><span class="toc-number">6.</span> <span class="toc-text">非递归「快速排序」</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#End"><span class="toc-number">7.</span> <span class="toc-text">End</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
-  
-    <article id="post-别人眼中的自己" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/30/别人眼中的自己/">别人眼中的自己</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/30/别人眼中的自己/" class="archive-article-date">
-  	<time datetime="2018-09-30T12:34:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>既然在生活，就不可能忽视别人对自己的看法，尤其是发你工资的人。</p>
-</blockquote>
-<p>经常听到有一些话讲，说是人生在世，何必在意那么多人的看法，活出自己想活的样子就好，让他人的看法见鬼去吧。虽然这此前从不是我的行事准则，但是它现在可能是我的终极期望，能这样活着的那真的太爽了，堪比财务自由的爽。</p>
-        
-          <a class="article-more-a" href="/2018/09/30/别人眼中的自己/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/30/别人眼中的自己/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-OpenMAX数据流传递规则" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/23/OpenMAX数据流传递规则/">OpenMAX数据流传递规则</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/23/OpenMAX数据流传递规则/" class="archive-article-date">
-  	<time datetime="2018-09-23T10:20:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在利用 OpenMax 编写的程序框架中，就不可避免地会涉及到数据流的传递，因为这个框架就是为了数据流传递而服务的。在音视频数据包的传递过程中需要遵循某种约束，比如数据包处理时间不能超过帧间隔等等。本文就讨论一下在数据流传递过程中的一些约束性规则，主要就是时间约束规则。</p>
-        
-          <a class="article-more-a" href="/2018/09/23/OpenMAX数据流传递规则/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/23/OpenMAX数据流传递规则/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux进程优先级" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/16/linux进程优先级/">linux进程优先级</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/16/linux进程优先级/" class="archive-article-date">
-  	<time datetime="2018-09-16T09:58:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>Linux 中进程的优先级绝不是如想象中的那么简单，相反它的概念比较混杂，它甚至不是很符合直觉。</p>
-</blockquote>
-<p>Linux 进程的优先级跟随调度算法的不断发展，其意义在不同的阶段也有着不同的含义，所以本来想从 Linux 的调度发展史写起，但是无奈那一部分的涉猎不是很深入。不管怎样，发展到最后，结果是 Linux 系统可以在同一个系统上扩展多个调度算法，于是在同一个系统上面优先级也有了不同的含义，<strong>本文只对较新的 Linux 系统（截止4.4）的优先级做一个基本介绍</strong>，这个过程需要逐步深入，前面的一坨看起来与优先级不相关的东西并不是废话，别说话，耐心看。</p>
-        
-          <a class="article-more-a" href="/2018/09/16/linux进程优先级/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/16/linux进程优先级/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-生活中的骚操作" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/09/生活中的骚操作/">生活中的骚操作</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/09/生活中的骚操作/" class="archive-article-date">
-  	<time datetime="2018-09-09T08:40:53.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>千万朵花里，你一枝独秀；千万坨山峰，你与众不同。</p>
-</blockquote>
-<p>这周去杭州晃了一圈儿，技术文章没来得及写，于是就水一水，鸡汤写得多了会营养过剩，加点水冲一冲。不知不觉地想着干什么事情都要有意义、有目的，写什么文章都要有深刻立意，一直绷着会太累，偶尔瞎 JB 写写也挺舒服的。</p>
-        
-          <a class="article-more-a" href="/2018/09/09/生活中的骚操作/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/09/生活中的骚操作/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-不要把希望寄托在别人身上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/02/不要把希望寄托在别人身上/">不要把希望寄托在别人身上</a>
-    </h1>
-  
-
-        
-        <a href="/2018/09/02/不要把希望寄托在别人身上/" class="archive-article-date">
-  	<time datetime="2018-09-02T07:34:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>我总是不知不觉的把希望寄托在别人身上，而当这个所谓“期望”落空的时候，却又狠狠地埋怨别人。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2018/09/02/不要把希望寄托在别人身上/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/09/02/不要把希望寄托在别人身上/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-linux-cgroup概念及其应用" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/20/linux-cgroup概念及其应用/">linux-cgroup概念及其应用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/20/linux-cgroup概念及其应用/" class="archive-article-date">
-  	<time datetime="2018-08-20T13:12:41.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文介绍 Linux 系统中的 cgroup 系统及其使用场景。说起来 cgroup 开始的时候并不是很熟悉，之前没有怎么听说过，它的最本质作用就是对跑着 Linux 系统的设备进行资源分组，让大家可以各取所需。<strong>主要是为了防止：旱的旱死、涝的涝死；一个线程作死，整个系统都受到影响。</strong></p>
-</blockquote>
-<p>下面的有一部分是摘自内核自带的文档，话说内核带的文档真的是一个宝库，还有一部分是来自安卓里面的设计思路，另外一部分是自己在实践当中收获的。<strong>但是，一如既往，代码会尽可能的少，重在理解其使用场景与理念</strong>。</p>
-        
-          <a class="article-more-a" href="/2018/08/20/linux-cgroup概念及其应用/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/20/linux-cgroup概念及其应用/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-问题倒逼改革" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/19/问题倒逼改革/">问题倒逼改革</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/19/问题倒逼改革/" class="archive-article-date">
-  	<time datetime="2018-08-19T03:06:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>众多的改变总是靠着压死骆驼的最后一根稻草来推动完成的，所谓凤凰涅槃、浴火重生。</p>
-</blockquote>
-        
-          <a class="article-more-a" href="/2018/08/19/问题倒逼改革/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/19/问题倒逼改革/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-V4L2框架-control" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/08/05/V4L2框架-control/">V4L2框架-control</a>
-    </h1>
-  
-
-        
-        <a href="/2018/08/05/V4L2框架-control/" class="archive-article-date">
-  	<time datetime="2018-08-05T05:40:21.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>本文介绍在 v4l2 框架下面的 control 控制接口，这些接口通常用来实现一些特效控制、菜单控制等等。</p>
-</blockquote>
-<p><a href="http://www.yellowmax2001.com/2018/07/15/V4L2%E6%A1%86%E6%9E%B6-videobuf2/">03 - V4L2框架-videobuf2</a><br><a href="http://www.yellowmax2001.com/2018/07/02/V4L2%E6%A1%86%E6%9E%B6-media-device/">02 - V4L2框架-media-device</a><br><a href="http://www.yellowmax2001.com/2018/06/23/V4L2%E6%A1%86%E6%9E%B6-v4l2-device/">01 - V4L2框架-v4l2 device</a><br><a href="http://www.yellowmax2001.com/2018/06/16/V4L2%E6%A1%86%E6%9E%B6%E6%A6%82%E8%BF%B0/">00 - V4L2框架概述</a></p>
-        
-          <a class="article-more-a" href="/2018/08/05/V4L2框架-control/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/08/05/V4L2框架-control/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -1015,8 +520,8 @@ var _hmt = _hmt || [];
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,

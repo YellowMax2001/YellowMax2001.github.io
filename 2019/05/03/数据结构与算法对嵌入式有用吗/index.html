@@ -7,14 +7,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.yellowmax2001.com">
-  <title>Archives | YellowMax的博客</title>
+  <title>数据结构与算法对嵌入式有用吗 | YellowMax的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="YellowMax的博客">
-<meta property="og:url" content="http://www.yellowmax2001.com/archives/page/3/index.html">
+  <meta name="description" content="这篇不是写技术细节的，而是在之前学过的排序算法以及部分其它的数据结构与算法之后，个人的一些感觉，主要包括两个方面：怎么去学习这些枯燥的东西？学习这个到底有没有用？">
+<meta name="keywords" content="数据结构与算法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构与算法对嵌入式有用吗">
+<meta property="og:url" content="http://www.yellowmax2001.com/2019/05/03/数据结构与算法对嵌入式有用吗/index.html">
 <meta property="og:site_name" content="YellowMax的博客">
+<meta property="og:description" content="这篇不是写技术细节的，而是在之前学过的排序算法以及部分其它的数据结构与算法之后，个人的一些感觉，主要包括两个方面：怎么去学习这些枯燥的东西？学习这个到底有没有用？">
+<meta property="og:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+<meta property="og:updated_time" content="2019-05-03T09:04:31.188Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="YellowMax的博客">
+<meta name="twitter:title" content="数据结构与算法对嵌入式有用吗">
+<meta name="twitter:description" content="这篇不是写技术细节的，而是在之前学过的排序算法以及部分其它的数据结构与算法之后，个人的一些感觉，主要包括两个方面：怎么去学习这些枯燥的东西？学习这个到底有没有用？">
+<meta name="twitter:image" content="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
   
     <link rel="alternative" href="https://mmbiz.qpic.cn/mmbiz_png/JLiaDmFSmKictN9YG9cySrgV9uVoaFiczkDuDGkjBOUViaKLmex67F2XLK5QI1IPjmpLYjPHVYBUIaOspiby3XicFhmQ/0?wx_fmt=png" title="YellowMax的博客" type="application/atom+xml">
   
@@ -154,445 +161,215 @@ var _hmt = _hmt || [];
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-数据结构与算法对嵌入式有用吗" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数据结构与算法对嵌入式有用吗
+    </h1>
+  
+
+        
+        <a href="/2019/05/03/数据结构与算法对嵌入式有用吗/" class="archive-article-date">
+  	<time datetime="2019-05-03T08:37:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-05-03</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这篇不是写技术细节的，而是在之前学过的排序算法以及部分其它的数据结构与算法之后，个人的一些感觉，主要包括两个方面：怎么去学习这些枯燥的东西？学习这个到底有没有用？</p>
+<a id="more"></a>
+<p>遥想当年，在我还年轻的时候，接触过一次数学建模比赛，那个时候是帮别个某人做的，我自己并没有报名参加，那个时候算是第一次比较细节的接触了算法的内容，我还很清楚的记得题目他们选的是：在一个给定的超大规模 DNA 序列里面查找给定任意长度的子 DNA 序列值。</p>
+<p>当时并没有接触 AC 模式匹配等等高级点的算法，仅是用了通常都能够想到的 KMP 算法来去暴力匹配，根本没有建立索引的过程，最后只给他们拿了个省二，不过我觉得我尽力了。细节略去不讲，在实现这个查找代码的过程中我真切感受到了算法的魔力，彼时我的编程能力还不强，对于 KMP 算法里面的 next 数组的建立简直是一脸懵逼，看到代码一直都是 WTF，这也可以？所以，这怎么就能求出来 next 数组了呢？诸如此类。</p>
+<p>我的专业是电子信息工程，平时接触更多的是信息论与编码、数字信号处理这一类的科目，属于比较靠近图像信号处理与传输这块，对于数据结构与算法其实并没有多少涉及，并且平时做的东西也涉及不到那些经典的计算机科目的数据结构与算法，所以也就是惊鸿一瞥罢了。</p>
+<p>现在我的编程能力与儿时相比，有了长足的进步，然而我还是不知道那个 next 数组怎么编程实现的哈，下一个章节「查找」就可以再次接触到这个算法的细节以及编程实现了。数据结构与算法的学习我觉得前期就分为两个步骤：</p>
+<ol>
+<li>理解算法的原理。</li>
+<li>用代码去实现它。</li>
+</ol>
+<p>就这么简单，再往后可能会涉及到你应该知道这些东西都用在什么地方，应该知道如何把算法集成在实际的软件开发项目当中去，知道如何在大规模的数据模型中去应用这些算法，知道如何取舍，那个阶段我现在没有条件去实践，现在也没有必要去做。</p>
+<p>理解算法的原理算是比较抽象的一步了，很多算法都是很抽象的，需要从数学逻辑上出发，去论证、证明。对于算法的原理，一定要达到「理解」的程度，要做到没有任何盲点，而不是仅凭记忆来生硬复述一段算法的原理。重点是每一种算法背后的思想，基本上来讲，每种算法背后的思想都能够用一段非常简短的语言来描述，然后再是深入到算法思想背后的一些细节。</p>
+<p>比如快速排序、归并排序，完全就可以用两个词来描述它们的基础思想「分治、递归」，最简单的冒泡排序、插入排序基本思想就是「比较、交换」，基于其改进的希尔排序、鸡尾酒排序、梳排序等都是一些附加的优化手段。理解了基本的思想，原理细节通过舔砖加瓦的形式就可以慢慢的完善，这个过程对于理解掌握是非常重要的，我们的大脑更习惯于寻根溯源、顺藤摸瓜嘛。</p>
+<p>后面的查找、树、图等算法会变的越来越复杂，但是其背后的思想依然都是寥寥几个句子就可以描述的，区别在于原理性的描述、编码的实现细节复杂度有所不同。</p>
+<p>代码的实现也是非常重要的一环，就拿快速排序来讲，之前我不看代码自己是没有办法去实现一个成型的快排代码的，甚至还要靠死记硬背，但是现在我不需要记忆代码，因为它的原理我很清楚，我把原理翻译成代码也没有困难。这取决于对编程语言的应用熟练度，做到从算法原理到代码的翻译需要大量代码编写经验的积累，熟知数组、链表、栈等等概念结构与其代码实现。</p>
+<p>然而有些数据结构比如红黑树，靠自己的理解实现代码也不是说不行，就是你需要耗费极其多的精力与时间去完成，这种属于极难的原理到代码转换的例子了。对于这种来说，还是尽量多领会原理吧，自己从头推到尾再加上去实现一番感觉性价比不高。</p>
+<p>另外，作为嵌入式的行业，学习这个到底有没有用呢？我个人经验是觉得有用的，而且我觉得这个取决于个人，对于有的人来讲是有用的，对有的人来讲是没用的。怎么区分呢，我觉得就是看个人的职业规划，有些公司也会要求比较强的数据结构与算法能力，有些岗位也会要求这个。</p>
+<p>其实未来软件的发展趋势来讲，数据结构与算法会越来越普适，一方面是因为硬件的不断升级，使得很多嵌入式系统现在已经与桌面系统的区别越来越小，可以跑更多的软件平台，使得数据结构与算法可以有更宽阔的应用场景。另一方面，即使是嵌入式设备，其软件功能需求也在不断的升级，很多嵌入式平台应用了越来越多的视觉算法、数据库等等，有些需求的背后也是需要数据结构与算法做支撑的。</p>
+<p>我个人从技术角度的理解是，未来的软件会更多的往数据结构与算法上面靠拢，这些东西会渗透到软件代码的方方面面。从另一个角度来讲，就算是最终还是没有原原本本的把整个算法应用到平时的开发过程当中去，学习这些东西的过程中也会给自己带来更多的思考、更开阔的思维，这点是我自己切身实践体验出来的。</p>
+<p>所以，我觉得，对于想钻研技术、职业发展想往技术方向走的人来讲，数据结构与算法是绝对有用的东西，即使是对于嵌入式我也可以肯定。我个人的性格让我目前为止，职业规划一直朝着纯技术的方向在推进，我喜欢「思考、钻研、开发、解决」的那种感觉，我喜欢不断接触新技术，新知识，并应用于日常开发的那种感觉，也喜欢不断迎接挑战的那种压迫感和激动的感觉。</p>
+<p>但是对于计算机类的特定算法，比如搜索类的、地图求最短、最优路径之类的，在嵌入式里面确实怎么都不太可能用得到，这些可以作为拓展思考用，但是图、红黑树、二叉树、字符匹配、查找、堆等等都是真真正正能够用得到的东西，需要慢慢渗透掌握。</p>
+<p>该是时间开启查找这个新的篇目了。</p>
+<hr>
+<p><center>想做的事情就去做吧</center></p>
+<p><center><img src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png"></center></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>希望你能收获到有用的知识！<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="http://www.yellowmax2001.com/img/weixingz_200px_blue.png">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/16/Linux-gdb-段错误调试/" class="archive-article-date">
-  	<time datetime="2018-12-16T10:48:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/16/Linux-gdb-段错误调试/">Linux-gdb-段错误调试</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Linux</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数据结构与算法</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://www.yellowmax2001.com/2019/05/03/数据结构与算法对嵌入式有用吗/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/09/做有用的事/" class="archive-article-date">
-  	<time datetime="2018-12-09T07:30:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-09</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2019/05/12/查找1-查找算法知识图谱/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          查找1-查找算法知识图谱
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/05/02/为自己营造一片乌托邦/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为自己营造一片乌托邦</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/09/做有用的事/">做有用的事</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/02/一部分男生的择偶观/" class="archive-article-date">
-  	<time datetime="2018-12-02T04:55:54.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-02</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/02/一部分男生的择偶观/">一部分男生的择偶观</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/25/刻意的隐藏真实的想法/" class="archive-article-date">
-  	<time datetime="2018-11-25T12:57:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/25/刻意的隐藏真实的想法/">刻意的隐藏真实的想法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/18/也许沟通本就辛苦吧/" class="archive-article-date">
-  	<time datetime="2018-11-18T07:20:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/18/也许沟通本就辛苦吧/">也许沟通本就辛苦吧</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/11/硬核拆解动态库静态库/" class="archive-article-date">
-  	<time datetime="2018-11-11T09:55:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-11</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/11/硬核拆解动态库静态库/">硬核拆解动态库静态库</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/28/95后平均7个月离职/" class="archive-article-date">
-  	<time datetime="2018-10-28T08:52:52.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/28/95后平均7个月离职/">95后平均7个月离职</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/21/V4L2框架-control的数据结构/" class="archive-article-date">
-  	<time datetime="2018-10-21T07:24:19.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/21/V4L2框架-control的数据结构/">V4L2框架-control的数据结构</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">V4L2</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/10/14/谁说的话才可信/" class="archive-article-date">
-  	<time datetime="2018-10-14T07:01:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-10-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/10/14/谁说的话才可信/">谁说的话才可信</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/09/30/别人眼中的自己/" class="archive-article-date">
-  	<time datetime="2018-09-30T12:34:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/09/30/别人眼中的自己/">别人眼中的自己</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/archives/">1</a><a class="page-number" href="/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/4/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -621,8 +398,8 @@ var _hmt = _hmt || [];
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -156,6 +156,177 @@ var _hmt = _hmt || [];
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-OpenMAX编程-实现一个组件" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/03/OpenMAX编程-实现一个组件/">OpenMAX编程-实现一个组件</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/03/OpenMAX编程-实现一个组件/" class="archive-article-date">
+  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<p>导读：<br>本文聚焦于如何编程实现一个真正的组件，主题思想是介绍一个组件在编程sjo的模块组成以及如何编写，也会介绍下组件的初始化过程、组件之间的绑定过程、数据同步过程。在下一篇文章里面会对video、audio、clock等组件进行介绍。</p>
+<p>注意：该文章主要介绍<font color="blue"><strong>组件内部代码</strong></font>的实现，其余部分简略介绍，实际上完整的组件还包括有<strong>组件类型的管理，组件绑定模块，组件句柄的分配</strong>，然后才是下面的各个组件的实现，但是OpenMAX的标准化使得我们编写组件内部代码的时候不必过于关心更上层的组件管理代码的实现，只需要知道应该按照什么样的规则去编写组件内部代码即可。</p>
+        
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-实现一个组件/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-实现一个组件/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-OpenMAX编程-音视频等组件介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/">OpenMAX编程-音视频等组件介绍</a>
+    </h1>
+  
+
+        
+        <a href="/2017/12/03/OpenMAX编程-音视频等组件介绍/" class="archive-article-date">
+  	<time datetime="2017-12-03T12:13:16.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>往期文章索引：<br><a href="http://www.yellowmax2001.com/2017/12/03/OpenMAX%E7%BC%96%E7%A8%8B-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E7%BB%84%E4%BB%B6/">03 - OpenMAX编程-实现一个组件</a><br><a href="http://www.yellowmax2001.com/2017/10/22/OpwnMAX%E7%BC%96%E7%A8%8B-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">02 - OpenMAX编程-数据结构</a><br><a href="http://www.yellowmax2001.com/2017/10/09/OpenMAX%E7%BC%96%E7%A8%8B-%E7%BB%84%E4%BB%B6/">01 - OpenMAX编程-组件</a><br><a href="http://www.yellowmax2001.com/2017/09/19/OpenMAX%E7%BC%96%E7%A8%8B%E5%88%9D%E8%AF%86/">00 - OpenMAX编程初识</a></p>
+<p>导读：<br>本文着重介绍不同类型组件的具体构成（参数类型、特性设置等），包括audio、video、image等组件。另外对OpenMAX的一些扩展用法以及以前文章当中的缺漏进行补充。</p>
+        
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C语言</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">编程</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">OpenMAX</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/12/03/OpenMAX编程-音视频等组件介绍/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-malloc-memset-memcpy之探索" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -272,11 +443,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
         		</li>
       		
 		</ul>
@@ -441,11 +612,11 @@ var _hmt = _hmt || [];
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
         		</li>
       		
 		</ul>
@@ -839,178 +1010,6 @@ var _hmt = _hmt || [];
 
 
   
-    <article id="post-嵌入式面试全攻略，记我的一次校招" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">嵌入式面试全攻略，记我的一次校招</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/" class="archive-article-date">
-  	<time datetime="2017-08-29T13:46:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>写在前面：说实话，面了这么多家公司，觉得校招最注重的还是基础能力与理论。对于嵌入式Linux开发类职位来说，最重要的是C语言基本功底，对C语言要了解的十分透彻，比如C语言的面向对象编程，怎么用C语言去实现面向对象类高级语言的继承、多态、封装。达到熟练掌握数据结构，尤其是链表。对于指针不能仅停留在取址、加减运算这基本印象上，至少要达到知道指针与数组名的区别，知道char、int等指针类型的区别以及它们的相互转换方法，知道函数指针与指针函数的使用以及区别等等。在学习过程中要找准自己的方向，不要去过度追求各种金光闪闪的框架以及语言的奇淫技巧，学习过程中要注重各个知识背后的原理，而不是仅仅会用。</p>
-</blockquote>
-<h2 id="校招的优点（相对社招）"><a href="#校招的优点（相对社招）" class="headerlink" title="校招的优点（相对社招）"></a>校招的优点（相对社招）</h2><ul>
-<li>对应聘者的专业实践技能要求不是很高，更多看重理论基础</li>
-<li>大公司校招很多，是进入到大公司工作的好途径</li>
-<li>公司经过学校进行一轮初级筛选，会主动为应聘者避开一些坑人的公司</li>
-<li>地点集中，都是公司去学校招聘，不必满世界跑来跑去，节省时间财力</li>
-</ul>
-        
-          <a class="article-more-a" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/29/嵌入式面试全攻略，记我的一次校招/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-新的开始，与大学告别" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/21/新的开始，与大学告别/">新的开始，与大学告别</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/21/新的开始，与大学告别/" class="archive-article-date">
-  	<time datetime="2017-08-21T14:00:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>四年的大学生活很快便过去了，想想仍然有很多的遗憾，其中最为追悔的就是目标的确立与学习方法的选择。在大学里面没有及时的形成正确的大学观念以及人生观念，这导致我有很多时候选错了方向，弄错了方法，造成了不可追回的时间浪费。如果我的大学要用一句话来总结，那便是：努力尚可，慵懒有余。</p>
-</blockquote>
-<p>不知道如何提高自制力的同学可以看下<a href="#学习观念的转换"><strong>学习观念的转换</strong></a>一节，放心，不会长篇大论空泛的道理，而是给出了一个切实可行的操作步骤，按照1~4步去做即可验证该方法是否有用。</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>&emsp;&emsp;这篇文章有自己大学四年来积累的一些对大学以及一些很大一部分人都有的疑问的一些自己的看法，也有对自己大学四年来的一些总结与感悟。对于有些问题的答案，不保证符合每个人的观点，但保证每一个都是个人实践得来的结果，希望对读者有所帮助，甚或能够及时纠正一些错误的看法，那就再好不过。（后面有干货，对于一些观点，我会尽量举出例子来说明，以免文章落入空泛不实的境地）<br>
-        
-          <a class="article-more-a" href="/2017/08/21/新的开始，与大学告别/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">经验</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">感悟</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/21/新的开始，与大学告别/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
@@ -1134,11 +1133,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">经验</a>
+                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">感悟</a>
+                <a href="javascript:void(0)" class="js-tag color3">经验</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1150,15 +1149,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">OpenMAX</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Linux</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">调优</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">OpenMAX</a>
               </li>
              
               <li class="article-tag-list-item">
